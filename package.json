@@ -1,0 +1,15 @@
+{
+  "name": "catch-a-nest",
+  "version": "0.0.1",
+  "description": "catch a nest for future",
+  "main": "index.js",
+  "repository": "https://github.com/JHSeo-git/catch-a-nest.git",
+  "author": "JHSeo <qnfqnfqnf@gmail.com>",
+  "license": "MIT",
+  "private": true,
+  "workspaces": {
+    "packages": [
+      "packages/*"
+    ]
+  }
+}
