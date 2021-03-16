@@ -1,11 +1,11 @@
 import Router from '@koa/router';
-import posts from './api/posts';
+import api from './api';
 
 const router = new Router();
 
 router.get('/', (ctx) => {
   ctx.body = 'index';
 });
-router.use('/posts', posts.routes());
+router.use('/api', api.routes());
 
 export default router;

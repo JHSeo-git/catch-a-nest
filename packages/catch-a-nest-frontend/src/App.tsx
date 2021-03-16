@@ -1,5 +1,6 @@
 import Home from '@src/pages/Home';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import Admin from './pages/Admin';
 
 function App() {
   return (
@@ -8,6 +9,9 @@ function App() {
         <Route exact path="/">
           {/* Landing Page */}
           <Home />
+        </Route>
+        <Route path="/admin">
+          <Admin />
         </Route>
       </Switch>
     </BrowserRouter>

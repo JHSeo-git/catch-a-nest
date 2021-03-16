@@ -2,8 +2,9 @@ import Koa from 'koa';
 import logger from 'koa-logger';
 import bodyParser from 'koa-bodyparser';
 import router from './router';
+import jwtMiddleware from './lib/middlewares/jwtMiddleware';
 
-const PORT = parseInt(process.env.PORT!, 10);
+const PORT = parseInt(process.env.PORT ?? '5000', 10);
 
 export default class Server {
   app: Koa<Koa.DefaultState, Koa.DefaultContext>;
@@ -16,6 +17,7 @@ export default class Server {
   middleware() {
     this.app.use(logger());
     this.app.use(bodyParser());
+    this.app.use(jwtMiddleware);
     this.app.use(router.routes()).use(router.allowedMethods());
   }
 

@@ -1,4 +1,12 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import { generateToken } from '@src/lib/token/jwt';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  Index,
+  CreateDateColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 
 @Entity({ name: 'users' })
 export class User {
@@ -6,11 +14,30 @@ export class User {
   id!: number;
 
   @Column()
-  firstName!: string;
+  email!: string;
 
   @Column()
-  lastName!: string;
+  display_name!: string;
 
-  @Column()
-  age!: number;
+  @Column({ length: 255, nullable: true })
+  photo_url?: string;
+
+  @Index()
+  @CreateDateColumn({ type: 'timestamp' })
+  created_at!: Date;
+
+  @UpdateDateColumn({ type: 'timestamp' })
+  updated_at!: Date;
+
+  async generateToken() {
+    return generateToken(
+      {
+        subject: 'accessToken',
+        userId: this.id,
+      },
+      {
+        expiresIn: '15d', // TODO: set thie to 30days later on
+      }
+    );
+  }
 }
