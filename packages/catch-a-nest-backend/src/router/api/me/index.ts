@@ -1,5 +1,5 @@
 import Router from '@koa/router';
-import * as meCtrl from './me.ctrl';
+import * as meCtrl from './me.torm.ctrl';
 
 const me = new Router();
 
