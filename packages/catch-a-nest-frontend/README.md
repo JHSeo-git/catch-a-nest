@@ -4,3 +4,4 @@
   - @types/
 - craco
 - recoil
+- tui.editor

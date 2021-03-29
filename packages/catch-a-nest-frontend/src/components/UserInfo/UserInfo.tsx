@@ -13,47 +13,39 @@ const UserInfo = (props: UserInfoProps) => {
   if (!user) return null;
   return (
     <div css={block}>
-      <div className="info">
-        <img src={user.photo_url || ''} alt="user avatar" />
-        <div className="name">{user.display_name}</div>
-        {/** sub info */}
-      </div>
+      <img src={user.photo_url || ''} alt="user avatar" />
+      <div className="name">{user.display_name}</div>
+      {/** sub info */}
       <button css={buttonStyle} tabIndex={0} onClick={logout}>
-        Log out
+        Logout
       </button>
     </div>
   );
 };
 
 const block = css`
-  box-shadow: 0 0 4px 4px rgba(0, 0, 0, 0.1);
-  padding: 1rem;
-  .info {
-    display: flex;
-    align-items: center;
-    margin-bottom: 1rem;
-    img {
-      width: 3rem;
-      height: 3rem;
-      border-radius: 50%;
-      margin-right: 0.5rem;
-    }
-    margin-right: 5rem;
-    .name {
-      font-weight: bold;
-      font-size: 1.25rem;
-    }
+  display: flex;
+  align-items: center;
+  img {
+    width: 1.5rem;
+    height: 1.5rem;
+    border-radius: 50%;
+    margin-right: 0.5rem;
+  }
+  .name {
+    font-weight: bold;
+    font-size: 1rem;
+    line-height: 1;
+    margin-right: 0.5rem;
   }
 `;
 const buttonStyle = css`
   ${resetButton}
   cursor: pointer;
-  border: 0.0625rem solid ${palette.blueGrey[300]};
   border-radius: 0.1875rem;
-  width: 100%;
-  height: 2rem;
+  color: ${palette.blueGrey[700]};
   &:hover {
-    border: 0.0625rem solid ${palette.blueGrey[500]};
+    color: ${palette.blueGrey[900]};
   }
 `;
 
