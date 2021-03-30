@@ -1,8 +1,8 @@
 import { css } from '@emotion/react';
-import palette from '@src/lib/palette';
-import { resetButton } from '@src/lib/styles/resetButton';
+import { logo } from '@src/assets/images';
+import media from '@src/lib/styles/media';
 import { useUserState } from '@src/states/authState';
-import AppIcon from '../AppIcon';
+import { NavLink } from 'react-router-dom';
 import UserInfo from '../UserInfo';
 
 export type HeaderProps = {};
@@ -11,9 +11,9 @@ const Header = (props: HeaderProps) => {
   const [user] = useUserState();
   return (
     <section css={sectionStyle}>
-      <button css={buttonStyle}>
-        <AppIcon name="menu" />
-      </button>
+      <NavLink css={logoStyle} to="/">
+        <img src={logo} alt="logo" />
+      </NavLink>
       {user && <UserInfo />}
     </section>
   );
@@ -21,28 +21,30 @@ const Header = (props: HeaderProps) => {
 
 const sectionStyle = css`
   height: 100%;
-  width: 100%;
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 0 1rem;
+
+  margin-left: auto;
+  margin-right: auto;
+  // margin-left + margin-right: 800px;
+  width: 80rem;
+  ${media.xxl} {
+    width: 58rem;
+  }
+  ${media.md} {
+    width: 36rem;
+  }
+  ${media.xs} {
+    width: 100%;
+    margin: 0;
+  }
 `;
 
-const buttonStyle = css`
-  ${resetButton}
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  svg {
-    width: 1.125rem;
-    height: 1.125rem;
-  }
-  &:hover {
-    svg,
-    path {
-      fill: ${palette.blueGrey[700]};
-    }
+const logoStyle = css`
+  img {
+    height: 2.5rem;
   }
 `;
 

@@ -1,13 +1,21 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { RecoilRoot } from 'recoil';
+import { QueryClientProvider, QueryClient } from 'react-query';
 import App from '@src/App';
 import reportWebVitals from '@src/reportWebVitals';
+import appInitialize from './states/appInitialize';
+import DebugObserver from './components/DebugObserver';
+
+const queryClient = new QueryClient();
 
 ReactDOM.render(
   <React.StrictMode>
-    <RecoilRoot>
-      <App />
+    <RecoilRoot initializeState={appInitialize}>
+      <DebugObserver />
+      <QueryClientProvider client={queryClient}>
+        <App />
+      </QueryClientProvider>
     </RecoilRoot>
   </React.StrictMode>,
   document.getElementById('root')

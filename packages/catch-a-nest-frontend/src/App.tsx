@@ -1,8 +1,10 @@
 import React from 'react';
 import { css, Global } from '@emotion/react';
-import Home from '@src/pages/Home';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import Admin from './pages/Admin';
+import Posts from './pages/Posts';
+import Layout from './components/Layout';
+import Header from './components/Header';
 
 function App() {
   return (
@@ -10,13 +12,19 @@ function App() {
       <Global styles={globalStyle} />
       <BrowserRouter>
         <Switch>
-          <Route exact path="/">
-            {/* Landing Page */}
-            <Home />
-          </Route>
-          <Route path="/admin">
-            <Admin />
-          </Route>
+          <Layout>
+            <Layout.Header>
+              <Header />
+            </Layout.Header>
+            <Layout.Main>
+              <Route exact path="/">
+                <Posts />
+              </Route>
+              <Route path="/admin">
+                <Admin />
+              </Route>
+            </Layout.Main>
+          </Layout>
         </Switch>
       </BrowserRouter>
     </>

@@ -13,9 +13,6 @@ const UserInfo = (props: UserInfoProps) => {
   if (!user) return null;
   return (
     <div css={block}>
-      <img src={user.photo_url || ''} alt="user avatar" />
-      <div className="name">{user.display_name}</div>
-      {/** sub info */}
       <button css={buttonStyle} tabIndex={0} onClick={logout}>
         Logout
       </button>
@@ -36,16 +33,27 @@ const block = css`
     font-weight: bold;
     font-size: 1rem;
     line-height: 1;
-    margin-right: 0.5rem;
   }
 `;
 const buttonStyle = css`
   ${resetButton}
+  margin-left: 1rem;
   cursor: pointer;
   border-radius: 0.1875rem;
-  color: ${palette.blueGrey[700]};
+  padding: 0.5rem 0.5rem;
+  font-size: 0.875rem;
+  font-weight: bold;
+  transition: all 0.2s ease-in-out;
+  color: white;
+  background: ${palette.blueGrey[600]};
   &:hover {
-    color: ${palette.blueGrey[900]};
+    background: ${palette.blueGrey[800]};
+  }
+  &:active {
+    background: ${palette.blueGrey[500]};
+  }
+  &:disabled {
+    opacity: 0.6;
   }
 `;
 

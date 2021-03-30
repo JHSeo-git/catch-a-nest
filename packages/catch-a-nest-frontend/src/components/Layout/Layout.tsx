@@ -23,36 +23,24 @@ const Main = ({ children }: MainProps) => {
   return <main css={mainStyle}>{children}</main>;
 };
 
-export type SideProps = {
-  children: React.ReactNode;
-};
-const Side = ({ children }: SideProps) => {
-  return <aside css={sideStyle}>{children}</aside>;
-};
-
 Layout.Header = Header;
 Layout.Main = Main;
-Layout.Side = Side;
 
 const layoutStyle = css`
   height: 100%;
 `;
 const headerStyle = css`
-  margin-left: 16rem;
-  height: 3.125rem;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  height: 5rem;
+  background: white;
   border-bottom: 0.0625rem solid ${palette.blueGrey[50]};
+  z-index: 10;
 `;
 const mainStyle = css`
-  margin-left: 16rem;
-  height: calc(100% - 3.125rem);
-`;
-const sideStyle = css`
-  position: fixed;
-  width: 16rem;
+  padding-top: 5rem;
   height: 100%;
-  left: 0;
-  top: 0;
-  border-right: 0.0625rem solid ${palette.blueGrey[50]};
 `;
 
 export default Layout;
