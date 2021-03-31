@@ -1,5 +1,6 @@
-import { css, keyframes } from '@emotion/react';
+import { css } from '@emotion/react';
 import palette from '@src/lib/palette';
+import { rotateAnimation } from '@src/lib/styles/animation';
 import { resetButton } from '@src/lib/styles/resetButton';
 import AppIcon from '../AppIcon';
 
@@ -25,15 +26,6 @@ const NewPostButton = ({
     </button>
   );
 };
-
-const rotateAnimation = keyframes`
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-`;
 
 const buttonStyle = (type: ButtonType) => css`
   ${resetButton};

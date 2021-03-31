@@ -1,4 +1,5 @@
 import { css } from '@emotion/react';
+import useFullScreenLoader from '@src/hooks/useFullScreenLoader';
 import useGoogleLogin from '@src/hooks/useGoogleLogin';
 import palette from '@src/lib/palette';
 import { resetButton } from '@src/lib/styles/resetButton';
@@ -9,7 +10,8 @@ export type GoogleLoginButtonProps = {};
 
 const GoogleLoginButton = (props: GoogleLoginButtonProps) => {
   const buttonRef = useRef<HTMLButtonElement>(null);
-  const login = useGoogleLogin();
+  const { login, loading } = useGoogleLogin();
+  const { manual } = useFullScreenLoader();
 
   const onSuccess = useCallback(
     (googleUser: any) => {
@@ -17,9 +19,11 @@ const GoogleLoginButton = (props: GoogleLoginButtonProps) => {
     },
     [login]
   );
+
   const onFailure = useCallback((e: any) => {
     console.log(e);
   }, []);
+
   useEffect(() => {
     window.gapi.load('auth2', function () {
       // Retrieve the singleton for the GoogleAuth library and set up the client.
@@ -34,6 +38,11 @@ const GoogleLoginButton = (props: GoogleLoginButtonProps) => {
       // attachSignin(document.getElementById('customBtn'));
     });
   }, [onSuccess, onFailure]);
+
+  useEffect(() => {
+    manual(loading);
+  }, [loading, manual]);
+
   return (
     <button css={button} ref={buttonRef}>
       <AppIcons name="google" />

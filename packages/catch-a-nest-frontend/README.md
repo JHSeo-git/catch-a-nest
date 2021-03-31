@@ -4,4 +4,7 @@
   - @types/
 - craco
 - recoil
+- axios
 - tui.editor
+- react-textarea-autosize
+- react-query

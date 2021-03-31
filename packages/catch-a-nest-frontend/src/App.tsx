@@ -6,6 +6,7 @@ import Posts from './pages/Posts';
 import Layout from './components/Layout';
 import Header from './components/Header';
 import Write from './pages/Write';
+import FullscreenLoader from './components/FullscreenLoader';
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
       <BrowserRouter>
         <Switch>
           <Layout>
+            <FullscreenLoader />
             <Layout.Header>
               <Header />
             </Layout.Header>
