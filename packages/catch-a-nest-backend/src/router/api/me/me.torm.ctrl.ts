@@ -4,6 +4,7 @@ import { getRepository } from 'typeorm';
 
 export const getMe = async (ctx: Context) => {
   const user = ctx.user;
+  // TODO: refactoring below code -> middleware already exists?
   if (!user) {
     ctx.status = 500;
     ctx.body = {

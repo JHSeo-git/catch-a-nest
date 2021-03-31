@@ -4,13 +4,13 @@ import 'codemirror/lib/codemirror.css';
 import '@toast-ui/editor/dist/toastui-editor.css';
 import { css } from '@emotion/react';
 import { useRef } from 'react';
-import { useEditorMarkdownValueState } from '@src/states/editorState';
+import { useEditorMarkdownState } from '@src/states/editorState';
 
 export type EditorProps = {};
 
 const Editor = (props: EditorProps) => {
   const editorRef = useRef<ToastEditor>(null);
-  const [, setEditorMarkdownValue] = useEditorMarkdownValueState();
+  const [, setEditorMarkdownValue] = useEditorMarkdownState();
 
   const onChange = () => {
     if (!editorRef.current) return;

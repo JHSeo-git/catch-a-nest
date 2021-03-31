@@ -13,7 +13,9 @@ const jwtMiddleware: Middleware = async (ctx, next) => {
       id: decoded.userId,
       exp: decoded.exp,
     };
-  } catch (e) {}
+  } catch (e) {
+    ctx.user = null;
+  }
   return next();
 };
 

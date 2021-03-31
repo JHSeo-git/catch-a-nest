@@ -1,4 +1,4 @@
-import googleLogin from '@src/lib/api/googleLogin';
+import googleLogin from '@src/lib/api/auth/googleLogin';
 import { useGoogleTokenState } from '@src/states/authState';
 import { useCallback } from 'react';
 import { useHistory } from 'react-router';

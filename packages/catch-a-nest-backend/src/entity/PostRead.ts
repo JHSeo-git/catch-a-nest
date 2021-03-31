@@ -7,8 +7,8 @@ import {
 } from 'typeorm';
 import { Post } from './Post';
 
-@Entity({ name: 'likes' })
-export class Like {
+@Entity({ name: 'post_reads' })
+export class PostRead {
   @PrimaryGeneratedColumn()
   id!: number;
 

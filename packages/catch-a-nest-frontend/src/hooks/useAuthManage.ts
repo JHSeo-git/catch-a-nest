@@ -1,4 +1,4 @@
-import { User } from '@src/lib/api/types';
+import { User } from '@src/lib/api/auth/types';
 import userStorage from '@src/lib/storage/userStorage';
 import { useUserState } from '@src/states/authState';
 import { useCallback } from 'react';

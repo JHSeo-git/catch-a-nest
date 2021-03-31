@@ -1,17 +1,27 @@
 import { css } from '@emotion/react';
+import useEditor from '@src/hooks/useEditor';
+import useWritePost from '@src/hooks/useWritePost';
 import Editor from '../Editor';
 import NewPostButton from './NewPostButton';
+import NexPostTitle from './NexPostTitle';
 
 export type NewPostProps = {};
 
 const NewPost = (props: NewPostProps) => {
+  const { onSave, loading } = useWritePost();
+  const { onCancel } = useEditor();
   return (
     <section css={panelStyle}>
-      <input type="text" css={inputStyle} />
+      <NexPostTitle />
       <Editor />
       <div css={btnGroup}>
-        <NewPostButton type="primary" text="Save" />
-        <NewPostButton type="normal" text="Cancel" />
+        <NewPostButton type="normal" text="Cancel" onClick={onCancel} />
+        <NewPostButton
+          type="primary"
+          text="Save"
+          onClick={onSave}
+          loading={loading}
+        />
       </div>
     </section>
   );
@@ -21,14 +31,6 @@ const panelStyle = css`
   height: 100%;
   display: flex;
   flex-direction: column;
-`;
-
-const inputStyle = css`
-  outline: none;
-  border: none;
-  width: 50%;
-  height: 3rem;
-  padding-left: 2rem;
 `;
 
 const btnGroup = css`

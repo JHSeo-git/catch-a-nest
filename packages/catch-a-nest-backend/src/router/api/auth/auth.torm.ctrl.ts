@@ -11,11 +11,11 @@ type LoginWithGoogleBodySchema = {
 };
 
 export const loginWithGoogle = async (ctx: Context) => {
-  const bodySchmea = Joi.object<LoginWithGoogleBodySchema>().keys({
+  const bodySchema = Joi.object<LoginWithGoogleBodySchema>().keys({
     access_token: Joi.string().required(),
   });
 
-  if (!(await validateSchema(ctx, bodySchmea))) {
+  if (!(await validateSchema(ctx, bodySchema))) {
     return;
   }
 
@@ -89,7 +89,8 @@ export const loginWithGoogle = async (ctx: Context) => {
     }
     // make jwt
   } catch (e) {
-    console.log(e);
+    // console.log(e);
+    // TODO: Google Error try-catch
     ctx.throw(500, e);
   }
 };

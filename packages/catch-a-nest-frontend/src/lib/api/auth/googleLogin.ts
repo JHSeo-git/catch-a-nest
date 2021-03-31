@@ -1,4 +1,4 @@
-import axiosClient from '../axiosClient';
+import axiosClient from '../../axiosClient';
 import { User } from './types';
 
 export default async function googleLogin(token: string) {

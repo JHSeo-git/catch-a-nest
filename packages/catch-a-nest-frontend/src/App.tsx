@@ -5,6 +5,7 @@ import Admin from './pages/Admin';
 import Posts from './pages/Posts';
 import Layout from './components/Layout';
 import Header from './components/Header';
+import Write from './pages/Write';
 
 function App() {
   return (
@@ -22,6 +23,9 @@ function App() {
               </Route>
               <Route path="/admin">
                 <Admin />
+              </Route>
+              <Route path="/write">
+                <Write />
               </Route>
             </Layout.Main>
           </Layout>
@@ -46,8 +50,8 @@ const globalStyle = css`
 
   body {
     margin: 0;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
-      Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-family: 'Ubuntu', Ubuntu, Roboto, 'Open Sans', 'Helvetica Neue',
+      sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }

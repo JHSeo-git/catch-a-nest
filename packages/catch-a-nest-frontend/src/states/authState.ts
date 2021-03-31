@@ -1,4 +1,4 @@
-import { User } from '@src/lib/api/types';
+import { User } from '@src/lib/api/auth/types';
 import { atom, useRecoilState } from 'recoil';
 
 export const googleTokenState = atom<string | null>({
