@@ -8,6 +8,7 @@ const jwtMiddleware: Middleware = async (ctx, next) => {
     return next();
   }
   try {
+    // TODO: 남은 기간 보고 적게 남은 User면 re generateToken 해서 넘겨주자
     const decoded = await decodeToken<UserTokenDecoded>(accessToken);
     ctx.user = {
       id: decoded.userId,

@@ -29,7 +29,7 @@ export class User {
   @UpdateDateColumn({ type: 'timestamp' })
   updated_at!: Date;
 
-  async generateToken() {
+  generateToken() {
     return generateToken(
       {
         subject: 'accessToken',

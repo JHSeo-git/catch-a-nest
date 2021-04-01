@@ -1,5 +1,4 @@
 import { css } from '@emotion/react';
-import useFullScreenLoader from '@src/hooks/useFullScreenLoader';
 import useGoogleLogin from '@src/hooks/useGoogleLogin';
 import palette from '@src/lib/palette';
 import { resetButton } from '@src/lib/styles/resetButton';
@@ -10,12 +9,13 @@ export type GoogleLoginButtonProps = {};
 
 const GoogleLoginButton = (props: GoogleLoginButtonProps) => {
   const buttonRef = useRef<HTMLButtonElement>(null);
-  const { login, loading } = useGoogleLogin();
-  const { manual } = useFullScreenLoader();
+  const { login } = useGoogleLogin();
 
   const onSuccess = useCallback(
     (googleUser: any) => {
-      login(googleUser?.getAuthResponse(true).access_token);
+      login(googleUser?.getAuthResponse(true).access_token).then(() => {
+        console.log('logged in');
+      });
     },
     [login]
   );
@@ -38,10 +38,6 @@ const GoogleLoginButton = (props: GoogleLoginButtonProps) => {
       // attachSignin(document.getElementById('customBtn'));
     });
   }, [onSuccess, onFailure]);
-
-  useEffect(() => {
-    manual(loading);
-  }, [loading, manual]);
 
   return (
     <button css={button} ref={buttonRef}>

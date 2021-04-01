@@ -19,7 +19,6 @@ const NewPostButton = ({
   type = 'normal',
   loading = false,
 }: NewPostButtonProps) => {
-  console.log(text, loading);
   return (
     <button css={buttonStyle(type)} onClick={onClick} disabled={loading}>
       {loading ? <AppIcon name="spinner" /> : text}

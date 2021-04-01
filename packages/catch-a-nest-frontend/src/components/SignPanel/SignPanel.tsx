@@ -1,20 +1,9 @@
 import { css } from '@emotion/react';
-import { useUserState } from '@src/states/authState';
-import { useEffect } from 'react';
-import { useHistory } from 'react-router';
 import GoogleLoginButton from '../GoogleLoginButton';
 
 export type SignPanelProps = {};
 
 const SignPanel = (props: SignPanelProps) => {
-  const [user] = useUserState();
-  const history = useHistory();
-
-  useEffect(() => {
-    if (user) {
-      history.push('/write');
-    }
-  }, [user, history]);
   return (
     <div css={block}>
       <div css={box}>

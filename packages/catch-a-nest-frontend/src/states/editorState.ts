@@ -10,6 +10,12 @@ export const editorTitle = atom<string | null>({
   default: null,
 });
 
+type EditorModeType = 'pre-detail' | 'pre-save';
+export const editorMode = atom<EditorModeType>({
+  key: 'editorMode',
+  default: 'pre-detail',
+});
+
 type EditorContent = {
   title: string | null;
   body: string | null;
@@ -38,4 +44,8 @@ export function useEditorMarkdownState() {
 
 export function useEditorTitleState() {
   return useRecoilState(editorTitle);
+}
+
+export function useEditorModeState() {
+  return useRecoilState(editorMode);
 }

@@ -1,29 +1,34 @@
+import React from 'react';
 import { css } from '@emotion/react';
 import useEditor from '@src/hooks/useEditor';
 import useWritePost from '@src/hooks/useWritePost';
 import Editor from '../Editor';
 import NewPostButton from './NewPostButton';
 import NexPostTitle from './NexPostTitle';
+import NewPostDetail from './NewPostDetail';
 
 export type NewPostProps = {};
 
 const NewPost = (props: NewPostProps) => {
-  const { onSave, loading } = useWritePost();
-  const { onCancel } = useEditor();
+  const { loading } = useWritePost();
+  const { onCancel, moveMode, editorMode } = useEditor();
   return (
-    <section css={panelStyle}>
-      <NexPostTitle />
-      <Editor />
-      <div css={btnGroup}>
-        <NewPostButton type="normal" text="Cancel" onClick={onCancel} />
-        <NewPostButton
-          type="primary"
-          text="Save"
-          onClick={onSave}
-          loading={loading}
-        />
-      </div>
-    </section>
+    <>
+      <section css={panelStyle}>
+        <NexPostTitle />
+        <Editor />
+        <div css={btnGroup}>
+          <NewPostButton type="normal" text="Cancel" onClick={onCancel} />
+          <NewPostButton
+            type="primary"
+            text="Post"
+            onClick={() => moveMode()}
+            loading={loading}
+          />
+        </div>
+      </section>
+      {editorMode === 'pre-save' && <NewPostDetail />}
+    </>
   );
 };
 

@@ -50,8 +50,7 @@ const buttonStyle = css`
   font-size: 1rem;
   font-weight: bold;
   transition: all 0.2s ease-in-out;
-  color: white;
-  background: ${palette.blueGrey[600]};
+  color: ${palette.blueGrey[600]};
   &:disabled {
     opacity: 0.6;
   }

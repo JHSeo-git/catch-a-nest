@@ -6,7 +6,6 @@ import useAuthManage from './useAuthManage';
 
 export default function useGoogleLogin() {
   const [, setGoogleTokenState] = useGoogleTokenState();
-  const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const { loggedIn } = useAuthManage();
   const history = useHistory();
@@ -14,14 +13,13 @@ export default function useGoogleLogin() {
     async (accessToken: string) => {
       setGoogleTokenState(accessToken);
       try {
-        setLoading(true);
         const { user } = await googleLogin(accessToken);
         loggedIn(user);
       } catch (e) {
         setError('Google Login Error');
         history.push('/');
       } finally {
-        setLoading(false);
+        console.log('final');
       }
     },
     [setGoogleTokenState, loggedIn, history]
@@ -29,7 +27,6 @@ export default function useGoogleLogin() {
 
   return {
     login,
-    loading,
     error,
   };
 }
