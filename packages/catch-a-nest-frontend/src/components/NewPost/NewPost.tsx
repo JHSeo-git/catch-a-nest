@@ -1,7 +1,6 @@
 import React from 'react';
 import { css } from '@emotion/react';
 import useEditor from '@src/hooks/useEditor';
-import useWritePost from '@src/hooks/useWritePost';
 import Editor from '../Editor';
 import NewPostButton from './NewPostButton';
 import NexPostTitle from './NexPostTitle';
@@ -10,7 +9,6 @@ import NewPostDetail from './NewPostDetail';
 export type NewPostProps = {};
 
 const NewPost = (props: NewPostProps) => {
-  const { loading } = useWritePost();
   const { onCancel, moveMode, editorMode } = useEditor();
   return (
     <>
@@ -23,7 +21,6 @@ const NewPost = (props: NewPostProps) => {
             type="primary"
             text="Post"
             onClick={() => moveMode()}
-            loading={loading}
           />
         </div>
       </section>

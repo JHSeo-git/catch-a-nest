@@ -1,7 +1,13 @@
+import { EditorContent } from '@src/states/editorState';
 import axiosClient from '../../axiosClient';
 import { Post } from './types';
 
-export default async function savePost(title: string, body: string) {
+export default async function savePost({
+  title,
+  body,
+  shortDescription,
+  thumbnail,
+}: EditorContent) {
   // TODO: remove
   await new Promise((resolve) => {
     setTimeout(() => {
@@ -11,6 +17,8 @@ export default async function savePost(title: string, body: string) {
   const response = await axiosClient.post<Post>('/api/posts/save', {
     title,
     body,
+    shortDescription,
+    thumbnail,
   });
 
   return response.data;

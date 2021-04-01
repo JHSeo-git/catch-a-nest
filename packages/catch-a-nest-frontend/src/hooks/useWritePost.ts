@@ -7,15 +7,14 @@ export default function useWritePost() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const onSave = useCallback(async () => {
-    const { body, title } = postContent;
-    if (!title || !body) {
+    if (!postContent.title || !postContent.body) {
       // TODO: toast
       console.log('Title or Body is Empty');
       return;
     }
     try {
       setLoading(true);
-      const post = await savePost(title, body);
+      const post = await savePost(postContent);
       console.log(post);
     } catch (e) {
       console.log(e);
