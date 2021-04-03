@@ -1,14 +1,17 @@
+import React from 'react';
 import { css } from '@emotion/react';
 import palette from '@src/lib/palette';
 import { rotateAnimation } from '@src/lib/styles/animation';
 import { resetButton } from '@src/lib/styles/resetButton';
 import AppIcon from '../AppIcon';
+import { IconType } from '../AppIcon/AppIcon';
 
 export type NewPostButtonProps = {
   text: string;
   onClick(): void;
   type?: ButtonType;
   loading?: boolean;
+  preIconName?: IconType;
 };
 
 type ButtonType = 'primary' | 'normal';
@@ -18,10 +21,18 @@ const NewPostButton = ({
   onClick,
   type = 'normal',
   loading = false,
+  preIconName,
 }: NewPostButtonProps) => {
   return (
     <button css={buttonStyle(type)} onClick={onClick} disabled={loading}>
-      {loading ? <AppIcon name="spinner" /> : text}
+      {loading ? (
+        <AppIcon className="spinner" name="spinner" />
+      ) : (
+        <>
+          {preIconName && <AppIcon className="pre-icon" name={preIconName} />}
+          {text}
+        </>
+      )}
     </button>
   );
 };
@@ -42,10 +53,15 @@ const buttonStyle = (type: ButtonType) => css`
 
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: space-around;
 
-  svg {
+  .spinner {
     animation: ${rotateAnimation} 1s ease-in-out infinite;
+  }
+  .pre-icon {
+    height: 1rem;
+    width: 1rem;
+    color: ${palette.blueGrey[700]};
   }
 
   &:disabled {

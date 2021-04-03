@@ -16,20 +16,22 @@ function App() {
         <Switch>
           <Layout>
             <FullscreenLoader />
-            <Layout.Header>
-              <Header />
-            </Layout.Header>
-            <Layout.Main>
-              <Route exact path="/">
-                <Posts />
-              </Route>
-              <Route path="/admin">
-                <Admin />
-              </Route>
-              <Route path="/write">
-                <Write />
-              </Route>
-            </Layout.Main>
+            <Route exact path={['/', '/admin']}>
+              <Layout.Header>
+                <Header />
+              </Layout.Header>
+              <Layout.Main>
+                <Route exact path="/">
+                  <Posts />
+                </Route>
+                <Route path="/admin">
+                  <Admin />
+                </Route>
+              </Layout.Main>
+            </Route>
+            <Route path="/write">
+              <Write />
+            </Route>
           </Layout>
         </Switch>
       </BrowserRouter>

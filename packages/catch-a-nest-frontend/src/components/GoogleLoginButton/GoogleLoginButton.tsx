@@ -3,6 +3,7 @@ import useGoogleLogin from '@src/hooks/useGoogleLogin';
 import palette from '@src/lib/palette';
 import { resetButton } from '@src/lib/styles/resetButton';
 import { useCallback, useEffect, useRef } from 'react';
+import { useHistory } from 'react-router';
 import AppIcons from '../AppIcon';
 
 export type GoogleLoginButtonProps = {};
@@ -10,14 +11,16 @@ export type GoogleLoginButtonProps = {};
 const GoogleLoginButton = (props: GoogleLoginButtonProps) => {
   const buttonRef = useRef<HTMLButtonElement>(null);
   const { login } = useGoogleLogin();
+  const history = useHistory();
 
   const onSuccess = useCallback(
     (googleUser: any) => {
       login(googleUser?.getAuthResponse(true).access_token).then(() => {
         console.log('logged in');
+        history.push('/write');
       });
     },
-    [login]
+    [login, history]
   );
 
   const onFailure = useCallback((e: any) => {
