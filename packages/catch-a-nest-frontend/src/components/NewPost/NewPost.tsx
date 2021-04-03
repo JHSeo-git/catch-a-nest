@@ -17,7 +17,7 @@ const NewPost = (props: NewPostProps) => {
         <Editor />
         <NewPostFooter />
       </section>
-      {editorMode === 'pre-save' && <NewPostDetail />}
+      {editorMode === 'detail-page' && <NewPostDetail />}
     </>
   );
 };

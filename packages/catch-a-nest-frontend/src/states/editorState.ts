@@ -21,10 +21,10 @@ export const editorShortDescription = atom<string | null>({
   default: null,
 });
 
-type EditorModeType = 'pre-detail' | 'pre-save';
+type EditorModeType = 'detail-page' | 'post-page';
 export const editorMode = atom<EditorModeType>({
   key: 'editorMode',
-  default: 'pre-detail',
+  default: 'post-page',
 });
 
 export type EditorContent = {

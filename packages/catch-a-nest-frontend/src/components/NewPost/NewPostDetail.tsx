@@ -15,7 +15,7 @@ export type NewPostDetailProps = {};
 const NewPostDetail = (props: NewPostDetailProps) => {
   const [editorTitle] = useEditorTitleState();
   const { onSave, loading } = useWritePost();
-  const { moveMode } = useEditor();
+  const { onDetailPageCancel } = useEditor();
   return (
     <Modal css={modalStyle}>
       <section css={detailWrapper}>
@@ -40,7 +40,7 @@ const NewPostDetail = (props: NewPostDetailProps) => {
           <NewPostButton
             text="Cancel"
             type="normal"
-            onClick={() => moveMode(true)}
+            onClick={onDetailPageCancel}
           />
           <NewPostButton
             text="Save"

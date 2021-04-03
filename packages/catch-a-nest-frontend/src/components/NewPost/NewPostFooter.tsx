@@ -5,7 +5,7 @@ import NewPostButton from './NewPostButton';
 export type NewPostFooterProps = {};
 
 const NewPostFooter = (props: NewPostFooterProps) => {
-  const { onCancel, moveMode } = useEditor();
+  const { onCancel, onPostPageSave } = useEditor();
   return (
     <footer css={footerStyle}>
       <NewPostButton
@@ -14,7 +14,7 @@ const NewPostFooter = (props: NewPostFooterProps) => {
         onClick={onCancel}
         preIconName="arrowLeft"
       />
-      <NewPostButton type="primary" text="Post" onClick={() => moveMode()} />
+      <NewPostButton type="primary" text="Post" onClick={onPostPageSave} />
     </footer>
   );
 };

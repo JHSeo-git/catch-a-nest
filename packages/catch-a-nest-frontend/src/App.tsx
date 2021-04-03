@@ -7,11 +7,13 @@ import Layout from './components/Layout';
 import Header from './components/Header';
 import Write from './pages/Write';
 import FullscreenLoader from './components/FullscreenLoader';
+import AppToast from './components/AppToast';
 
 function App() {
   return (
     <>
       <Global styles={globalStyle} />
+      <AppToast />
       <BrowserRouter>
         <Switch>
           <Layout>
