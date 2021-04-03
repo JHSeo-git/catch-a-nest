@@ -1,14 +1,22 @@
 import { css } from '@emotion/react';
+import usePostDetail from '@src/hooks/usePostDetail';
 import palette from '@src/lib/palette';
 
 export type NewPostDetailInputProps = {};
 
 const NewPostDetailInput = (props: NewPostDetailInputProps) => {
+  const {
+    editorShortDescriptionValue,
+    onChangeEditorShortDescription,
+  } = usePostDetail();
+
   return (
     <textarea
       maxLength={160}
       tabIndex={0}
       css={textareaStyle}
+      value={editorShortDescriptionValue ?? ''}
+      onChange={onChangeEditorShortDescription}
       placeholder="Please write short description"
     />
   );

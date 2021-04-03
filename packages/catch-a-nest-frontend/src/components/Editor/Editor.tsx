@@ -4,21 +4,13 @@ import '@toast-ui/editor/dist/toastui-editor.css';
 
 import { Editor as ReactEditor } from '@toast-ui/react-editor';
 import { css } from '@emotion/react';
-import { useRef } from 'react';
-import { useEditorMarkdownState } from '@src/states/editorState';
 import { syntaxHighlightPlugIn } from '@src/lib/editor';
+import useEditor from '@src/hooks/useEditor';
 
 export type EditorProps = {};
 
 const Editor = (props: EditorProps) => {
-  const editorRef = useRef<ReactEditor>(null);
-  const [, setEditorMarkdownValue] = useEditorMarkdownState();
-
-  const onChange = () => {
-    if (!editorRef.current) return;
-    setEditorMarkdownValue(editorRef.current.getInstance().getMarkdown());
-  };
-
+  const { editorRef, onChange } = useEditor();
   // TODO: custom style
   return (
     <div css={editorWrapper}>

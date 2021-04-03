@@ -8,12 +8,16 @@ import { getRepository } from 'typeorm';
 type SavePostBodySchema = {
   title: string;
   body: string;
+  shortDescription?: string;
+  thumbnail?: string;
 };
 
 export const savePost = async (ctx: Context) => {
   const bodySchema = Joi.object<SavePostBodySchema>().keys({
     title: Joi.string().required(),
     body: Joi.string().required(),
+    shortDescription: Joi.string().allow(''),
+    thumbnail: Joi.string().allow(''),
   });
 
   if (!(await validateSchema(ctx, bodySchema))) {
@@ -33,7 +37,12 @@ export const savePost = async (ctx: Context) => {
     return;
   }
 
-  const { title, body }: SavePostBodySchema = ctx.request.body;
+  const {
+    title,
+    body,
+    shortDescription,
+    thumbnail,
+  }: SavePostBodySchema = ctx.request.body;
   try {
     let urlSlug = generateUrlSlug(title);
     const exists = await getRepository(Post).findOne({
@@ -47,14 +56,14 @@ export const savePost = async (ctx: Context) => {
     const newPost = new Post();
     newPost.title = title;
     newPost.body = body;
+    newPost.short_description = shortDescription;
+    newPost.thumbnail = thumbnail;
     newPost.url_slug = urlSlug;
     newPost.user = currentUser;
 
     await getRepository(Post).save(newPost);
 
-    ctx.body = {
-      post: newPost,
-    };
+    ctx.body = newPost;
   } catch (e) {
     ctx.throw(500, e);
   }

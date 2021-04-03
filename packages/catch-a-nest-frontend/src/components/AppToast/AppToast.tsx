@@ -11,6 +11,7 @@ const AppToast = ({ ...rest }: AppToastProps) => {
       autoClose={4000}
       pauseOnHover
       pauseOnFocusLoss={false}
+      closeButton={false}
       {...rest}
     />
   );
