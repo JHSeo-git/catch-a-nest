@@ -1,16 +1,33 @@
-import { toast } from 'react-toastify';
+import { toast, ToastOptions } from 'react-toastify';
 
 type NotifyType = 'info' | 'success' | 'error';
 
 export default function useAppToast() {
-  const notify = (text: string, notifyType?: NotifyType) => {
-    if (notifyType === 'info') return toast.info(text, { toastId: text });
+  const notify = (
+    text: string,
+    notifyType?: NotifyType,
+    options?: ToastOptions
+  ) => {
+    if (notifyType === 'info')
+      return toast.info(text, {
+        toastId: text,
+        ...options,
+      });
     else if (notifyType === 'error')
-      return toast.error(text, { toastId: text });
+      return toast.error(text, {
+        toastId: text,
+        ...options,
+      });
     else if (notifyType === 'success')
-      return toast.success(text, { toastId: text });
+      return toast.success(text, {
+        toastId: text,
+        ...options,
+      });
 
-    return () => toast(text, { toastId: text });
+    return toast(text, {
+      toastId: text,
+      ...options,
+    });
   };
 
   const clearAllToast = () => toast.dismiss();

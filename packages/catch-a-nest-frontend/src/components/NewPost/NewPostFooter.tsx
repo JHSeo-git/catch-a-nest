@@ -24,8 +24,8 @@ const footerStyle = css`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding-right: 1rem;
-  padding-left: 1rem;
+  padding-right: 2rem;
+  padding-left: 2rem;
 `;
 
 export default NewPostFooter;

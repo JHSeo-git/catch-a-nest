@@ -31,7 +31,7 @@ function App() {
                 </Route>
               </Layout.Main>
             </Route>
-            <Route path="/write">
+            <Route path="/write/:id?">
               <Write />
             </Route>
           </Layout>

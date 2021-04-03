@@ -9,6 +9,7 @@ export default function useGoogleLogin() {
   const [error, setError] = useState<string | null>(null);
   const { loggedIn } = useAuthManage();
   const history = useHistory();
+
   const login = useCallback(
     async (accessToken: string) => {
       setGoogleTokenState(accessToken);
@@ -19,7 +20,7 @@ export default function useGoogleLogin() {
         setError('Google Login Error');
         history.push('/');
       } finally {
-        console.log('final');
+        console.log('Google Login finally');
       }
     },
     [setGoogleTokenState, loggedIn, history]

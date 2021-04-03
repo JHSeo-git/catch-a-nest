@@ -62,8 +62,14 @@ const buttonStyle = (type: ButtonType) => css`
     height: 1rem;
     width: 1rem;
     color: ${palette.blueGrey[700]};
+    transition: all 0.2s ease-in-out;
   }
 
+  &:hover {
+    .pre-icon {
+      transform: translate3d(-0.25rem, 0, 0);
+    }
+  }
   &:disabled {
     cursor: not-allowed;
     background: ${palette.blueGrey[100]};

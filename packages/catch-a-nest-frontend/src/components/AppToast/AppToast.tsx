@@ -4,6 +4,7 @@ import 'react-toastify/dist/ReactToastify.min.css';
 export type AppToastProps = {} & ToastContainerProps;
 
 const AppToast = ({ ...rest }: AppToastProps) => {
+  // TODO: add custom style
   return (
     <ToastContainer
       position="top-right"
