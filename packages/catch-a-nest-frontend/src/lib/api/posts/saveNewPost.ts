@@ -2,7 +2,7 @@ import { EditorContent } from '@src/states/editorState';
 import axiosClient from '../../axiosClient';
 import { Post } from './types';
 
-export default async function savePost({
+export default async function saveNewPost({
   title,
   body,
   shortDescription,
@@ -14,7 +14,7 @@ export default async function savePost({
       resolve('complete');
     }, 2000);
   });
-  const response = await axiosClient.post<Post>('/api/posts/save', {
+  const response = await axiosClient.post<Post>('/api/posts/new', {
     title,
     body,
     shortDescription,

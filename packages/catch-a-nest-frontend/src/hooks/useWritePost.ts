@@ -1,4 +1,4 @@
-import savePost from '@src/lib/api/posts/savePost';
+import savePost from '@src/lib/api/posts/saveNewPost';
 import { useEditorContentValue } from '@src/states/editorState';
 import { useCallback, useState } from 'react';
 import { useHistory } from 'react-router';

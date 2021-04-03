@@ -1,6 +1,6 @@
 import { SocialAccount } from '@src/entity/SocialAccount';
 import { User } from '@src/entity/User';
-import { validateSchema } from '@src/lib/common';
+import { validateBodySchema } from '@src/lib/common';
 import getGoogleProfile from '@src/lib/google/getGoogleProfile';
 import Joi from 'joi';
 import { Context } from 'koa';
@@ -15,7 +15,7 @@ export const loginWithGoogle = async (ctx: Context) => {
     access_token: Joi.string().required(),
   });
 
-  if (!(await validateSchema(ctx, bodySchema))) {
+  if (!(await validateBodySchema(ctx, bodySchema))) {
     return;
   }
 

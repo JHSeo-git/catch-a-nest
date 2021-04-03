@@ -1,12 +1,12 @@
 import Joi from 'joi';
 import { Context } from 'koa';
 
-export const validateSchema = async (ctx: Context, schema: Joi.Schema) => {
+export const validateBodySchema = async (ctx: Context, schema: Joi.Schema) => {
   const result = await schema.validateAsync(ctx.request.body);
   if (result.error) {
     ctx.status = 400;
     ctx.body = {
-      name: 'WrongSchema',
+      name: 'WrongBodySchema',
       payload: result.error,
     };
     return false;

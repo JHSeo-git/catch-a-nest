@@ -4,10 +4,7 @@ import * as postCtrl from './posts.torm.ctrl';
 
 const posts = new Router();
 
-posts.get('/', (ctx) => {
-  ctx.body = 'posts index';
-});
-// TODO: add userCheck middleware
-posts.post('/save', checkAuth, postCtrl.savePost);
+posts.get('/', postCtrl.getPosts);
+posts.post('/new', checkAuth, postCtrl.saveNewPost);
 
 export default posts;

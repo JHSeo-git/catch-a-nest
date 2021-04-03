@@ -1,26 +1,26 @@
 import { Post } from '@src/entity/Post';
 import { User } from '@src/entity/User';
-import { generateUrlSlug, validateSchema } from '@src/lib/common';
+import { generateUrlSlug, validateBodySchema } from '@src/lib/common';
 import Joi from 'joi';
 import { Context } from 'koa';
-import { getRepository } from 'typeorm';
+import { getRepository, LessThan } from 'typeorm';
 
-type SavePostBodySchema = {
+type SaveNewPostBodySchema = {
   title: string;
   body: string;
   shortDescription?: string;
   thumbnail?: string;
 };
 
-export const savePost = async (ctx: Context) => {
-  const bodySchema = Joi.object<SavePostBodySchema>().keys({
+export const saveNewPost = async (ctx: Context) => {
+  const bodySchema = Joi.object<SaveNewPostBodySchema>().keys({
     title: Joi.string().required(),
     body: Joi.string().required(),
     shortDescription: Joi.string().allow(''),
     thumbnail: Joi.string().allow(''),
   });
 
-  if (!(await validateSchema(ctx, bodySchema))) {
+  if (!(await validateBodySchema(ctx, bodySchema))) {
     return;
   }
 
@@ -42,7 +42,7 @@ export const savePost = async (ctx: Context) => {
     body,
     shortDescription,
     thumbnail,
-  }: SavePostBodySchema = ctx.request.body;
+  }: SaveNewPostBodySchema = ctx.request.body;
   try {
     let urlSlug = generateUrlSlug(title);
     const exists = await getRepository(Post).findOne({
@@ -64,6 +64,30 @@ export const savePost = async (ctx: Context) => {
     await getRepository(Post).save(newPost);
 
     ctx.body = newPost;
+  } catch (e) {
+    ctx.throw(500, e);
+  }
+};
+
+export const getPosts = async (ctx: Context) => {
+  try {
+    const params = ctx.query;
+    console.log(params);
+    const { user_id, cursor } = params;
+
+    const posts = await getRepository(Post).find({
+      where: {
+        ...(user_id ? { user: { id: user_id } } : {}),
+        ...(cursor ? { id: LessThan(cursor) } : {}),
+      },
+      relations: ['user'],
+      take: 10,
+      order: {
+        id: 'DESC',
+      },
+    });
+
+    ctx.body = posts;
   } catch (e) {
     ctx.throw(500, e);
   }
