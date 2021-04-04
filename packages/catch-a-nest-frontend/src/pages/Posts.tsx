@@ -1,7 +1,12 @@
+import PostList from '@src/components/PostList';
+import { useUserState } from '@src/states/authState';
+
 export type PostsProps = {};
 
 const Posts = (props: PostsProps) => {
-  return <div>Posts</div>;
+  const [user] = useUserState();
+
+  return <PostList userId={user?.id} />;
 };
 
 export default Posts;

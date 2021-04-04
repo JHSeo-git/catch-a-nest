@@ -1,5 +1,5 @@
 import { css } from '@emotion/react';
-import { uploadPicture } from '@src/assets/images';
+import { undrawUploadPicture } from '@src/assets/images';
 import AppIcon from '@src/components/AppIcon';
 import palette from '@src/lib/palette';
 import { resetButton } from '@src/lib/styles/resetButton';
@@ -11,7 +11,7 @@ const NewPostDetailImage = (props: NewPostDetailImageProps) => {
     <div css={imageWrapper}>
       <img
         className="image-placeholder"
-        src={uploadPicture}
+        src={undrawUploadPicture}
         alt="upload placeholder"
       />
       <button tabIndex={0} css={uploadButton}>

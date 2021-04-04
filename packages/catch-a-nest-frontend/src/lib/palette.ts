@@ -326,6 +326,21 @@ export const lightIcons = {
   inactive: 'rgba(255,25,,255,0.5)',
 };
 
+export const colorArray = [
+  red,
+  orange,
+  yellow,
+  green,
+  blue,
+  indigo,
+  purple,
+  brown,
+  blueGrey,
+  lightGreen,
+  deepPurple,
+  pink,
+];
+
 export default {
   red: red,
   pink: pink,
@@ -352,29 +367,5 @@ export default {
   lightText: lightText,
   darkIcons: darkIcons,
   lightIcons: lightIcons,
+  colorArray: colorArray,
 } as const;
-
-// const colorArray = [
-//   red,
-//   orange,
-//   yellow,
-//   green,
-//   blue,
-//   indigo,
-//   purple,
-//   brown,
-//   blueGrey,
-//   lightGreen,
-//   deepPurple,
-//   pink,
-// ];
-
-// const a = colorArray.map((color) => color[400]);
-// const b = colorArray.map((color) => color[500]);
-// const c = colorArray.map((color) => color[600]);
-// const d = colorArray.map((color) => color[700]);
-// const e = colorArray.map((color) => color[800]);
-// const f = colorArray.map((color) => color[900]);
-// const g = colorArray.map((color) => color[300]);
-// const h = colorArray.map((color) => color[200]);
-// console.log([...a, ...b, ...c, ...d, ...e, ...f, ...g, ...h]);

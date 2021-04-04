@@ -35,8 +35,9 @@ const headerStyle = css`
   width: 100%;
   height: 5rem;
   background: white;
-  border-bottom: 0.0625rem solid ${palette.blueGrey[50]};
   z-index: 10;
+  /* border-bottom: 0.0625rem solid ${palette.blueGrey[50]}; */
+  box-shadow: 0 0.25rem 0.5rem rgba(0 0 0 /5%);
 `;
 const mainStyle = css`
   padding-top: 5rem;

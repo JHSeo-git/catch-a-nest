@@ -3,13 +3,13 @@
 import { User } from '../auth/types';
 
 export interface Post {
+  id: number;
   title: string;
   body: string;
+  short_description: string | null;
+  thumbnail: string | null;
   url_slug: string;
   user: User;
-  short_description: null;
-  thumbnail: null;
-  id: number;
   created_at: string;
   updated_at: string;
 }

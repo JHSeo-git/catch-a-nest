@@ -72,7 +72,6 @@ export const saveNewPost = async (ctx: Context) => {
 export const getPosts = async (ctx: Context) => {
   try {
     const params = ctx.query;
-    console.log(params);
     const { user_id, cursor } = params;
 
     const posts = await getRepository(Post).find({
@@ -88,6 +87,39 @@ export const getPosts = async (ctx: Context) => {
     });
 
     ctx.body = posts;
+  } catch (e) {
+    ctx.throw(500, e);
+  }
+};
+
+export const getPostBySlug = async (ctx: Context) => {
+  try {
+    const params = ctx.params;
+    const { slug } = params;
+
+    if (!slug) {
+      ctx.status = 404;
+      ctx.body = {
+        name: 'NotFoundSlug',
+        payload: 'It not Found url slug in request',
+      };
+      return;
+    }
+
+    const post = await getRepository(Post).findOne({
+      url_slug: slug,
+    });
+
+    if (!post) {
+      ctx.status = 404;
+      ctx.body = {
+        name: 'NotFoundPost',
+        payload: 'It not Found Post by slug',
+      };
+      return;
+    }
+
+    ctx.body = post;
   } catch (e) {
     ctx.throw(500, e);
   }

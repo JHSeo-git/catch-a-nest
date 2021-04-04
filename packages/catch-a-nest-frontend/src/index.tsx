@@ -7,7 +7,13 @@ import reportWebVitals from '@src/reportWebVitals';
 import appInitialize from './states/appInitialize';
 import DebugObserver from './components/DebugObserver';
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      refetchOnWindowFocus: false,
+    },
+  },
+});
 
 ReactDOM.render(
   <React.StrictMode>

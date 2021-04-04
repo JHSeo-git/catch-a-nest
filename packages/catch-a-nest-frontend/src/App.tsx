@@ -8,6 +8,7 @@ import Header from './components/Header';
 import Write from './pages/Write';
 import FullscreenLoader from './components/FullscreenLoader';
 import AppToast from './components/AppToast';
+import Post from './pages/Post';
 
 function App() {
   return (
@@ -18,13 +19,16 @@ function App() {
         <Switch>
           <Layout>
             <FullscreenLoader />
-            <Route exact path={['/', '/admin']}>
+            <Route exact path={['/', '/post/:slug', '/admin']}>
               <Layout.Header>
                 <Header />
               </Layout.Header>
               <Layout.Main>
                 <Route exact path="/">
                   <Posts />
+                </Route>
+                <Route exact path="/post/:slug">
+                  <Post />
                 </Route>
                 <Route path="/admin">
                   <Admin />
