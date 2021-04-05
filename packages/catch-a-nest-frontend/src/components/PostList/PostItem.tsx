@@ -1,6 +1,7 @@
 import { css } from '@emotion/react';
 import { Post } from '@src/lib/api/posts/types';
 import palette from '@src/lib/palette';
+import { stringToDateLocalString } from '@src/lib/utils/dateUtils';
 import { Link } from 'react-router-dom';
 
 export type PostItemProps = {
@@ -19,7 +20,7 @@ const PostItem = ({ post }: PostItemProps) => {
           )}
         </div>
         <div css={infoWrapper}>
-          <h4>{new Date(post.created_at).toLocaleDateString()}</h4>
+          <h4>{stringToDateLocalString(post.created_at)}</h4>
           <h2>{post.title}</h2>
           <p>{post.short_description}</p>
         </div>

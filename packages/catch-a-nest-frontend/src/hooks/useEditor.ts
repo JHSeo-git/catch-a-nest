@@ -24,22 +24,21 @@ export default function useEditor() {
   };
 
   const onCancel = useCallback(() => {
-    clearAllToast();
     reset();
+    clearAllToast();
     history.replace('/');
   }, [history, reset, clearAllToast]);
 
   const onPostPageSave = () => {
     // validation
     if (!title) {
-      notify('Please note title...', 'error');
+      notify('Please check title...', 'error');
       return;
     }
     if (!body) {
-      notify('Please note content...', 'error');
+      notify('Please check content...', 'error');
       return;
     }
-
     clearAllToast();
     setEditorMode('detail-page');
   };

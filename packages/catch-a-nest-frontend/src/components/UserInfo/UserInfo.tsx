@@ -46,7 +46,6 @@ const buttonStyle = css`
   margin-left: 1rem;
   cursor: pointer;
   border-radius: 0.1875rem;
-  padding: 0.5rem 1rem;
   font-size: 1rem;
   font-weight: bold;
   transition: all 0.2s ease-in-out;

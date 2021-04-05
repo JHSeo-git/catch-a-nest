@@ -17,7 +17,7 @@ const GoogleLoginButton = (props: GoogleLoginButtonProps) => {
     (googleUser: any) => {
       login(googleUser?.getAuthResponse(true).access_token).then(() => {
         console.log('logged in');
-        history.push('/write');
+        history.push('/');
       });
     },
     [login, history]

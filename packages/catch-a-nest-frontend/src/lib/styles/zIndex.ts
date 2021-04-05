@@ -3,9 +3,10 @@ const custom = (z: number) => `
 `;
 
 const zIndex = {
+  alert: custom(999),
   fullScreenLoader: custom(900),
-  alert: custom(600),
   modal: custom(500),
+  fixedButton: custom(400),
   behind: custom(-1),
   custom,
 };

@@ -1,9 +1,11 @@
+import React from 'react';
 import { css } from '@emotion/react';
 import useGetPostsQuery from '@src/hooks/query/useGetPostsQuery';
 import { responsiveWidth } from '@src/lib/styles/responsive';
 import { useEffect, useMemo, useRef } from 'react';
 import PostItem from './PostItem';
 import PostItemSkeleton from './PostItemSkeleton';
+import PostWriteButton from './PostWriteButton';
 
 export type PostListProps = {
   userId?: number;
@@ -41,17 +43,20 @@ const PostList = ({ userId }: PostListProps) => {
   }, [items, observer]);
 
   return (
-    <ul css={listStyle}>
-      {items
-        ? items.map((item) => <PostItem key={item.id} post={item} />)
-        : Array.from({ length: 10 }).map((_, i) => (
-            <PostItemSkeleton key={i} />
+    <>
+      <ul css={listStyle}>
+        {items
+          ? items.map((item) => <PostItem key={item.id} post={item} />)
+          : Array.from({ length: 10 }).map((_, i) => (
+              <PostItemSkeleton key={i} />
+            ))}
+        {hasNextPage &&
+          Array.from({ length: 10 }).map((_, i) => (
+            <PostItemSkeleton key={i} ref={i === 0 ? ref : undefined} />
           ))}
-      {hasNextPage &&
-        Array.from({ length: 10 }).map((_, i) => (
-          <PostItemSkeleton key={i} ref={i === 0 ? ref : undefined} />
-        ))}
-    </ul>
+      </ul>
+      <PostWriteButton />
+    </>
   );
 };
 
@@ -60,7 +65,7 @@ const listStyle = css`
   padding: 0;
   ${responsiveWidth};
   list-style: none;
-  padding: 2rem 1rem;
+  padding: 2rem 0;
 `;
 
 export default PostList;

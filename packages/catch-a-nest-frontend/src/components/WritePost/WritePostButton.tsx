@@ -79,10 +79,10 @@ const buttonStyle = (type: ButtonType) => css`
   css`
     border: none;
     color: white;
-    background: ${palette.teal[500]};
+    background: ${palette.lightBlue[500]};
 
     &:disabled {
-      background: ${palette.teal[300]};
+      background: ${palette.lightBlue[300]};
     }
   `}
 `;
