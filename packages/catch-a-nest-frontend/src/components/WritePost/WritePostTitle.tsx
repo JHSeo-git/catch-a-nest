@@ -1,12 +1,12 @@
 import { css } from '@emotion/react';
-import NewPostTitleInput from './NewPostTitleInput';
+import WritePostTitleInput from './WritePostTitleInput';
 
-export type NexPostTitleProps = {};
+export type WritePostTitleProps = {};
 
-const NexPostTitle = (props: NexPostTitleProps) => {
+const WritePostTitle = (props: WritePostTitleProps) => {
   return (
     <div css={wrapper}>
-      <NewPostTitleInput />
+      <WritePostTitleInput />
     </div>
   );
 };
@@ -22,4 +22,4 @@ const wrapper = css`
   }
 `;
 
-export default NexPostTitle;
+export default WritePostTitle;

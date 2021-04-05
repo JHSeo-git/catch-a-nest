@@ -2,9 +2,9 @@ import { css } from '@emotion/react';
 import usePostDetail from '@src/hooks/usePostDetail';
 import palette from '@src/lib/palette';
 
-export type NewPostDetailInputProps = {};
+export type WritePostDetailInputProps = {};
 
-const NewPostDetailInput = (props: NewPostDetailInputProps) => {
+const WritePostDetailInput = (props: WritePostDetailInputProps) => {
   const {
     editorShortDescriptionValue,
     onChangeEditorShortDescription,
@@ -40,4 +40,4 @@ const textareaStyle = css`
   }
 `;
 
-export default NewPostDetailInput;
+export default WritePostDetailInput;

@@ -1,4 +1,4 @@
-import NewPost from '@src/components/NewPost';
+import NewPost from '@src/components/WritePost';
 import { useUserState } from '@src/states/authState';
 
 export type WriteProps = {};

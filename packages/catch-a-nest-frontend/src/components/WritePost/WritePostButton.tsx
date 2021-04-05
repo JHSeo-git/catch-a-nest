@@ -6,7 +6,7 @@ import { resetButton } from '@src/lib/styles/resetButton';
 import AppIcon from '../AppIcon';
 import { IconType } from '../AppIcon/AppIcon';
 
-export type NewPostButtonProps = {
+export type WritePostButtonProps = {
   text: string;
   onClick(): void;
   type?: ButtonType;
@@ -16,13 +16,13 @@ export type NewPostButtonProps = {
 
 type ButtonType = 'primary' | 'normal';
 
-const NewPostButton = ({
+const WritePostButton = ({
   text,
   onClick,
   type = 'normal',
   loading = false,
   preIconName,
-}: NewPostButtonProps) => {
+}: WritePostButtonProps) => {
   return (
     <button css={buttonStyle(type)} onClick={onClick} disabled={loading}>
       {loading ? (
@@ -87,4 +87,4 @@ const buttonStyle = (type: ButtonType) => css`
   `}
 `;
 
-export default NewPostButton;
+export default WritePostButton;

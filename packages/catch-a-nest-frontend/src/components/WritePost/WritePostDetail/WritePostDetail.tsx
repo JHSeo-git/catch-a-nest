@@ -3,16 +3,16 @@ import useEditor from '@src/hooks/useEditor';
 import useWritePost from '@src/hooks/useWritePost';
 import palette from '@src/lib/palette';
 import { slideUp } from '@src/lib/styles/animation';
-import { newPostDetailResponsiveWidth } from '@src/lib/styles/responsive';
+import { writePostDetailResponsiveWidth } from '@src/lib/styles/responsive';
 import { useEditorTitleState } from '@src/states/editorState';
 import Modal from '../../Modal';
-import NewPostButton from '../NewPostButton';
-import NewPostDetailImage from './NewPostDetailImage';
-import NewPostDetailInput from './NewPostDetailInput';
+import WritePostButton from '../WritePostButton';
+import WritePostDetailImage from './WritePostDetailImage';
+import WritePostDetailInput from './WritePostDetailInput';
 
-export type NewPostDetailProps = {};
+export type WritePostDetailProps = {};
 
-const NewPostDetail = (props: NewPostDetailProps) => {
+const WritePostDetail = (props: WritePostDetailProps) => {
   const [editorTitle] = useEditorTitleState();
   const { onSave, loading } = useWritePost();
   const { onDetailPageCancel } = useEditor();
@@ -20,15 +20,15 @@ const NewPostDetail = (props: NewPostDetailProps) => {
     <Modal css={modalStyle}>
       <section css={detailWrapper}>
         <h1 css={titleStyle}>{editorTitle}</h1>
-        <NewPostDetailImage />
-        <NewPostDetailInput />
+        <WritePostDetailImage />
+        <WritePostDetailInput />
         <div css={btnGroup}>
-          <NewPostButton
+          <WritePostButton
             text="Cancel"
             type="normal"
             onClick={onDetailPageCancel}
           />
-          <NewPostButton
+          <WritePostButton
             text="Save"
             type="primary"
             onClick={onSave}
@@ -56,7 +56,7 @@ const titleStyle = css`
 `;
 
 const detailWrapper = css`
-  ${newPostDetailResponsiveWidth};
+  ${writePostDetailResponsiveWidth};
   background: white;
   border-radius: 0.5rem;
   padding: 2rem;
@@ -74,4 +74,4 @@ const btnGroup = css`
   }
 `;
 
-export default NewPostDetail;
+export default WritePostDetail;

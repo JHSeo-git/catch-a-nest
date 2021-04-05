@@ -4,9 +4,9 @@ import AppIcon from '@src/components/AppIcon';
 import palette from '@src/lib/palette';
 import { resetButton } from '@src/lib/styles/resetButton';
 
-export type NewPostDetailImageProps = {};
+export type WritePostDetailImageProps = {};
 
-const NewPostDetailImage = (props: NewPostDetailImageProps) => {
+const WritePostDetailImage = (props: WritePostDetailImageProps) => {
   return (
     <div css={imageWrapper}>
       <img
@@ -62,4 +62,4 @@ const uploadButton = css`
   }
 `;
 
-export default NewPostDetailImage;
+export default WritePostDetailImage;

@@ -3,13 +3,13 @@ import palette from '@src/lib/palette';
 import { useEditorTitleState } from '@src/states/editorState';
 import TextareaAutosize from 'react-textarea-autosize';
 
-export type NewPostTitleInputProps = {
+export type WritePostTitleInputProps = {
   placeholder?: string;
 };
 
-const NewPostTitleInput = ({
+const WritePostTitleInput = ({
   placeholder = 'Please write title',
-}: NewPostTitleInputProps) => {
+}: WritePostTitleInputProps) => {
   const [editorTitle, setEditorTitle] = useEditorTitleState();
   return (
     <TextareaAutosize
@@ -38,4 +38,4 @@ const inputStyle = css`
   }
 `;
 
-export default NewPostTitleInput;
+export default WritePostTitleInput;

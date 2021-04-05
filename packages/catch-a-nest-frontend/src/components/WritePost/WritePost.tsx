@@ -2,22 +2,22 @@ import React from 'react';
 import { css } from '@emotion/react';
 import useEditor from '@src/hooks/useEditor';
 import Editor from '../Editor';
-import NexPostTitle from './NexPostTitle';
-import NewPostDetail from './NewPostDetail';
-import NewPostFooter from './NewPostFooter';
+import WritePostTitle from './WritePostTitle';
+import WritePostDetail from './WritePostDetail';
+import WritePostFooter from './WritePostFooter';
 
-export type NewPostProps = {};
+export type WritePostProps = {};
 
-const NewPost = (props: NewPostProps) => {
+const WritePost = (props: WritePostProps) => {
   const { editorMode } = useEditor();
   return (
     <>
       <section css={panelStyle}>
-        <NexPostTitle />
+        <WritePostTitle />
         <Editor />
-        <NewPostFooter />
+        <WritePostFooter />
       </section>
-      {editorMode === 'detail-page' && <NewPostDetail />}
+      {editorMode === 'detail-page' && <WritePostDetail />}
     </>
   );
 };
@@ -28,4 +28,4 @@ const panelStyle = css`
   flex-direction: column;
 `;
 
-export default NewPost;
+export default WritePost;

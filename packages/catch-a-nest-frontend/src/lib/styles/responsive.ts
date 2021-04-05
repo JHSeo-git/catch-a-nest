@@ -18,7 +18,7 @@ export const responsiveWidth = css`
   }
 `;
 
-export const newPostDetailResponsiveWidth = css`
+export const writePostDetailResponsiveWidth = css`
   width: 40rem;
   ${media.sm} {
     width: 100%;
