@@ -24,6 +24,7 @@ const ReadPost = ({ slug }: ReadPostProps) => {
             <h1 className="title">{post.title}</h1>
             <p className="date">{stringToDateMoreDetail(post.created_at)}</p>
             <Viewer markdown={post.body} />
+            <div css={marginStyle} />
           </>
         )
       )}
@@ -33,20 +34,19 @@ const ReadPost = ({ slug }: ReadPostProps) => {
 
 const postStyle = css`
   ${responsiveWidth};
-  height: 100%;
+  min-height: 100%;
   padding-top: 3rem;
+  padding-bottom: 3rem;
   display: flex;
   flex-direction: column;
   .title {
     margin: 0;
     padding: 0;
     margin-bottom: 1rem;
-    padding-bottom: 1rem;
     line-height: 1.5;
     font-weight: 900;
     font-size: 3rem;
     color: ${palette.blueGrey[900]};
-    border-bottom: 0.0625rem solid ${palette.grey[200]};
   }
   .date {
     font-size: 0.85rem;
@@ -56,6 +56,12 @@ const postStyle = css`
     text-align: right;
     margin-bottom: 2rem;
   }
+`;
+
+const marginStyle = css`
+  margin-top: 5rem;
+  height: 10rem;
+  background: ${palette.lightBlue[100]};
 `;
 
 export default ReadPost;
