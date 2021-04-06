@@ -1,3 +1,4 @@
+import { useCallback } from 'react';
 import {
   atom,
   selector,
@@ -55,11 +56,11 @@ export function useEditorContentActions() {
   const resetMarkdown = useResetRecoilState(editorMarkdown);
   const resetTitle = useResetRecoilState(editorTitle);
   const resetShortDesciprtion = useResetRecoilState(editorShortDescription);
-  const reset = () => {
+  const reset = useCallback(() => {
     resetMarkdown();
     resetTitle();
     resetShortDesciprtion();
-  };
+  }, [resetMarkdown, resetTitle, resetShortDesciprtion]);
 
   return {
     reset,

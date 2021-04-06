@@ -11,6 +11,7 @@ const WritePostTitleInput = ({
   placeholder = 'Please write title',
 }: WritePostTitleInputProps) => {
   const [editorTitle, setEditorTitle] = useEditorTitleState();
+
   return (
     <TextareaAutosize
       css={inputStyle}
