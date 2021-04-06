@@ -15,6 +15,8 @@ export const responsiveWidth = css`
   ${media.xs} {
     width: 100%;
     margin: 0;
+    padding-left: 1rem;
+    padding-right: 1rem;
   }
 `;
 

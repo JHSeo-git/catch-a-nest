@@ -1,5 +1,6 @@
 import { css } from '@emotion/react';
 import { logo } from '@src/assets/images';
+import media from '@src/lib/styles/media';
 import { responsiveWidth } from '@src/lib/styles/responsive';
 import { NavLink } from 'react-router-dom';
 import UserInfo from '../UserInfo';
