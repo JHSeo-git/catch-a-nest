@@ -15,7 +15,7 @@ export default function useWritePost() {
     try {
       setLoading(true);
       const post = await savePost(postContent);
-      notify(`✅ Success Save Post: ${post.title}`, 'success');
+      notify(`Success Save Post: ${post.title}`, 'success');
       history.push('/');
     } catch (e) {
       notify('❗️ Fail Save Post', 'error');
