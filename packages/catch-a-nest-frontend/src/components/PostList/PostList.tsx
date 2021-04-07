@@ -1,7 +1,6 @@
 import React from 'react';
 import { css } from '@emotion/react';
 import useGetPostsQuery from '@src/hooks/query/useGetPostsQuery';
-import { responsiveWidth } from '@src/lib/styles/responsive';
 import { useEffect, useMemo, useRef } from 'react';
 import PostItem from './PostItem';
 import PostItemSkeleton from './PostItemSkeleton';
@@ -63,9 +62,7 @@ const PostList = ({ userId }: PostListProps) => {
 const listStyle = css`
   margin: 0;
   padding: 0;
-  ${responsiveWidth};
   list-style: none;
-  padding: 2rem 0;
 `;
 
 export default PostList;

@@ -1,5 +1,9 @@
 import { css } from '@emotion/react';
 import palette from '@src/lib/palette';
+import media from '@src/lib/styles/media';
+import { responsiveWidth } from '@src/lib/styles/responsive';
+import zIndex from '@src/lib/styles/zIndex';
+import Headroom from 'react-headroom';
 
 export type LayoutProps = {
   children: React.ReactNode;
@@ -13,8 +17,20 @@ export type HeaderProps = {
   children: React.ReactNode;
 };
 const Header = ({ children }: HeaderProps) => {
-  return <header css={headerStyle}>{children}</header>;
+  return (
+    <Headroom disableInlineStyles={true} css={headerStyle}>
+      {children}
+    </Headroom>
+  );
 };
+
+export type FooterProps = {
+  children: React.ReactNode;
+};
+
+function Footer({ children }: FooterProps) {
+  return <footer css={footerStyle}>{children}</footer>;
+}
 
 export type MainProps = {
   children: React.ReactNode;
@@ -23,25 +39,62 @@ const Main = ({ children }: MainProps) => {
   return <main css={mainStyle}>{children}</main>;
 };
 
-Layout.Header = Header;
-Layout.Main = Main;
-
 const layoutStyle = css`
   height: 100%;
 `;
 const headerStyle = css`
-  position: fixed;
-  top: 0;
+  height: 4rem;
   width: 100%;
-  height: 5rem;
   background: white;
-  z-index: 10;
-  /* border-bottom: 0.0625rem solid ${palette.blueGrey[50]}; */
-  box-shadow: 0 0.25rem 0.5rem rgba(0 0 0 /5%);
+  ${zIndex.fixedHeader};
+  /* background: linear-gradient(
+      110.7deg,
+      rgba(255, 255, 255, 0.7) 1.64%,
+      rgba(255, 255, 255, 0) 94.31%
+    ),
+    #c7f5db; */
+  .headroom {
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4rem;
+    background: inherit;
+    transition: box-shadow 200ms ease-in-out;
+    z-index: inherit;
+    &--scrolled {
+      transition: transform 200ms ease-in-out;
+    }
+    &--unfixed {
+      position: relative;
+      transform: translateY(0);
+    }
+    &--unpinned {
+      position: fixed;
+      transform: translateY(-100%);
+    }
+    &--pinned {
+      position: fixed;
+      transform: translateY(0%);
+      box-shadow: 0 0 0.125rem rgba(0, 0, 0, 0.22),
+        0 0.4375rem 0.625rem rgba(0, 0, 0, 0.12);
+    }
+  }
 `;
+
+const footerStyle = css`
+  height: 3rem;
+  border-top: 0.0625rem solid ${palette.blueGrey[50]};
+`;
+
 const mainStyle = css`
-  padding-top: 5rem;
-  height: 100%;
+  min-height: calc(100% - (4rem + 3rem));
+  padding-top: 2rem;
+  padding-bottom: 4rem;
+  ${responsiveWidth};
 `;
+
+Layout.Header = Header;
+Layout.Main = Main;
+Layout.Footer = Footer;
 
 export default Layout;

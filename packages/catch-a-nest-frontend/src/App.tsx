@@ -9,6 +9,8 @@ import Write from './pages/Write';
 import FullscreenLoader from './components/FullscreenLoader';
 import AppToast from './components/AppToast';
 import Post from './pages/Post';
+import ScrollToTop from './components/Layout/ScrollToTop';
+import AppInfo from './components/AppInfo';
 
 function App() {
   return (
@@ -16,6 +18,7 @@ function App() {
       <Global styles={globalStyle} />
       <AppToast />
       <BrowserRouter>
+        <ScrollToTop />
         <Switch>
           <Layout>
             <FullscreenLoader />
@@ -34,6 +37,9 @@ function App() {
                   <Admin />
                 </Route>
               </Layout.Main>
+              <Layout.Footer>
+                <AppInfo />
+              </Layout.Footer>
             </Route>
             <Route path="/write/:id?">
               <Write />

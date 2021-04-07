@@ -98,13 +98,14 @@ const tuiStyle = css`
     }
 
     blockquote {
-      margin: 1rem 0;
+      margin: 2rem 0;
       border-left: 0.25rem solid ${palette.lightBlue[200]};
       border-top-right-radius: 0.25rem;
       border-bottom-right-radius: 0.25rem;
-      padding: 0 1.5rem;
-      > :last-of-type {
-        margin-bottom: 0;
+      background: ${palette.grey[50]};
+      padding: 0.75rem 1.5rem;
+      & blockquote {
+        margin: 0;
       }
     }
 

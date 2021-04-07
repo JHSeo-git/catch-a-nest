@@ -1,5 +1,6 @@
 import { css } from '@emotion/react';
 import { logo } from '@src/assets/images';
+import media from '@src/lib/styles/media';
 import { responsiveWidth } from '@src/lib/styles/responsive';
 import { NavLink } from 'react-router-dom';
 import UserInfo from '../UserInfo';
@@ -23,6 +24,9 @@ const sectionStyle = css`
   align-items: center;
   justify-content: space-between;
   ${responsiveWidth};
+  ${media.custom(650)} {
+    padding: 0 1rem;
+  }
 `;
 
 const logoStyle = css`
