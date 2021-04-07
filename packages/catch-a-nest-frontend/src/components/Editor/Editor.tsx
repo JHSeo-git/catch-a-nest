@@ -5,12 +5,21 @@ import { Editor as ReactEditor } from '@toast-ui/react-editor';
 import { syntaxHighlightPlugIn } from '@src/lib/editor';
 import useEditor from '@src/hooks/useEditor';
 import TuiStyleWrapper from './TuiStyleWrapper';
+import { useEditorMarkdownState } from '@src/states/editorState';
+import { useEffect } from 'react';
 
 export type EditorProps = {};
 
 const Editor = (props: EditorProps) => {
   const { editorRef, onChange } = useEditor();
-  // TODO: custom style
+  const [markdown] = useEditorMarkdownState();
+
+  useEffect(() => {
+    if (!markdown) return;
+    if (!editorRef?.current) return;
+    editorRef.current.getInstance().setMarkdown(markdown);
+  }, [markdown, editorRef]);
+
   return (
     <TuiStyleWrapper>
       <ReactEditor
@@ -23,6 +32,7 @@ const Editor = (props: EditorProps) => {
           change: onChange,
         }}
         plugins={[syntaxHighlightPlugIn]}
+        extendedAutolinks={true}
       />
     </TuiStyleWrapper>
   );

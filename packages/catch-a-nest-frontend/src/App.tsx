@@ -26,22 +26,24 @@ function App() {
               <Layout.Header>
                 <Header />
               </Layout.Header>
-              <Layout.Main>
-                <Route exact path="/">
-                  <Posts />
-                </Route>
-                <Route exact path="/post/:slug">
-                  <Post />
-                </Route>
-                <Route path="/admin">
-                  <Admin />
-                </Route>
-              </Layout.Main>
+              <Switch>
+                <Layout.Main>
+                  <Route exact path="/">
+                    <Posts />
+                  </Route>
+                  <Route exact path="/post/:slug">
+                    <Post />
+                  </Route>
+                  <Route path="/admin">
+                    <Admin />
+                  </Route>
+                </Layout.Main>
+              </Switch>
               <Layout.Footer>
                 <AppInfo />
               </Layout.Footer>
             </Route>
-            <Route path="/write/:id?">
+            <Route path={['/write', '/edit/:slug']}>
               <Write />
             </Route>
           </Layout>

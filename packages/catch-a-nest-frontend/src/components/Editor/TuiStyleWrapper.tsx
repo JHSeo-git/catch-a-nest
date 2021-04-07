@@ -15,6 +15,8 @@ const TuiStyleWrapper = ({ children }: TuiStyleWrapperProps) => {
 const tuiStyle = css`
   height: 100%;
 
+  .te-toolbar-section {
+  }
   .tui-editor-contents {
     font-family: inherit;
     font-size: 1.125rem;

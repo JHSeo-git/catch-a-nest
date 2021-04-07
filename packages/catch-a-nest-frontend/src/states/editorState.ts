@@ -5,25 +5,31 @@ import {
   useRecoilState,
   useRecoilValue,
   useResetRecoilState,
+  useSetRecoilState,
 } from 'recoil';
 
-export const editorMarkdown = atom<string | null>({
+export const editorMarkdownState = atom<string | null>({
   key: 'editorMarkdown',
   default: null,
 });
 
-export const editorTitle = atom<string | null>({
+export const editorTitleState = atom<string | null>({
   key: 'editorTitle',
   default: null,
 });
 
-export const editorShortDescription = atom<string | null>({
+export const editorShortDescriptionState = atom<string | null>({
   key: 'editorShortDescription',
   default: null,
 });
 
+export const editorThumbnailState = atom<string | null>({
+  key: 'editorThumbnailState',
+  default: null,
+});
+
 type EditorModeType = 'detail-page' | 'post-page';
-export const editorMode = atom<EditorModeType>({
+export const editorModeState = atom<EditorModeType>({
   key: 'editorMode',
   default: 'post-page',
 });
@@ -38,9 +44,9 @@ export type EditorContent = {
 export const editorContent = selector<EditorContent>({
   key: 'editorContent',
   get: ({ get }) => {
-    const title = get(editorTitle);
-    const body = get(editorMarkdown);
-    const shortDescription = get(editorShortDescription);
+    const title = get(editorTitleState);
+    const body = get(editorMarkdownState);
+    const shortDescription = get(editorShortDescriptionState);
     const thumbnail = '';
 
     return {
@@ -53,9 +59,11 @@ export const editorContent = selector<EditorContent>({
 });
 
 export function useEditorContentActions() {
-  const resetMarkdown = useResetRecoilState(editorMarkdown);
-  const resetTitle = useResetRecoilState(editorTitle);
-  const resetShortDesciprtion = useResetRecoilState(editorShortDescription);
+  const resetMarkdown = useResetRecoilState(editorMarkdownState);
+  const resetTitle = useResetRecoilState(editorTitleState);
+  const resetShortDesciprtion = useResetRecoilState(
+    editorShortDescriptionState
+  );
   const reset = useCallback(() => {
     resetMarkdown();
     resetTitle();
@@ -72,17 +80,40 @@ export function useEditorContentValue() {
 }
 
 export function useEditorMarkdownState() {
-  return useRecoilState(editorMarkdown);
+  return useRecoilState(editorMarkdownState);
 }
 
 export function useEditorTitleState() {
-  return useRecoilState(editorTitle);
+  return useRecoilState(editorTitleState);
 }
 
 export function useEditorModeState() {
-  return useRecoilState(editorMode);
+  return useRecoilState(editorModeState);
 }
 
 export function useEditorShortDescriptionState() {
-  return useRecoilState(editorShortDescription);
+  return useRecoilState(editorShortDescriptionState);
+}
+
+export function useEditorThumbnailState() {
+  return useRecoilState(editorThumbnailState);
+}
+
+export function useEditorSync() {
+  const setEditorTitle = useSetRecoilState(editorTitleState);
+  const setMarkDown = useSetRecoilState(editorMarkdownState);
+  const setShortDescription = useSetRecoilState(editorShortDescriptionState);
+  const setThumbnail = useSetRecoilState(editorThumbnailState);
+
+  const sync = useCallback(
+    (content: EditorContent) => {
+      setEditorTitle(content.title);
+      setMarkDown(content.body);
+      setShortDescription(content.shortDescription);
+      setThumbnail(content.thumbnail);
+    },
+    [setEditorTitle, setMarkDown, setShortDescription, setThumbnail]
+  );
+
+  return sync;
 }

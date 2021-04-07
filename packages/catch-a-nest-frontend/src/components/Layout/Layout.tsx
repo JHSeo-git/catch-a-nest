@@ -1,6 +1,5 @@
 import { css } from '@emotion/react';
 import palette from '@src/lib/palette';
-import media from '@src/lib/styles/media';
 import { responsiveWidth } from '@src/lib/styles/responsive';
 import zIndex from '@src/lib/styles/zIndex';
 import Headroom from 'react-headroom';

@@ -5,6 +5,7 @@ import palette from '@src/lib/palette';
 import { stringToDateMoreDetail } from '@src/lib/utils/dateUtils';
 import Viewer from '../Editor/Viewer';
 import ErrorInfo from '../ErrorInfo';
+import PostEditButton from './PostEditButton';
 
 export type ReadPostProps = {
   slug: string;
@@ -26,6 +27,7 @@ const ReadPost = ({ slug }: ReadPostProps) => {
               <p className="date">{stringToDateMoreDetail(post.created_at)}</p>
             </div>
             <Viewer markdown={post.body} />
+            <PostEditButton slug={post.url_slug} />
           </>
         )
       )}
