@@ -3,9 +3,10 @@ import { css } from '@emotion/react';
 import useGetPostBySlugQuery from '@src/hooks/query/useGetPostBySlugQuery';
 import palette from '@src/lib/palette';
 import { stringToDateMoreDetail } from '@src/lib/utils/dateUtils';
-import Viewer from '../Editor/Viewer';
 import ErrorInfo from '../ErrorInfo';
 import PostEditButton from './PostEditButton';
+import MarkdownItViewer from '../Editor/MarkdownItViewer';
+import { responsiveReadPostWidth } from '@src/lib/styles/responsive';
 
 export type ReadPostProps = {
   slug: string;
@@ -26,7 +27,7 @@ const ReadPost = ({ slug }: ReadPostProps) => {
               <div className="splitter" />
               <p className="date">{stringToDateMoreDetail(post.created_at)}</p>
             </div>
-            <Viewer markdown={post.body} />
+            <MarkdownItViewer markdown={post.body} />
             <PostEditButton slug={post.url_slug} />
           </>
         )
@@ -38,6 +39,7 @@ const ReadPost = ({ slug }: ReadPostProps) => {
 const postStyle = css`
   display: flex;
   flex-direction: column;
+  ${responsiveReadPostWidth};
 
   .title {
     margin: 0;

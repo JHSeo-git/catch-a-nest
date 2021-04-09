@@ -14,6 +14,7 @@ const TuiStyleWrapper = ({ children }: TuiStyleWrapperProps) => {
 
 const tuiStyle = css`
   height: 100%;
+  position: relative;
 
   .te-toolbar-section {
   }
@@ -31,7 +32,7 @@ const tuiStyle = css`
 
     hr {
       border-style: none;
-      border-top: 0.125rem solid ${palette.blueGrey[500]};
+      border-top: 0.125rem solid ${palette.blue[300]};
       margin: 1rem 0;
     }
 
@@ -165,7 +166,7 @@ const tuiStyle = css`
 
     pre {
       font-size: 1rem;
-      margin: 0.5rem 0;
+      margin: 0.875rem 0;
       padding: 1rem;
       background: ${palette.grey[100]};
       border-radius: 0.25rem;
@@ -174,6 +175,29 @@ const tuiStyle = css`
         color: inherit;
         white-space: pre-wrap;
         background-color: transparent;
+      }
+    }
+
+    mark {
+      color: white;
+      background: ${palette.lightBlue[500]};
+      padding: 0.375rem;
+      border-radius: 0.125rem;
+    }
+
+    abbr {
+      cursor: help;
+      text-decoration: none;
+      border-bottom: 0.0625rem dotted ${palette.teal[900]};
+    }
+
+    dl {
+      margin: 0.875rem 0;
+      dt {
+        font-weight: bold;
+      }
+      dd {
+        margin-left: 0;
       }
     }
 
@@ -194,6 +218,27 @@ const tuiStyle = css`
       }
       td {
         border: 0.0625rem solid ${palette.blueGrey[50]};
+      }
+    }
+    .footnotes-sep {
+      border-top: 0.125rem solid ${palette.blue[300]};
+    }
+    .footnotes {
+      display: block;
+      column-count: 2;
+      .footnotes-list {
+        padding-left: 2rem;
+        margin: 0;
+        * {
+          margin: 0;
+        }
+      }
+    }
+    sup,
+    sub {
+      font-size: 0.75rem;
+      a {
+        font-weight: 500;
       }
     }
   }
