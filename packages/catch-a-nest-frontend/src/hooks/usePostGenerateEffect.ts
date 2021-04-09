@@ -22,18 +22,15 @@ export default function usePostGenerateEffect({
     setTocEl(ref.current.querySelector('nav'));
   }, [ref, markdown]);
 
-  const onScroll = useCallback(
-    (e: Event) => {
-      if (!tocEl) return;
-      const { top } = tocEl.getBoundingClientRect();
-      if (top < fixedTocPos) {
-        tocEl.classList.add('fixed');
-      } else {
-        tocEl.classList.remove('fixed');
-      }
-    },
-    [tocEl, fixedTocPos]
-  );
+  const onScroll = useCallback(() => {
+    if (!tocEl) return;
+    const { top } = tocEl.getBoundingClientRect();
+    if (top < fixedTocPos) {
+      tocEl.classList.add('fixed');
+    } else {
+      tocEl.classList.remove('fixed');
+    }
+  }, [tocEl, fixedTocPos]);
 
   useEffect(() => {
     window.addEventListener('scroll', onScroll);

@@ -7,6 +7,7 @@ import WritePostDetail from './WritePostDetail';
 import WritePostFooter from './WritePostFooter';
 import useEditorLoad from '@src/hooks/useEditorLoad';
 import FullscreenLoader from '../FullscreenLoader';
+import useWritePost from '@src/hooks/useWritePost';
 
 export type EditPostProps = {
   slug: string;
@@ -15,6 +16,7 @@ export type EditPostProps = {
 const EditPost = ({ slug }: EditPostProps) => {
   const { editorMode, reset } = useEditor();
   const { isLoading } = useEditorLoad(slug);
+  const { onUpdate } = useWritePost();
 
   useEffect(() => {
     return () => {
@@ -33,7 +35,12 @@ const EditPost = ({ slug }: EditPostProps) => {
           <WritePostFooter />
         </section>
       )}
-      {editorMode === 'detail-page' && <WritePostDetail />}
+      {editorMode === 'detail-page' && (
+        <WritePostDetail
+          isUpdate={true}
+          onSaveOrUpdate={() => onUpdate(slug)}
+        />
+      )}
     </>
   );
 };

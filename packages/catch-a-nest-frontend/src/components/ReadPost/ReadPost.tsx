@@ -3,9 +3,9 @@ import { css } from '@emotion/react';
 import useGetPostBySlugQuery from '@src/hooks/query/useGetPostBySlugQuery';
 import palette from '@src/lib/palette';
 import { stringToDateMoreDetail } from '@src/lib/utils/dateUtils';
-import ErrorInfo from '../ErrorInfo';
 import PostEditButton from './PostEditButton';
 import MarkdownItViewer from '../Editor/MarkdownItViewer';
+import { useHistory } from 'react-router';
 
 export type ReadPostProps = {
   slug: string;
@@ -13,23 +13,23 @@ export type ReadPostProps = {
 
 const ReadPost = ({ slug }: ReadPostProps) => {
   const { data: post, isError } = useGetPostBySlugQuery(slug);
+  const history = useHistory();
   // useFullScreenLoaderEffect(isLoading);
+  if (isError) {
+    history.replace('/404');
+  }
   return (
     <section css={postStyle}>
-      {isError ? (
-        <ErrorInfo />
-      ) : (
-        post && (
-          <>
-            <h1 className="title">{post.title}</h1>
-            <div className="sub-info">
-              <div className="splitter" />
-              <p className="date">{stringToDateMoreDetail(post.created_at)}</p>
-            </div>
-            <MarkdownItViewer markdown={post.body} />
-            <PostEditButton slug={post.url_slug} />
-          </>
-        )
+      {post && (
+        <>
+          <h1 className="title">{post.title}</h1>
+          <div className="sub-info">
+            <div className="splitter" />
+            <p className="date">{stringToDateMoreDetail(post.created_at)}</p>
+          </div>
+          <MarkdownItViewer markdown={post.body} />
+          <PostEditButton slug={post.url_slug} />
+        </>
       )}
     </section>
   );

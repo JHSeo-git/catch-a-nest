@@ -6,7 +6,6 @@ import Posts from './pages/Posts';
 import Layout from './components/Layout';
 import Header from './components/Header';
 import Write from './pages/Write';
-import FullscreenLoader from './components/FullscreenLoader';
 import AppToast from './components/AppToast';
 import Post from './pages/Post';
 import ScrollToTop from './components/Layout/ScrollToTop';
@@ -21,7 +20,6 @@ function App() {
         <ScrollToTop />
         <Switch>
           <Layout>
-            <FullscreenLoader />
             <Route exact path={['/', '/post/:slug', '/admin']}>
               <Layout.Header>
                 <Header />

@@ -64,11 +64,22 @@ export function useEditorContentActions() {
   const resetShortDesciprtion = useResetRecoilState(
     editorShortDescriptionState
   );
+  const resetThumbnail = useResetRecoilState(editorThumbnailState);
+  const resetMode = useResetRecoilState(editorModeState);
+
   const reset = useCallback(() => {
     resetMarkdown();
     resetTitle();
     resetShortDesciprtion();
-  }, [resetMarkdown, resetTitle, resetShortDesciprtion]);
+    resetMode();
+    resetThumbnail();
+  }, [
+    resetMarkdown,
+    resetTitle,
+    resetShortDesciprtion,
+    resetMode,
+    resetThumbnail,
+  ]);
 
   return {
     reset,

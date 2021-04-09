@@ -1,4 +1,5 @@
 import savePost from '@src/lib/api/posts/saveNewPost';
+import updatePost from '@src/lib/api/posts/updatePost';
 import { useEditorContentValue } from '@src/states/editorState';
 import { useCallback, useState } from 'react';
 import { useHistory } from 'react-router';
@@ -25,8 +26,26 @@ export default function useWritePost() {
     }
   }, [postContent, notify, history]);
 
+  const onUpdate = useCallback(
+    async (slug: string) => {
+      try {
+        setLoading(true);
+        const post = await updatePost(slug, postContent);
+        notify(`Success Update Post: ${post.title}`, 'success');
+        history.push(`/post/${slug}`);
+      } catch (e) {
+        notify('❗️ Fail Update Post', 'error');
+        setError('Update Post Error');
+      } finally {
+        setLoading(false);
+      }
+    },
+    [postContent, notify, history]
+  );
+
   return {
     onSave,
+    onUpdate,
     loading,
     error,
   };

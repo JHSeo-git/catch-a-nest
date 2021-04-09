@@ -69,6 +69,54 @@ export const saveNewPost = async (ctx: Context) => {
   }
 };
 
+export const updatePost = async (ctx: Context) => {
+  const bodySchema = Joi.object<SaveNewPostBodySchema>().keys({
+    title: Joi.string().required(),
+    body: Joi.string().required(),
+    shortDescription: Joi.string().allow(''),
+    thumbnail: Joi.string().allow(''),
+  });
+
+  if (!(await validateBodySchema(ctx, bodySchema))) {
+    return;
+  }
+
+  const {
+    title,
+    body,
+    shortDescription,
+    thumbnail,
+  }: SaveNewPostBodySchema = ctx.request.body;
+  try {
+    const params = ctx.params;
+    const { slug } = params;
+
+    const post = await getRepository(Post).findOne({
+      url_slug: slug,
+    });
+
+    if (!post) {
+      ctx.status = 404;
+      ctx.body = {
+        name: 'PostNotFound',
+        payload: 'Update Post is not found',
+      };
+      return;
+    }
+
+    post.title = title;
+    post.body = body;
+    post.short_description = shortDescription;
+    post.thumbnail = thumbnail;
+
+    await getRepository(Post).save(post);
+
+    ctx.body = post;
+  } catch (e) {
+    ctx.throw(500, e);
+  }
+};
+
 export const getPosts = async (ctx: Context) => {
   try {
     const params = ctx.query;

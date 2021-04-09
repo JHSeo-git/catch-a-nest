@@ -5,11 +5,13 @@ import Editor from '../Editor';
 import WritePostTitle from './WritePostTitle';
 import WritePostDetail from './WritePostDetail';
 import WritePostFooter from './WritePostFooter';
+import useWritePost from '@src/hooks/useWritePost';
 
 export type WritePostProps = {};
 
 const WritePost = (props: WritePostProps) => {
   const { editorMode, reset } = useEditor();
+  const { onSave } = useWritePost();
 
   useEffect(() => {
     return () => {
@@ -24,7 +26,9 @@ const WritePost = (props: WritePostProps) => {
         <Editor />
         <WritePostFooter />
       </section>
-      {editorMode === 'detail-page' && <WritePostDetail />}
+      {editorMode === 'detail-page' && (
+        <WritePostDetail onSaveOrUpdate={onSave} />
+      )}
     </>
   );
 };
