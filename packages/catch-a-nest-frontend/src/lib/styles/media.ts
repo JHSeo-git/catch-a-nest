@@ -3,6 +3,7 @@ const custom = (size: number) => `
 `;
 
 const media = {
+  xxxl: custom(2200),
   xxl: custom(1920),
   xl: custom(1440),
   lg: custom(1280),

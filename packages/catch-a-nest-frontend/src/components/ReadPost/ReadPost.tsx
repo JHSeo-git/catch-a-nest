@@ -6,7 +6,6 @@ import { stringToDateMoreDetail } from '@src/lib/utils/dateUtils';
 import ErrorInfo from '../ErrorInfo';
 import PostEditButton from './PostEditButton';
 import MarkdownItViewer from '../Editor/MarkdownItViewer';
-import { responsiveReadPostWidth } from '@src/lib/styles/responsive';
 
 export type ReadPostProps = {
   slug: string;
@@ -39,7 +38,6 @@ const ReadPost = ({ slug }: ReadPostProps) => {
 const postStyle = css`
   display: flex;
   flex-direction: column;
-  ${responsiveReadPostWidth};
 
   .title {
     margin: 0;
