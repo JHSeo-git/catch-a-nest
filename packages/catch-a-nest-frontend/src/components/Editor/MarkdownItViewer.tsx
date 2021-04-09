@@ -1,49 +1,56 @@
-import { useEffect, useRef } from 'react';
-
+import { useRef } from 'react';
 import { css } from '@emotion/react';
-import md from '@src/lib/utils/markdownItClient';
 import TuiStyleWrapper from './TuiStyleWrapper';
 import { responsiveReadPostToc } from '../../lib/styles/responsive';
 import palette from '@src/lib/palette';
+import zIndex from '@src/lib/styles/zIndex';
+import usePostGenerateEffect from '@src/hooks/usePostGenerateEffect';
 
 export type MarkdownItViewerProps = {
   markdown: string;
 };
 
-function MarkdownItViewer({ markdown, ...reset }: MarkdownItViewerProps) {
+function MarkdownItViewer({ markdown }: MarkdownItViewerProps) {
   const ref = useRef<HTMLDivElement>(null);
+  const fixedTocPos = 100;
 
-  useEffect(() => {
-    if (!markdown) return;
-    if (!ref?.current) return;
-    const result = md.render('\n[[toc]]\n' + markdown);
-    ref.current.innerHTML = result;
-  }, [markdown]);
-
-  console.log('rerender');
+  usePostGenerateEffect({ ref, markdown, fixedTocPos });
 
   return (
     <TuiStyleWrapper>
-      <div ref={ref} css={viewerStyle} className="tui-editor-contents"></div>
+      <div
+        ref={ref}
+        css={viewerStyle(`${fixedTocPos}px`)}
+        className="tui-editor-contents"
+      ></div>
     </TuiStyleWrapper>
   );
 }
 
-const viewerStyle = css`
+const viewerStyle = (fixedTocPos: string) => css`
   nav {
     ${responsiveReadPostToc};
     position: absolute;
     top: 0;
     left: 100%;
-    width: 20rem;
-    line-height: 1;
+    ${zIndex.fixedTOC};
+
+    > .md-toc-list {
+      width: 20rem;
+      border-radius: 0.25rem;
+      background: ${palette.grey[50]};
+      margin: 0 2rem;
+    }
+
+    &.fixed {
+      > .md-toc-list {
+        position: fixed;
+        top: ${fixedTocPos};
+      }
+    }
 
     .md-toc-list {
-      border-radius: 0.25rem;
-      background: ${palette.yellow[100]};
       list-style: none;
-      margin-top: 0;
-      margin-left: 2rem;
       padding-right: 0.5rem;
       padding-left: 1rem;
       padding-top: 1rem;

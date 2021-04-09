@@ -47,6 +47,7 @@ const md = new MarkdownIt({
     listType: 'ul',
     listClass: 'md-toc-list',
     itemClass: 'md-toc-item',
+    containerClass: 'md-toc-wrapper',
   });
 
 export default md;
