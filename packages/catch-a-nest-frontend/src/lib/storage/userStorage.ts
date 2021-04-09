@@ -1,6 +1,6 @@
 import { User } from '../api/auth/types';
 
-const key = 'USER';
+const key = 'CATCH_A_NEST_USER';
 
 const userStorage = {
   get() {
