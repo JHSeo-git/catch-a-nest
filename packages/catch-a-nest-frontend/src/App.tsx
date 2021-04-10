@@ -10,6 +10,7 @@ import AppToast from './components/AppToast';
 import Post from './pages/Post';
 import ScrollToTop from './components/Layout/ScrollToTop';
 import AppInfo from './components/AppInfo';
+import { fontFamily } from './lib/styles/typography';
 
 function App() {
   return (
@@ -66,8 +67,7 @@ const globalStyle = css`
 
   body {
     margin: 0;
-    font-family: 'Ubuntu', Ubuntu, Roboto, 'Open Sans', 'Helvetica Neue',
-      sans-serif;
+    ${fontFamily};
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
