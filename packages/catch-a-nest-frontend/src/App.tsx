@@ -10,6 +10,7 @@ import AppToast from './components/AppToast';
 import Post from './pages/Post';
 import ScrollToTop from './components/Layout/ScrollToTop';
 import AppInfo from './components/AppInfo';
+import Edit from './pages/Edit';
 
 function App() {
   return (
@@ -41,8 +42,11 @@ function App() {
                 <AppInfo />
               </Layout.Footer>
             </Route>
-            <Route path={['/write', '/edit/:slug']}>
+            <Route path={'/write'}>
               <Write />
+            </Route>
+            <Route path={'/edit/:slug'}>
+              <Edit />
             </Route>
           </Layout>
         </Switch>
