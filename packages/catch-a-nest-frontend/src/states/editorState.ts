@@ -78,8 +78,8 @@ const editorContent = selector<EditorContent>({
   },
 });
 
-const editNewEditInfo = selector({
-  key: 'editNewEditInfo',
+const editEditingInfo = selector({
+  key: 'editEditingInfo',
   get: ({ get }) => {
     const isEdit = get(isEditState);
     const editTargetSlug = get(editTargetSlugState);
@@ -157,8 +157,8 @@ export function useEditTargetSlugState() {
   return useRecoilState(editTargetSlugState);
 }
 
-export function useEditNewEditInfoValue() {
-  return useRecoilValue(editNewEditInfo);
+export function useEditingInfoValue() {
+  return useRecoilValue(editEditingInfo);
 }
 
 export function useObservedHeadingIdState() {

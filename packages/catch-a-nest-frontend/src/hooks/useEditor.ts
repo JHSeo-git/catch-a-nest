@@ -6,12 +6,12 @@ import {
   useEditorContentValue,
   useEditorMarkdownState,
   useEditorModeState,
-  useIsEditState,
 } from '@src/states/editorState';
 import useAppToast from './useAppToast';
+import { useEditingInfoValue } from '../states/editorState';
 
 export default function useEditor() {
-  const [isEdit] = useIsEditState();
+  const { editTargetSlug, isEdit } = useEditingInfoValue();
   const editorRef = useRef<Editor>(null);
   const history = useHistory();
   const [, setEditorMarkdownValue] = useEditorMarkdownState();
@@ -28,8 +28,12 @@ export default function useEditor() {
   const onCancel = useCallback(() => {
     reset();
     clearAllToast();
-    history.replace('/');
-  }, [history, reset, clearAllToast]);
+    if (isEdit) {
+      history.replace(`/post/${editTargetSlug}`);
+    } else {
+      history.replace('/');
+    }
+  }, [history, reset, clearAllToast, isEdit, editTargetSlug]);
 
   const onPostPageSave = () => {
     // validation

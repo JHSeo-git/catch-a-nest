@@ -22,12 +22,14 @@ const WritePost = (props: WritePostProps) => {
   }, [reset]);
 
   return (
-    <section css={panelStyle}>
-      <WritePostTitle />
-      <Editor />
-      <WritePostFooter />
+    <>
+      <section css={panelStyle}>
+        <WritePostTitle />
+        <Editor />
+        <WritePostFooter />
+      </section>
       <WritePostDetail onSaveOrUpdate={onSave} />
-    </section>
+    </>
   );
 };
 

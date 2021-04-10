@@ -1,7 +1,7 @@
 import savePost from '@src/lib/api/posts/saveNewPost';
 import updatePost from '@src/lib/api/posts/updatePost';
 import {
-  useEditNewEditInfoValue,
+  useEditingInfoValue,
   useEditorContentValue,
 } from '@src/states/editorState';
 import { useCallback, useState } from 'react';
@@ -9,7 +9,7 @@ import { useHistory } from 'react-router';
 import useAppToast from './useAppToast';
 
 export default function useWritePost() {
-  const { isEdit, editTargetSlug } = useEditNewEditInfoValue();
+  const { isEdit, editTargetSlug } = useEditingInfoValue();
   const postContent = useEditorContentValue();
   const history = useHistory();
   const { notify } = useAppToast();
