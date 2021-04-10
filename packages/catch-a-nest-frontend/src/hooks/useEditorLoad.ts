@@ -5,7 +5,7 @@ import useGetPostBySlugQuery from './query/useGetPostBySlugQuery';
 export default function useEditorLoad() {
   const [slug] = useEditTargetSlugState();
   const { data, isLoading } = useGetPostBySlugQuery(slug!, {
-    enabled: slug !== undefined,
+    enabled: slug !== undefined && slug !== null,
   });
   const sync = useEditorSync();
 
