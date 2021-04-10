@@ -2,7 +2,7 @@ import 'codemirror/lib/codemirror.css';
 import '@toast-ui/editor/dist/toastui-editor.css';
 
 import { Editor as ReactEditor } from '@toast-ui/react-editor';
-import { syntaxHighlightPlugIn } from '@src/lib/editor';
+import { syntaxHighlightPlugIn } from '@src/lib/editor/tuiPlugins';
 import useEditor from '@src/hooks/useEditor';
 import TuiStyleWrapper from './TuiStyleWrapper';
 import { useEditorMarkdownState } from '@src/states/editorState';

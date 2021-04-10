@@ -44,6 +44,16 @@ const editTargetSlugState = atom<string | null>({
   default: null,
 });
 
+const observedHeadingIdState = atom<string | null>({
+  key: 'observedHeadingIdState',
+  default: null,
+});
+
+const observedHeadingIdsState = atom<string[]>({
+  key: 'observedHeadingIdsState',
+  default: [],
+});
+
 export type EditorContent = {
   title: string | null;
   body: string | null;
@@ -149,6 +159,14 @@ export function useEditTargetSlugState() {
 
 export function useEditNewEditInfoValue() {
   return useRecoilValue(editNewEditInfo);
+}
+
+export function useObservedHeadingIdState() {
+  return useRecoilState(observedHeadingIdState);
+}
+
+export function useObservedHeadingIdsState() {
+  return useRecoilState(observedHeadingIdsState);
 }
 
 export function useEditorSync() {

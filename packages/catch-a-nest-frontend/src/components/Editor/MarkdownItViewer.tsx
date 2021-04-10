@@ -5,6 +5,7 @@ import { responsiveReadPostToc } from '../../lib/styles/responsive';
 import palette from '@src/lib/palette';
 import zIndex from '@src/lib/styles/zIndex';
 import usePostGenerateEffect from '@src/hooks/usePostGenerateEffect';
+import { useObservedHeadingIdState } from '@src/states/editorState';
 
 export type MarkdownItViewerProps = {
   markdown: string;
@@ -12,6 +13,7 @@ export type MarkdownItViewerProps = {
 
 function MarkdownItViewer({ markdown }: MarkdownItViewerProps) {
   const ref = useRef<HTMLDivElement>(null);
+  const [headingId] = useObservedHeadingIdState();
   const fixedTocPos = 100;
 
   usePostGenerateEffect({ ref, markdown, fixedTocPos });
@@ -20,14 +22,14 @@ function MarkdownItViewer({ markdown }: MarkdownItViewerProps) {
     <TuiStyleWrapper>
       <div
         ref={ref}
-        css={viewerStyle(`${fixedTocPos}px`)}
+        css={viewerStyle(`${fixedTocPos}px`, `#${headingId}`)}
         className="tui-editor-contents"
       ></div>
     </TuiStyleWrapper>
   );
 }
 
-const viewerStyle = (fixedTocPos: string) => css`
+const viewerStyle = (fixedTocPos: string, headerId?: string) => css`
   nav {
     ${responsiveReadPostToc};
     position: absolute;
@@ -62,9 +64,17 @@ const viewerStyle = (fixedTocPos: string) => css`
         word-break: break-word;
         margin: 0.375rem 0;
         color: ${palette.blueGrey[500]};
+        transition: all 0.1s linear;
+
         &:hover {
           color: ${palette.blue[500]};
           text-decoration: none;
+        }
+
+        &[href='${headerId}'] {
+          color: ${palette.lightBlue[500]};
+          font-weight: bold;
+          transform: scale3d(1, 1, 1.5);
         }
       }
 

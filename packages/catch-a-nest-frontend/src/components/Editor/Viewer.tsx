@@ -1,6 +1,6 @@
 import '@toast-ui/editor/dist/toastui-editor-viewer.css';
 
-import { syntaxHighlightPlugInForViewer } from '@src/lib/editor';
+import { syntaxHighlightPlugInForViewer } from '@src/lib/editor/tuiPlugins';
 import { Viewer as ReactViewer } from '@toast-ui/react-editor';
 import TuiStyleWrapper from './TuiStyleWrapper';
 
