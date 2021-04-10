@@ -10,10 +10,10 @@ import { useEditorMarkdownState } from '@src/states/editorState';
 export type EditorProps = {};
 
 const Editor = (props: EditorProps) => {
-  const { editorRef, onChange } = useEditor();
+  const { editorRef, onChange, isEdit } = useEditor();
   const [markdown] = useEditorMarkdownState();
 
-  console.log(markdown);
+  if (isEdit && !markdown) return null;
 
   return (
     <TuiStyleWrapper>
@@ -21,6 +21,7 @@ const Editor = (props: EditorProps) => {
         ref={editorRef}
         height="100%"
         initialEditType="markdown"
+        initialValue={markdown ?? undefined}
         previewStyle="vertical"
         hideModeSwitch
         events={{
@@ -28,6 +29,7 @@ const Editor = (props: EditorProps) => {
         }}
         plugins={[syntaxHighlightPlugIn]}
         extendedAutolinks={true}
+        usageStatistics={false}
       />
     </TuiStyleWrapper>
   );

@@ -8,30 +8,40 @@ import {
   useSetRecoilState,
 } from 'recoil';
 
-export const editorMarkdownState = atom<string | null>({
+const editorMarkdownState = atom<string | null>({
   key: 'editorMarkdown',
   default: null,
 });
 
-export const editorTitleState = atom<string | null>({
+const editorTitleState = atom<string | null>({
   key: 'editorTitle',
   default: null,
 });
 
-export const editorShortDescriptionState = atom<string | null>({
+const editorShortDescriptionState = atom<string | null>({
   key: 'editorShortDescription',
   default: null,
 });
 
-export const editorThumbnailState = atom<string | null>({
+const editorThumbnailState = atom<string | null>({
   key: 'editorThumbnailState',
   default: null,
 });
 
 type EditorModeType = 'detail-page' | 'post-page';
-export const editorModeState = atom<EditorModeType>({
-  key: 'editorMode',
+const editorModeState = atom<EditorModeType>({
+  key: 'editorModeState',
   default: 'post-page',
+});
+
+const isEditState = atom<boolean>({
+  key: 'isEditState',
+  default: false,
+});
+
+const editTargetSlugState = atom<string | null>({
+  key: 'editTargetSlugState',
+  default: null,
 });
 
 export type EditorContent = {
@@ -41,7 +51,7 @@ export type EditorContent = {
   thumbnail: string | null;
 };
 
-export const editorContent = selector<EditorContent>({
+const editorContent = selector<EditorContent>({
   key: 'editorContent',
   get: ({ get }) => {
     const title = get(editorTitleState);
@@ -58,6 +68,19 @@ export const editorContent = selector<EditorContent>({
   },
 });
 
+const editNewEditInfo = selector({
+  key: 'editNewEditInfo',
+  get: ({ get }) => {
+    const isEdit = get(isEditState);
+    const editTargetSlug = get(editTargetSlugState);
+
+    return {
+      isEdit,
+      editTargetSlug,
+    };
+  },
+});
+
 export function useEditorContentActions() {
   const resetMarkdown = useResetRecoilState(editorMarkdownState);
   const resetTitle = useResetRecoilState(editorTitleState);
@@ -66,6 +89,8 @@ export function useEditorContentActions() {
   );
   const resetThumbnail = useResetRecoilState(editorThumbnailState);
   const resetMode = useResetRecoilState(editorModeState);
+  const resetIsEdit = useResetRecoilState(isEditState);
+  const resetEditorTargetSlug = useResetRecoilState(editTargetSlugState);
 
   const reset = useCallback(() => {
     resetMarkdown();
@@ -73,12 +98,16 @@ export function useEditorContentActions() {
     resetShortDesciprtion();
     resetMode();
     resetThumbnail();
+    resetIsEdit();
+    resetEditorTargetSlug();
   }, [
     resetMarkdown,
     resetTitle,
     resetShortDesciprtion,
     resetMode,
     resetThumbnail,
+    resetIsEdit,
+    resetEditorTargetSlug,
   ]);
 
   return {
@@ -108,6 +137,18 @@ export function useEditorShortDescriptionState() {
 
 export function useEditorThumbnailState() {
   return useRecoilState(editorThumbnailState);
+}
+
+export function useIsEditState() {
+  return useRecoilState(isEditState);
+}
+
+export function useEditTargetSlugState() {
+  return useRecoilState(editTargetSlugState);
+}
+
+export function useEditNewEditInfoValue() {
+  return useRecoilValue(editNewEditInfo);
 }
 
 export function useEditorSync() {

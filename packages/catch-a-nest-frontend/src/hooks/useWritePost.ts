@@ -1,11 +1,15 @@
 import savePost from '@src/lib/api/posts/saveNewPost';
 import updatePost from '@src/lib/api/posts/updatePost';
-import { useEditorContentValue } from '@src/states/editorState';
+import {
+  useEditNewEditInfoValue,
+  useEditorContentValue,
+} from '@src/states/editorState';
 import { useCallback, useState } from 'react';
 import { useHistory } from 'react-router';
 import useAppToast from './useAppToast';
 
 export default function useWritePost() {
+  const { isEdit, editTargetSlug } = useEditNewEditInfoValue();
   const postContent = useEditorContentValue();
   const history = useHistory();
   const { notify } = useAppToast();
@@ -26,26 +30,23 @@ export default function useWritePost() {
     }
   }, [postContent, notify, history]);
 
-  const onUpdate = useCallback(
-    async (slug: string) => {
-      try {
-        setLoading(true);
-        const post = await updatePost(slug, postContent);
-        notify(`Success Update Post: ${post.title}`, 'success');
-        history.push(`/post/${slug}`);
-      } catch (e) {
-        notify('❗️ Fail Update Post', 'error');
-        setError('Update Post Error');
-      } finally {
-        setLoading(false);
-      }
-    },
-    [postContent, notify, history]
-  );
+  const onUpdate = useCallback(async () => {
+    if (!editTargetSlug) return;
+    try {
+      setLoading(true);
+      const post = await updatePost(editTargetSlug, postContent);
+      notify(`Success Update Post: ${post.title}`, 'success');
+      history.push(`/post/${editTargetSlug}`);
+    } catch (e) {
+      notify('Fail Update Post', 'error');
+      setError('Update Post Error');
+    } finally {
+      setLoading(false);
+    }
+  }, [postContent, notify, history, editTargetSlug]);
 
   return {
-    onSave,
-    onUpdate,
+    onSave: isEdit ? onSave : onUpdate,
     loading,
     error,
   };

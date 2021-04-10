@@ -6,12 +6,14 @@ import WritePostTitle from './WritePostTitle';
 import WritePostDetail from './WritePostDetail';
 import WritePostFooter from './WritePostFooter';
 import useWritePost from '@src/hooks/useWritePost';
+import useEditorLoad from '@src/hooks/useEditorLoad';
 
 export type WritePostProps = {};
 
 const WritePost = (props: WritePostProps) => {
-  const { editorMode, reset } = useEditor();
+  const { reset } = useEditor();
   const { onSave } = useWritePost();
+  useEditorLoad();
 
   useEffect(() => {
     return () => {
@@ -20,16 +22,12 @@ const WritePost = (props: WritePostProps) => {
   }, [reset]);
 
   return (
-    <>
-      <section css={panelStyle}>
-        <WritePostTitle />
-        <Editor />
-        <WritePostFooter />
-      </section>
-      {editorMode === 'detail-page' && (
-        <WritePostDetail onSaveOrUpdate={onSave} />
-      )}
-    </>
+    <section css={panelStyle}>
+      <WritePostTitle />
+      <Editor />
+      <WritePostFooter />
+      <WritePostDetail onSaveOrUpdate={onSave} />
+    </section>
   );
 };
 

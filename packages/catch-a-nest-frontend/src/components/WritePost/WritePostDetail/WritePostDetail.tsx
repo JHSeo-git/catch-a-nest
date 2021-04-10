@@ -11,17 +11,15 @@ import WritePostDetailImage from './WritePostDetailImage';
 import WritePostDetailInput from './WritePostDetailInput';
 
 export type WritePostDetailProps = {
-  isUpdate?: boolean;
   onSaveOrUpdate(slug?: string): void;
 };
 
-const WritePostDetail = ({
-  isUpdate = false,
-  onSaveOrUpdate,
-}: WritePostDetailProps) => {
+const WritePostDetail = ({ onSaveOrUpdate }: WritePostDetailProps) => {
   const [editorTitle] = useEditorTitleState();
   const { loading } = useWritePost();
-  const { onDetailPageCancel } = useEditor();
+  const { onDetailPageCancel, editorMode, isEdit } = useEditor();
+
+  if (editorMode !== 'detail-page') return null;
 
   return (
     <Modal css={modalStyle}>
@@ -36,7 +34,7 @@ const WritePostDetail = ({
             onClick={onDetailPageCancel}
           />
           <WritePostButton
-            text={isUpdate ? 'Update' : 'Save'}
+            text={isEdit ? 'Update' : 'Save'}
             type="primary"
             onClick={onSaveOrUpdate}
             loading={loading}

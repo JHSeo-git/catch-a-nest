@@ -6,10 +6,12 @@ import {
   useEditorContentValue,
   useEditorMarkdownState,
   useEditorModeState,
+  useIsEditState,
 } from '@src/states/editorState';
 import useAppToast from './useAppToast';
 
 export default function useEditor() {
+  const [isEdit] = useIsEditState();
   const editorRef = useRef<Editor>(null);
   const history = useHistory();
   const [, setEditorMarkdownValue] = useEditorMarkdownState();
@@ -56,5 +58,6 @@ export default function useEditor() {
     onChange,
     editorRef,
     reset,
+    isEdit,
   };
 }

@@ -1,9 +1,12 @@
-import { useEditorSync } from '@src/states/editorState';
+import { useEditorSync, useEditTargetSlugState } from '@src/states/editorState';
 import { useEffect } from 'react';
 import useGetPostBySlugQuery from './query/useGetPostBySlugQuery';
 
-export default function useEditorLoad(slug: string) {
-  const { data, isLoading } = useGetPostBySlugQuery(slug);
+export default function useEditorLoad() {
+  const [slug] = useEditTargetSlugState();
+  const { data, isLoading } = useGetPostBySlugQuery(slug!, {
+    enabled: slug !== undefined,
+  });
   const sync = useEditorSync();
 
   useEffect(() => {
