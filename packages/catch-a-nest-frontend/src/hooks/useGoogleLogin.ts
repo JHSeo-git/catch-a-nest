@@ -11,16 +11,16 @@ export default function useGoogleLogin() {
   const history = useHistory();
 
   const login = useCallback(
-    async (accessToken: string) => {
+    async (accessToken: string, isAdmin: boolean = false) => {
       setGoogleTokenState(accessToken);
       try {
-        const { user } = await googleLogin(accessToken);
+        const { user } = await googleLogin({ token: accessToken, isAdmin });
         loggedIn(user);
       } catch (e) {
         setError('Google Login Error');
         history.push('/');
       } finally {
-        console.log('Google Login finally');
+        console.log('Google Login Process finally');
       }
     },
     [setGoogleTokenState, loggedIn, history]

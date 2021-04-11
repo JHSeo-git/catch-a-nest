@@ -8,11 +8,13 @@ import { getManager, getRepository } from 'typeorm';
 
 type LoginWithGoogleBodySchema = {
   access_token: string;
+  is_admin: boolean;
 };
 
 export const loginWithGoogle = async (ctx: Context) => {
   const bodySchema = Joi.object<LoginWithGoogleBodySchema>().keys({
     access_token: Joi.string().required(),
+    is_admin: Joi.boolean().required(),
   });
 
   if (!(await validateBodySchema(ctx, bodySchema))) {
@@ -21,24 +23,32 @@ export const loginWithGoogle = async (ctx: Context) => {
 
   const {
     access_token: accessToken,
+    is_admin: isAdmin,
   }: LoginWithGoogleBodySchema = ctx.request.body;
   try {
     const profile = await getGoogleProfile(accessToken);
 
     // 1. find social account if exists
-    const socialAccount = await getRepository(SocialAccount).findOne(
-      {
+    const socialAccount = await getRepository(SocialAccount).findOne({
+      where: {
         provider: 'google',
         social_id: profile.socialId,
       },
-      {
-        relations: ['user'],
-      }
-    );
+      relations: ['user'],
+    });
 
     // 2-1. not exists -> create user, socialAccount -> login
     // 2-2. exists -> login
     if (!socialAccount) {
+      if (isAdmin) {
+        ctx.status = 401;
+        ctx.body = {
+          name: 'NotAuthorized',
+          payload: 'This User is not Admin User',
+        };
+        return;
+      }
+
       const user = new User();
       user.email = profile.email;
       user.display_name = profile.displayName;
@@ -65,10 +75,11 @@ export const loginWithGoogle = async (ctx: Context) => {
     } else {
       const user = await getRepository(User).findOne({
         id: socialAccount.user.id,
+        ...(isAdmin ? { is_admin: isAdmin } : {}),
       });
 
       if (!user) {
-        ctx.status = 500;
+        ctx.status = 404;
         ctx.body = {
           name: 'UserNotFound',
           payload: 'User is not found Error',

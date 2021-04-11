@@ -16,7 +16,7 @@ const ReadPost = ({ slug }: ReadPostProps) => {
   const history = useHistory();
   // useFullScreenLoaderEffect(isLoading);
   if (isError) {
-    history.replace('/404');
+    history.push('/error?status=404');
   }
   return (
     <section css={postStyle}>

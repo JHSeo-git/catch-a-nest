@@ -11,6 +11,7 @@ import Post from './pages/Post';
 import ScrollToTop from './components/Layout/ScrollToTop';
 import AppInfo from './components/AppInfo';
 import { fontFamily } from './lib/styles/typography';
+import Error from './pages/Error';
 
 function App() {
   return (
@@ -44,6 +45,9 @@ function App() {
             </Route>
             <Route path={'/write/:slug?'}>
               <Write />
+            </Route>
+            <Route path="/error">
+              <Error />
             </Route>
           </Layout>
         </Switch>

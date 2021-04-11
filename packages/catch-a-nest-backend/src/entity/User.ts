@@ -22,6 +22,9 @@ export class User {
   @Column({ length: 255, nullable: true })
   photo_url?: string;
 
+  @Column({ default: false })
+  is_admin!: boolean;
+
   @Index()
   @CreateDateColumn({ type: 'timestamp' })
   created_at!: Date;

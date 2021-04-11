@@ -5,13 +5,20 @@ import media from '@src/lib/styles/media';
 import { responsiveWidth } from '@src/lib/styles/responsive';
 import { Link } from 'react-router-dom';
 
-export type ErrorInfoProps = {};
+type ErrorType = 'NotFound' | 'NotAuthorized';
 
-const ErrorInfo = (props: ErrorInfoProps) => {
+export type ErrorInfoProps = {
+  errorType?: ErrorType;
+};
+
+const ErrorInfo = ({ errorType = 'NotFound' }: ErrorInfoProps) => {
   return (
     <div css={block}>
       <div css={inner}>
-        <img src={undraw404} alt="404 Error" />
+        {errorType === 'NotFound' && <img src={undraw404} alt="404 Error" />}
+        {errorType === 'NotAuthorized' && (
+          <img src={undraw404} alt="404 Error" />
+        )}
         <Link css={linkStyle} to="/">
           Home
         </Link>
@@ -21,8 +28,10 @@ const ErrorInfo = (props: ErrorInfoProps) => {
 };
 
 const block = css`
+  height: 100%;
   background: white;
   display: flex;
+  align-items: center;
   justify-content: center;
   ${responsiveWidth};
 `;

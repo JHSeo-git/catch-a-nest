@@ -5,14 +5,19 @@ import { useEffect, useMemo, useRef } from 'react';
 import PostItem from './PostItem';
 import PostItemSkeleton from './PostItemSkeleton';
 import PostWriteButton from './PostWriteButton';
+import { useHistory } from 'react-router';
 
 export type PostListProps = {
   userId?: number;
 };
 
 const PostList = ({ userId }: PostListProps) => {
-  const { data, hasNextPage, fetchNextPage } = useGetPostsQuery(userId);
+  const { data, hasNextPage, fetchNextPage, isError } = useGetPostsQuery(
+    userId,
+    { retry: 3 }
+  );
   const ref = useRef<HTMLDivElement>(null);
+  const history = useHistory();
 
   const items = useMemo(() => {
     if (!data) return null;
@@ -40,6 +45,10 @@ const PostList = ({ userId }: PostListProps) => {
       observer.unobserve(el);
     };
   }, [items, observer]);
+
+  if (isError) {
+    history.push('/error?status=404');
+  }
 
   return (
     <>

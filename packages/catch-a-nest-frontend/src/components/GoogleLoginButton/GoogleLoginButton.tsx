@@ -15,7 +15,7 @@ const GoogleLoginButton = (props: GoogleLoginButtonProps) => {
 
   const onSuccess = useCallback(
     (googleUser: any) => {
-      login(googleUser?.getAuthResponse(true).access_token).then(() => {
+      login(googleUser?.getAuthResponse(true).access_token, true).then(() => {
         console.log('logged in');
         history.push('/');
       });

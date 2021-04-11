@@ -11,7 +11,7 @@ import useAppToast from './useAppToast';
 import { useEditingInfoValue } from '../states/editorState';
 
 export default function useEditor() {
-  const { editTargetSlug, isEdit } = useEditingInfoValue();
+  const { isEdit } = useEditingInfoValue();
   const editorRef = useRef<Editor>(null);
   const history = useHistory();
   const [, setEditorMarkdownValue] = useEditorMarkdownState();
