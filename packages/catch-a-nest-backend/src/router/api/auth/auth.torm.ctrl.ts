@@ -8,13 +8,13 @@ import { getManager, getRepository } from 'typeorm';
 
 type LoginWithGoogleBodySchema = {
   access_token: string;
-  is_admin: boolean;
+  admin_mode: boolean;
 };
 
 export const loginWithGoogle = async (ctx: Context) => {
   const bodySchema = Joi.object<LoginWithGoogleBodySchema>().keys({
     access_token: Joi.string().required(),
-    is_admin: Joi.boolean().required(),
+    admin_mode: Joi.boolean().required(),
   });
 
   if (!(await validateBodySchema(ctx, bodySchema))) {
@@ -23,7 +23,7 @@ export const loginWithGoogle = async (ctx: Context) => {
 
   const {
     access_token: accessToken,
-    is_admin: isAdmin,
+    admin_mode: adminMode,
   }: LoginWithGoogleBodySchema = ctx.request.body;
   try {
     const profile = await getGoogleProfile(accessToken);
@@ -40,7 +40,7 @@ export const loginWithGoogle = async (ctx: Context) => {
     // 2-1. not exists -> create user, socialAccount -> login
     // 2-2. exists -> login
     if (!socialAccount) {
-      if (isAdmin) {
+      if (adminMode) {
         ctx.status = 401;
         ctx.body = {
           name: 'NotAuthorized',
@@ -75,7 +75,7 @@ export const loginWithGoogle = async (ctx: Context) => {
     } else {
       const user = await getRepository(User).findOne({
         id: socialAccount.user.id,
-        ...(isAdmin ? { is_admin: isAdmin } : {}),
+        ...(adminMode ? { is_admin: true } : {}),
       });
 
       if (!user) {

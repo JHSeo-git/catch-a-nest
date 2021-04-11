@@ -3,18 +3,18 @@ import { User } from './types';
 
 type GoogleLoginPayload = {
   token: string;
-  isAdmin: boolean;
+  adminMode: boolean;
 };
 
 export default async function googleLogin({
   token,
-  isAdmin,
+  adminMode,
 }: GoogleLoginPayload) {
   const response = await axiosClient.post<GoogleSigninResult>(
     '/api/auth/google/login',
     {
       access_token: token,
-      is_admin: isAdmin,
+      admin_mode: adminMode,
     }
   );
 
