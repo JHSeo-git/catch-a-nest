@@ -103,21 +103,21 @@ export function useEditorContentActions() {
   const resetEditorTargetSlug = useResetRecoilState(editTargetSlugState);
 
   const reset = useCallback(() => {
+    resetShortDesciprtion();
+    resetThumbnail();
     resetMarkdown();
     resetTitle();
-    resetShortDesciprtion();
-    resetMode();
-    resetThumbnail();
-    resetIsEdit();
     resetEditorTargetSlug();
+    resetIsEdit();
+    resetMode();
   }, [
+    resetShortDesciprtion,
+    resetThumbnail,
     resetMarkdown,
     resetTitle,
-    resetShortDesciprtion,
-    resetMode,
-    resetThumbnail,
-    resetIsEdit,
     resetEditorTargetSlug,
+    resetIsEdit,
+    resetMode,
   ]);
 
   return {

@@ -46,7 +46,7 @@ export default function useWritePost() {
   }, [postContent, notify, history, editTargetSlug]);
 
   return {
-    onSave: isEdit ? onSave : onUpdate,
+    onSave: isEdit ? onUpdate : onSave,
     loading,
     error,
   };
