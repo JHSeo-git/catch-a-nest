@@ -28,12 +28,8 @@ export default function useEditor() {
   const onCancel = useCallback(() => {
     reset();
     clearAllToast();
-    if (isEdit) {
-      history.replace(`/post/${editTargetSlug}`);
-    } else {
-      history.replace('/');
-    }
-  }, [history, reset, clearAllToast, isEdit, editTargetSlug]);
+    history.goBack();
+  }, [history, reset, clearAllToast]);
 
   const onPostPageSave = () => {
     // validation
