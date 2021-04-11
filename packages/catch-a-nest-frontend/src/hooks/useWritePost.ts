@@ -23,7 +23,7 @@ export default function useWritePost() {
       notify(`Success Save Post: ${post.title}`, 'success');
       history.push('/');
     } catch (e) {
-      notify('❗️ Fail Save Post', 'error');
+      notify('Fail Save Post', 'error');
       setError('Save Post Error');
     } finally {
       setLoading(false);
