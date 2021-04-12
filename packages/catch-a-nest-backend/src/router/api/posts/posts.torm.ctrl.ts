@@ -24,19 +24,6 @@ export const saveNewPost = async (ctx: Context) => {
     return;
   }
 
-  const currentUser = await getRepository(User).findOne({
-    id: ctx.user?.id,
-  });
-
-  if (!currentUser) {
-    ctx.status = 404;
-    ctx.body = {
-      name: 'UserNotFound',
-      payload: 'Current User is not found',
-    };
-    return;
-  }
-
   const {
     title,
     body,
@@ -44,6 +31,19 @@ export const saveNewPost = async (ctx: Context) => {
     thumbnail,
   }: SaveNewPostBodySchema = ctx.request.body;
   try {
+    const currentUser = await getRepository(User).findOne({
+      id: ctx.user?.id,
+    });
+
+    if (!currentUser) {
+      ctx.status = 404;
+      ctx.body = {
+        name: 'UserNotFound',
+        payload: 'Current User is not found',
+      };
+      return;
+    }
+
     let urlSlug = generateUrlSlug(title);
     const exists = await getRepository(Post).findOne({
       url_slug: urlSlug,

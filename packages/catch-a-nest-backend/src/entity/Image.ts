@@ -1,26 +1,27 @@
 import {
-  Entity,
-  PrimaryGeneratedColumn,
   Column,
-  OneToOne,
-  JoinColumn,
-  Index,
   CreateDateColumn,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 import { User } from './User';
 
-@Entity({ name: 'social_accounts' })
-@Index(['provider', 'social_id'])
-export class SocialAccount {
+@Entity({ name: 'images' })
+export default class Image {
   @PrimaryGeneratedColumn()
   id!: number;
 
-  @Column({ length: 12 })
-  provider!: string;
+  @Column({ length: 255, nullable: true })
+  path?: string;
 
   @Column({ length: 255 })
-  social_id!: string;
+  type!: string;
+
+  @Column({ nullable: true })
+  filesize?: number;
 
   @CreateDateColumn({ type: 'timestamp' })
   created_at!: Date;
@@ -28,7 +29,7 @@ export class SocialAccount {
   @UpdateDateColumn({ type: 'timestamp' })
   updated_at!: Date;
 
-  @OneToOne(() => User, { cascade: true, onDelete: 'CASCADE' })
+  @ManyToOne(() => User, { cascade: true, onDelete: 'CASCADE' })
   @JoinColumn({ name: 'user_id' })
   user!: User;
 }

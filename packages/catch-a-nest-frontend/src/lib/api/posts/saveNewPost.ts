@@ -1,5 +1,5 @@
 import { EditorContent } from '@src/states/editorState';
-import axiosClient from '../../axiosClient';
+import axiosClient from '../axiosClient';
 import { Post } from './types';
 
 export default async function saveNewPost({

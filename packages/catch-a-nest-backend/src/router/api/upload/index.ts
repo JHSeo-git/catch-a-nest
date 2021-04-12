@@ -4,4 +4,6 @@ import * as uploadCtrl from './upload.torm.ctrl';
 
 const upload = new Router();
 
-upload.post('/image', checkAuth, uploadCtrl.uploadImage);
+upload.post('/image/create-upload-url', checkAuth, uploadCtrl.uploadImage);
+
+export default upload;

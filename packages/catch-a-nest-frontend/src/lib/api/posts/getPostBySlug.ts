@@ -1,4 +1,4 @@
-import axiosClient from '@src/lib/axiosClient';
+import axiosClient from '@src/lib/api/axiosClient';
 import { Post } from './types';
 
 export default async function getPostBySlug(slug: string) {

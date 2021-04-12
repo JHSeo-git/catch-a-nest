@@ -24,7 +24,6 @@ export class Category {
   @Column()
   url_slug!: string;
 
-  @Index()
   @CreateDateColumn({ type: 'timestamp' })
   created_at!: Date;
 

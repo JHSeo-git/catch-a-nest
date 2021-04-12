@@ -2,7 +2,7 @@
 
 import { User } from '../auth/types';
 
-export interface Post {
+export type Post = {
   id: number;
   title: string;
   body: string;
@@ -12,4 +12,4 @@ export interface Post {
   user: User;
   created_at: string;
   updated_at: string;
-}
+};

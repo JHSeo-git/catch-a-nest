@@ -1,4 +1,4 @@
-import axiosClient from '@src/lib/axiosClient';
+import axiosClient from '@src/lib/api/axiosClient';
 import { EditorContent } from '@src/states/editorState';
 import { Post } from './types';
 

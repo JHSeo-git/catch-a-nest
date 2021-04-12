@@ -6,12 +6,16 @@ import { syntaxHighlightPlugIn } from '@src/lib/editor/tuiPlugins';
 import useEditor from '@src/hooks/useEditor';
 import TuiStyleWrapper from './TuiStyleWrapper';
 import { useEditorMarkdownState } from '@src/states/editorState';
+import useUploadImage from '@src/hooks/useUploadImage';
+import useAppToast from '@src/hooks/useAppToast';
 
 export type EditorProps = {};
 
 const Editor = (props: EditorProps) => {
   const { editorRef, onChange, isEdit } = useEditor();
   const [markdown] = useEditorMarkdownState();
+  const { imageUrl, upload } = useUploadImage();
+  const { notify } = useAppToast();
 
   if (isEdit && !markdown) return null;
 
@@ -31,9 +35,16 @@ const Editor = (props: EditorProps) => {
         extendedAutolinks={true}
         usageStatistics={false}
         hooks={{
-          addImageBlobHook: (blob, callback) => {
-            console.log(blob, callback);
-            return false;
+          addImageBlobHook: async (blob, callback) => {
+            const file = blob as File;
+            try {
+              await upload({ file, type: 'post' });
+              if (!imageUrl) return;
+              callback(imageUrl, 'image url');
+            } catch (e) {
+              notify(`Image Upload Fail: ${e.name}`, 'error');
+            }
+            return true;
           },
         }}
       />

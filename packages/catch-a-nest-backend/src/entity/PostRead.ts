@@ -4,6 +4,8 @@ import {
   ManyToOne,
   JoinColumn,
   Column,
+  CreateDateColumn,
+  UpdateDateColumn,
 } from 'typeorm';
 import { Post } from './Post';
 
@@ -14,6 +16,12 @@ export class PostRead {
 
   @Column()
   ip_hash!: string;
+
+  @CreateDateColumn({ type: 'timestamp' })
+  created_at!: Date;
+
+  @UpdateDateColumn({ type: 'timestamp' })
+  updated_at!: Date;
 
   @ManyToOne(() => Post, { cascade: true, onDelete: 'CASCADE' })
   @JoinColumn({ name: 'post_id' })

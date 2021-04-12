@@ -6,6 +6,7 @@ export default function usePostDetail() {
     editorShortDescriptionValue,
     setEditorShortDescription,
   ] = useEditorShortDescriptionState();
+
   const onChangeEditorShortDescription = (
     e: React.ChangeEvent<HTMLTextAreaElement>
   ) => setEditorShortDescription(e.target.value);

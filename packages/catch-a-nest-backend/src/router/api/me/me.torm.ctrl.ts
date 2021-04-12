@@ -13,18 +13,22 @@ export const getMe = async (ctx: Context) => {
     };
     return;
   }
-  const userData = await getRepository(User).findOne({
-    id: user.id,
-  });
+  try {
+    const userData = await getRepository(User).findOne({
+      id: user.id,
+    });
 
-  if (!userData) {
-    ctx.status = 404;
-    ctx.body = {
-      name: 'UserNotFound',
-      payload: 'User is not found',
-    };
-    return;
+    if (!userData) {
+      ctx.status = 404;
+      ctx.body = {
+        name: 'UserNotFound',
+        payload: 'User is not found',
+      };
+      return;
+    }
+
+    ctx.body = userData;
+  } catch (e) {
+    ctx.throw(500, e);
   }
-
-  ctx.body = userData;
 };

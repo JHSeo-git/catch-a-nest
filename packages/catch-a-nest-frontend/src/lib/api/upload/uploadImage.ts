@@ -1,5 +1,17 @@
-import axiosClient from '@src/lib/axiosClient';
+import axiosClient from '@src/lib/api/axiosClient';
+import { UploadImagePayload, UploadImageUrl } from './types';
 
-export default async function uploadImage() {
-  const response = await axiosClient.post('/api/upload/image', {});
+export default async function uploadImage({
+  type,
+  filename,
+}: UploadImagePayload) {
+  const response = await axiosClient.post<UploadImageUrl>(
+    '/api/upload/image/create-upload-url',
+    {
+      type,
+      filename,
+    }
+  );
+
+  return response.data;
 }

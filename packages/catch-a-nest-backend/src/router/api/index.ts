@@ -2,6 +2,7 @@ import Router from '@koa/router';
 import auth from './auth';
 import me from './me';
 import posts from './posts';
+import upload from './upload';
 
 const api = new Router();
 
@@ -11,5 +12,6 @@ api.get('/', (ctx) => {
 api.use('/posts', posts.routes());
 api.use('/auth', auth.routes());
 api.use('/me', me.routes());
+api.use('/upload', upload.routes());
 
 export default api;
