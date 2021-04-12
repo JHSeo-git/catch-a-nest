@@ -1,3 +1,3 @@
 import { Context } from 'koa';
 
-export const upload = async (ctx: Context) => {};
+export const uploadImage = async (ctx: Context) => {};

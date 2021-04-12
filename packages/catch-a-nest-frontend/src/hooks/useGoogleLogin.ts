@@ -1,14 +1,13 @@
 import googleLogin from '@src/lib/api/auth/googleLogin';
 import { useGoogleTokenState } from '@src/states/authState';
-import { useCallback, useState } from 'react';
-import { useHistory } from 'react-router';
+import { useCallback } from 'react';
+import useAppToast from './useAppToast';
 import useAuthManage from './useAuthManage';
 
 export default function useGoogleLogin() {
   const [, setGoogleTokenState] = useGoogleTokenState();
-  const [error, setError] = useState<string | null>(null);
   const { loggedIn } = useAuthManage();
-  const history = useHistory();
+  const { notify } = useAppToast();
 
   const login = useCallback(
     async (accessToken: string, adminMode: boolean = false) => {
@@ -17,17 +16,18 @@ export default function useGoogleLogin() {
         const { user } = await googleLogin({ token: accessToken, adminMode });
         loggedIn(user);
       } catch (e) {
-        setError('Google Login Error');
-        history.push('/');
+        console.log(e.response);
+        if (e.response.status === 401) {
+          notify(`Login Fail: ${e.response.statusText}`, 'error');
+        }
       } finally {
         console.log('Google Login Process finally');
       }
     },
-    [setGoogleTokenState, loggedIn, history]
+    [setGoogleTokenState, loggedIn, notify]
   );
 
   return {
     login,
-    error,
   };
 }

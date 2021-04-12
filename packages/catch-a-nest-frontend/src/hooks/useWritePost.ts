@@ -19,8 +19,7 @@ export default function useWritePost() {
   const onSave = useCallback(async () => {
     try {
       setLoading(true);
-      const post = await savePost(postContent);
-      notify(`Success Save Post: ${post.title}`, 'success');
+      await savePost(postContent);
       history.push('/');
     } catch (e) {
       notify('Fail Save Post', 'error');
@@ -34,8 +33,7 @@ export default function useWritePost() {
     if (!editTargetSlug) return;
     try {
       setLoading(true);
-      const post = await updatePost(editTargetSlug, postContent);
-      notify(`Success Update Post: ${post.title}`, 'success');
+      await updatePost(editTargetSlug, postContent);
       history.push(`/post/${editTargetSlug}`);
     } catch (e) {
       notify('Fail Update Post', 'error');

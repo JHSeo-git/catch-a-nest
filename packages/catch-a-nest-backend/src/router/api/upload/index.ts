@@ -4,4 +4,4 @@ import * as uploadCtrl from './upload.torm.ctrl';
 
 const upload = new Router();
 
-upload.post('/image', checkAuth, uploadCtrl.upload);
+upload.post('/image', checkAuth, uploadCtrl.uploadImage);

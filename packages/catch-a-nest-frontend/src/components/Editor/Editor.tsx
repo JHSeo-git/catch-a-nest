@@ -30,6 +30,12 @@ const Editor = (props: EditorProps) => {
         plugins={[syntaxHighlightPlugIn]}
         extendedAutolinks={true}
         usageStatistics={false}
+        hooks={{
+          addImageBlobHook: (blob, callback) => {
+            console.log(blob, callback);
+            return false;
+          },
+        }}
       />
     </TuiStyleWrapper>
   );
