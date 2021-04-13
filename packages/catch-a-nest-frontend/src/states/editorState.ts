@@ -67,13 +67,13 @@ const editorContent = selector<EditorContent>({
     const title = get(editorTitleState);
     const body = get(editorMarkdownState);
     const shortDescription = get(editorShortDescriptionState);
-    const thumbnail = '';
+    const thumbnail = get(editorThumbnailState);
 
     return {
       title,
       body,
-      shortDescription,
-      thumbnail,
+      shortDescription: shortDescription ?? '',
+      thumbnail: thumbnail ?? '',
     };
   },
 });

@@ -14,7 +14,11 @@ const PostItem = ({ post }: PostItemProps) => {
       <Link css={itemStyle} to={`/post/${post.url_slug}`}>
         <div css={imageWrapper}>
           {post.thumbnail ? (
-            <img src={post.thumbnail} alt="post thumbnail" />
+            <img
+              css={thumbnailImage}
+              src={post.thumbnail}
+              alt="post thumbnail"
+            />
           ) : (
             <div css={imageEmptySection(post.id)}></div>
           )}
@@ -56,6 +60,13 @@ const imageWrapper = css`
 const imageEmptySection = (index: number) => css`
   height: 100%;
   background: ${palette.colorArray[index % palette.colorArray.length][200]};
+`;
+
+const thumbnailImage = css`
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 `;
 
 const infoWrapper = css`

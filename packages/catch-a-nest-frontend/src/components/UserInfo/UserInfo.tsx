@@ -11,6 +11,8 @@ const UserInfo = (props: UserInfoProps) => {
   const [user] = useUserState();
   const { logout } = useAuthManage();
 
+  if (!user) return null;
+
   return (
     <div css={block}>
       {user ? (
@@ -48,8 +50,14 @@ const buttonStyle = css`
   border-radius: 0.1875rem;
   font-size: 1rem;
   font-weight: bold;
-  transition: all 0.2s ease-in-out;
+  transition: all 0.1s ease-in-out;
   color: ${palette.blueGrey[600]};
+  &:hover {
+    color: ${palette.blueGrey[400]};
+  }
+  &:active {
+    color: ${palette.blueGrey[500]};
+  }
   &:disabled {
     opacity: 0.6;
   }
