@@ -276,7 +276,8 @@ const tuiStyle = css`
     }
 
     img {
-      margin: 0.875rem 0;
+      display: block;
+      margin: 0.875rem auto;
       max-width: 100%;
     }
 

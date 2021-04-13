@@ -24,13 +24,14 @@ export default function useUploadImage() {
         setLoading(true);
         const uploadInfo = await uploadImage({ type, filename: file.name });
         const { image_path, signed_url } = uploadInfo;
-        console.log(image_path, signed_url);
         await axios.put(signed_url, file, {
           headers: {
             'Content-Type': file.type,
           },
         });
         setImageUrl(image_path);
+
+        return image_path;
       } catch (e) {
         setError(e);
       } finally {

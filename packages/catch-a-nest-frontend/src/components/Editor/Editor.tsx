@@ -14,7 +14,7 @@ export type EditorProps = {};
 const Editor = (props: EditorProps) => {
   const { editorRef, onChange, isEdit } = useEditor();
   const [markdown] = useEditorMarkdownState();
-  const { imageUrl, upload } = useUploadImage();
+  const { upload } = useUploadImage();
   const { notify } = useAppToast();
 
   if (isEdit && !markdown) return null;
@@ -38,13 +38,13 @@ const Editor = (props: EditorProps) => {
           addImageBlobHook: async (blob, callback) => {
             const file = blob as File;
             try {
-              await upload({ file, type: 'post' });
+              const imageUrl = await upload({ file, type: 'post' });
               if (!imageUrl) return;
-              callback(imageUrl, 'image url');
+              console.log(imageUrl);
+              callback(imageUrl, file.name);
             } catch (e) {
               notify(`Image Upload Fail: ${e.name}`, 'error');
             }
-            return true;
           },
         }}
       />
