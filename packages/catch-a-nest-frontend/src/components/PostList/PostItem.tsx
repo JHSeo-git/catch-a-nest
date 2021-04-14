@@ -1,6 +1,7 @@
 import { css } from '@emotion/react';
 import { Post } from '@src/lib/api/posts/types';
 import palette from '@src/lib/palette';
+import media from '@src/lib/styles/media';
 import { stringToDateLocalString } from '@src/lib/utils/dateUtils';
 import { Link } from 'react-router-dom';
 
@@ -55,6 +56,9 @@ const itemStyle = css`
 
 const imageWrapper = css`
   width: 11.25rem;
+  ${media.sm} {
+    width: 5rem;
+  }
 `;
 
 const imageEmptySection = (index: number) => css`
@@ -90,6 +94,9 @@ const infoWrapper = css`
     -webkit-box-orient: vertical;
     overflow: hidden;
     text-overflow: ellipsis;
+    ${media.sm} {
+      font-size: 1.5rem;
+    }
   }
   p {
     margin: 0;

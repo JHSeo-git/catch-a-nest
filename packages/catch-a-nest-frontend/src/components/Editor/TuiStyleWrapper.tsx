@@ -4,6 +4,7 @@ import { css } from '@emotion/react';
 import React from 'react';
 import palette from '@src/lib/palette';
 import { fontFamily } from '@src/lib/styles/typography';
+import media from '@src/lib/styles/media';
 
 export type TuiStyleWrapperProps = {
   children?: React.ReactNode;
@@ -17,6 +18,26 @@ const tuiStyle = css`
   height: 100%;
   position: relative;
 
+  .tui-editor {
+    .te-editor {
+      ${media.md} {
+        width: 100%;
+      }
+    }
+    .te-md-splitter {
+      ${media.md} {
+        display: none;
+      }
+    }
+    .te-preview {
+      ${media.md} {
+        display: none;
+        padding: 0;
+        width: 0;
+      }
+    }
+  }
+
   .te-editor {
     .CodeMirror {
       ${fontFamily}
@@ -25,6 +46,10 @@ const tuiStyle = css`
       flex-direction: column;
       line-height: 1.5;
       color: ${palette.blueGrey[900]};
+
+      ${media.md} {
+        font-size: 1rem;
+      }
 
       * {
         font-family: inherit;
@@ -128,6 +153,10 @@ const tuiStyle = css`
       .tui-md-code-block {
         font-family: SFMono-Regular, Consolas, Liberation Mono, Menlo, monospace;
         font-size: 1rem;
+
+        ${media.md} {
+          font-size: 0.875rem;
+        }
       }
 
       .tui-md-heading1,
@@ -145,6 +174,10 @@ const tuiStyle = css`
         padding-bottom: 0.5rem;
         font-size: 2rem;
         color: ${palette.blueGrey[900]};
+
+        ${media.md} {
+          font-size: 1.5rem;
+        }
       }
 
       .tui-md-heading2 {
@@ -152,18 +185,29 @@ const tuiStyle = css`
         padding-bottom: 0.5rem;
         font-size: 1.75rem;
         color: ${palette.blueGrey[900]};
+
+        ${media.md} {
+          font-size: 1.5rem;
+        }
       }
 
       .tui-md-heading3 {
         margin: 0.5rem 0;
         font-size: 1.5rem;
         color: ${palette.blueGrey[800]};
+
+        ${media.md} {
+          font-size: 1.25rem;
+        }
       }
 
       .tui-md-heading4 {
         margin: 0.5rem 0;
         font-size: 1.25rem;
         color: ${palette.blueGrey[800]};
+        ${media.md} {
+          font-size: 1rem;
+        }
       }
 
       .tui-md-heading5 {
@@ -187,6 +231,10 @@ const tuiStyle = css`
     display: flex;
     flex-direction: column;
     line-height: 1.5;
+
+    ${media.lg} {
+      font-size: 1rem;
+    }
 
     * {
       line-height: inherit;

@@ -7,13 +7,9 @@ export const responsiveWidth = css`
   // margin-left + margin-right: 800px;
   width: 64rem;
   ${media.xxxl} {
-    width: 50rem;
+    width: 48rem;
   }
-
-  ${media.xxl} {
-    width: 36rem;
-  }
-  ${media.xs} {
+  ${media.sm} {
     width: 100%;
     margin: 0;
     padding-left: 1rem;
@@ -21,7 +17,7 @@ export const responsiveWidth = css`
   }
 `;
 
-export const writePostDetailResponsiveWidth = css`
+export const responsiveModalWidth = css`
   width: 40rem;
   ${media.sm} {
     width: 100%;
@@ -31,7 +27,7 @@ export const writePostDetailResponsiveWidth = css`
 `;
 
 export const responsiveReadPostToc = css`
-  ${media.lg} {
+  ${media.custom(1550)} {
     display: none;
   }
 `;

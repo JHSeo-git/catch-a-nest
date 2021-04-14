@@ -1,12 +1,12 @@
 import { css } from '@emotion/react';
+import AppButton from '@src/components/AppButton';
 import useEditor from '@src/hooks/useEditor';
 import useWritePost from '@src/hooks/useWritePost';
 import palette from '@src/lib/palette';
 import { slideUp } from '@src/lib/styles/animation';
-import { writePostDetailResponsiveWidth } from '@src/lib/styles/responsive';
+import { responsiveModalWidth } from '@src/lib/styles/responsive';
 import { useEditorTitleState } from '@src/states/editorState';
 import Modal from '../../Modal';
-import WritePostButton from '../WritePostButton';
 import WritePostDetailImage from './WritePostDetailImage';
 import WritePostDetailInput from './WritePostDetailInput';
 
@@ -28,13 +28,13 @@ const WritePostDetail = ({ onSaveOrUpdate }: WritePostDetailProps) => {
         <WritePostDetailImage />
         <WritePostDetailInput />
         <div css={btnGroup}>
-          <WritePostButton
-            text="Cancel"
-            type="normal"
+          <AppButton
+            text="CANCEL"
+            type="secondary"
             onClick={onDetailPageCancel}
           />
-          <WritePostButton
-            text={isEdit ? 'Update' : 'Save'}
+          <AppButton
+            text={isEdit ? 'UPDATE' : 'SAVE'}
             type="primary"
             onClick={onSaveOrUpdate}
             loading={loading}
@@ -61,7 +61,7 @@ const titleStyle = css`
 `;
 
 const detailWrapper = css`
-  ${writePostDetailResponsiveWidth};
+  ${responsiveModalWidth};
   background: white;
   border-radius: 0.5rem;
   padding: 2rem;

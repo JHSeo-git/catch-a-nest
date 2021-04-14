@@ -9,7 +9,7 @@ function AppInfo(props: AppInfoProps) {
   return (
     <div css={block}>
       <p className="copywrite">&#169; 2021</p>
-      <Link className="name" to="/" target="_blank">
+      <Link className="name" to="https://github.com/JHSeo-git" target="_blank">
         JHSeo
       </Link>
     </div>

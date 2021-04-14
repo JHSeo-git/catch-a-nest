@@ -1,6 +1,6 @@
 import { css } from '@emotion/react';
 import useEditor from '@src/hooks/useEditor';
-import WritePostButton from './WritePostButton';
+import AppButton from '../AppButton';
 
 export type WritePostFooterProps = {};
 
@@ -8,13 +8,13 @@ const WritePostFooter = (props: WritePostFooterProps) => {
   const { onCancel, onPostPageSave } = useEditor();
   return (
     <footer css={footerStyle}>
-      <WritePostButton
+      <AppButton
         type="normal"
-        text="Back"
+        text="BACK"
         onClick={onCancel}
         preIconName="arrowLeft"
       />
-      <WritePostButton type="primary" text="Post" onClick={onPostPageSave} />
+      <AppButton type="primary" text="POST" onClick={onPostPageSave} />
     </footer>
   );
 };
@@ -24,8 +24,8 @@ const footerStyle = css`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding-right: 2rem;
-  padding-left: 2rem;
+  padding-right: 1rem;
+  padding-left: 1rem;
 `;
 
 export default WritePostFooter;

@@ -8,5 +8,6 @@ posts.get('/', postCtrl.getPosts);
 posts.get('/:slug', postCtrl.getPostBySlug);
 posts.post('/new', checkAuth, postCtrl.saveNewPost);
 posts.put('/:slug', checkAuth, postCtrl.updatePost);
+posts.delete('/:slug', checkAuth, postCtrl.deletePostBySlug);
 
 export default posts;

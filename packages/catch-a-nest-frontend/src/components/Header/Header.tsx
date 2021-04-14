@@ -30,6 +30,8 @@ const sectionStyle = css`
 `;
 
 const logoStyle = css`
+  display: flex;
+  align-items: center;
   img {
     height: 2.5rem;
   }

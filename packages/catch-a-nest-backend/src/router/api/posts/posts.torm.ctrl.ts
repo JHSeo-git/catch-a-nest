@@ -172,3 +172,48 @@ export const getPostBySlug = async (ctx: Context) => {
     ctx.throw(500, e);
   }
 };
+
+export const deletePostBySlug = async (ctx: Context) => {
+  try {
+    const params = ctx.params;
+    const { slug } = params;
+
+    if (!slug) {
+      ctx.status = 404;
+      ctx.body = {
+        name: 'NotFoundSlug',
+        payload: 'It not Found url slug in request',
+      };
+      return;
+    }
+
+    const postRepository = getRepository(Post);
+    const post = await postRepository.findOne({
+      url_slug: slug,
+    });
+
+    if (!post) {
+      ctx.status = 404;
+      ctx.body = {
+        name: 'NotFoundPost',
+        payload: 'It not Found Post by slug',
+      };
+      return;
+    }
+
+    const removed = await postRepository.remove(post);
+
+    if (!removed) {
+      ctx.status = 500;
+      ctx.body = {
+        name: 'FailedDeletePost',
+        payload: 'Failed delte a Post by slug',
+      };
+      return;
+    }
+
+    ctx.status = 204;
+  } catch (e) {
+    ctx.throw(500, e);
+  }
+};

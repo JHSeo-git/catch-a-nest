@@ -1,0 +1,11 @@
+app:
+  site: 'https://seonest.io'
+  introduction: 'JHSeo's A nest...'
+  meta:
+    title: 'seo-next'  
+  author:
+    name: 'JHSeo'
+    social:
+      github: 'https://github.com/JHSeo-git'
+      blog: 'https://seonest.io'
+      email: 'qnfqnfqnf@gmail.com'

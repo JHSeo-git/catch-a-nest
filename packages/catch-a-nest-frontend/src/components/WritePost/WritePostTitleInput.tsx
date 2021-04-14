@@ -1,5 +1,6 @@
 import { css } from '@emotion/react';
 import palette from '@src/lib/palette';
+import media from '@src/lib/styles/media';
 import { useEditorTitleState } from '@src/states/editorState';
 import TextareaAutosize from 'react-textarea-autosize';
 
@@ -36,6 +37,9 @@ const inputStyle = css`
   line-height: 1.5;
   &::placeholder {
     color: ${palette.blueGrey[200]};
+  }
+  ${media.md} {
+    font-size: 2.25rem;
   }
 `;
 

@@ -6,25 +6,28 @@ import { resetButton } from '@src/lib/styles/resetButton';
 import AppIcon from '../AppIcon';
 import { IconType } from '../AppIcon/AppIcon';
 
-export type WritePostButtonProps = {
+export type AppButtonProps = {
   text: string;
   onClick(): void;
   type?: ButtonType;
   loading?: boolean;
   preIconName?: IconType;
+  size?: SizeType;
 };
 
-type ButtonType = 'primary' | 'normal';
+type SizeType = 'normal' | 'big' | 'small';
+type ButtonType = 'primary' | 'normal' | 'secondary' | 'thirdary';
 
-const WritePostButton = ({
+const AppButton = ({
   text,
   onClick,
   type = 'normal',
   loading = false,
   preIconName,
-}: WritePostButtonProps) => {
+  size = 'normal',
+}: AppButtonProps) => {
   return (
-    <button css={buttonStyle(type)} onClick={onClick} disabled={loading}>
+    <button css={buttonStyle(type, size)} onClick={onClick} disabled={loading}>
       {loading ? (
         <AppIcon className="spinner" name="spinner" />
       ) : (
@@ -37,7 +40,7 @@ const WritePostButton = ({
   );
 };
 
-const buttonStyle = (type: ButtonType) => css`
+const buttonStyle = (type: ButtonType, size: SizeType) => css`
   ${resetButton};
   cursor: pointer;
   height: 2.5rem;
@@ -48,8 +51,14 @@ const buttonStyle = (type: ButtonType) => css`
   font-weight: bold;
   color: ${palette.blueGrey[900]};
   transition: all 0.1s ease-in-out;
-  background: white;
-  border: 0.0625rem solid ${palette.blueGrey[300]};
+  background: ${palette.blueGrey[50]};
+
+  ${size === 'small' &&
+  css`
+    font-size: 1rem;
+    height: 2rem;
+    width: 5rem;
+  `}
 
   display: flex;
   align-items: center;
@@ -66,13 +75,17 @@ const buttonStyle = (type: ButtonType) => css`
   }
 
   &:hover {
+    background: ${palette.grey[100]};
     .pre-icon {
       transform: translate3d(-0.25rem, 0, 0);
     }
   }
+  &:active {
+    background: ${palette.grey[200]};
+  }
   &:disabled {
     cursor: not-allowed;
-    background: ${palette.blueGrey[100]};
+    opacity: 0.6;
   }
 
   ${type === 'primary' &&
@@ -81,10 +94,54 @@ const buttonStyle = (type: ButtonType) => css`
     color: white;
     background: ${palette.lightBlue[500]};
 
-    &:disabled {
+    &:hover {
       background: ${palette.lightBlue[300]};
+    }
+
+    &:active {
+      background: ${palette.lightBlue[400]};
+    }
+
+    &:disabled {
+      opacity: 0.6;
+    }
+  `}
+  ${type === 'secondary' &&
+  css`
+    border: none;
+    color: white;
+    background: ${palette.blueGrey[500]};
+
+    &:hover {
+      background: ${palette.blueGrey[300]};
+    }
+
+    &:active {
+      background: ${palette.blueGrey[400]};
+    }
+
+    &:disabled {
+      opacity: 0.6;
+    }
+  `}
+  ${type === 'thirdary' &&
+  css`
+    border: none;
+    color: white;
+    background: ${palette.red[500]};
+
+    &:hover {
+      background: ${palette.red[300]};
+    }
+
+    &:active {
+      background: ${palette.red[400]};
+    }
+
+    &:disabled {
+      opacity: 0.6;
     }
   `}
 `;
 
-export default WritePostButton;
+export default AppButton;

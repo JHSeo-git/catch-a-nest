@@ -6,4 +6,5 @@ export const resetButton = css`
   background: none;
   padding: 0;
   font-family: inherit;
+  user-select: none;
 `;
