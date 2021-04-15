@@ -1,7 +1,6 @@
 import { css } from '@emotion/react';
 import palette from '@src/lib/palette';
 import { responsiveWidth } from '@src/lib/styles/responsive';
-import { Link } from 'react-router-dom';
 
 export type AppInfoProps = {};
 
@@ -9,9 +8,14 @@ function AppInfo(props: AppInfoProps) {
   return (
     <div css={block}>
       <p className="copywrite">&#169; 2021</p>
-      <Link className="name" to="https://github.com/JHSeo-git" target="_blank">
+      <a
+        rel="noreferrer"
+        className="name"
+        href="https://github.com/JHSeo-git"
+        target="_blank"
+      >
         JHSeo
-      </Link>
+      </a>
     </div>
   );
 }
