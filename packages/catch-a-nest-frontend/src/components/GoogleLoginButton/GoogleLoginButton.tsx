@@ -1,4 +1,5 @@
 import { css } from '@emotion/react';
+import useAppToast from '@src/hooks/useAppToast';
 import useGoogleLogin from '@src/hooks/useGoogleLogin';
 import palette from '@src/lib/palette';
 import { resetButton } from '@src/lib/styles/resetButton';
@@ -12,20 +13,23 @@ const GoogleLoginButton = (props: GoogleLoginButtonProps) => {
   const buttonRef = useRef<HTMLButtonElement>(null);
   const { login } = useGoogleLogin();
   const history = useHistory();
+  const { notify } = useAppToast();
 
   const onSuccess = useCallback(
     (googleUser: any) => {
       login(googleUser?.getAuthResponse(true).access_token, true).then(() => {
-        console.log('logged in');
         history.push('/');
       });
     },
     [login, history]
   );
 
-  const onFailure = useCallback((e: any) => {
-    console.log(e);
-  }, []);
+  const onFailure = useCallback(
+    (e: any) => {
+      notify('Failed Google Login');
+    },
+    [notify]
+  );
 
   useEffect(() => {
     window.gapi.load('auth2', function () {

@@ -1,11 +1,11 @@
 import { css } from '@emotion/react';
-import { undraw404 } from '@src/assets/images';
+import { undraw401, undraw404 } from '@src/assets/images';
 import palette from '@src/lib/palette';
 import media from '@src/lib/styles/media';
 import { responsiveWidth } from '@src/lib/styles/responsive';
 import { Link } from 'react-router-dom';
 
-type ErrorType = 'NotFound' | 'NotAuthorized';
+export type ErrorType = 'NotFound' | 'NotAuthorized';
 
 export type ErrorInfoProps = {
   errorType?: ErrorType;
@@ -17,7 +17,7 @@ const ErrorInfo = ({ errorType = 'NotFound' }: ErrorInfoProps) => {
       <div css={inner}>
         {errorType === 'NotFound' && <img src={undraw404} alt="404 Error" />}
         {errorType === 'NotAuthorized' && (
-          <img src={undraw404} alt="404 Error" />
+          <img src={undraw401} alt="401 Error" />
         )}
         <Link css={linkStyle} to="/">
           Home

@@ -15,7 +15,6 @@ export default function useDeletePost() {
 
   const onDelete = useCallback(
     async (slug: string) => {
-      console.log(slug);
       if (!slug) return;
       try {
         setLoading(true);

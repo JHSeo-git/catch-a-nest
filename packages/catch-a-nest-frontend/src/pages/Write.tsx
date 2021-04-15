@@ -5,7 +5,7 @@ import {
   useIsEditState,
 } from '@src/states/editorState';
 import { useEffect } from 'react';
-import { useParams } from 'react-router';
+import { useHistory, useParams } from 'react-router';
 
 export type WriteProps = {};
 
@@ -18,6 +18,7 @@ const Write = (props: WriteProps) => {
   const { slug } = useParams<WriteParams>();
   const [, setIsEdit] = useIsEditState();
   const [, setEditTargetSlug] = useEditTargetSlugState();
+  const history = useHistory();
 
   useEffect(() => {
     if (!slug) return;
@@ -25,7 +26,9 @@ const Write = (props: WriteProps) => {
     setEditTargetSlug(slug);
   }, [slug, setIsEdit, setEditTargetSlug]);
 
-  if (!user) return null;
+  if (!user) {
+    history.push('/error?status=401');
+  }
 
   return <WritePost />;
 };

@@ -16,12 +16,9 @@ export default function useGoogleLogin() {
         const { user } = await googleLogin({ token: accessToken, adminMode });
         loggedIn(user);
       } catch (e) {
-        console.log(e.response);
         if (e.response.status === 401) {
           notify(`Login Fail: ${e.response.statusText}`, 'error');
         }
-      } finally {
-        console.log('Google Login Process finally');
       }
     },
     [setGoogleTokenState, loggedIn, notify]

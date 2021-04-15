@@ -10,14 +10,15 @@ type QuerystringParams = {
 
 const Error = (props: ErrorProps) => {
   const location = useLocation();
-  console.log(location);
-  const query: QuerystringParams = qs.parse(location.search, {
+  const { status }: QuerystringParams = qs.parse(location.search, {
     ignoreQueryPrefix: true,
   });
 
-  console.log(query.status);
-
-  return <ErrorInfo />;
+  return (
+    <ErrorInfo
+      errorType={status && status === '404' ? 'NotFound' : 'NotAuthorized'}
+    />
+  );
 };
 
 export default Error;

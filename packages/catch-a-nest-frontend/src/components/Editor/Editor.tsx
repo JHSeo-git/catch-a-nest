@@ -40,7 +40,6 @@ const Editor = (props: EditorProps) => {
             try {
               const imageUrl = await upload({ file, type: 'post' });
               if (!imageUrl) return;
-              console.log(imageUrl);
               callback(imageUrl, file.name);
             } catch (e) {
               notify(`Image Upload Fail: ${e.name}`, 'error');

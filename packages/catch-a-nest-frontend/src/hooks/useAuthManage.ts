@@ -21,9 +21,7 @@ export default function useAuthManage() {
     userStorage.clear();
     try {
       const auth2 = window.gapi.auth2.getAuthInstance();
-      auth2.signOut().then(() => {
-        console.log('logged out google');
-      });
+      auth2.signOut();
     } catch (e) {}
   };
 

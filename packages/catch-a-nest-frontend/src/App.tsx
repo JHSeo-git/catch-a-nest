@@ -1,6 +1,6 @@
 import React from 'react';
 import { css, Global } from '@emotion/react';
-import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
 import Admin from './pages/Admin';
 import Posts from './pages/Posts';
 import Layout from './components/Layout';
@@ -50,6 +50,7 @@ function App() {
               <Error />
             </Route>
           </Layout>
+          <Redirect to="/error" />
         </Switch>
       </BrowserRouter>
     </>
