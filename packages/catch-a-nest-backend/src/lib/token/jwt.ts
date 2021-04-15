@@ -1,4 +1,5 @@
 import jwt, { SignOptions } from 'jsonwebtoken';
+import { Context } from 'koa';
 
 const { JWT_SECRET } = process.env;
 
@@ -46,4 +47,19 @@ export async function decodeToken<T>(token: string) {
   });
 
   return promise;
+}
+
+export function setTokenCookie(
+  ctx: Context,
+  tokens: { accessToken: string; refreshToken: string }
+) {
+  ctx.cookies.set('access_token', tokens.accessToken, {
+    httpOnly: true,
+    maxAge: 1000 * 60 * 60,
+  });
+
+  ctx.cookies.set('refresh_token', tokens.refreshToken, {
+    httpOnly: true,
+    maxAge: 1000 * 60 * 60 * 24 * 30,
+  });
 }

@@ -2,6 +2,7 @@ import { SocialAccount } from '@src/entity/SocialAccount';
 import { User } from '@src/entity/User';
 import { validateBodySchema } from '@src/lib/common';
 import getGoogleProfile from '@src/lib/google/getGoogleProfile';
+import { setTokenCookie } from '@src/lib/token/jwt';
 import Joi from 'joi';
 import { Context } from 'koa';
 import { getManager, getRepository } from 'typeorm';
@@ -62,15 +63,15 @@ export const loginWithGoogle = async (ctx: Context) => {
       const manager = getManager();
       await manager.save([user, newSocialAccount]);
 
-      const token = await user.generateToken();
-      ctx.cookies.set('access_token', token, {
-        httpOnly: true,
-        maxAge: 1000 * 60 * 60 * 24 * 7,
-      });
+      const tokens = await user.generateUserToken();
+      setTokenCookie(ctx, tokens);
 
       ctx.body = {
         user,
-        access_token: token,
+        tokens: {
+          access_token: tokens.accessToken,
+          refresh_token: tokens.refreshToken,
+        },
       };
     } else {
       const user = await getRepository(User).findOne({
@@ -87,21 +88,18 @@ export const loginWithGoogle = async (ctx: Context) => {
         return;
       }
 
-      const token = await user.generateToken();
-      ctx.cookies.set('access_token', token, {
-        httpOnly: true,
-        maxAge: 1000 * 60 * 60 * 24 * 7,
-      });
+      const tokens = await user.generateUserToken();
+      setTokenCookie(ctx, tokens);
 
       ctx.body = {
         user,
-        access_token: token,
+        tokens: {
+          access_token: tokens.accessToken,
+          refresh_token: tokens.refreshToken,
+        },
       };
     }
-    // make jwt
   } catch (e) {
-    // console.log(e);
-    // TODO: Google Error try-catch
     ctx.throw(500, e);
   }
 };

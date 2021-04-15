@@ -1,10 +1,10 @@
 - @emotion/react
   - @emotion/babel-preset-css-prop
 - react-router-dom
-  - @types/
 - craco
 - recoil
 - axios
 - tui.editor
 - react-textarea-autosize
+- markdown-it
 - react-query
