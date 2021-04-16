@@ -35,15 +35,16 @@ const jwtMiddleware: Middleware = async (ctx, next) => {
       throw new Error('NoAccessToken');
     }
     const accessTokenData = await decodeToken<AccessTokenDecoded>(accessToken);
-    ctx.user = {
-      id: accessTokenData.userId,
-      exp: accessTokenData.exp,
-    };
 
     const diff = accessTokenData.exp * 1000 - new Date().getTime();
     // half of 1h
     if (diff < 1000 * 60 * 30 && refreshToken) {
-      await refresh(ctx, refreshToken);
+      ctx.user = await refresh(ctx, refreshToken);
+    } else {
+      ctx.user = {
+        id: accessTokenData.userId,
+        exp: accessTokenData.exp,
+      };
     }
   } catch (e) {
     if (!refreshToken) {

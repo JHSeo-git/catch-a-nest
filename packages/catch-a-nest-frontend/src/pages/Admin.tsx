@@ -1,6 +1,7 @@
 import React from 'react';
 import SignPanel from '@src/components/SignPanel';
 import { useUserState } from '@src/states/authState';
+import { Helmet } from 'react-helmet-async';
 
 export type AdminProps = {};
 
@@ -8,7 +9,14 @@ const Admin = (props: AdminProps) => {
   const [user] = useUserState();
 
   if (user) return null;
-  return <SignPanel />;
+  return (
+    <>
+      <Helmet>
+        <title>Login (Admin) – Seo Nest</title>
+      </Helmet>
+      <SignPanel />
+    </>
+  );
 };
 
 export default Admin;

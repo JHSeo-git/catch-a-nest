@@ -11,6 +11,7 @@ import { useUserState } from '@src/states/authState';
 import AppButton from '../AppButton';
 import useDeletePost from '@src/hooks/useDeletePost';
 import DeletePostModal from '../Modal/DeletePostModal';
+import { Helmet } from 'react-helmet-async';
 
 export type ReadPostProps = {
   slug: string;
@@ -30,6 +31,9 @@ const ReadPost = ({ slug }: ReadPostProps) => {
 
   return (
     <>
+      <Helmet>
+        <title>{post.title}</title>
+      </Helmet>
       <section css={postStyle}>
         <h1 className="title">{post.title}</h1>
         <div className="sub-info">

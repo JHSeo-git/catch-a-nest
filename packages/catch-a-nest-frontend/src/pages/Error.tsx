@@ -1,6 +1,8 @@
+import React from 'react';
 import { useLocation } from 'react-router';
 import qs from 'qs';
 import ErrorInfo from '@src/components/ErrorInfo';
+import { Helmet } from 'react-helmet-async';
 
 export type ErrorProps = {};
 
@@ -15,9 +17,14 @@ const Error = (props: ErrorProps) => {
   });
 
   return (
-    <ErrorInfo
-      errorType={status && status === '404' ? 'NotFound' : 'NotAuthorized'}
-    />
+    <>
+      <Helmet>
+        <title>Error – Seo Nest</title>
+      </Helmet>
+      <ErrorInfo
+        errorType={status && status === '404' ? 'NotFound' : 'NotAuthorized'}
+      />
+    </>
   );
 };
 

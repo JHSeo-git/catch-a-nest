@@ -7,13 +7,16 @@ import WritePostDetail from './WritePostDetail';
 import WritePostFooter from './WritePostFooter';
 import useWritePost from '@src/hooks/useWritePost';
 import useEditorLoad from '@src/hooks/useEditorLoad';
+import { Helmet } from 'react-helmet-async';
+import { useEditorTitleState } from '@src/states/editorState';
 
 export type WritePostProps = {};
 
 const WritePost = (props: WritePostProps) => {
-  const { reset } = useEditor();
+  const { reset, isEdit } = useEditor();
   const { onSave } = useWritePost();
-  useEditorLoad();
+  const [postTitle] = useEditorTitleState();
+  const { isLoading } = useEditorLoad();
 
   useEffect(() => {
     return () => {
@@ -23,6 +26,11 @@ const WritePost = (props: WritePostProps) => {
 
   return (
     <>
+      <Helmet>
+        {!isLoading && (
+          <title>{isEdit ? `Edit – ${postTitle}` : 'New Post'}</title>
+        )}
+      </Helmet>
       <section css={panelStyle}>
         <WritePostTitle />
         <Editor />

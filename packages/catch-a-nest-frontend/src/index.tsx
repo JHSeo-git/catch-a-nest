@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { RecoilRoot } from 'recoil';
 import { QueryClientProvider, QueryClient } from 'react-query';
+import { HelmetProvider } from 'react-helmet-async';
 import App from '@src/App';
 import reportWebVitals from '@src/reportWebVitals';
 import appInitialize from './states/appInitialize';
@@ -19,10 +20,12 @@ const queryClient = new QueryClient({
 ReactDOM.render(
   <React.StrictMode>
     <RecoilRoot initializeState={appInitialize}>
-      <DebugObserver />
-      <QueryClientProvider client={queryClient}>
-        <App />
-      </QueryClientProvider>
+      <HelmetProvider>
+        <DebugObserver />
+        <QueryClientProvider client={queryClient}>
+          <App />
+        </QueryClientProvider>
+      </HelmetProvider>
     </RecoilRoot>
   </React.StrictMode>,
   document.getElementById('root')
