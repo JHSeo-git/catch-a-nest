@@ -2,10 +2,10 @@ app:
   site: 'https://seonest.io'
   introduction: 'JHSeo's A nest...'
   meta:
-    title: 'seo-next'  
+    title: 'seo-nest'  
   author:
     name: 'JHSeo'
     social:
       github: 'https://github.com/JHSeo-git'
-      blog: 'https://seonest.io'
+      blog: 'https://seo-nest.dev'
       email: 'qnfqnfqnf@gmail.com'
