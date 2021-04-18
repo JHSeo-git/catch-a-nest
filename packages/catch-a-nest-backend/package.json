@@ -1,7 +1,9 @@
 {
   "name": "catch-a-nest-backend",
   "version": "0.0.1",
-  "description": "Awesome project developed with TypeORM.",
+  "auth": "jhseo <qnfqnfqnf@gmail.com>",
+  "description": "JHSeo's blog(or nest)",
+  "license": "MIT",
   "devDependencies": {
     "@types/jsonwebtoken": "^8.5.0",
     "@types/koa": "^2.13.1",
@@ -19,6 +21,7 @@
   },
   "dependencies": {
     "@koa/router": "^10.0.0",
+    "@types/aws-lambda": "^8.10.75",
     "@types/mime-types": "^2.1.0",
     "aws-sdk": "^2.884.0",
     "dotenv": "^8.2.0",
@@ -31,12 +34,21 @@
     "mime-types": "^2.1.30",
     "mysql": "^2.18.1",
     "reflect-metadata": "^0.1.13",
-    "typeorm": "^0.2.31"
+    "serverless-http": "^2.7.0",
+    "serverless-offline": "^6.9.0",
+    "serverless-webpack": "^5.4.1",
+    "source-map-support": "^0.5.19",
+    "ts-loader": "^8.1.0",
+    "typeorm": "^0.2.31",
+    "webpack": "^5.33.2",
+    "webpack-node-externals": "^2.5.2"
   },
   "scripts": {
     "start": "ts-node src/index.ts",
     "start:dev": "ts-node-dev -r tsconfig-paths/register --respawn --transpile-only src/index.ts",
     "typeorm": "node -r ts-node/register -r tsconfig-paths/register ./node_modules/typeorm/cli.js",
-    "db:sync": "yarn typeorm schema:sync"
+    "db:sync": "yarn typeorm schema:sync",
+    "deploy": "serverless deploy",
+    "deploy:prod": "serverless deploy --stage prod"
   }
 }

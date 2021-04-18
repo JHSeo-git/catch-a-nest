@@ -1,0 +1,28 @@
+service: seo-nest
+
+plugins:
+  - serverless-webpack
+  - serverless-offline
+
+provider:
+  name: aws
+  runtime: nodejs14.x
+  region: ap-northeast-2
+  stage: dev
+  lambdaHashingVersion: 20201221
+
+functions:
+  app:
+    handler: src/serverless.handler
+    events:
+      - http:
+          path: /
+          method: ANY
+      - http:
+          path: /{any+}
+          method: ANY
+
+custom:
+  webpack:
+    includeModules: true
+    packager: 'yarn'
