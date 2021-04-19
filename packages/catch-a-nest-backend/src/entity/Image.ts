@@ -10,7 +10,7 @@ import {
 import { User } from './User';
 
 @Entity({ name: 'images' })
-export default class Image {
+export class Image {
   @PrimaryGeneratedColumn()
   id!: number;
 

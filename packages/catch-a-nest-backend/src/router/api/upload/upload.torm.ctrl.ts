@@ -5,7 +5,7 @@ import Joi from 'joi';
 import { validateBodySchema } from '@src/lib/common';
 import { getRepository } from 'typeorm';
 import { User } from '@src/entity/User';
-import Image from '@src/entity/Image';
+import { Image } from '@src/entity/Image';
 
 const { AWS_BUCKET_NAME, CLOUDFRONT_URL } = process.env;
 

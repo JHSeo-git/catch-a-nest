@@ -49,6 +49,8 @@
     "typeorm": "node -r ts-node/register -r tsconfig-paths/register ./node_modules/typeorm/cli.js",
     "db:sync": "yarn typeorm schema:sync",
     "deploy": "serverless deploy",
-    "deploy:prod": "serverless deploy --stage prod"
+    "deploy:skip": "serverless deploy --skip-package",
+    "deploy:prod": "serverless deploy --stage prod",
+    "build": "tsc"
   }
 }
