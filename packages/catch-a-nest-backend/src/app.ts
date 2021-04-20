@@ -1,4 +1,4 @@
-import Koa from 'koa';
+import Koa, { Middleware } from 'koa';
 import logger from 'koa-logger';
 import bodyParser from 'koa-bodyparser';
 import cors from '@koa/cors';
@@ -9,17 +9,16 @@ import healthCheck from './lib/middlewares/healthCheck';
 
 const app = new Koa();
 
-const validOrigins = [
-  `http://localhost:3000`,
-  'https://catch-a-nest.vercel.app/',
-];
+const validHosts = ['localhost:3000', 'catch-a-nest.vercel.app'];
 const corsOptions: cors.Options = {
   origin: (ctx) => {
-    const headerOrigin = ctx.headers.origin;
+    const headerOrigin = ctx.header.origin;
     if (!headerOrigin) {
-      return '';
+      return ctx.throw('Not valid origin');
     }
-    if (!validOrigins.includes(headerOrigin)) return '';
+    const host = headerOrigin.split('://')[1];
+    if (!validHosts.includes(host)) return ctx.throw('Not valid origin');
+
     return headerOrigin;
   },
   credentials: true,
