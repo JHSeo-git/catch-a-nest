@@ -9,19 +9,21 @@ import healthCheck from './lib/middlewares/healthCheck';
 
 const app = new Koa();
 
-const validHosts = ['localhost:3000', 'catch-a-nest.vercel.app'];
+const validHosts = ['localhost:3000', 'catch-a-nest.vercel.app', 'seonest.net'];
 const corsOptions: cors.Options = {
-  origin: '*',
-  // origin: (ctx) => {
-  //   const headerOrigin = ctx.header.origin;
-  //   if (!headerOrigin) {
-  //     return ctx.throw('Not valid origin');
-  //   }
-  //   const host = headerOrigin.split('://')[1];
-  //   if (!validHosts.includes(host)) return ctx.throw('Not valid origin');
+  // origin: '*',
+  origin: (ctx) => {
+    const { origin } = ctx.header;
+    if (!origin) {
+      return ctx.throw('Not valid origin');
+    }
+    const host = origin.split('://')[1];
+    const vercelRegex = /catch-a-nest.vercel.app/g;
+    if (!validHosts.includes(host) && !vercelRegex.test(host))
+      return ctx.throw('Not valid origin');
 
-  //   return headerOrigin;
-  // },
+    return origin;
+  },
   credentials: true,
 };
 
