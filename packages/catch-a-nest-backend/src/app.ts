@@ -9,7 +9,12 @@ import healthCheck from './lib/middlewares/healthCheck';
 
 const app = new Koa();
 
-const validHosts = ['localhost:3000', 'catch-a-nest.vercel.app', 'seonest.net'];
+const validHosts = [
+  'localhost:3000',
+  'catch-a-nest.vercel.app',
+  'seonest.net',
+  'www.seonest.net',
+];
 const corsOptions: cors.Options = {
   // origin: '*',
   origin: (ctx) => {
