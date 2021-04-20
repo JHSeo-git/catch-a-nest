@@ -11,16 +11,17 @@ const app = new Koa();
 
 const validHosts = ['localhost:3000', 'catch-a-nest.vercel.app'];
 const corsOptions: cors.Options = {
-  origin: (ctx) => {
-    const headerOrigin = ctx.header.origin;
-    if (!headerOrigin) {
-      return ctx.throw('Not valid origin');
-    }
-    const host = headerOrigin.split('://')[1];
-    if (!validHosts.includes(host)) return ctx.throw('Not valid origin');
+  origin: '*',
+  // origin: (ctx) => {
+  //   const headerOrigin = ctx.header.origin;
+  //   if (!headerOrigin) {
+  //     return ctx.throw('Not valid origin');
+  //   }
+  //   const host = headerOrigin.split('://')[1];
+  //   if (!validHosts.includes(host)) return ctx.throw('Not valid origin');
 
-    return headerOrigin;
-  },
+  //   return headerOrigin;
+  // },
   credentials: true,
 };
 
