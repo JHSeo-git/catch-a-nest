@@ -56,10 +56,14 @@ export function setTokenCookie(
   ctx.cookies.set('access_token', tokens.accessToken, {
     httpOnly: true,
     maxAge: 1000 * 60 * 60,
+    sameSite: 'none',
+    secure: true,
   });
 
   ctx.cookies.set('refresh_token', tokens.refreshToken, {
     httpOnly: true,
     maxAge: 1000 * 60 * 60 * 24 * 30,
+    sameSite: 'none',
+    secure: true,
   });
 }
