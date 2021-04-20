@@ -1,4 +1,3 @@
-import 'dotenv/config';
 import serverless, { Handler } from 'serverless-http';
 import app from './app';
 import Database from './database';

@@ -9,3 +9,8 @@ jspm_packages
 # build
 dist
 build
+
+.env
+.env.production
+.env.development
+.env.local

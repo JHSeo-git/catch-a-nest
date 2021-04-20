@@ -12,9 +12,14 @@ module.exports = {
   entry: entries,
   target: 'node',
   mode: slsw.lib.webpack.isLocal ? 'development' : 'production',
-  externals: [nodeExternals()],
+  externals: [
+    nodeExternals(),
+    nodeExternals({
+      modulesDir: path.resolve(__dirname, '../../node_modules'),
+    }),
+  ],
   resolve: {
-    modules: [path.resolve('./src'), 'node_modules'],
+    modules: ['node_modules'],
     extensions: ['.js', '.jsx', '.json', '.ts', '.tsx'],
     alias: {
       '@src': path.resolve(__dirname, './src'),
@@ -28,7 +33,13 @@ module.exports = {
   module: {
     rules: [
       // all files with a `.ts` or `.tsx` extension will be handled by `ts-loader`
-      { test: /\.tsx?$/, loader: 'ts-loader' },
+      {
+        test: /\.tsx?$/,
+        loader: 'ts-loader',
+        options: {
+          transpileOnly: true,
+        },
+      },
     ],
   },
 };

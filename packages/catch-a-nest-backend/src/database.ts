@@ -6,6 +6,7 @@ import {
   getConnectionManager,
 } from 'typeorm';
 import entities from './entity';
+// import 'mysql';
 
 export default class Database {
   connectionManager: ConnectionManager;
@@ -27,8 +28,6 @@ export default class Database {
       synchronize: process.env.TYPEORM_SYNCHRONIZE === 'true',
       logging: isDev ? false : process.env.TYPEORM_LOGGING === 'true',
     };
-
-    console.log(options);
 
     return createConnection(options);
   }
