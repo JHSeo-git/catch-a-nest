@@ -29,8 +29,6 @@ export default class Database {
       logging: isDev ? false : process.env.TYPEORM_LOGGING === 'true',
     };
 
-    console.log(options);
-
     return createConnection(options);
   }
 
