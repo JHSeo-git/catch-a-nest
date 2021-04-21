@@ -21,7 +21,13 @@ const PostItem = ({ post }: PostItemProps) => {
               alt="post thumbnail"
             />
           ) : (
-            <div css={imageEmptySection(post.id)}></div>
+            <div
+              css={imageEmptySection(
+                palette.colorArray[
+                  post.id % palette.colorArray.length
+                ]?.[200] ?? palette.blueGrey[200]
+              )}
+            ></div>
           )}
         </div>
         <div css={infoWrapper}>
@@ -61,9 +67,9 @@ const imageWrapper = css`
   }
 `;
 
-const imageEmptySection = (index: number) => css`
+const imageEmptySection = (bgColor: string) => css`
   height: 100%;
-  background: ${palette.colorArray[index % palette.colorArray.length][200]};
+  background: ${bgColor};
 `;
 
 const thumbnailImage = css`
