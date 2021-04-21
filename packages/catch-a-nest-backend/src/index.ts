@@ -16,6 +16,8 @@ const { PORT, NODE_ENV } = process.env;
 
 const isDev = NODE_ENV !== 'production';
 
+console.log(PORT, isDev);
+
 const database = new Database();
 database
   .getConnection()
