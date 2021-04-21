@@ -23,7 +23,7 @@ const corsOptions: cors.Options = {
       return ctx.throw('Not valid origin');
     }
     const host = origin.split('://')[1];
-    const vercelRegex = /catch-a-nest.vercel.app/g;
+    const vercelRegex = /jhseo-git.vercel.app/g;
     if (!validHosts.includes(host) && !vercelRegex.test(host))
       return ctx.throw('Not valid origin');
 
