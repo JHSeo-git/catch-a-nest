@@ -7,7 +7,7 @@ import { getRepository } from 'typeorm';
 import { User } from '@src/entity/User';
 import { Image } from '@src/entity/Image';
 
-const { AWS_BUCKET_NAME, CLOUDFRONT_URL } = process.env;
+const { AWS_BUCKET_NAME } = process.env;
 
 const s3 = new AWS.S3({
   region: 'ap-northeast-2',
@@ -29,6 +29,12 @@ const generateSignedUrl = (path: string, filename: string) => {
 
   const key = `${path}/${filename}`;
   const signedUrlExpireSeconds = 60 * 5;
+  console.log({
+    Bucket: AWS_BUCKET_NAME,
+    Key: key,
+    ContentType: contentType,
+    Expires: signedUrlExpireSeconds,
+  });
   return s3.getSignedUrl('putObject', {
     Bucket: AWS_BUCKET_NAME,
     Key: key,
@@ -95,7 +101,7 @@ export const uploadImage = async (ctx: Context) => {
     await imageRepo.save(image);
 
     ctx.body = {
-      image_path: `https://${CLOUDFRONT_URL}/${image.path}`,
+      image_path: `https://${AWS_BUCKET_NAME}/${image.path}`,
       signed_url: signedUrl,
     };
   } catch (e) {
