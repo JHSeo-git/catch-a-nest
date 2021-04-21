@@ -16,7 +16,7 @@ export default function useGoogleLogin() {
         const { user } = await googleLogin({ token: accessToken, adminMode });
         loggedIn(user);
       } catch (e) {
-        if (e.response.status === 401) {
+        if (e.response?.status && e.response.status === 401) {
           notify(`Login Fail: ${e.response.statusText}`, 'error');
         }
       }

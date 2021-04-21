@@ -41,14 +41,14 @@ export const loginWithGoogle = async (ctx: Context) => {
     // 2-1. not exists -> create user, socialAccount -> login
     // 2-2. exists -> login
     if (!socialAccount) {
-      if (adminMode) {
-        ctx.status = 401;
-        ctx.body = {
-          name: 'NotAuthorized',
-          payload: 'This User is not Admin User',
-        };
-        return;
-      }
+      // if (adminMode) {
+      //   ctx.status = 401;
+      //   ctx.body = {
+      //     name: 'NotAuthorized',
+      //     payload: 'This User is not Admin User',
+      //   };
+      //   return;
+      // }
 
       const user = new User();
       user.email = profile.email;
