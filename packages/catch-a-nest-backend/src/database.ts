@@ -26,7 +26,7 @@ export default class Database {
       password: process.env.TYPEORM_PASSWORD,
       database: process.env.TYPEORM_DATABASE,
       synchronize: process.env.TYPEORM_SYNCHRONIZE === 'true',
-      logging: isDev ? false : process.env.TYPEORM_LOGGING === 'true',
+      logging: process.env.TYPEORM_LOGGING === 'true',
     };
 
     return createConnection(options);

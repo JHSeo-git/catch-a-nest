@@ -34,6 +34,9 @@ export class Post {
   @Column()
   url_slug!: string;
 
+  @Column({ default: false })
+  isTemp!: boolean;
+
   @Index()
   @CreateDateColumn({ type: 'timestamp' })
   created_at!: Date;

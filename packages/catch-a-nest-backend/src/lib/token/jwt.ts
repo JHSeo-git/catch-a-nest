@@ -1,7 +1,7 @@
 import jwt, { SignOptions } from 'jsonwebtoken';
 import { Context } from 'koa';
 
-const { JWT_SECRET } = process.env;
+const { JWT_SECRET, NODE_ENV } = process.env;
 
 export async function generateToken(
   payload: string | object | Buffer,
@@ -53,17 +53,30 @@ export function setTokenCookie(
   ctx: Context,
   tokens: { accessToken: string; refreshToken: string }
 ) {
-  ctx.cookies.set('access_token', tokens.accessToken, {
-    httpOnly: true,
-    maxAge: 1000 * 60 * 60,
-    sameSite: 'none',
-    secure: true,
-  });
+  if (NODE_ENV === 'production') {
+    ctx.cookies.set('access_token', tokens.accessToken, {
+      httpOnly: true,
+      maxAge: 1000 * 60 * 60,
+      sameSite: 'none',
+      secure: true,
+    });
 
-  ctx.cookies.set('refresh_token', tokens.refreshToken, {
-    httpOnly: true,
-    maxAge: 1000 * 60 * 60 * 24 * 30,
-    sameSite: 'none',
-    secure: true,
-  });
+    ctx.cookies.set('refresh_token', tokens.refreshToken, {
+      httpOnly: true,
+      maxAge: 1000 * 60 * 60 * 24 * 30,
+      sameSite: 'none',
+      secure: true,
+    });
+  } else {
+    // for dev
+    ctx.cookies.set('access_token', tokens.accessToken, {
+      httpOnly: true,
+      maxAge: 1000 * 60 * 60,
+    });
+
+    ctx.cookies.set('refresh_token', tokens.refreshToken, {
+      httpOnly: true,
+      maxAge: 1000 * 60 * 60 * 24 * 30,
+    });
+  }
 }

@@ -10,6 +10,7 @@ type SaveNewPostBodySchema = {
   body: string;
   shortDescription?: string;
   thumbnail?: string;
+  isTemp?: boolean;
 };
 
 export const saveNewPost = async (ctx: Context) => {
@@ -18,6 +19,7 @@ export const saveNewPost = async (ctx: Context) => {
     body: Joi.string().required(),
     shortDescription: Joi.string().allow(''),
     thumbnail: Joi.string().allow(''),
+    isTemp: Joi.boolean(),
   });
 
   if (!(await validateBodySchema(ctx, bodySchema))) {
@@ -29,6 +31,7 @@ export const saveNewPost = async (ctx: Context) => {
     body,
     shortDescription,
     thumbnail,
+    isTemp,
   }: SaveNewPostBodySchema = ctx.request.body;
   try {
     const currentUser = await getRepository(User).findOne({
@@ -60,6 +63,7 @@ export const saveNewPost = async (ctx: Context) => {
     newPost.thumbnail = thumbnail;
     newPost.url_slug = urlSlug;
     newPost.user = currentUser;
+    newPost.isTemp = isTemp ?? false;
 
     await getRepository(Post).save(newPost);
 
@@ -75,6 +79,7 @@ export const updatePost = async (ctx: Context) => {
     body: Joi.string().required(),
     shortDescription: Joi.string().allow(''),
     thumbnail: Joi.string().allow(''),
+    isTemp: Joi.boolean(),
   });
 
   if (!(await validateBodySchema(ctx, bodySchema))) {
@@ -86,6 +91,7 @@ export const updatePost = async (ctx: Context) => {
     body,
     shortDescription,
     thumbnail,
+    isTemp,
   }: SaveNewPostBodySchema = ctx.request.body;
   try {
     const params = ctx.params;
@@ -108,6 +114,7 @@ export const updatePost = async (ctx: Context) => {
     post.body = body;
     post.short_description = shortDescription;
     post.thumbnail = thumbnail;
+    post.isTemp = isTemp ?? false;
 
     await getRepository(Post).save(post);
 
@@ -126,6 +133,7 @@ export const getPosts = async (ctx: Context) => {
       where: {
         ...(user_id ? { user: { id: user_id } } : {}),
         ...(cursor ? { id: LessThan(cursor) } : {}),
+        isTemp: false,
       },
       relations: ['user'],
       take: 10,
