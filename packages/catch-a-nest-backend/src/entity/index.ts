@@ -5,6 +5,7 @@ import { Image } from './Image';
 import { Post } from './Post';
 import { PostRead } from './PostRead';
 import { SocialAccount } from './SocialAccount';
+import { TempPost } from './TempPost';
 import { User } from './User';
 
 const entities = [
@@ -16,6 +17,7 @@ const entities = [
   PostRead,
   SocialAccount,
   User,
+  TempPost,
 ];
 
 export default entities;

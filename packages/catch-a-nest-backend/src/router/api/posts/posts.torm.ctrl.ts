@@ -1,16 +1,16 @@
 import { Post } from '@src/entity/Post';
+import { TempPost } from '@src/entity/TempPost';
 import { User } from '@src/entity/User';
 import { generateUrlSlug, validateBodySchema } from '@src/lib/common';
 import Joi from 'joi';
 import { Context } from 'koa';
-import { getRepository, LessThan } from 'typeorm';
+import { getManager, getRepository, LessThan } from 'typeorm';
 
 type SaveNewPostBodySchema = {
   title: string;
   body: string;
   shortDescription?: string;
   thumbnail?: string;
-  isTemp?: boolean;
 };
 
 export const saveNewPost = async (ctx: Context) => {
@@ -19,7 +19,6 @@ export const saveNewPost = async (ctx: Context) => {
     body: Joi.string().required(),
     shortDescription: Joi.string().allow(''),
     thumbnail: Joi.string().allow(''),
-    isTemp: Joi.boolean(),
   });
 
   if (!(await validateBodySchema(ctx, bodySchema))) {
@@ -31,7 +30,6 @@ export const saveNewPost = async (ctx: Context) => {
     body,
     shortDescription,
     thumbnail,
-    isTemp,
   }: SaveNewPostBodySchema = ctx.request.body;
   try {
     const currentUser = await getRepository(User).findOne({
@@ -63,11 +61,11 @@ export const saveNewPost = async (ctx: Context) => {
     newPost.thumbnail = thumbnail;
     newPost.url_slug = urlSlug;
     newPost.user = currentUser;
-    newPost.is_temp = isTemp ?? false;
+    newPost.is_temp = false;
 
-    await getRepository(Post).save(newPost);
+    const savedPost = await getRepository(Post).save(newPost);
 
-    ctx.body = newPost;
+    ctx.body = savedPost;
   } catch (e) {
     ctx.throw(500, e);
   }
@@ -79,7 +77,6 @@ export const updatePost = async (ctx: Context) => {
     body: Joi.string().required(),
     shortDescription: Joi.string().allow(''),
     thumbnail: Joi.string().allow(''),
-    isTemp: Joi.boolean(),
   });
 
   if (!(await validateBodySchema(ctx, bodySchema))) {
@@ -91,7 +88,6 @@ export const updatePost = async (ctx: Context) => {
     body,
     shortDescription,
     thumbnail,
-    isTemp,
   }: SaveNewPostBodySchema = ctx.request.body;
   try {
     const params = ctx.params;
@@ -114,11 +110,22 @@ export const updatePost = async (ctx: Context) => {
     post.body = body;
     post.short_description = shortDescription;
     post.thumbnail = thumbnail;
-    post.is_temp = isTemp ?? false;
+    post.is_temp = false;
 
-    await getRepository(Post).save(post);
+    const manager = getManager();
+    const savedPost = await manager.save(post);
 
-    ctx.body = post;
+    const tempPosts = await getRepository(TempPost).find({
+      post: {
+        id: post.id,
+      },
+    });
+
+    if (tempPosts && tempPosts.length > 0) {
+      await manager.remove(tempPosts);
+    }
+
+    ctx.body = savedPost;
   } catch (e) {
     ctx.throw(500, e);
   }

@@ -26,10 +26,9 @@ export default function useEditor() {
   };
 
   const onCancel = useCallback(() => {
-    reset();
-    clearAllToast();
     history.goBack();
-  }, [history, reset, clearAllToast]);
+    clearAllToast();
+  }, [history, clearAllToast]);
 
   const onPostPageSave = () => {
     // validation

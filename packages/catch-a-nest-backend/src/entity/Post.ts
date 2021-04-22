@@ -34,9 +34,6 @@ export class Post {
   @Column()
   url_slug!: string;
 
-  @Column({ type: 'text' })
-  temp_body!: string;
-
   @Column({ default: false })
   is_temp!: boolean;
 

@@ -1,4 +1,5 @@
 import savePost from '@src/lib/api/posts/saveNewPost';
+import saveTempPost from '@src/lib/api/posts/saveTempPost';
 import updatePost from '@src/lib/api/posts/updatePost';
 import {
   useEditingInfoValue,
@@ -43,8 +44,22 @@ export default function useWritePost() {
     }
   }, [postContent, notify, history, editTargetSlug]);
 
+  const onSaveTempPost = useCallback(async () => {
+    try {
+      setLoading(true);
+      const saved = await saveTempPost(postContent);
+      history.replace(`/write/${saved.url_slug}`);
+    } catch (e) {
+      notify('Fail Temp Save Post', 'error');
+      setError('Temp Save Post Error');
+    } finally {
+      setLoading(false);
+    }
+  }, [postContent, notify, history]);
+
   return {
     onSave: isEdit ? onUpdate : onSave,
+    onSaveTempPost,
     loading,
     error,
   };

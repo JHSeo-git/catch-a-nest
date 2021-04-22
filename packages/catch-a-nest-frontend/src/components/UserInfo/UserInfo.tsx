@@ -1,3 +1,4 @@
+import React from 'react';
 import { css } from '@emotion/react';
 import useAuthManage from '@src/hooks/useAuthManage';
 import palette from '@src/lib/palette';
@@ -16,9 +17,14 @@ const UserInfo = (props: UserInfoProps) => {
   return (
     <div css={block}>
       {user ? (
-        <button css={buttonStyle} tabIndex={0} onClick={logout}>
-          Logout
-        </button>
+        <>
+          <NavLink to="/temps" css={linkStyle} tabIndex={0}>
+            Temp
+          </NavLink>
+          <button css={buttonStyle} tabIndex={0} onClick={logout}>
+            Logout
+          </button>
+        </>
       ) : (
         <NavLink css={linkStyle} to="/admin">
           Admin
@@ -66,6 +72,17 @@ const buttonStyle = css`
 const linkStyle = css`
   ${buttonStyle};
   text-decoration: none;
+  color: ${palette.grey[400]};
+  &:hover {
+    color: ${palette.blueGrey[400]};
+  }
+  &:active {
+    color: ${palette.blueGrey[500]};
+  }
+
+  &[aria-current='page'] {
+    color: ${palette.blue[500]};
+  }
 `;
 
 export default UserInfo;

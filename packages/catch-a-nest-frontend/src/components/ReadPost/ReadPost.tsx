@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { css } from '@emotion/react';
 import useGetPostBySlugQuery from '@src/hooks/query/useGetPostBySlugQuery';
 import palette from '@src/lib/palette';
@@ -19,7 +19,7 @@ export type ReadPostProps = {
 
 const ReadPost = ({ slug }: ReadPostProps) => {
   const [user] = useUserState();
-  const { data: post, isError } = useGetPostBySlugQuery(slug);
+  const { data: post, isError, isLoading } = useGetPostBySlugQuery(slug);
   const { onDeleteModal } = useDeletePost();
   const history = useHistory();
   // useFullScreenLoaderEffect(isLoading);
@@ -27,7 +27,8 @@ const ReadPost = ({ slug }: ReadPostProps) => {
     history.push('/error?status=404');
   }
 
-  if (!post) return null;
+  // TODO: skeleton
+  if (!post || isLoading) return null;
 
   return (
     <>

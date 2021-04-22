@@ -12,6 +12,7 @@ import ScrollToTop from './components/Layout/ScrollToTop';
 import AppInfo from './components/AppInfo';
 import { fontFamily } from './lib/styles/typography';
 import Error from './pages/Error';
+import TempPosts from './pages/TempPosts';
 
 function App() {
   return (
@@ -22,7 +23,7 @@ function App() {
         <ScrollToTop />
         <Switch>
           <Layout>
-            <Route exact path={['/', '/post/:slug', '/admin']}>
+            <Route exact path={['/', '/temps', '/post/:slug', '/admin']}>
               <Layout.Header>
                 <Header />
               </Layout.Header>
@@ -30,6 +31,9 @@ function App() {
                 <Layout.Main>
                   <Route exact path="/">
                     <Posts />
+                  </Route>
+                  <Route path="/temps">
+                    <TempPosts />
                   </Route>
                   <Route exact path="/post/:slug">
                     <Post />
