@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 import { css } from '@emotion/react';
 import useGetPostBySlugQuery from '@src/hooks/query/useGetPostBySlugQuery';
 import palette from '@src/lib/palette';
