@@ -11,7 +11,7 @@ export const getTempPosts = async (ctx: Context) => {
       where: {
         ...(user_id ? { user: { id: user_id } } : {}),
         ...(cursor ? { id: LessThan(cursor) } : {}),
-        isTemp: true,
+        is_temp: true,
       },
       relations: ['user'],
       take: 10,

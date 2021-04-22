@@ -63,7 +63,7 @@ export const saveNewPost = async (ctx: Context) => {
     newPost.thumbnail = thumbnail;
     newPost.url_slug = urlSlug;
     newPost.user = currentUser;
-    newPost.isTemp = isTemp ?? false;
+    newPost.is_temp = isTemp ?? false;
 
     await getRepository(Post).save(newPost);
 
@@ -114,7 +114,7 @@ export const updatePost = async (ctx: Context) => {
     post.body = body;
     post.short_description = shortDescription;
     post.thumbnail = thumbnail;
-    post.isTemp = isTemp ?? false;
+    post.is_temp = isTemp ?? false;
 
     await getRepository(Post).save(post);
 
@@ -133,7 +133,7 @@ export const getPosts = async (ctx: Context) => {
       where: {
         ...(user_id ? { user: { id: user_id } } : {}),
         ...(cursor ? { id: LessThan(cursor) } : {}),
-        isTemp: false,
+        is_temp: false,
       },
       relations: ['user'],
       take: 10,
