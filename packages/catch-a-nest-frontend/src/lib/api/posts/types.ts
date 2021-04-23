@@ -10,6 +10,7 @@ export type Post = {
   thumbnail: string | null;
   url_slug: string;
   user: User;
+  is_temp: boolean;
   created_at: string;
   updated_at: string;
 };

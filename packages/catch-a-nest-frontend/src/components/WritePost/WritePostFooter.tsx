@@ -1,13 +1,17 @@
 import { css } from '@emotion/react';
-import useEditor from '@src/hooks/useEditor';
-import useWritePost from '@src/hooks/useWritePost';
 import AppButton from '../AppButton';
 
-export type WritePostFooterProps = {};
+export type WritePostFooterProps = {
+  onCancel(): void;
+  onSaveTempPost(): void;
+  onPostPageSave(): void;
+};
 
-const WritePostFooter = (props: WritePostFooterProps) => {
-  const { onCancel, onPostPageSave } = useEditor();
-  const { onSaveTempPost } = useWritePost();
+const WritePostFooter = ({
+  onCancel,
+  onSaveTempPost,
+  onPostPageSave,
+}: WritePostFooterProps) => {
   return (
     <footer css={footerStyle}>
       <AppButton

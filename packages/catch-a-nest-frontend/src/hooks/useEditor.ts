@@ -9,21 +9,20 @@ import {
 } from '@src/states/editorState';
 import useAppToast from './useAppToast';
 import { useEditingInfoValue } from '../states/editorState';
+import useWritePost from './useWritePost';
 
 export default function useEditor() {
-  const { isEdit } = useEditingInfoValue();
   const editorRef = useRef<Editor>(null);
   const history = useHistory();
   const [, setEditorMarkdownValue] = useEditorMarkdownState();
-  const [editorMode, setEditorMode] = useEditorModeState();
-  const { reset } = useEditorContentActions();
-  const { title, body } = useEditorContentValue();
-  const { notify, clearAllToast } = useAppToast();
 
-  const onChange = () => {
-    if (!editorRef.current) return;
-    setEditorMarkdownValue(editorRef.current.getInstance().getMarkdown());
-  };
+  const postContent = useEditorContentValue();
+  const [editorMode, setEditorMode] = useEditorModeState();
+  const { isEdit } = useEditingInfoValue();
+  const { title } = useEditorContentValue();
+  const { reset } = useEditorContentActions();
+  const { notify, clearAllToast } = useAppToast();
+  const { onSaveTempPost } = useWritePost();
 
   const onForceBodyUpdate = (markdown: string) => {
     if (!editorRef.current) return;
@@ -41,12 +40,39 @@ export default function useEditor() {
       notify('Please check title...', 'error');
       return;
     }
-    if (!body) {
+
+    if (!editorRef.current) return;
+    const markdown = editorRef.current.getInstance().getMarkdown();
+
+    if (!markdown) {
       notify('Please check content...', 'error');
       return;
     }
+    setEditorMarkdownValue(markdown);
     clearAllToast();
     setEditorMode('detail-page');
+  };
+
+  const onTempPageSave = () => {
+    // validation
+    if (!title) {
+      notify('Please check title...', 'error');
+      return;
+    }
+    if (!editorRef.current) return;
+    const markdown = editorRef.current.getInstance().getMarkdown();
+
+    if (!markdown) {
+      notify('Please check content...', 'error');
+      return;
+    }
+    setEditorMarkdownValue(markdown);
+    onSaveTempPost({
+      title,
+      body: markdown,
+      shortDescription: postContent.shortDescription,
+      thumbnail: postContent.thumbnail,
+    });
   };
 
   const onDetailPageCancel = () => {
@@ -60,9 +86,9 @@ export default function useEditor() {
     onPostPageSave,
     onDetailPageCancel,
     editorMode,
-    onChange,
     editorRef,
     reset,
     isEdit,
+    onTempPageSave,
   };
 }

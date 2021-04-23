@@ -74,14 +74,13 @@ const ReadPost = ({ slug }: ReadPostProps) => {
         <MarkdownItViewer markdown={post.body} />
         <PostEditButton slug={post.url_slug} />
       </section>
-      {deleteModal && (
-        <OKCancelModal
-          title="Post Delete"
-          onClick={onDeleteOKClick}
-          onCancel={onCancelModal}
-          loading={loading}
-        />
-      )}
+      <OKCancelModal
+        view={deleteModal}
+        title="Post Delete"
+        onClick={onDeleteOKClick}
+        onCancel={onCancelModal}
+        loading={loading}
+      />
     </>
   );
 };

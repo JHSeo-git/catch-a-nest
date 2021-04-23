@@ -83,6 +83,11 @@ export const saveTempPost = async (ctx: Context) => {
 
     if (exist) {
       targetPost = exist;
+
+      if (targetPost.is_temp) {
+        targetPost.title = title;
+        targetPost.body = body;
+      }
     } else {
       targetPost = new Post();
       targetPost.title = title;

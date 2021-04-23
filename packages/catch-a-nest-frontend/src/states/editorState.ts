@@ -54,8 +54,13 @@ const observedHeadingIdsState = atom<string[]>({
   default: [],
 });
 
+const editorTempPost = atom<boolean>({
+  key: 'editorTempPost',
+  default: false,
+});
+
 const editorIsTempUse = atom<boolean>({
-  key: 'isTempUse',
+  key: 'editorIsTempUse',
   default: false,
 });
 
@@ -182,20 +187,32 @@ export function useEditorIsTempUseState() {
   return useRecoilState(editorIsTempUse);
 }
 
+export function useEditorTempPost() {
+  return useRecoilState(editorTempPost);
+}
+
 export function useEditorSync() {
   const setEditorTitle = useSetRecoilState(editorTitleState);
   const setMarkDown = useSetRecoilState(editorMarkdownState);
   const setShortDescription = useSetRecoilState(editorShortDescriptionState);
   const setThumbnail = useSetRecoilState(editorThumbnailState);
+  const setTempPost = useSetRecoilState(editorTempPost);
 
   const sync = useCallback(
-    (content: EditorContent) => {
+    (content: EditorContent, isTemp: boolean = false) => {
       setEditorTitle(content.title);
       setMarkDown(content.body);
       setShortDescription(content.shortDescription);
       setThumbnail(content.thumbnail);
+      setTempPost(isTemp);
     },
-    [setEditorTitle, setMarkDown, setShortDescription, setThumbnail]
+    [
+      setEditorTitle,
+      setMarkDown,
+      setShortDescription,
+      setThumbnail,
+      setTempPost,
+    ]
   );
 
   return sync;

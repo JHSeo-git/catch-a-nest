@@ -25,6 +25,7 @@ export default function useEditorLoad() {
     isLoading: lastTempQueryLoading,
   } = useGetLastTempPostQuery(slug!, {
     enabled: slug !== undefined && slug !== null,
+    cacheTime: 0,
   });
   const history = useHistory();
   const sync = useEditorSync();
@@ -39,18 +40,23 @@ export default function useEditorLoad() {
   }, [postData, tempData, useIsTemp]);
 
   useEffect(() => {
+    if (!postData) return;
     if (!tempData) return;
+    if (postData.is_temp) return;
     setTempPostUseModal(true);
-  }, [tempData, setTempPostUseModal]);
+  }, [postData, tempData, setTempPostUseModal]);
 
   useEffect(() => {
     if (!data) return;
-    sync({
-      title: data.title,
-      body: data.body,
-      shortDescription: data.short_description,
-      thumbnail: data.thumbnail,
-    });
+    sync(
+      {
+        title: data.title,
+        body: data.body,
+        shortDescription: data.short_description,
+        thumbnail: data.thumbnail,
+      },
+      data.is_temp
+    );
   }, [data, sync]);
 
   return {

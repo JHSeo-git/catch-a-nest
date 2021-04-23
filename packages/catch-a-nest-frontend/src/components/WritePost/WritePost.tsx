@@ -21,12 +21,21 @@ import OKCancelModal from '../Modal/OKCancelModal';
 export type WritePostProps = {};
 
 const WritePost = (props: WritePostProps) => {
-  const { off, newTempArrived } = useNewTempArrivedActions();
-  const { reset, isEdit } = useEditor();
-  const { onSave } = useWritePost();
-  const [, setIsTempUse] = useEditorIsTempUseState();
-  const [postTitle] = useEditorTitleState();
   const [tempPostUseModal, setTempPostUseModal] = useTempPostUseModalState();
+  const [postTitle] = useEditorTitleState();
+  const [, setIsTempUse] = useEditorIsTempUseState();
+  const { off, newTempArrived } = useNewTempArrivedActions();
+  const {
+    editorRef,
+    reset,
+    isEdit,
+    onForceBodyUpdate,
+    onCancel,
+    onPostPageSave,
+    onTempPageSave,
+  } = useEditor();
+  const { onSave } = useWritePost();
+
   const { isLoading } = useEditorLoad();
 
   useEffect(() => {
@@ -35,15 +44,21 @@ const WritePost = (props: WritePostProps) => {
     };
   }, [reset]);
 
+  useEffect(() => {
+    return () => {
+      off();
+    };
+  }, [off]);
+
   const onTempUseModalOKClick = () => {
-    off();
     setIsTempUse(true);
     setTempPostUseModal(false);
+    off();
   };
 
   const onTempUseModalCancelClick = () => {
-    off();
     setTempPostUseModal(false);
+    off();
   };
 
   if (isLoading) return null;
@@ -55,18 +70,24 @@ const WritePost = (props: WritePostProps) => {
       </Helmet>
       <section css={panelStyle}>
         <WritePostTitle />
-        <Editor />
-        <WritePostFooter />
-      </section>
-      <WritePostDetail onSaveOrUpdate={onSave} />
-      {!newTempArrived && tempPostUseModal && (
-        <OKCancelModal
-          title="Exist temp post"
-          body="Could you get temp post?"
-          onClick={onTempUseModalOKClick}
-          onCancel={onTempUseModalCancelClick}
+        <Editor
+          ref={editorRef}
+          isEdit={isEdit}
+          onForceBodyUpdate={onForceBodyUpdate}
         />
-      )}
+        <WritePostFooter
+          onCancel={onCancel}
+          onPostPageSave={onPostPageSave}
+          onSaveTempPost={onTempPageSave}
+        />
+      </section>
+      <WritePostDetail onSave={onSave} />
+      <OKCancelModal
+        view={!newTempArrived && tempPostUseModal}
+        title="Could you get temp post?"
+        onClick={onTempUseModalOKClick}
+        onCancel={onTempUseModalCancelClick}
+      />
     </>
   );
 };

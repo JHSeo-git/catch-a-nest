@@ -17,6 +17,7 @@ const TuiStyleWrapper = ({ children }: TuiStyleWrapperProps) => {
 const tuiStyle = css`
   height: 100%;
   position: relative;
+  word-break: break-word;
 
   .tui-editor {
     .te-editor {

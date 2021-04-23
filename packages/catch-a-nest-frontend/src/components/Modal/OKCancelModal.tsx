@@ -10,6 +10,7 @@ export type OKCancelModalProps = {
   loading?: boolean;
   onClick(): void;
   onCancel(): void;
+  view: boolean;
 };
 
 const OKCancelModal = ({
@@ -18,7 +19,10 @@ const OKCancelModal = ({
   loading,
   onClick,
   onCancel,
+  view,
 }: OKCancelModalProps) => {
+  if (!view) return null;
+
   return (
     <Modal css={modalOverride}>
       <div css={block}>

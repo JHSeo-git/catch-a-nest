@@ -11,10 +11,10 @@ import WritePostDetailImage from './WritePostDetailImage';
 import WritePostDetailInput from './WritePostDetailInput';
 
 export type WritePostDetailProps = {
-  onSaveOrUpdate(slug?: string): void;
+  onSave(slug?: string): void;
 };
 
-const WritePostDetail = ({ onSaveOrUpdate }: WritePostDetailProps) => {
+const WritePostDetail = ({ onSave }: WritePostDetailProps) => {
   const [editorTitle] = useEditorTitleState();
   const { loading } = useWritePost();
   const { onDetailPageCancel, editorMode, isEdit } = useEditor();
@@ -36,7 +36,7 @@ const WritePostDetail = ({ onSaveOrUpdate }: WritePostDetailProps) => {
           <AppButton
             text={isEdit ? 'UPDATE' : 'SAVE'}
             type="primary"
-            onClick={onSaveOrUpdate}
+            onClick={onSave}
             loading={loading}
           />
         </div>

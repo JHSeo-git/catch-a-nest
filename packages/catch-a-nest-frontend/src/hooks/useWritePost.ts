@@ -2,6 +2,7 @@ import savePost from '@src/lib/api/posts/saveNewPost';
 import saveTempPost from '@src/lib/api/posts/saveTempPost';
 import updatePost from '@src/lib/api/posts/updatePost';
 import {
+  EditorContent,
   useEditingInfoValue,
   useEditorContentValue,
   useEditTargetSlugState,
@@ -49,23 +50,26 @@ export default function useWritePost() {
     }
   }, [postContent, notify, history, editTargetSlug]);
 
-  const onSaveTempPost = useCallback(async () => {
-    try {
-      setLoading(true);
-      const saved = slug
-        ? await saveTempPost(postContent, slug)
-        : await saveNewTempPost(postContent);
+  const onSaveTempPost = useCallback(
+    async (tempPostContent: EditorContent) => {
+      try {
+        setLoading(true);
+        const saved = slug
+          ? await saveTempPost(tempPostContent, slug)
+          : await saveNewTempPost(tempPostContent);
 
-      history.replace(`/write/${saved.url_slug}`);
-      newTempOn();
-      notify('Save Temp Post', 'success');
-    } catch (e) {
-      notify('Fail Temp Save Post', 'error');
-      setError('Temp Save Post Error');
-    } finally {
-      setLoading(false);
-    }
-  }, [postContent, notify, history, slug, newTempOn]);
+        history.replace(`/write/${saved.url_slug}`);
+        newTempOn();
+        notify('Save Temp Post', 'success');
+      } catch (e) {
+        notify('Fail Temp Save Post', 'error');
+        setError('Temp Save Post Error');
+      } finally {
+        setLoading(false);
+      }
+    },
+    [notify, history, slug, newTempOn]
+  );
 
   return {
     onSave: isEdit ? onUpdate : onSave,
