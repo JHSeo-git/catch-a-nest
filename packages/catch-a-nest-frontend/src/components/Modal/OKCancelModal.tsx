@@ -1,41 +1,36 @@
 import { css } from '@emotion/react';
-import useAppToast from '@src/hooks/useAppToast';
-import useDeletePost from '@src/hooks/useDeletePost';
 import palette from '@src/lib/palette';
 import media from '@src/lib/styles/media';
 import AppButton from '../AppButton';
 import Modal from './Modal';
 
-export type DeletePostModalProps = {
-  slug: string;
+export type OKCancelModalProps = {
+  title: string;
+  body?: string;
+  loading?: boolean;
+  onClick(): void;
+  onCancel(): void;
 };
 
-const DeletePostModal = ({ slug }: DeletePostModalProps) => {
-  const {
-    onDelete,
-    deleteModal,
-    onCancelModal,
-    loading,
-    error,
-  } = useDeletePost();
-  const { notify } = useAppToast();
-
-  if (!deleteModal) return null;
-  if (error) {
-    notify(`${error}`, 'error');
-  }
-
+const OKCancelModal = ({
+  title,
+  body,
+  loading,
+  onClick,
+  onCancel,
+}: OKCancelModalProps) => {
   return (
     <Modal css={modalOverride}>
       <div css={block}>
-        <h1>Post Delete</h1>
+        <h1>{title}</h1>
+        {body && <p>{body}</p>}
         <div css={buttonGroup}>
-          <AppButton text="CANCEL" type="normal" onClick={onCancelModal} />
+          <AppButton text="CANCEL" type="normal" onClick={onCancel} />
           <AppButton
-            text="DELETE"
+            text="OK"
             type="thirdary"
             loading={loading}
-            onClick={() => onDelete(slug)}
+            onClick={onClick}
           />
         </div>
       </div>
@@ -79,4 +74,4 @@ const buttonGroup = css`
   }
 `;
 
-export default DeletePostModal;
+export default OKCancelModal;

@@ -54,6 +54,11 @@ const observedHeadingIdsState = atom<string[]>({
   default: [],
 });
 
+const editorIsTempUse = atom<boolean>({
+  key: 'isTempUse',
+  default: false,
+});
+
 export type EditorContent = {
   title: string | null;
   body: string | null;
@@ -167,6 +172,10 @@ export function useObservedHeadingIdState() {
 
 export function useObservedHeadingIdsState() {
   return useRecoilState(observedHeadingIdsState);
+}
+
+export function useEditorIsTempUseState() {
+  return useRecoilState(editorIsTempUse);
 }
 
 export function useEditorSync() {

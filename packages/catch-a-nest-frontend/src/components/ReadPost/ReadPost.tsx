@@ -10,8 +10,9 @@ import media from '@src/lib/styles/media';
 import { useUserState } from '@src/states/authState';
 import AppButton from '../AppButton';
 import useDeletePost from '@src/hooks/useDeletePost';
-import DeletePostModal from '../Modal/DeletePostModal';
+import OKCancelModal from '../Modal/OKCancelModal';
 import { Helmet } from 'react-helmet-async';
+import useAppToast from '@src/hooks/useAppToast';
 
 export type ReadPostProps = {
   slug: string;
@@ -20,12 +21,27 @@ export type ReadPostProps = {
 const ReadPost = ({ slug }: ReadPostProps) => {
   const [user] = useUserState();
   const { data: post, isError, isLoading } = useGetPostBySlugQuery(slug);
-  const { onDeleteModal } = useDeletePost();
+  const {
+    onDelete,
+    onDeleteModal,
+    deleteModal,
+    onCancelModal,
+    loading,
+    error,
+  } = useDeletePost();
+  const { notify } = useAppToast();
   const history = useHistory();
   // useFullScreenLoaderEffect(isLoading);
   if (isError) {
     history.push('/error?status=404');
   }
+  if (error) {
+    notify(`${error}`, 'error');
+  }
+
+  const onDeleteOKClick = () => {
+    onDelete(slug);
+  };
 
   // TODO: skeleton
   if (!post || isLoading) return null;
@@ -58,7 +74,14 @@ const ReadPost = ({ slug }: ReadPostProps) => {
         <MarkdownItViewer markdown={post.body} />
         <PostEditButton slug={post.url_slug} />
       </section>
-      <DeletePostModal slug={slug} />
+      {deleteModal && (
+        <OKCancelModal
+          title="Post Delete"
+          onClick={onDeleteOKClick}
+          onCancel={onCancelModal}
+          loading={loading}
+        />
+      )}
     </>
   );
 };
