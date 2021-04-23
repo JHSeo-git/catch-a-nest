@@ -5,17 +5,28 @@ import { Editor as ReactEditor } from '@toast-ui/react-editor';
 import { syntaxHighlightPlugIn } from '@src/lib/editor/tuiPlugins';
 import useEditor from '@src/hooks/useEditor';
 import TuiStyleWrapper from './TuiStyleWrapper';
-import { useEditorMarkdownState } from '@src/states/editorState';
+import {
+  useEditorIsTempUseState,
+  useEditorMarkdownState,
+} from '@src/states/editorState';
 import useUploadImage from '@src/hooks/useUploadImage';
 import useAppToast from '@src/hooks/useAppToast';
+import { useEffect } from 'react';
 
 export type EditorProps = {};
 
 const Editor = (props: EditorProps) => {
-  const { editorRef, onChange, isEdit } = useEditor();
+  const { editorRef, onChange, isEdit, onForceBodyUpdate } = useEditor();
+  const [useIsTemp] = useEditorIsTempUseState();
   const [markdown] = useEditorMarkdownState();
   const { upload } = useUploadImage();
   const { notify } = useAppToast();
+
+  useEffect(() => {
+    if (!useIsTemp) return;
+    if (!markdown) return;
+    onForceBodyUpdate(markdown);
+  }, [useIsTemp, markdown, onForceBodyUpdate]);
 
   if (isEdit && !markdown) return null;
 

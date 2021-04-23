@@ -69,7 +69,10 @@ export const saveTempPost = async (ctx: Context) => {
       return;
     }
 
-    let urlSlug = generateUrlSlug(title);
+    const params = ctx.params;
+    const { slug } = params;
+
+    let urlSlug = slug ? slug : generateUrlSlug(title);
     const exist = await getRepository(Post).findOne({
       url_slug: urlSlug,
     });
@@ -90,6 +93,73 @@ export const saveTempPost = async (ctx: Context) => {
       targetPost.user = currentUser;
       targetPost.is_temp = true;
     }
+
+    const savedPost = await manager.save(targetPost);
+
+    const newTempPost = new TempPost();
+    newTempPost.title = title;
+    newTempPost.body = body;
+    newTempPost.post = savedPost;
+
+    await manager.save(newTempPost);
+
+    ctx.body = savedPost;
+  } catch (e) {
+    ctx.throw(500, e);
+  }
+};
+
+export const saveNewTempPost = async (ctx: Context) => {
+  const bodySchema = Joi.object<saveTempPostSchema>().keys({
+    title: Joi.string().required(),
+    body: Joi.string().required(),
+    shortDescription: Joi.string().allow(''),
+    thumbnail: Joi.string().allow(''),
+  });
+
+  if (!(await validateBodySchema(ctx, bodySchema))) {
+    return;
+  }
+
+  const {
+    title,
+    body,
+    shortDescription,
+    thumbnail,
+  }: saveTempPostSchema = ctx.request.body;
+  try {
+    const currentUser = await getRepository(User).findOne({
+      id: ctx.user?.id,
+    });
+
+    if (!currentUser) {
+      ctx.status = 404;
+      ctx.body = {
+        name: 'UserNotFound',
+        payload: 'Current User is not found',
+      };
+      return;
+    }
+
+    let urlSlug = generateUrlSlug(title);
+    const exists = await getRepository(Post).findOne({
+      url_slug: urlSlug,
+    });
+
+    if (exists) {
+      urlSlug = generateUrlSlug(`${title} ${Date.now()}`);
+    }
+
+    const manager = getManager();
+
+    let targetPost = new Post();
+    targetPost.title = title;
+    targetPost.body = body;
+    targetPost.short_description = shortDescription;
+    targetPost.thumbnail = thumbnail;
+    targetPost.url_slug = urlSlug;
+    targetPost.user = currentUser;
+    targetPost.is_temp = true;
 
     const savedPost = await manager.save(targetPost);
 
@@ -133,7 +203,7 @@ export const getLastTempPost = async (ctx: Context) => {
       return;
     }
 
-    const lastTempPost = getRepository(TempPost).findOne({
+    const lastTempPost = await getRepository(TempPost).findOne({
       where: {
         post,
       },

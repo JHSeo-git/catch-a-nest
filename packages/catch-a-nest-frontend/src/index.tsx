@@ -6,7 +6,7 @@ import { HelmetProvider } from 'react-helmet-async';
 import App from '@src/App';
 import reportWebVitals from '@src/reportWebVitals';
 import appInitialize from './states/appInitialize';
-// import DebugObserver from './components/DebugObserver';
+import DebugObserver from './components/DebugObserver';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -21,7 +21,7 @@ ReactDOM.render(
   <React.StrictMode>
     <RecoilRoot initializeState={appInitialize}>
       <HelmetProvider>
-        {/* <DebugObserver /> */}
+        <DebugObserver />
         <QueryClientProvider client={queryClient}>
           <App />
         </QueryClientProvider>

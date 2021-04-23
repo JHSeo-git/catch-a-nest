@@ -3,6 +3,7 @@ import {
   useEditorSync,
   useEditTargetSlugState,
 } from '@src/states/editorState';
+import { useTempPostUseModalState } from '@src/states/viewState';
 import { useEffect, useMemo } from 'react';
 import { useHistory } from 'react-router';
 import useGetLastTempPostQuery from './query/useGetLastTempPostQuery';
@@ -11,10 +12,18 @@ import useGetPostBySlugQuery from './query/useGetPostBySlugQuery';
 export default function useEditorLoad() {
   const [slug] = useEditTargetSlugState();
   const [useIsTemp] = useEditorIsTempUseState();
-  const { data: postData, isLoading, isError } = useGetPostBySlugQuery(slug!, {
+  const [, setTempPostUseModal] = useTempPostUseModalState();
+  const {
+    data: postData,
+    isError,
+    isLoading: postQueryLoading,
+  } = useGetPostBySlugQuery(slug!, {
     enabled: slug !== undefined && slug !== null,
   });
-  const { data: tempData } = useGetLastTempPostQuery(slug!, {
+  const {
+    data: tempData,
+    isLoading: lastTempQueryLoading,
+  } = useGetLastTempPostQuery(slug!, {
     enabled: slug !== undefined && slug !== null,
   });
   const history = useHistory();
@@ -30,6 +39,11 @@ export default function useEditorLoad() {
   }, [postData, tempData, useIsTemp]);
 
   useEffect(() => {
+    if (!tempData) return;
+    setTempPostUseModal(true);
+  }, [tempData, setTempPostUseModal]);
+
+  useEffect(() => {
     if (!data) return;
     sync({
       title: data.title,
@@ -40,6 +54,6 @@ export default function useEditorLoad() {
   }, [data, sync]);
 
   return {
-    isLoading,
+    isLoading: postQueryLoading || lastTempQueryLoading,
   };
 }

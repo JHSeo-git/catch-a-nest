@@ -6,6 +6,7 @@ const tempPosts = new Router();
 
 tempPosts.get('/', checkAuth, tempPostsCtrl.getTempPosts);
 tempPosts.get('/:slug', checkAuth, tempPostsCtrl.getLastTempPost);
-tempPosts.put('/save', checkAuth, tempPostsCtrl.saveTempPost);
+tempPosts.post('/new', checkAuth, tempPostsCtrl.saveNewTempPost);
+tempPosts.put('/save/:slug', checkAuth, tempPostsCtrl.saveTempPost);
 
 export default tempPosts;

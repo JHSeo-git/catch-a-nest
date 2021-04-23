@@ -25,6 +25,11 @@ export default function useEditor() {
     setEditorMarkdownValue(editorRef.current.getInstance().getMarkdown());
   };
 
+  const onForceBodyUpdate = (markdown: string) => {
+    if (!editorRef.current) return;
+    editorRef.current.getInstance().setMarkdown(markdown, true);
+  };
+
   const onCancel = useCallback(() => {
     history.goBack();
     clearAllToast();
@@ -51,6 +56,7 @@ export default function useEditor() {
 
   return {
     onCancel,
+    onForceBodyUpdate,
     onPostPageSave,
     onDetailPageCancel,
     editorMode,

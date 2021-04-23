@@ -23,7 +23,7 @@ export default function useDeletePost() {
           throw new Error(`Fail delete post: ${slug}`);
         }
         setDeleteModal(false);
-        history.replace('/');
+        history.goBack();
       } catch (e) {
         setError(e);
       } finally {
