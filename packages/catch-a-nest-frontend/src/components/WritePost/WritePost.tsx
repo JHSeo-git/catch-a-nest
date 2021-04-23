@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect } from 'react';
 import { css } from '@emotion/react';
 import useEditor from '@src/hooks/useEditor';
 import Editor from '../Editor';
