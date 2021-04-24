@@ -22,8 +22,8 @@ function App() {
       <BrowserRouter>
         <ScrollToTop />
         <Switch>
-          <Layout>
-            <Route exact path={['/', '/temps', '/post/:slug', '/admin']}>
+          <Route exact path={['/', '/temps', '/post/:slug', '/admin']}>
+            <Layout>
               <Layout.Header>
                 <Header />
               </Layout.Header>
@@ -46,15 +46,15 @@ function App() {
               <Layout.Footer>
                 <AppInfo />
               </Layout.Footer>
-            </Route>
-            <Route path={'/write/:slug?'}>
-              <Write />
-            </Route>
-            <Route path="/error">
-              <Error />
-            </Route>
-            <Redirect to="/error" />
-          </Layout>
+            </Layout>
+          </Route>
+          <Route exact path={'/write/:slug?'}>
+            <Write />
+          </Route>
+          <Route exact path="/error">
+            <Error />
+          </Route>
+          <Redirect to="/error" />
         </Switch>
       </BrowserRouter>
     </>

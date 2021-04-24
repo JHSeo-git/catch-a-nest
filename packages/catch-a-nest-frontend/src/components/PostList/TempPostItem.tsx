@@ -2,40 +2,27 @@ import { css } from '@emotion/react';
 import { Post } from '@src/lib/api/posts/types';
 import palette from '@src/lib/palette';
 import media from '@src/lib/styles/media';
+import { resetButton } from '@src/lib/styles/resetButton';
 import { getDiffOfNow } from '@src/lib/utils/dateUtils';
 import { Link } from 'react-router-dom';
 
-export type PostItemProps = {
+export type TempPostItemProps = {
   post: Post;
 };
 
-const PostItem = ({ post }: PostItemProps) => {
+const TempPostItem = ({ post }: TempPostItemProps) => {
   return (
     <li css={block}>
-      <Link css={itemStyle} to={`/post/${post.url_slug}`}>
-        <div css={imageWrapper}>
-          {post.thumbnail ? (
-            <img
-              css={thumbnailImage}
-              src={post.thumbnail}
-              alt="post thumbnail"
-            />
-          ) : (
-            <div
-              css={imageEmptySection(
-                palette.colorArray[
-                  post.id % palette.colorArray.length
-                ]?.[200] ?? palette.blueGrey[200]
-              )}
-            ></div>
-          )}
-        </div>
+      <div css={itemStyle}>
         <div css={infoWrapper}>
-          <h4>{getDiffOfNow(post.created_at)}</h4>
-          <h2>{post.title}</h2>
-          <p>{post.short_description}</p>
+          <h4>{getDiffOfNow(post.updated_at)}</h4>
+          <Link css={linkStyle} to={`/post/${post.url_slug}`}>
+            <h2>{post.title}</h2>
+            <p>{post.body}</p>
+          </Link>
+          <button>삭제</button>
         </div>
-      </Link>
+      </div>
     </li>
   );
 };
@@ -47,45 +34,31 @@ const block = css`
 `;
 
 const itemStyle = css`
-  text-decoration: none;
   height: 6.6rem;
   overflow: hidden;
-  border-radius: 0.5rem;
-  border: 0.0625rem solid ${palette.blueGrey[100]};
+  border-bottom: 0.0625rem solid ${palette.blueGrey[100]};
 
   display: flex;
+`;
+
+const linkStyle = css`
+  text-decoration: none;
+
   transition: all 0.1s ease-in-out;
   &:hover {
-    box-shadow: 0 0.25rem 0.5rem rgba(0 0 0 /5%);
+    text-decoration: underline;
   }
-`;
-
-const imageWrapper = css`
-  width: 11.25rem;
-  ${media.sm} {
-    width: 5rem;
-  }
-`;
-
-const imageEmptySection = (bgColor: string) => css`
-  height: 100%;
-  background: ${bgColor};
-`;
-
-const thumbnailImage = css`
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
 `;
 
 const infoWrapper = css`
   flex: 1;
   padding: 0.5rem 1rem;
+  padding-right: 3rem;
+  position: relative;
   h4 {
     margin: 0;
     padding: 0;
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.25rem;
     font-size: 0.75rem;
     color: ${palette.blueGrey[700]};
   }
@@ -117,6 +90,20 @@ const infoWrapper = css`
     overflow: hidden;
     text-overflow: ellipsis;
   }
+  button {
+    ${resetButton}
+    cursor: pointer;
+    position: absolute;
+    right: 1rem;
+    bottom: 1rem;
+    color: ${palette.blueGrey[800]};
+    word-break: break-word;
+    font-size: 0.85rem;
+    line-height: 1.5;
+    &:hover {
+      text-decoration: underline;
+    }
+  }
 `;
 
-export default PostItem;
+export default TempPostItem;

@@ -1,11 +1,13 @@
 import React from 'react';
 import { css } from '@emotion/react';
 import { useEffect, useMemo, useRef } from 'react';
-import PostItem from './PostItem';
 import PostItemSkeleton from './PostItemSkeleton';
 import PostWriteButton from './PostWriteButton';
 import { useHistory } from 'react-router';
 import useGetTempPostsQuery from '@src/hooks/query/useGetTempPostsQuery';
+import palette from '@src/lib/palette';
+import media from '@src/lib/styles/media';
+import TempPostItem from './TempPostItem';
 
 export type TempPostListProps = {
   userId?: number;
@@ -54,10 +56,10 @@ const TempPostList = ({ userId }: TempPostListProps) => {
 
   return (
     <>
-      <h1>Temp Posts</h1>
+      <h1 css={title}>Temp Posts</h1>
       <ul css={listStyle}>
         {items
-          ? items.map((item) => <PostItem key={item.id} post={item} />)
+          ? items.map((item) => <TempPostItem key={item.id} post={item} />)
           : Array.from({ length: 10 }).map((_, i) => (
               <PostItemSkeleton key={i} />
             ))}
@@ -75,6 +77,16 @@ const listStyle = css`
   margin: 0;
   padding: 0;
   list-style: none;
+`;
+
+const title = css`
+  color: ${palette.blueGrey[900]};
+  margin-top: 1rem;
+  margin-bottom: 2rem;
+  font-size: 3rem;
+  ${media.sm} {
+    font-size: 2rem;
+  }
 `;
 
 export default TempPostList;
