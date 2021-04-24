@@ -53,8 +53,8 @@ function App() {
             <Route path="/error">
               <Error />
             </Route>
+            <Redirect to="/error" />
           </Layout>
-          <Redirect to="/error" />
         </Switch>
       </BrowserRouter>
     </>
