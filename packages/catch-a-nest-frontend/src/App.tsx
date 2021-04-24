@@ -20,14 +20,6 @@ function App() {
     <>
       <Helmet>
         <title>Seo Nest</title>
-        <meta name="description" content="Seo's seonest nest" />
-        <meta
-          property="og:image"
-          content="https://files.seonest.net/seonest-logo.png"
-        />
-        <meta property="og:type" content="website" />
-        <meta property="og:title" content="Seo Nest" />
-        <meta property="og:description" content="Seo Nest" />
       </Helmet>
       <Global styles={globalStyle} />
       <AppToast />

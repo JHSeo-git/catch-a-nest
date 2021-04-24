@@ -12,6 +12,14 @@ const Posts = (props: PostsProps) => {
     <>
       <Helmet>
         <title>Posts – Seo Nest</title>
+        <meta name="description" content="Seo's honest nest" />
+        <meta
+          property="og:image"
+          content="https://files.seonest.net/seonest-logo.png"
+        />
+        <meta property="og:type" content="website" />
+        <meta property="og:title" content="Seo Nest" />
+        <meta property="og:description" content="Seo's honest nest" />
       </Helmet>
       <PostList userId={user?.id} />
     </>
