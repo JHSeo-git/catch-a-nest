@@ -1,5 +1,6 @@
 import { css } from '@emotion/react';
 import palette from '@src/lib/palette';
+import media from '@src/lib/styles/media';
 import React, { forwardRef } from 'react';
 import { shining } from '../../lib/styles/animation';
 
@@ -46,6 +47,9 @@ const itemStyle = css`
 
 const imageWrapper = css`
   width: 11.25rem;
+  ${media.sm} {
+    width: 5rem;
+  }
 `;
 
 const infoWrapper = css`
