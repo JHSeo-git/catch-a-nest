@@ -1,4 +1,5 @@
 import format from 'date-fns/format';
+import formatDistanceToNow from 'date-fns/formatDistanceToNow';
 
 export const getDiffOfNow = (date: Date | string) => {
   let d: Date;
@@ -7,11 +8,20 @@ export const getDiffOfNow = (date: Date | string) => {
   } else {
     d = date;
   }
-  const diff = Math.ceil(
-    new Date().getTime() - d.getTime() / 24 / 60 / 60 / 60
-  );
-  const result = diff > 12 ? d.toDateString() : `About ${diff} ago`;
-  return result;
+  const now = Date.now();
+  const diff = now - d.getTime();
+
+  console.log(date);
+
+  if (diff < 1000 * 60 * 5) {
+    return 'Recently';
+  }
+
+  if (diff < 1000 * 60 * 60 * 24) {
+    return formatDistanceToNow(d, { addSuffix: true });
+  }
+
+  return d.toDateString();
 };
 
 export const stringToDateLocalString = (date: string) => {
