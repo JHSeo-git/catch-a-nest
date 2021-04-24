@@ -23,7 +23,7 @@ function App() {
         <meta name="description" content="Seo's seonest nest" />
         <meta
           property="og:image"
-          content="https://seonest.net/static/media/logo.2bce7bb7.svg"
+          content="https://files.seonest.net/seonest-logo.png"
         />
         <meta property="og:type" content="website" />
         <meta property="og:title" content="Seo Nest" />
