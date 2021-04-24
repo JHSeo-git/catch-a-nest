@@ -20,6 +20,7 @@ const Error = (props: ErrorProps) => {
     <>
       <Helmet>
         <title>Error – Seo Nest</title>
+        <meta name="robots" content="noindex" />
       </Helmet>
       <ErrorInfo
         errorType={status && status === '404' ? 'NotFound' : 'NotAuthorized'}

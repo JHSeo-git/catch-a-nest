@@ -43,6 +43,8 @@ const ReadPost = ({ slug }: ReadPostProps) => {
     onDelete(slug, true);
   };
 
+  const url = `https://seonest.net/post/${slug}`;
+
   // TODO: skeleton
   if (!post || isLoading) return null;
 
@@ -50,6 +52,19 @@ const ReadPost = ({ slug }: ReadPostProps) => {
     <>
       <Helmet>
         <title>{post.title}</title>
+        {post.short_description && (
+          <meta name="description" content={post.short_description} />
+        )}
+        <link rel="canonical" href={url} />
+        <meta property="og:title" content={post.title} />
+        <meta
+          property="og:description"
+          content={post.short_description ?? post.body.slice(0, 150)}
+        />
+        <meta property="og:url" content={url} />
+        {post.thumbnail && (
+          <meta property="og:image" content={post.thumbnail} />
+        )}
       </Helmet>
       <section css={postStyle}>
         <h1 className="title">{post.title}</h1>

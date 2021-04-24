@@ -4,4 +4,4 @@
 
 # deploy
 
-- 0.0.1: serverless
+- 0.0.1: pm2

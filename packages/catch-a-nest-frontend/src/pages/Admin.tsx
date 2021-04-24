@@ -13,6 +13,7 @@ const Admin = (props: AdminProps) => {
     <>
       <Helmet>
         <title>Login (Admin) – Seo Nest</title>
+        <meta name="robots" content="noindex" />
       </Helmet>
       <SignPanel />
     </>
