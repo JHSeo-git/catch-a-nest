@@ -13,10 +13,22 @@ import AppInfo from './components/AppInfo';
 import { fontFamily } from './lib/styles/typography';
 import Error from './pages/Error';
 import TempPosts from './pages/TempPosts';
+import { Helmet } from 'react-helmet-async';
 
 function App() {
   return (
     <>
+      <Helmet>
+        <title>Seo Nest</title>
+        <meta name="description" content="Seo's seonest nest" />
+        <meta
+          property="og:image"
+          content="https://seonest.net/static/media/logo.2bce7bb7.svg"
+        />
+        <meta property="og:type" content="website" />
+        <meta property="og:title" content="Seo Nest" />
+        <meta property="og:description" content="Seo Nest" />
+      </Helmet>
       <Global styles={globalStyle} />
       <AppToast />
       <BrowserRouter>
