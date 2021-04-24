@@ -87,6 +87,10 @@ export const saveTempPost = async (ctx: Context) => {
       if (targetPost.is_temp) {
         targetPost.title = title;
         targetPost.body = body;
+        targetPost.short_description = shortDescription;
+        targetPost.thumbnail = thumbnail;
+        targetPost.url_slug = urlSlug;
+        targetPost.user = currentUser;
       }
     } else {
       targetPost = new Post();
@@ -212,10 +216,26 @@ export const getLastTempPost = async (ctx: Context) => {
       where: {
         post,
       },
+      relations: ['post'],
       order: { id: 'DESC' },
     });
 
-    ctx.body = lastTempPost;
+    console.log(lastTempPost);
+
+    const serialized = lastTempPost
+      ? {
+          id: lastTempPost.id,
+          title: lastTempPost.title,
+          body: lastTempPost.body,
+          created_at: lastTempPost.created_at,
+          updated_at: lastTempPost.updated_at,
+          short_description: lastTempPost.post.short_description,
+          thumbnail: lastTempPost.post.thumbnail,
+          url_slug: lastTempPost.post.url_slug,
+        }
+      : lastTempPost;
+
+    ctx.body = serialized;
   } catch (e) {
     ctx.throw(500, e);
   }

@@ -14,7 +14,7 @@ export default function useDeletePost() {
   const history = useHistory();
 
   const onDelete = useCallback(
-    async (slug: string) => {
+    async (slug: string, isBack: boolean = false) => {
       if (!slug) return;
       try {
         setLoading(true);
@@ -23,7 +23,11 @@ export default function useDeletePost() {
           throw new Error(`Fail delete post: ${slug}`);
         }
         setDeleteModal(false);
-        history.goBack();
+        if (isBack) {
+          history.goBack();
+        } else {
+          history.go(0);
+        }
       } catch (e) {
         setError(e);
       } finally {

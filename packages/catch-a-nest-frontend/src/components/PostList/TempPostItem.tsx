@@ -1,3 +1,4 @@
+import React from 'react';
 import { css } from '@emotion/react';
 import { Post } from '@src/lib/api/posts/types';
 import palette from '@src/lib/palette';
@@ -5,25 +6,47 @@ import media from '@src/lib/styles/media';
 import { resetButton } from '@src/lib/styles/resetButton';
 import { getDiffOfNow } from '@src/lib/utils/dateUtils';
 import { Link } from 'react-router-dom';
+import useDeletePost from '@src/hooks/useDeletePost';
+import OKCancelModal from '../Modal/OKCancelModal';
 
 export type TempPostItemProps = {
   post: Post;
 };
 
 const TempPostItem = ({ post }: TempPostItemProps) => {
+  const {
+    deleteModal,
+    onDeleteModal,
+    loading,
+    onCancelModal,
+    onDelete,
+  } = useDeletePost();
+
+  const onDeleteOKClick = () => {
+    onDelete(post.url_slug);
+  };
   return (
-    <li css={block}>
-      <div css={itemStyle}>
-        <div css={infoWrapper}>
-          <h4>{getDiffOfNow(post.updated_at)}</h4>
-          <Link css={linkStyle} to={`/post/${post.url_slug}`}>
-            <h2>{post.title}</h2>
-            <p>{post.body}</p>
-          </Link>
-          <button>삭제</button>
+    <>
+      <li css={block}>
+        <div css={itemStyle}>
+          <div css={infoWrapper}>
+            <h4>{getDiffOfNow(post.updated_at)}</h4>
+            <Link css={linkStyle} to={`/post/${post.url_slug}`}>
+              <h2>{post.title}</h2>
+              <p>{post.body}</p>
+            </Link>
+            <button onClick={onDeleteModal}>삭제</button>
+          </div>
         </div>
-      </div>
-    </li>
+        <OKCancelModal
+          view={deleteModal}
+          title="Temp Post Delete"
+          onClick={onDeleteOKClick}
+          onCancel={onCancelModal}
+          loading={loading}
+        />
+      </li>
+    </>
   );
 };
 

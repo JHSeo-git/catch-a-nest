@@ -40,7 +40,7 @@ const ReadPost = ({ slug }: ReadPostProps) => {
   }
 
   const onDeleteOKClick = () => {
-    onDelete(slug);
+    onDelete(slug, true);
   };
 
   // TODO: skeleton
