@@ -13,6 +13,7 @@ import useDeletePost from '@src/hooks/useDeletePost';
 import OKCancelModal from '../Modal/OKCancelModal';
 import { Helmet } from 'react-helmet-async';
 import useAppToast from '@src/hooks/useAppToast';
+import ReadPostSkeleton from './ReadPostSkeleton';
 
 export type ReadPostProps = {
   slug: string;
@@ -46,7 +47,7 @@ const ReadPost = ({ slug }: ReadPostProps) => {
   const url = `https://seonest.net/post/${slug}`;
 
   // TODO: skeleton
-  if (!post || isLoading) return null;
+  if (!post || isLoading) return <ReadPostSkeleton />;
 
   return (
     <>
