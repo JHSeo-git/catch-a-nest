@@ -1,4 +1,4 @@
-import Koa, { Middleware } from 'koa';
+import Koa from 'koa';
 import logger from 'koa-logger';
 import bodyParser from 'koa-bodyparser';
 import cors from '@koa/cors';
@@ -6,6 +6,7 @@ import router from './router';
 import jwtMiddleware from './lib/middlewares/jwtMiddleware';
 import addIPAddress from './lib/middlewares/addIPAddress';
 import healthCheck from './lib/middlewares/healthCheck';
+import koaCompress from 'koa-compress';
 
 const app = new Koa();
 
@@ -35,6 +36,7 @@ const corsOptions: cors.Options = {
 app.proxy = true;
 app.use(logger());
 app.use(cors(corsOptions));
+app.use(koaCompress);
 app.use(bodyParser());
 app.use(addIPAddress);
 app.use(jwtMiddleware);
