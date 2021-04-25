@@ -36,7 +36,7 @@ const corsOptions: cors.Options = {
 app.proxy = true;
 app.use(logger());
 app.use(cors(corsOptions));
-app.use(koaCompress);
+app.use(koaCompress());
 app.use(bodyParser());
 app.use(addIPAddress);
 app.use(jwtMiddleware);
