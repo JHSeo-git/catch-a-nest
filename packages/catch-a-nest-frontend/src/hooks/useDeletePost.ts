@@ -1,16 +1,11 @@
 import deletePostBySlug from '@src/lib/api/posts/deletePostBySlug';
-import {
-  useDeleteModalValue,
-  useSetDeleteModalState,
-} from '@src/states/viewState';
 import { useCallback, useState } from 'react';
 import { useHistory } from 'react-router';
 
 export default function useDeletePost() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<Error | null>(null);
-  const deleteModal = useDeleteModalValue();
-  const setDeleteModal = useSetDeleteModalState();
+  const [deleteModal, setDeleteModal] = useState(false);
   const history = useHistory();
 
   const onDelete = useCallback(

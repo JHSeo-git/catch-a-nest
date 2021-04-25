@@ -1,14 +1,4 @@
-import {
-  atom,
-  useRecoilState,
-  useRecoilValue,
-  useSetRecoilState,
-} from 'recoil';
-
-const deleteModalState = atom<boolean>({
-  key: 'deleteModalState',
-  default: false,
-});
+import { atom, useRecoilState } from 'recoil';
 
 const tempPostUseModalState = atom<boolean>({
   key: 'tempPostUseModalState',
@@ -19,14 +9,6 @@ const newTempArrivedState = atom<boolean>({
   key: 'newTempArrivedState',
   default: false,
 });
-
-export function useDeleteModalValue() {
-  return useRecoilValue(deleteModalState);
-}
-
-export function useSetDeleteModalState() {
-  return useSetRecoilState(deleteModalState);
-}
 
 export function useTempPostUseModalState() {
   return useRecoilState(tempPostUseModalState);

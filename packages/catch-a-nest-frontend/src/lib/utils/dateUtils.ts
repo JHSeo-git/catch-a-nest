@@ -11,8 +11,6 @@ export const getDiffOfNow = (date: Date | string) => {
   const now = Date.now();
   const diff = now - d.getTime();
 
-  console.log(date);
-
   if (diff < 1000 * 60 * 5) {
     return 'Recently';
   }

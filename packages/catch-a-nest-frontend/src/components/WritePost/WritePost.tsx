@@ -61,7 +61,7 @@ const WritePost = (props: WritePostProps) => {
     off();
   };
 
-  if (isLoading) return null;
+  if (isLoading) console.log('re loading');
 
   return (
     <>
