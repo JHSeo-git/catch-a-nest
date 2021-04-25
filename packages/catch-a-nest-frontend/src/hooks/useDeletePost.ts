@@ -1,16 +1,21 @@
 import deletePostBySlug from '@src/lib/api/posts/deletePostBySlug';
+import { useUserState } from '@src/states/authState';
 import { useCallback, useState } from 'react';
 import { useHistory } from 'react-router';
+import { useGetPostsQueryUpdator } from './query/useGetPostsQuery';
+import { useGetTempPostsQueryUpdator } from './query/useGetTempPostsQuery';
 
 export default function useDeletePost() {
+  const [user] = useUserState();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<Error | null>(null);
   const [deleteModal, setDeleteModal] = useState(false);
+  const { remove: removePosts } = useGetPostsQueryUpdator();
+  const { remove: removeTempPosts } = useGetTempPostsQueryUpdator();
   const history = useHistory();
 
   const onDelete = useCallback(
     async (slug: string, isBack: boolean = false) => {
-      if (!slug) return;
       try {
         setLoading(true);
         const isSuccess = await deletePostBySlug(slug);
@@ -18,6 +23,12 @@ export default function useDeletePost() {
           throw new Error(`Fail delete post: ${slug}`);
         }
         setDeleteModal(false);
+
+        removePosts(slug);
+        removePosts(slug, user?.id);
+        removeTempPosts(slug);
+        removeTempPosts(slug, user?.id);
+
         if (isBack) {
           history.goBack();
         } else {
@@ -29,7 +40,7 @@ export default function useDeletePost() {
         setLoading(false);
       }
     },
-    [history, setDeleteModal]
+    [history, setDeleteModal, removePosts, removeTempPosts, user]
   );
 
   const onDeleteModal = useCallback(() => {
