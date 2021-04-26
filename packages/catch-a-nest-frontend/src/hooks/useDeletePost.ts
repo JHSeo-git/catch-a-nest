@@ -1,4 +1,6 @@
 import deletePostBySlug from '@src/lib/api/posts/deletePostBySlug';
+import { isAxiosError } from '@src/lib/utils/isAxiosError';
+import { useAppModalActions } from '@src/states/appModalState';
 import { useUserState } from '@src/states/authState';
 import { useCallback, useState } from 'react';
 import { useHistory } from 'react-router';
@@ -8,11 +10,11 @@ import { useGetTempPostsQueryUpdator } from './query/useGetTempPostsQuery';
 export default function useDeletePost() {
   const [user] = useUserState();
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<Error | null>(null);
   const [deleteModal, setDeleteModal] = useState(false);
   const { remove: removePosts } = useGetPostsQueryUpdator();
   const { remove: removeTempPosts } = useGetTempPostsQueryUpdator();
   const history = useHistory();
+  const { open } = useAppModalActions();
 
   const onDelete = useCallback(
     async (slug: string, isBack: boolean = false) => {
@@ -35,12 +37,25 @@ export default function useDeletePost() {
           history.go(0);
         }
       } catch (e) {
-        setError(e);
+        if (isAxiosError(e)) {
+          const statusCode = e.response?.status;
+          const message = (() => {
+            if (statusCode === 401) {
+              return 'Please sign in...';
+            }
+            return 'Failed delete post...';
+          })();
+
+          open({
+            title: 'Error',
+            message,
+          });
+        }
       } finally {
         setLoading(false);
       }
     },
-    [history, setDeleteModal, removePosts, removeTempPosts, user]
+    [history, setDeleteModal, removePosts, removeTempPosts, user, open]
   );
 
   const onDeleteModal = useCallback(() => {
@@ -54,7 +69,6 @@ export default function useDeletePost() {
   return {
     onDelete,
     loading,
-    error,
     deleteModal,
     onDeleteModal,
     onCancelModal,

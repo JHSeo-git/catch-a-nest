@@ -14,6 +14,7 @@ import { fontFamily } from './lib/styles/typography';
 import Error from './pages/Error';
 import TempPosts from './pages/TempPosts';
 import { Helmet } from 'react-helmet-async';
+import AppModal from './components/Modal/AppModal';
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
         <title>Seo Nest</title>
       </Helmet>
       <Global styles={globalStyle} />
+      <AppModal />
       <AppToast />
       <BrowserRouter>
         <ScrollToTop />

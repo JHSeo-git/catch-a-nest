@@ -12,7 +12,6 @@ import AppButton from '../AppButton';
 import useDeletePost from '@src/hooks/useDeletePost';
 import OKCancelModal from '../Modal/OKCancelModal';
 import { Helmet } from 'react-helmet-async';
-import useAppToast from '@src/hooks/useAppToast';
 import ReadPostSkeleton from './ReadPostSkeleton';
 
 export type ReadPostProps = {
@@ -28,18 +27,12 @@ const ReadPost = ({ slug }: ReadPostProps) => {
     deleteModal,
     onCancelModal,
     loading,
-    error,
   } = useDeletePost();
-  const { notify } = useAppToast();
   const history = useHistory();
   // useFullScreenLoaderEffect(isLoading);
   if (isError) {
     history.push('/error?status=404');
   }
-  if (error) {
-    notify(`${error}`, 'error');
-  }
-
   const onDeleteOKClick = () => {
     onDelete(slug, true);
   };
