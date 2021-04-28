@@ -10,9 +10,9 @@ import media from '@src/lib/styles/media';
 import { useUserState } from '@src/states/authState';
 import AppButton from '../AppButton';
 import useDeletePost from '@src/hooks/useDeletePost';
-import OKCancelModal from '../Modal/OKCancelModal';
 import { Helmet } from 'react-helmet-async';
 import ReadPostSkeleton from './ReadPostSkeleton';
+import { useAppModalActions } from '@src/states/appModalState';
 
 export type ReadPostProps = {
   slug: string;
@@ -20,21 +20,25 @@ export type ReadPostProps = {
 
 const ReadPost = ({ slug }: ReadPostProps) => {
   const [user] = useUserState();
-  const { data: post, isError, isLoading } = useGetPostBySlugQuery(slug);
-  const {
-    onDelete,
-    onDeleteModal,
-    deleteModal,
-    onCancelModal,
-    loading,
-  } = useDeletePost();
+  const { open } = useAppModalActions();
+  const { data: post, isError, isLoading } = useGetPostBySlugQuery(slug, {
+    retry: 3,
+  });
+  const { onDelete } = useDeletePost();
   const history = useHistory();
   // useFullScreenLoaderEffect(isLoading);
   if (isError) {
     history.push('/error?status=404');
   }
-  const onDeleteOKClick = () => {
-    onDelete(slug, true);
+
+  const onDeleteModalOpen = () => {
+    open({
+      title: 'Post Delete',
+      message: 'Post Delete',
+      onConfirm: () => {
+        onDelete(slug, true);
+      },
+    });
   };
 
   const url = `https://seonest.net/post/${slug}`;
@@ -71,7 +75,7 @@ const ReadPost = ({ slug }: ReadPostProps) => {
               text="DELETE"
               type="thirdary"
               size="small"
-              onClick={onDeleteModal}
+              onClick={onDeleteModalOpen}
             />
           </div>
         )}
@@ -83,13 +87,6 @@ const ReadPost = ({ slug }: ReadPostProps) => {
         <MarkdownItViewer markdown={post.body} />
         <PostEditButton slug={post.url_slug} />
       </section>
-      <OKCancelModal
-        view={deleteModal}
-        title="Post Delete"
-        onClick={onDeleteOKClick}
-        onCancel={onCancelModal}
-        loading={loading}
-      />
     </>
   );
 };

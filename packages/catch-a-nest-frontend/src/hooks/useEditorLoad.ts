@@ -1,9 +1,9 @@
+import { useAppModalActions } from '@src/states/appModalState';
 import {
   useEditorIsTempUseState,
   useEditorSync,
   useEditTargetSlugState,
 } from '@src/states/editorState';
-import { useTempPostUseModalState } from '@src/states/viewState';
 import { useEffect, useMemo, useState } from 'react';
 import { useHistory } from 'react-router';
 import useGetLastTempPostQuery from './query/useGetLastTempPostQuery';
@@ -11,9 +11,9 @@ import useGetPostBySlugQuery from './query/useGetPostBySlugQuery';
 
 export default function useEditorLoad() {
   const [slug] = useEditTargetSlugState();
-  const [useIsTemp] = useEditorIsTempUseState();
-  const [, setTempPostUseModal] = useTempPostUseModalState();
+  const [useIsTemp, setIsTempUse] = useEditorIsTempUseState();
   const [loading, setLoading] = useState(true);
+  const { open } = useAppModalActions();
   const {
     data: postData,
     isError,
@@ -44,8 +44,14 @@ export default function useEditorLoad() {
     if (!postData) return;
     if (!tempData) return;
     if (postData.is_temp) return;
-    setTempPostUseModal(true);
-  }, [postData, tempData, setTempPostUseModal]);
+    open({
+      title: 'Exists Temp Post',
+      message: 'Could you get temp post?',
+      onConfirm: () => {
+        setIsTempUse(true);
+      },
+    });
+  }, [postData, tempData, open, setIsTempUse]);
 
   useEffect(() => {
     try {

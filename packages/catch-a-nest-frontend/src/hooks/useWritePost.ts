@@ -7,7 +7,6 @@ import {
   useEditorContentValue,
   useEditTargetSlugState,
 } from '@src/states/editorState';
-import { useNewTempArrivedActions } from '@src/states/viewState';
 import { useCallback, useState } from 'react';
 import { useHistory } from 'react-router';
 import saveNewTempPost from '../lib/api/posts/saveNewTempPost';
@@ -21,7 +20,6 @@ export default function useWritePost() {
   const { notify } = useAppToast();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const { on: newTempOn } = useNewTempArrivedActions();
 
   const onSave = useCallback(async () => {
     try {
@@ -59,7 +57,7 @@ export default function useWritePost() {
           : await saveNewTempPost(tempPostContent);
 
         history.replace(`/write/${saved.url_slug}`);
-        newTempOn();
+        // newTempOn();
         notify('Save Temp Post', 'success');
       } catch (e) {
         notify('Fail Temp Save Post', 'error');
@@ -68,7 +66,7 @@ export default function useWritePost() {
         setLoading(false);
       }
     },
-    [notify, history, slug, newTempOn]
+    [notify, history, slug]
   );
 
   return {

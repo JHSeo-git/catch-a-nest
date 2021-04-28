@@ -7,24 +7,26 @@ import { resetButton } from '@src/lib/styles/resetButton';
 import { getDiffOfNow } from '@src/lib/utils/dateUtils';
 import { Link } from 'react-router-dom';
 import useDeletePost from '@src/hooks/useDeletePost';
-import OKCancelModal from '../Modal/OKCancelModal';
+import { useAppModalActions } from '@src/states/appModalState';
 
 export type TempPostItemProps = {
   post: Post;
 };
 
 const TempPostItem = ({ post }: TempPostItemProps) => {
-  const {
-    deleteModal,
-    onDeleteModal,
-    loading,
-    onCancelModal,
-    onDelete,
-  } = useDeletePost();
+  const { onDelete } = useDeletePost();
+  const { open } = useAppModalActions();
 
-  const onDeleteOKClick = () => {
-    onDelete(post.url_slug);
+  const onDeleteModalOpen = () => {
+    open({
+      title: 'Temp Post Delete',
+      message: 'Temp Post Delete',
+      onConfirm: () => {
+        onDelete(post.url_slug);
+      },
+    });
   };
+
   return (
     <>
       <li css={block}>
@@ -35,16 +37,9 @@ const TempPostItem = ({ post }: TempPostItemProps) => {
               <h2>{post.title}</h2>
               <p>{post.body}</p>
             </Link>
-            <button onClick={onDeleteModal}>삭제</button>
+            <button onClick={onDeleteModalOpen}>REMOVE</button>
           </div>
         </div>
-        <OKCancelModal
-          view={deleteModal}
-          title="Temp Post Delete"
-          onClick={onDeleteOKClick}
-          onCancel={onCancelModal}
-          loading={loading}
-        />
       </li>
     </>
   );

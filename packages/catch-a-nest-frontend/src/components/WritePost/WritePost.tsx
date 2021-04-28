@@ -8,23 +8,12 @@ import WritePostFooter from './WritePostFooter';
 import useWritePost from '@src/hooks/useWritePost';
 import useEditorLoad from '@src/hooks/useEditorLoad';
 import { Helmet } from 'react-helmet-async';
-import {
-  useEditorIsTempUseState,
-  useEditorTitleState,
-} from '@src/states/editorState';
-import {
-  useNewTempArrivedActions,
-  useTempPostUseModalState,
-} from '@src/states/viewState';
-import OKCancelModal from '../Modal/OKCancelModal';
+import { useEditorTitleState } from '@src/states/editorState';
 
 export type WritePostProps = {};
 
 const WritePost = (props: WritePostProps) => {
-  const [tempPostUseModal, setTempPostUseModal] = useTempPostUseModalState();
   const [postTitle] = useEditorTitleState();
-  const [, setIsTempUse] = useEditorIsTempUseState();
-  const { off, newTempArrived } = useNewTempArrivedActions();
 
   const {
     editorRef,
@@ -44,23 +33,6 @@ const WritePost = (props: WritePostProps) => {
       reset();
     };
   }, [reset]);
-
-  useEffect(() => {
-    return () => {
-      off();
-    };
-  }, [off]);
-
-  const onTempUseModalOKClick = () => {
-    setIsTempUse(true);
-    setTempPostUseModal(false);
-    off();
-  };
-
-  const onTempUseModalCancelClick = () => {
-    setTempPostUseModal(false);
-    off();
-  };
 
   if (isLoading) return null;
 
@@ -83,12 +55,6 @@ const WritePost = (props: WritePostProps) => {
         />
       </section>
       <WritePostDetail onSave={onSave} />
-      <OKCancelModal
-        view={!newTempArrived && tempPostUseModal}
-        title="Could you get temp post?"
-        onClick={onTempUseModalOKClick}
-        onCancel={onTempUseModalCancelClick}
-      />
     </>
   );
 };

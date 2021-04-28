@@ -29,9 +29,10 @@ const AppModal = () => {
   };
 
   const handleCancel = () => {
-    if (!onCancel) return undefined;
+    if (onCancel) {
+      onCancel();
+    }
 
-    onCancel();
     close();
   };
 
@@ -43,13 +44,12 @@ const AppModal = () => {
         <h1>{title}</h1>
         {message && <p>{message}</p>}
         <div css={buttonGroup}>
-          {handleCancel && (
-            <AppButton
-              text={cancelText ?? 'CANCEL'}
-              type="normal"
-              onClick={handleCancel}
-            />
-          )}
+          <AppButton
+            text={cancelText ?? 'CANCEL'}
+            type="normal"
+            onClick={handleCancel}
+          />
+
           <AppButton
             text={confirmText ?? 'OK'}
             type="thirdary"

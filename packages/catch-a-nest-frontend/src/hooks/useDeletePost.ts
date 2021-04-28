@@ -10,7 +10,6 @@ import { useGetTempPostsQueryUpdator } from './query/useGetTempPostsQuery';
 export default function useDeletePost() {
   const [user] = useUserState();
   const [loading, setLoading] = useState(false);
-  const [deleteModal, setDeleteModal] = useState(false);
   const { remove: removePosts } = useGetPostsQueryUpdator();
   const { remove: removeTempPosts } = useGetTempPostsQueryUpdator();
   const history = useHistory();
@@ -20,11 +19,11 @@ export default function useDeletePost() {
     async (slug: string, isBack: boolean = false) => {
       try {
         setLoading(true);
+
         const isSuccess = await deletePostBySlug(slug);
         if (!isSuccess) {
           throw new Error(`Fail delete post: ${slug}`);
         }
-        setDeleteModal(false);
 
         removePosts(slug);
         removePosts(slug, user?.id);
@@ -55,22 +54,11 @@ export default function useDeletePost() {
         setLoading(false);
       }
     },
-    [history, setDeleteModal, removePosts, removeTempPosts, user, open]
+    [history, removePosts, removeTempPosts, user, open]
   );
 
-  const onDeleteModal = useCallback(() => {
-    setDeleteModal(true);
-  }, [setDeleteModal]);
-
-  const onCancelModal = useCallback(() => {
-    setDeleteModal(false);
-  }, [setDeleteModal]);
-
   return {
-    onDelete,
     loading,
-    deleteModal,
-    onDeleteModal,
-    onCancelModal,
+    onDelete,
   };
 }
