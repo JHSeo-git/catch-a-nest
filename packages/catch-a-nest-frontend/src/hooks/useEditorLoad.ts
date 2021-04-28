@@ -4,7 +4,7 @@ import {
   useEditTargetSlugState,
 } from '@src/states/editorState';
 import { useTempPostUseModalState } from '@src/states/viewState';
-import { useEffect, useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useHistory } from 'react-router';
 import useGetLastTempPostQuery from './query/useGetLastTempPostQuery';
 import useGetPostBySlugQuery from './query/useGetPostBySlugQuery';
@@ -13,6 +13,7 @@ export default function useEditorLoad() {
   const [slug] = useEditTargetSlugState();
   const [useIsTemp] = useEditorIsTempUseState();
   const [, setTempPostUseModal] = useTempPostUseModalState();
+  const [loading, setLoading] = useState(true);
   const {
     data: postData,
     isError,
@@ -47,19 +48,24 @@ export default function useEditorLoad() {
   }, [postData, tempData, setTempPostUseModal]);
 
   useEffect(() => {
-    if (!data) return;
-    sync(
-      {
-        title: data.title,
-        body: data.body,
-        shortDescription: data.short_description,
-        thumbnail: data.thumbnail,
-      },
-      data.is_temp
-    );
+    try {
+      if (!data) return;
+      sync(
+        {
+          title: data.title,
+          body: data.body,
+          shortDescription: data.short_description,
+          thumbnail: data.thumbnail,
+        },
+        data.is_temp
+      );
+    } catch {
+    } finally {
+      setLoading(false);
+    }
   }, [data, sync]);
 
   return {
-    isLoading: postQueryLoading || lastTempQueryLoading,
+    isLoading: postQueryLoading || lastTempQueryLoading || loading,
   };
 }

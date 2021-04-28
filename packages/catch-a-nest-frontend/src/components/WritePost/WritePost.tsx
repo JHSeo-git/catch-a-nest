@@ -25,6 +25,7 @@ const WritePost = (props: WritePostProps) => {
   const [postTitle] = useEditorTitleState();
   const [, setIsTempUse] = useEditorIsTempUseState();
   const { off, newTempArrived } = useNewTempArrivedActions();
+
   const {
     editorRef,
     reset,
@@ -61,7 +62,7 @@ const WritePost = (props: WritePostProps) => {
     off();
   };
 
-  if (isLoading) console.log('re loading');
+  if (isLoading) return null;
 
   return (
     <>
