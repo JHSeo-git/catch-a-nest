@@ -35,12 +35,16 @@ const PostItem = ({ post }: PostItemProps) => {
           <h2>{post.title}</h2>
           <p>{post.short_description}</p>
         </div>
+        <div css={countStyle}>
+          <span>{post.read_count ?? 0}</span>
+        </div>
       </Link>
     </li>
   );
 };
 
 const block = css`
+  position: relative;
   & + & {
     margin-top: 1rem;
   }
@@ -116,6 +120,23 @@ const infoWrapper = css`
     -webkit-box-orient: vertical;
     overflow: hidden;
     text-overflow: ellipsis;
+  }
+`;
+
+const countStyle = css`
+  position: absolute;
+  right: 0;
+  top: 0;
+  display: flex;
+  align-items: center;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+
+  span {
+    font-size: 0.875rem;
+    color: ${palette.blueGrey[500]};
+    font-weight: bold;
+    margin-left: 0.5rem;
   }
 `;
 

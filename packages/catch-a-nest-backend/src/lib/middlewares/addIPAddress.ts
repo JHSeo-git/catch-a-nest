@@ -2,7 +2,6 @@ import { Middleware } from 'koa';
 
 const addIPAddress: Middleware = (ctx, next) => {
   ctx.ipAddr = ctx.request.ips[0] ?? ctx.request.ip;
-  console.log(ctx.request.ips, ctx.request.ip);
   return next();
 };
 

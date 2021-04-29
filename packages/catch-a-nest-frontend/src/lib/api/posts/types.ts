@@ -13,4 +13,5 @@ export type Post = {
   is_temp: boolean;
   created_at: string;
   updated_at: string;
+  read_count?: number;
 };

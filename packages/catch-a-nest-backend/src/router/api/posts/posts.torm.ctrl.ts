@@ -1,10 +1,12 @@
 import { Post } from '@src/entity/Post';
+import { PostRead } from '@src/entity/PostRead';
 import { TempPost } from '@src/entity/TempPost';
 import { User } from '@src/entity/User';
 import { generateUrlSlug, validateBodySchema } from '@src/lib/common';
-import Joi from 'joi';
+import Joi, { equal } from 'joi';
 import { Context } from 'koa';
 import { getManager, getRepository, LessThan } from 'typeorm';
+import crypto from 'crypto';
 
 type SaveNewPostBodySchema = {
   title: string;
@@ -149,7 +151,22 @@ export const getPosts = async (ctx: Context) => {
       },
     });
 
-    ctx.body = posts;
+    const postsWithCount = await Promise.all(
+      posts.map(async (post) => {
+        const postCountArr = await getRepository(PostRead)
+          .createQueryBuilder('post_reads')
+          .select('post_reads.ip_hash')
+          .where(`post_reads.post.id = ${post.id}`)
+          .groupBy('post_reads.ip_hash')
+          .getRawMany();
+        return {
+          ...post,
+          read_count: postCountArr.length,
+        };
+      })
+    );
+
+    ctx.body = postsWithCount;
   } catch (e) {
     ctx.throw(500, e);
   }
@@ -182,7 +199,25 @@ export const getPostBySlug = async (ctx: Context) => {
       return;
     }
 
-    ctx.body = post;
+    const postReadRepo = getRepository(PostRead);
+
+    // TODO: read count + 1;
+    const ipAddr = ctx.ipAddr;
+    if (ipAddr) {
+      const postRead = new PostRead();
+      postRead.ip_hash = crypto.createHash('md5').update(ipAddr).digest('hex');
+      postRead.post = post;
+      await postReadRepo.save(postRead);
+    }
+
+    const postReadCount = await postReadRepo.count({
+      post,
+    });
+
+    ctx.body = {
+      ...post,
+      read_count: postReadCount,
+    };
   } catch (e) {
     ctx.throw(500, e);
   }
