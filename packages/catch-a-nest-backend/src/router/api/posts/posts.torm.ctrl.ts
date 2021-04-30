@@ -151,22 +151,23 @@ export const getPosts = async (ctx: Context) => {
       },
     });
 
-    const postsWithCount = await Promise.all(
-      posts.map(async (post) => {
-        const postCountArr = await getRepository(PostRead)
-          .createQueryBuilder('post_reads')
-          .select('post_reads.ip_hash')
-          .where(`post_reads.post.id = ${post.id}`)
-          .groupBy('post_reads.ip_hash')
-          .getRawMany();
-        return {
-          ...post,
-          read_count: postCountArr.length,
-        };
-      })
-    );
+    // REMOVE: post page에서만 보여주도록 함
+    // const postsWithCount = await Promise.all(
+    //   posts.map(async (post) => {
+    //     const postCountArr = await getRepository(PostRead)
+    //       .createQueryBuilder('post_reads')
+    //       .select('post_reads.ip_hash')
+    //       .where(`post_reads.post.id = ${post.id}`)
+    //       .groupBy('post_reads.ip_hash')
+    //       .getRawMany();
+    //     return {
+    //       ...post,
+    //       read_count: postCountArr.length,
+    //     };
+    //   })
+    // );
 
-    ctx.body = postsWithCount;
+    ctx.body = posts;
   } catch (e) {
     ctx.throw(500, e);
   }
@@ -201,7 +202,6 @@ export const getPostBySlug = async (ctx: Context) => {
 
     const postReadRepo = getRepository(PostRead);
 
-    // TODO: read count + 1;
     const ipAddr = ctx.ipAddr;
     if (ipAddr) {
       const postRead = new PostRead();
@@ -210,13 +210,16 @@ export const getPostBySlug = async (ctx: Context) => {
       await postReadRepo.save(postRead);
     }
 
-    const postReadCount = await postReadRepo.count({
-      post,
-    });
+    const postCountArr = await getRepository(PostRead)
+      .createQueryBuilder('post_reads')
+      .select('post_reads.ip_hash')
+      .where(`post_reads.post.id = ${post.id}`)
+      .groupBy('post_reads.ip_hash')
+      .getRawMany();
 
     ctx.body = {
       ...post,
-      read_count: postReadCount,
+      read_count: postCountArr.length,
     };
   } catch (e) {
     ctx.throw(500, e);

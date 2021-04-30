@@ -43,7 +43,6 @@ const ReadPost = ({ slug }: ReadPostProps) => {
 
   const url = `https://seonest.net/post/${slug}`;
 
-  // TODO: skeleton
   if (!post || isLoading) return <ReadPostSkeleton />;
 
   return (
@@ -68,6 +67,11 @@ const ReadPost = ({ slug }: ReadPostProps) => {
         <h1 className="title">{post.title}</h1>
         <div className="sub-info">
           <p className="date">{stringToDateMoreDetail(post.created_at)}</p>
+          <div className="splitter" />
+          <p className="view">
+            {post.read_count ?? 0} view
+            {post.read_count && post.read_count > 1 && 's'}
+          </p>
         </div>
         {user && (
           <div className="sub-info">
@@ -115,16 +119,22 @@ const postStyle = css`
     margin-top: 1rem;
     margin-bottom: 1rem;
 
-    .date {
+    .date,
+    .view {
       font-size: 0.85rem;
       margin: 0;
       padding: 0;
       color: ${palette.blueGrey[700]};
       text-align: right;
       line-height: 1;
-      margin-left: 1rem;
     }
     .splitter {
+      margin-left: 0.5rem;
+      margin-right: 0.5rem;
+      width: 0.25rem;
+      height: 0.25rem;
+      border-radius: 50%;
+      background-color: ${palette.blue[500]};
       /* flex: 1;
       margin-right: 5rem;
       height: 0.125rem;
