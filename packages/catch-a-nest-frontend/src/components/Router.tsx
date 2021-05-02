@@ -1,3 +1,5 @@
+import { Redirect, Route, Switch, useHistory } from 'react-router';
+import { BrowserRouter } from 'react-router-dom';
 import useAppToast from '@src/hooks/useAppToast';
 import useFirebasePageViewEffect from '@src/hooks/useFirebasePageViewEffect';
 import useUnhandledError from '@src/hooks/useUnhandledError';
@@ -7,57 +9,62 @@ import Post from '@src/pages/Post';
 import Posts from '@src/pages/Posts';
 import TempPosts from '@src/pages/TempPosts';
 import Write from '@src/pages/Write';
-import { Redirect, Route, Switch } from 'react-router';
 import AppInfo from './AppInfo';
 import Header from './Header';
 import Layout from './Layout';
+import ScrollToTop from './Layout/ScrollToTop';
 
 export type RouterProps = {};
 
 const Router = (props: RouterProps) => {
   const { notify } = useAppToast();
+  const history = useHistory();
 
   useFirebasePageViewEffect();
   useUnhandledError(({ reason: error }) => {
     notify(error.message ?? 'Error', 'error');
+    history.push('/error');
   });
 
   return (
-    <Switch>
-      <Route exact path={['/', '/temps', '/post/:slug', '/admin']}>
-        <Layout>
-          <Layout.Header>
-            <Header />
-          </Layout.Header>
-          <Switch>
-            <Layout.Main>
-              <Route exact path="/">
-                <Posts />
-              </Route>
-              <Route path="/temps">
-                <TempPosts />
-              </Route>
-              <Route exact path="/post/:slug">
-                <Post />
-              </Route>
-              <Route path="/admin">
-                <Admin />
-              </Route>
-            </Layout.Main>
-          </Switch>
-          <Layout.Footer>
-            <AppInfo />
-          </Layout.Footer>
-        </Layout>
-      </Route>
-      <Route exact path={'/write/:slug?'}>
-        <Write />
-      </Route>
-      <Route exact path="/error">
-        <Error />
-      </Route>
-      <Redirect to="/error" />
-    </Switch>
+    <BrowserRouter>
+      <ScrollToTop />
+      <Switch>
+        <Route exact path={['/', '/temps', '/post/:slug', '/admin']}>
+          <Layout>
+            <Layout.Header>
+              <Header />
+            </Layout.Header>
+            <Switch>
+              <Layout.Main>
+                <Route exact path="/">
+                  <Posts />
+                </Route>
+                <Route path="/temps">
+                  <TempPosts />
+                </Route>
+                <Route exact path="/post/:slug">
+                  <Post />
+                </Route>
+                <Route path="/admin">
+                  <Admin />
+                </Route>
+              </Layout.Main>
+            </Switch>
+            <Layout.Footer>
+              <AppInfo />
+            </Layout.Footer>
+          </Layout>
+        </Route>
+        <Route exact path={'/write/:slug?'}>
+          <Write />
+        </Route>
+        <Route exact path="/error">
+          <Error />
+        </Route>
+        <Redirect to="/error" />
+      </Switch>
+    </BrowserRouter>
   );
 };
 
