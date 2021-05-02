@@ -43,6 +43,7 @@
     "qs": "^6.10.1",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
+    "react-error-boundary": "^3.1.1",
     "react-headroom": "^3.1.1",
     "react-helmet-async": "^1.0.9",
     "react-query": "^3.13.0",

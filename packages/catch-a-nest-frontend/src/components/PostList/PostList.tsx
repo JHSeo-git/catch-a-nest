@@ -14,15 +14,18 @@ export type PostListProps = {
 const PostList = ({ userId }: PostListProps) => {
   const { data, hasNextPage, fetchNextPage, isError } = useGetPostsQuery(
     userId,
-    { retry: 3 }
+    {
+      retry: 3,
+    }
   );
-  const ref = useRef<HTMLDivElement>(null);
   const history = useHistory();
 
   const items = useMemo(() => {
     if (!data) return null;
     return data.pages.flat();
   }, [data]);
+
+  const ref = useRef<HTMLDivElement>(null);
 
   const observer = useMemo(
     () =>
@@ -49,6 +52,8 @@ const PostList = ({ userId }: PostListProps) => {
   if (isError) {
     history.push('/error?status=404');
   }
+
+  // TODO: empty page
 
   return (
     <>

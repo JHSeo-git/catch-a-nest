@@ -1,4 +1,6 @@
+import useAppToast from '@src/hooks/useAppToast';
 import useFirebasePageViewEffect from '@src/hooks/useFirebasePageViewEffect';
+import useUnhandledError from '@src/hooks/useUnhandledError';
 import Admin from '@src/pages/Admin';
 import Error from '@src/pages/Error';
 import Post from '@src/pages/Post';
@@ -13,7 +15,12 @@ import Layout from './Layout';
 export type RouterProps = {};
 
 const Router = (props: RouterProps) => {
+  const { notify } = useAppToast();
+
   useFirebasePageViewEffect();
+  useUnhandledError(({ reason: error }) => {
+    notify(error.message ?? 'Error', 'error');
+  });
 
   return (
     <Switch>
