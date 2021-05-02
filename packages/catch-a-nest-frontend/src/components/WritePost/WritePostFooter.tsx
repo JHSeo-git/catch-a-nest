@@ -1,4 +1,5 @@
 import { css } from '@emotion/react';
+import media from '@src/lib/styles/media';
 import AppButton from '../AppButton';
 
 export type WritePostFooterProps = {
@@ -33,6 +34,15 @@ const footerStyle = css`
   justify-content: space-between;
   padding-right: 1rem;
   padding-left: 1rem;
+
+  ${media.sm} {
+    padding: 0;
+    button {
+      border-radius: 0;
+      height: 100%;
+      width: 100%;
+    }
+  }
 `;
 
 export default WritePostFooter;
