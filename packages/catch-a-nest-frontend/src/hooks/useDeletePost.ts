@@ -49,6 +49,9 @@ export default function useDeletePost() {
             title: 'Error',
             message,
           });
+        } else {
+          // for global boundary
+          throw e;
         }
       } finally {
         setLoading(false);

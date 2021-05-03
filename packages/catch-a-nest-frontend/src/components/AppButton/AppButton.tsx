@@ -12,6 +12,7 @@ export type AppButtonProps = {
   type?: ButtonType;
   loading?: boolean;
   preIconName?: IconType;
+  preIconColor?: string;
   size?: SizeType;
 };
 
@@ -24,6 +25,7 @@ const AppButton = ({
   type = 'normal',
   loading = false,
   preIconName,
+  preIconColor = palette.blueGrey[900],
   size = 'normal',
 }: AppButtonProps) => {
   return (
@@ -32,7 +34,13 @@ const AppButton = ({
         <AppIcon className="spinner" name="spinner" />
       ) : (
         <>
-          {preIconName && <AppIcon className="pre-icon" name={preIconName} />}
+          {preIconName && (
+            <AppIcon
+              css={IconColorStyle(preIconColor)}
+              className="pre-icon"
+              name={preIconName}
+            />
+          )}
           {text}
         </>
       )}
@@ -62,7 +70,7 @@ const buttonStyle = (type: ButtonType, size: SizeType) => css`
 
   display: flex;
   align-items: center;
-  justify-content: space-around;
+  justify-content: center;
 
   .spinner {
     animation: ${rotateAnimation} 1s ease-in-out infinite;
@@ -70,8 +78,8 @@ const buttonStyle = (type: ButtonType, size: SizeType) => css`
   .pre-icon {
     height: 1rem;
     width: 1rem;
-    color: ${palette.blueGrey[700]};
     transition: all 0.2s ease-in-out;
+    margin-right: 0.5rem;
   }
 
   &:hover {
@@ -142,6 +150,12 @@ const buttonStyle = (type: ButtonType, size: SizeType) => css`
       opacity: 0.6;
     }
   `}
+`;
+
+const IconColorStyle = (color: string) => css`
+  svg {
+    color: ${color};
+  }
 `;
 
 export default AppButton;

@@ -1,4 +1,5 @@
 import { css } from '@emotion/react';
+import palette from '@src/lib/palette';
 import media from '@src/lib/styles/media';
 import AppButton from '../AppButton';
 
@@ -21,8 +22,20 @@ const WritePostFooter = ({
         onClick={onCancel}
         preIconName="arrowLeft"
       />
-      <AppButton type="secondary" text="TEMP" onClick={onSaveTempPost} />
-      <AppButton type="primary" text="POST" onClick={onPostPageSave} />
+      <AppButton
+        type="secondary"
+        text="TEMP"
+        onClick={onSaveTempPost}
+        preIconName="plus"
+        preIconColor={palette.white}
+      />
+      <AppButton
+        type="primary"
+        text="POST"
+        onClick={onPostPageSave}
+        preIconName="triangle"
+        preIconColor={palette.white}
+      />
     </footer>
   );
 };

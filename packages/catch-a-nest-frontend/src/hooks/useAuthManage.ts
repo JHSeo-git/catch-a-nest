@@ -10,6 +10,7 @@ export default function useAuthManage() {
   const loggedIn = (user: User) => {
     setUserState(user);
     userStorage.set(user);
+
     notify('Welcome! My Lord 👑', undefined, {
       hideProgressBar: true,
       position: 'top-center',
