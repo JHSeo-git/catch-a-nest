@@ -8,7 +8,7 @@ const media = {
   xl: custom(1440),
   lg: custom(1280),
   md: custom(1024),
-  sm: custom(768),
+  sm: custom(788),
   xs: custom(576),
   custom,
 };

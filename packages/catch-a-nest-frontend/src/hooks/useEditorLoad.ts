@@ -11,7 +11,7 @@ import useGetPostBySlugQuery from './query/useGetPostBySlugQuery';
 
 export default function useEditorLoad() {
   const [slug] = useEditTargetSlugState();
-  const [useIsTemp, setIsTempUse] = useEditorIsTempUseState();
+  const [useTemp, setTempUse] = useEditorIsTempUseState();
   const [loading, setLoading] = useState(true);
   const { open } = useAppModalActions();
   const {
@@ -36,9 +36,9 @@ export default function useEditorLoad() {
   }
 
   const data = useMemo(() => {
-    if (useIsTemp) return tempData;
+    if (useTemp) return tempData;
     return postData;
-  }, [postData, tempData, useIsTemp]);
+  }, [postData, tempData, useTemp]);
 
   useEffect(() => {
     if (!postData) return;
@@ -48,10 +48,10 @@ export default function useEditorLoad() {
       title: 'Exists Temp Post',
       message: 'Could you get temp post?',
       onConfirm: () => {
-        setIsTempUse(true);
+        setTempUse(true);
       },
     });
-  }, [postData, tempData, open, setIsTempUse]);
+  }, [postData, tempData, open, setTempUse]);
 
   useEffect(() => {
     try {
@@ -65,7 +65,8 @@ export default function useEditorLoad() {
         },
         data.is_temp
       );
-    } catch {
+    } catch (e) {
+      throw e;
     } finally {
       setLoading(false);
     }

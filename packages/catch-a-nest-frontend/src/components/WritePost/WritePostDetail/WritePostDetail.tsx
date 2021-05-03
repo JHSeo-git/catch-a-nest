@@ -1,23 +1,30 @@
 import { css } from '@emotion/react';
 import AppButton from '@src/components/AppButton';
-import useEditor from '@src/hooks/useEditor';
 import useWritePost from '@src/hooks/useWritePost';
 import palette from '@src/lib/palette';
 import { slideUp } from '@src/lib/styles/animation';
 import { responsiveModalWidth } from '@src/lib/styles/responsive';
 import { useEditorTitleState } from '@src/states/editorState';
+import { EditorModeType } from '../../../states/editorState';
 import Modal from '../../Modal';
 import WritePostDetailImage from './WritePostDetailImage';
 import WritePostDetailInput from './WritePostDetailInput';
 
 export type WritePostDetailProps = {
   onSave(slug?: string): void;
+  onCancel(): void;
+  editorMode: EditorModeType;
+  isEdit: boolean;
 };
 
-const WritePostDetail = ({ onSave }: WritePostDetailProps) => {
+const WritePostDetail = ({
+  onSave,
+  onCancel,
+  editorMode,
+  isEdit,
+}: WritePostDetailProps) => {
   const [editorTitle] = useEditorTitleState();
   const { loading } = useWritePost();
-  const { onDetailPageCancel, editorMode, isEdit } = useEditor();
 
   if (editorMode !== 'detail-page') return null;
 
@@ -28,11 +35,7 @@ const WritePostDetail = ({ onSave }: WritePostDetailProps) => {
         <WritePostDetailImage />
         <WritePostDetailInput />
         <div css={btnGroup}>
-          <AppButton
-            text="CANCEL"
-            type="secondary"
-            onClick={onDetailPageCancel}
-          />
+          <AppButton text="CANCEL" type="secondary" onClick={onCancel} />
           <AppButton
             text={isEdit ? 'UPDATE' : 'SAVE'}
             type="primary"

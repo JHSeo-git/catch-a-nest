@@ -1,11 +1,16 @@
 import { css } from '@emotion/react';
 import { rotateAnimation } from '@src/lib/styles/animation';
 import zIndex from '@src/lib/styles/zIndex';
+import { useFullScreenLoaderValue } from '@src/states/appState';
 import AppIcon from '../AppIcon';
 
 export type FullscreenLoaderProps = {};
 
 const FullscreenLoader = (props: FullscreenLoaderProps) => {
+  const view = useFullScreenLoaderValue();
+
+  if (!view) return null;
+
   return (
     <div css={fullScreen}>
       <AppIcon name="spinner" />

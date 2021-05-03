@@ -1,4 +1,9 @@
-import { atom, useRecoilState, useSetRecoilState } from 'recoil';
+import {
+  atom,
+  useRecoilState,
+  useRecoilValue,
+  useSetRecoilState,
+} from 'recoil';
 
 export const fullScreenLoaderState = atom({
   key: 'fullScreenLoader',
@@ -15,4 +20,8 @@ export function useFullScreenLoaderActions() {
 
 export function useFullScreenLoaderState() {
   return useRecoilState(fullScreenLoaderState);
+}
+
+export function useFullScreenLoaderValue() {
+  return useRecoilValue(fullScreenLoaderState);
 }

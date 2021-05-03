@@ -1,4 +1,4 @@
-import { useCallback, useRef } from 'react';
+import { useRef } from 'react';
 import { useHistory } from 'react-router';
 import { Editor } from '@toast-ui/react-editor';
 import {
@@ -14,13 +14,13 @@ import useWritePost from './useWritePost';
 export default function useEditor() {
   const editorRef = useRef<Editor>(null);
   const history = useHistory();
-  const [, setEditorMarkdownValue] = useEditorMarkdownState();
 
-  const postContent = useEditorContentValue();
-  const [editorMode, setEditorMode] = useEditorModeState();
-  const { isEdit } = useEditingInfoValue();
-  const { title } = useEditorContentValue();
   const { reset } = useEditorContentActions();
+  const [editorMode, setEditorMode] = useEditorModeState();
+  const postContent = useEditorContentValue();
+  const [, setEditorMarkdownValue] = useEditorMarkdownState();
+  const { isEdit } = useEditingInfoValue();
+
   const { notify, clearAllToast } = useAppToast();
   const { onSaveTempPost } = useWritePost();
 
@@ -29,56 +29,57 @@ export default function useEditor() {
     editorRef.current.getInstance().setMarkdown(markdown, true);
   };
 
-  const onCancel = useCallback(() => {
-    history.goBack();
-    clearAllToast();
-  }, [history, clearAllToast]);
-
-  const onPostPageSave = () => {
-    // validation
+  const isPostValid = (title: string | null, markdown: string | null) => {
     if (!title) {
       notify('Please check title...', 'error');
-      return;
+      return false;
+    }
+    if (!markdown) {
+      notify('Please check content...', 'error');
+      return false;
     }
 
+    return true;
+  };
+
+  const onPostPageSave = () => {
     if (!editorRef.current) return;
     const markdown = editorRef.current.getInstance().getMarkdown();
 
-    if (!markdown) {
-      notify('Please check content...', 'error');
-      return;
-    }
+    if (!isPostValid(postContent.title, markdown)) return;
+
     setEditorMarkdownValue(markdown);
-    clearAllToast();
     setEditorMode('detail-page');
   };
 
   const onTempPageSave = () => {
-    // validation
-    if (!title) {
-      notify('Please check title...', 'error');
-      return;
-    }
     if (!editorRef.current) return;
     const markdown = editorRef.current.getInstance().getMarkdown();
 
-    if (!markdown) {
-      notify('Please check content...', 'error');
-      return;
-    }
+    if (!isPostValid(postContent.title, markdown)) return;
+
     setEditorMarkdownValue(markdown);
     onSaveTempPost({
-      title,
+      title: postContent.title,
       body: markdown,
       shortDescription: postContent.shortDescription,
       thumbnail: postContent.thumbnail,
     });
   };
 
+  const onCancel = () => {
+    history.goBack();
+  };
+
   const onDetailPageCancel = () => {
-    clearAllToast();
     setEditorMode('post-page');
   };
+
+  // useEffect(() => {
+  //   return () => {
+  //     clearAllToast();
+  //   };
+  // }, [clearAllToast]);
 
   return {
     onCancel,

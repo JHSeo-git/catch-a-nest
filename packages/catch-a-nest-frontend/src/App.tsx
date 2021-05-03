@@ -5,6 +5,7 @@ import { fontFamily } from './lib/styles/typography';
 import { Helmet } from 'react-helmet-async';
 import AppModal from './components/Modal/AppModal';
 import AppRouter from './components/Router';
+import FullscreenLoader from './components/FullscreenLoader';
 function App() {
   return (
     <>
@@ -15,6 +16,7 @@ function App() {
       <AppModal />
       <AppToast />
       <AppRouter />
+      <FullscreenLoader />
     </>
   );
 }

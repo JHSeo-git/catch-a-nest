@@ -49,7 +49,6 @@ const AppModal = () => {
             type="normal"
             onClick={handleCancel}
           />
-
           <AppButton
             text={confirmText ?? 'OK'}
             type="thirdary"
@@ -74,8 +73,11 @@ const block = (isDestructive: boolean) => css`
   background: white;
   padding: 2rem;
   border-radius: 1rem;
+  box-shadow: 0 0 0.25rem 0.25rem rgb(0, 0, 0, 0.05);
 
   h1 {
+    margin: 0;
+    margin-bottom: 2rem;
     color: ${isDestructive ? palette.red[500] : palette.blueGrey[900]};
   }
   p {

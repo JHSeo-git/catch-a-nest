@@ -28,7 +28,7 @@ const editorThumbnailState = atom<string | null>({
   default: null,
 });
 
-type EditorModeType = 'detail-page' | 'post-page';
+export type EditorModeType = 'detail-page' | 'post-page';
 const editorModeState = atom<EditorModeType>({
   key: 'editorModeState',
   default: 'post-page',

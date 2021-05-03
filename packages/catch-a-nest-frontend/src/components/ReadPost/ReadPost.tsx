@@ -34,7 +34,7 @@ const ReadPost = ({ slug }: ReadPostProps) => {
   const onDeleteModalOpen = () => {
     open({
       title: 'Post Delete',
-      message: 'Post Delete',
+      message: 'Could you delete this post?',
       onConfirm: () => {
         onDelete(slug, true);
       },

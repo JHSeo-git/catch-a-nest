@@ -9,20 +9,24 @@ import useWritePost from '@src/hooks/useWritePost';
 import useEditorLoad from '@src/hooks/useEditorLoad';
 import { Helmet } from 'react-helmet-async';
 import { useEditorTitleState } from '@src/states/editorState';
+import { useFullScreenLoaderActions } from '@src/states/appState';
 
 export type WritePostProps = {};
 
 const WritePost = (props: WritePostProps) => {
   const [postTitle] = useEditorTitleState();
+  const { on, off } = useFullScreenLoaderActions();
 
   const {
-    editorRef,
     reset,
-    isEdit,
+    editorRef,
     onForceBodyUpdate,
-    onCancel,
     onPostPageSave,
     onTempPageSave,
+    onCancel,
+    onDetailPageCancel,
+    editorMode,
+    isEdit,
   } = useEditor();
   const { onSave } = useWritePost();
 
@@ -34,7 +38,18 @@ const WritePost = (props: WritePostProps) => {
     };
   }, [reset]);
 
-  if (isLoading) return null;
+  useEffect(() => {
+    if (isLoading) {
+      on();
+    } else {
+      off();
+    }
+    return () => {
+      off();
+    };
+  }, [isLoading, on, off]);
+
+  // if (isLoading) return null;
 
   return (
     <>
@@ -54,7 +69,12 @@ const WritePost = (props: WritePostProps) => {
           onSaveTempPost={onTempPageSave}
         />
       </section>
-      <WritePostDetail onSave={onSave} />
+      <WritePostDetail
+        onCancel={onDetailPageCancel}
+        onSave={onSave}
+        editorMode={editorMode}
+        isEdit={isEdit}
+      />
     </>
   );
 };

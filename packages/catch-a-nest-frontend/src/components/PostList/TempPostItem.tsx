@@ -20,7 +20,7 @@ const TempPostItem = ({ post }: TempPostItemProps) => {
   const onDeleteModalOpen = () => {
     open({
       title: 'Temp Post Delete',
-      message: 'Temp Post Delete',
+      message: 'Could you delete this temp post?',
       onConfirm: () => {
         onDelete(post.url_slug);
       },
@@ -37,7 +37,7 @@ const TempPostItem = ({ post }: TempPostItemProps) => {
               <h2>{post.title}</h2>
               <p>{post.body}</p>
             </Link>
-            <button onClick={onDeleteModalOpen}>REMOVE</button>
+            <button onClick={onDeleteModalOpen}>DELETE</button>
           </div>
         </div>
       </li>
@@ -61,10 +61,15 @@ const itemStyle = css`
 
 const linkStyle = css`
   text-decoration: none;
+  text-decoration-color: ${palette.blueGrey[900]};
 
   transition: all 0.1s ease-in-out;
   &:hover {
     text-decoration: underline;
+    text-decoration-color: ${palette.blueGrey[900]};
+  }
+  &:active {
+    text-decoration-color: ${palette.blueGrey[900]};
   }
 `;
 
@@ -76,7 +81,7 @@ const infoWrapper = css`
   h4 {
     margin: 0;
     padding: 0;
-    margin-bottom: 0.25rem;
+    margin-bottom: 0.5rem;
     font-size: 0.75rem;
     color: ${palette.blueGrey[700]};
   }
@@ -120,6 +125,7 @@ const infoWrapper = css`
     line-height: 1.5;
     &:hover {
       text-decoration: underline;
+      color: ${palette.red[700]};
     }
   }
 `;
