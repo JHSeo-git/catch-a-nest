@@ -33,7 +33,7 @@ const WritePostFooter = ({
         type="primary"
         text="POST"
         onClick={onPostPageSave}
-        preIconName="triangle"
+        preIconName="arrowUp"
         preIconColor={palette.white}
       />
     </footer>
