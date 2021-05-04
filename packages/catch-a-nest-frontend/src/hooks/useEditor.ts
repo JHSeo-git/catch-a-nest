@@ -21,7 +21,7 @@ export default function useEditor() {
   const [, setEditorMarkdownValue] = useEditorMarkdownState();
   const { isEdit } = useEditingInfoValue();
 
-  const { notify, clearAllToast } = useAppToast();
+  const { notify } = useAppToast();
   const { onSaveTempPost } = useWritePost();
 
   const onForceBodyUpdate = (markdown: string) => {

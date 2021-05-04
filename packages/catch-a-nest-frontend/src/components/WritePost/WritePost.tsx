@@ -5,7 +5,6 @@ import Editor from '../Editor';
 import WritePostTitle from './WritePostTitle';
 import WritePostDetail from './WritePostDetail';
 import WritePostFooter from './WritePostFooter';
-import useWritePost from '@src/hooks/useWritePost';
 import useEditorLoad from '@src/hooks/useEditorLoad';
 import { Helmet } from 'react-helmet-async';
 import { useEditorTitleState } from '@src/states/editorState';
@@ -28,7 +27,6 @@ const WritePost = (props: WritePostProps) => {
     editorMode,
     isEdit,
   } = useEditor();
-  const { onSave } = useWritePost();
 
   const { isLoading } = useEditorLoad();
 
@@ -71,7 +69,6 @@ const WritePost = (props: WritePostProps) => {
       </section>
       <WritePostDetail
         onCancel={onDetailPageCancel}
-        onSave={onSave}
         editorMode={editorMode}
         isEdit={isEdit}
       />

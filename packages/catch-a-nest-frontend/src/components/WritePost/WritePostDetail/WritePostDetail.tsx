@@ -11,20 +11,18 @@ import WritePostDetailImage from './WritePostDetailImage';
 import WritePostDetailInput from './WritePostDetailInput';
 
 export type WritePostDetailProps = {
-  onSave(slug?: string): void;
   onCancel(): void;
   editorMode: EditorModeType;
   isEdit: boolean;
 };
 
 const WritePostDetail = ({
-  onSave,
   onCancel,
   editorMode,
   isEdit,
 }: WritePostDetailProps) => {
   const [editorTitle] = useEditorTitleState();
-  const { loading } = useWritePost();
+  const { onSave, loading } = useWritePost();
 
   if (editorMode !== 'detail-page') return null;
 

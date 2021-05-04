@@ -13,7 +13,7 @@ export type WritePostDetailImageProps = {};
 const WritePostDetailImage = (props: WritePostDetailImageProps) => {
   const ref = useRef<HTMLInputElement>(null);
   const { notify } = useAppToast();
-  const { upload, error } = useUploadImage();
+  const { upload } = useUploadImage();
   const [thumbnail, setThumbnail] = useEditorThumbnailState();
 
   const onClick = () => {
@@ -37,10 +37,6 @@ const WritePostDetailImage = (props: WritePostDetailImageProps) => {
       }
     }
   };
-
-  if (error) {
-    notify(`Error: ${error}`, 'error');
-  }
 
   return (
     <>

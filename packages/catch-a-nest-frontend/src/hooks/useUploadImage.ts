@@ -1,11 +1,13 @@
 import uploadImage from '@src/lib/api/upload/uploadImage';
+import { isAxiosError } from '@src/lib/utils/isAxiosError';
+import { useAppModalActions } from '@src/states/appModalState';
 import axios from 'axios';
 import { useCallback, useState } from 'react';
 
 export default function useUploadImage() {
   const [loading, setLoading] = useState(false);
   const [imageUrl, setImageUrl] = useState<string | null>(null);
-  const [error, setError] = useState<Error | null>(null);
+  const { open } = useAppModalActions();
 
   const upload = useCallback(
     async ({ file, type }: { file: File; type: string }) => {
@@ -23,6 +25,7 @@ export default function useUploadImage() {
       try {
         setLoading(true);
         const uploadInfo = await uploadImage({ type, filename: file.name });
+
         const { image_path, signed_url } = uploadInfo;
         await axios.put(signed_url, file, {
           headers: {
@@ -33,7 +36,15 @@ export default function useUploadImage() {
 
         return image_path;
       } catch (e) {
-        setError(e);
+        if (isAxiosError(e)) {
+          open({
+            title: 'Upload Image',
+            message: `Error ${e.message}`,
+            isDestructive: true,
+          });
+        } else {
+          throw e;
+        }
       } finally {
         setLoading(false);
       }
@@ -45,6 +56,5 @@ export default function useUploadImage() {
     loading,
     upload,
     imageUrl,
-    error,
   };
 }
