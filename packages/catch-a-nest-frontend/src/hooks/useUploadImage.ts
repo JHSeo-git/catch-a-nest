@@ -11,22 +11,29 @@ export default function useUploadImage() {
 
   const upload = useCallback(
     async ({ file, type }: { file: File; type: string }) => {
-      if (!file.type.includes('image')) {
-        const e = new Error('Not image file...');
-        e.name = 'NotImageFile';
-        throw e;
-      }
-      if (file.size > 1024 * 1024 * 15) {
-        const e = new Error('Image is too big');
-        e.name = 'FileSizeBig';
-        throw e;
-      }
-
       try {
+        if (!file.type.includes('image')) {
+          const e = new Error('Not image file');
+          e.name = 'NotImageFile';
+          throw e;
+        }
+        if (file.size > 1024 * 1024 * 15) {
+          const e = new Error('Image is too big');
+          e.name = 'FileSizeBig';
+          throw e;
+        }
+
         setLoading(true);
         const uploadInfo = await uploadImage({ type, filename: file.name });
 
         const { image_path, signed_url } = uploadInfo;
+
+        if (!image_path) {
+          const e = new Error('Failed upload thumbnail image');
+          e.name = 'FailUploadThumbnail';
+          throw e;
+        }
+
         await axios.put(signed_url, file, {
           headers: {
             'Content-Type': file.type,
@@ -38,18 +45,22 @@ export default function useUploadImage() {
       } catch (e) {
         if (isAxiosError(e)) {
           open({
-            title: 'Upload Image',
+            title: 'Error upload image',
             message: `Error ${e.message}`,
             isDestructive: true,
           });
         } else {
-          throw e;
+          open({
+            title: e.name ?? 'Error upload image',
+            message: `Error ${e.message}`,
+            isDestructive: true,
+          });
         }
       } finally {
         setLoading(false);
       }
     },
-    []
+    [open]
   );
 
   return {

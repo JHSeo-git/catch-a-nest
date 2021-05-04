@@ -1,7 +1,6 @@
 import { css } from '@emotion/react';
 import { undrawUploadPicture } from '@src/assets/images';
 import AppIcon from '@src/components/AppIcon';
-import useAppToast from '@src/hooks/useAppToast';
 import useUploadImage from '@src/hooks/useUploadImage';
 import palette from '@src/lib/palette';
 import { resetButton } from '@src/lib/styles/resetButton';
@@ -12,7 +11,6 @@ export type WritePostDetailImageProps = {};
 
 const WritePostDetailImage = (props: WritePostDetailImageProps) => {
   const ref = useRef<HTMLInputElement>(null);
-  const { notify } = useAppToast();
   const { upload } = useUploadImage();
   const [thumbnail, setThumbnail] = useEditorThumbnailState();
 
@@ -23,18 +21,12 @@ const WritePostDetailImage = (props: WritePostDetailImageProps) => {
 
   const onChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files?.length === 1) {
-      try {
-        const targetFile = e.target.files[0];
-        const imageUrl = await upload({ type: 'post', file: targetFile });
-        if (!imageUrl) {
-          const error = new Error('Failed upload thumbnail image');
-          error.name = 'FailUploadThumbnail';
-          throw error;
-        }
-        setThumbnail(imageUrl);
-      } catch (e) {
-        notify(`Error: ${e}`, 'error');
+      const targetFile = e.target.files[0];
+      const imageUrl = await upload({ type: 'post', file: targetFile });
+      if (!imageUrl) {
+        return;
       }
+      setThumbnail(imageUrl);
     }
   };
 
