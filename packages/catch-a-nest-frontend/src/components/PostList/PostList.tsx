@@ -5,13 +5,15 @@ import { useEffect, useMemo, useRef } from 'react';
 import PostItem from './PostItem';
 import PostItemSkeleton from './PostItemSkeleton';
 import PostWriteButton from './PostWriteButton';
+import { undrawEmpty } from '@src/assets/images';
+import palette from '@src/lib/palette';
 
 export type PostListProps = {
   userId?: number;
 };
 
 const PostList = ({ userId }: PostListProps) => {
-  const { data, hasNextPage, fetchNextPage } = useGetPostsQuery(userId, {
+  const { data, hasNextPage, fetchNextPage, error } = useGetPostsQuery(userId, {
     retry: 3,
   });
 
@@ -44,7 +46,14 @@ const PostList = ({ userId }: PostListProps) => {
     };
   }, [items, observer]);
 
-  // TODO: empty page
+  if (items && items.length === 0) {
+    return (
+      <div css={emptyStyle}>
+        <img src={undrawEmpty} alt="empty" />
+        <p>Well... Not published yet</p>
+      </div>
+    );
+  }
 
   return (
     <>
@@ -68,6 +77,27 @@ const listStyle = css`
   margin: 0;
   padding: 0;
   list-style: none;
+`;
+
+const emptyStyle = css`
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  img {
+    width: 25rem;
+  }
+  p {
+    margin-top: 2.5rem;
+    font-size: 1.5rem;
+    color: ${palette.blueGrey[700]};
+  }
 `;
 
 export default PostList;
