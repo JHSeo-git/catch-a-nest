@@ -7,6 +7,8 @@ import PostItemSkeleton from './PostItemSkeleton';
 import PostWriteButton from './PostWriteButton';
 import { undrawEmpty } from '@src/assets/images';
 import palette from '@src/lib/palette';
+import { isAxiosError } from '@src/lib/utils/isAxiosError';
+import { useHistory } from 'react-router';
 
 export type PostListProps = {
   userId?: number;
@@ -16,6 +18,7 @@ const PostList = ({ userId }: PostListProps) => {
   const { data, hasNextPage, fetchNextPage, error } = useGetPostsQuery(userId, {
     retry: 3,
   });
+  const history = useHistory();
 
   const items = useMemo(() => {
     if (!data) return null;
@@ -53,6 +56,17 @@ const PostList = ({ userId }: PostListProps) => {
         <p>Well... Not published yet</p>
       </div>
     );
+  }
+
+  if (error) {
+    if (isAxiosError(error)) {
+      const errorUrl = error.response?.status
+        ? `/error?status=${error.response.status}`
+        : `/error`;
+      history.push(errorUrl);
+    } else {
+      throw error;
+    }
   }
 
   return (
