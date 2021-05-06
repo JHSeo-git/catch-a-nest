@@ -35,7 +35,9 @@ const TempPostItem = ({ post }: TempPostItemProps) => {
             <h4>{getDiffOfNow(post.updated_at)}</h4>
             <Link css={linkStyle} to={`/post/${post.url_slug}`}>
               <h2>{post.title}</h2>
-              <p>{post.body}</p>
+              <p>
+                {post.body.length > 150 ? post.body.slice(0, 150) : post.body}
+              </p>
             </Link>
             <button onClick={onDeleteModalOpen}>DELETE</button>
           </div>
@@ -76,7 +78,7 @@ const linkStyle = css`
 const infoWrapper = css`
   flex: 1;
   padding: 0.5rem 1rem;
-  padding-right: 3rem;
+  padding-right: 5rem;
   position: relative;
   h4 {
     margin: 0;
