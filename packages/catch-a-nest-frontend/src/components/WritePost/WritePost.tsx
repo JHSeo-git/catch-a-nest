@@ -8,13 +8,12 @@ import WritePostFooter from './WritePostFooter';
 import useEditorLoad from '@src/hooks/useEditorLoad';
 import { Helmet } from 'react-helmet-async';
 import { useEditorTitleState } from '@src/states/editorState';
-import { useFullScreenLoaderActions } from '@src/states/appState';
+import useFullScreenLoaderEffect from '@src/hooks/useFullScreenLoaderEffect';
 
 export type WritePostProps = {};
 
 const WritePost = (props: WritePostProps) => {
   const [postTitle] = useEditorTitleState();
-  const { on, off } = useFullScreenLoaderActions();
 
   const {
     reset,
@@ -26,9 +25,12 @@ const WritePost = (props: WritePostProps) => {
     onDetailPageCancel,
     editorMode,
     isEdit,
+    loading: saveLoading,
   } = useEditor();
 
-  const { isLoading } = useEditorLoad();
+  const { isLoading: syncLoading } = useEditorLoad();
+  useFullScreenLoaderEffect(syncLoading);
+  useFullScreenLoaderEffect(saveLoading);
 
   useEffect(() => {
     return () => {
@@ -36,18 +38,7 @@ const WritePost = (props: WritePostProps) => {
     };
   }, [reset]);
 
-  useEffect(() => {
-    if (isLoading) {
-      on();
-    } else {
-      off();
-    }
-    return () => {
-      off();
-    };
-  }, [isLoading, on, off]);
-
-  // if (isLoading) return null;
+  if (syncLoading) return null;
 
   return (
     <>

@@ -15,14 +15,15 @@ export default function useEditor() {
   const editorRef = useRef<Editor>(null);
   const history = useHistory();
 
-  const { reset } = useEditorContentActions();
   const [editorMode, setEditorMode] = useEditorModeState();
-  const postContent = useEditorContentValue();
   const [, setEditorMarkdownValue] = useEditorMarkdownState();
+  const postContent = useEditorContentValue();
   const { isEdit } = useEditingInfoValue();
 
+  const { reset } = useEditorContentActions();
+
   const { notify } = useAppToast();
-  const { onSaveTempPost } = useWritePost();
+  const { onSaveTempPost, loading } = useWritePost();
 
   const onForceBodyUpdate = (markdown: string) => {
     if (!editorRef.current) return;
@@ -91,5 +92,6 @@ export default function useEditor() {
     reset,
     isEdit,
     onTempPageSave,
+    loading,
   };
 }
