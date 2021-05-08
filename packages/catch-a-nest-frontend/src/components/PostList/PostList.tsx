@@ -58,6 +58,7 @@ const PostList = ({ userId }: PostListProps) => {
     );
   }
 
+  // TODO: Refactoring to appBoundary
   if (error) {
     if (isAxiosError(error)) {
       const errorUrl = error.response?.status
