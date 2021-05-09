@@ -1,8 +1,10 @@
+import React from 'react';
 import { css } from '@emotion/react';
 import { Post } from '@src/lib/api/posts/types';
 import palette from '@src/lib/palette';
 import media from '@src/lib/styles/media';
 import { getDiffOfNow } from '@src/lib/utils/dateUtils';
+import { humanizeTime } from '@src/lib/utils/viewerUtils';
 import { Link } from 'react-router-dom';
 
 export type PostItemProps = {
@@ -31,7 +33,17 @@ const PostItem = ({ post }: PostItemProps) => {
           )}
         </div>
         <div css={infoWrapper}>
-          <h4>{getDiffOfNow(post.created_at)}</h4>
+          <h4>
+            {getDiffOfNow(post.created_at)}
+            {post.read_time && (
+              <>
+                <div className="splitter"></div>
+                <span className="readTimeStyle">
+                  {humanizeTime(post.read_time)}
+                </span>
+              </>
+            )}
+          </h4>
           <h2>{post.title}</h2>
           <p>{post.short_description}</p>
         </div>
@@ -89,6 +101,22 @@ const infoWrapper = css`
     margin-bottom: 0.5rem;
     font-size: 0.75rem;
     color: ${palette.blueGrey[700]};
+
+    display: flex;
+    align-items: center;
+
+    .splitter {
+      width: 0.25rem;
+      height: 0.25rem;
+      background: ${palette.blue[500]};
+      margin: 0 0.25rem;
+      border-radius: 50%;
+    }
+
+    span {
+      font-style: italic;
+      color: ${palette.blue[500]};
+    }
   }
   h2 {
     margin: 0;

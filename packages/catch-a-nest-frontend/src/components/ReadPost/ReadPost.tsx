@@ -13,6 +13,7 @@ import useDeletePost from '@src/hooks/useDeletePost';
 import { Helmet } from 'react-helmet-async';
 import ReadPostSkeleton from './ReadPostSkeleton';
 import { useAppModalActions } from '@src/states/appModalState';
+import { humanizeTime } from '@src/lib/utils/viewerUtils';
 
 export type ReadPostProps = {
   slug: string;
@@ -67,6 +68,14 @@ const ReadPost = ({ slug }: ReadPostProps) => {
         <h1 className="title">{post.title}</h1>
         <div className="sub-info">
           <p className="date">{stringToDateMoreDetail(post.created_at)}</p>
+          {post.read_time && (
+            <>
+              <div className="splitter" />
+              <p className="view readTimeStyle">
+                {humanizeTime(post.read_time)}
+              </p>
+            </>
+          )}
           <div className="splitter" />
           <p className="view">
             {post.read_count ?? 0} view
@@ -127,6 +136,10 @@ const postStyle = css`
       color: ${palette.blueGrey[700]};
       text-align: right;
       line-height: 1;
+    }
+    .readTimeStyle {
+      color: ${palette.blue[500]};
+      font-style: italic;
     }
     .splitter {
       margin-left: 0.5rem;

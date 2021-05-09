@@ -1,7 +1,11 @@
 import { Post } from '@src/entity/Post';
 import { TempPost } from '@src/entity/TempPost';
 import { User } from '@src/entity/User';
-import { generateUrlSlug, validateBodySchema } from '@src/lib/common';
+import {
+  getReadTime,
+  generateUrlSlug,
+  validateBodySchema,
+} from '@src/lib/common';
 import Joi from 'joi';
 import { Context } from 'koa';
 import { getManager, getRepository, LessThan } from 'typeorm';
@@ -91,6 +95,7 @@ export const saveTempPost = async (ctx: Context) => {
         targetPost.thumbnail = thumbnail;
         targetPost.url_slug = urlSlug;
         targetPost.user = currentUser;
+        targetPost.read_time = getReadTime(body);
       }
     } else {
       targetPost = new Post();
@@ -101,6 +106,7 @@ export const saveTempPost = async (ctx: Context) => {
       targetPost.url_slug = urlSlug;
       targetPost.user = currentUser;
       targetPost.is_temp = true;
+      targetPost.read_time = getReadTime(body);
     }
 
     const savedPost = await manager.save(targetPost);
@@ -169,6 +175,7 @@ export const saveNewTempPost = async (ctx: Context) => {
     targetPost.url_slug = urlSlug;
     targetPost.user = currentUser;
     targetPost.is_temp = true;
+    targetPost.read_time = getReadTime(body);
 
     const savedPost = await manager.save(targetPost);
 
@@ -219,8 +226,6 @@ export const getLastTempPost = async (ctx: Context) => {
       relations: ['post'],
       order: { id: 'DESC' },
     });
-
-    console.log(lastTempPost);
 
     const serialized = lastTempPost
       ? {

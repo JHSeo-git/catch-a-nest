@@ -10,3 +10,13 @@ export const getScrollTop = () => {
 export const convertSpaceToEncodedString = (text: string) => {
   return text.replace(/ /g, '%20');
 };
+
+export const humanizeTime = (time: number) => {
+  if (time < 0.5) {
+    return 'less than a minute read';
+  }
+  if (time >= 0.5 && time < 1.5) {
+    return '1 minute read';
+  }
+  return `${Math.ceil(time)} minutes read`;
+};

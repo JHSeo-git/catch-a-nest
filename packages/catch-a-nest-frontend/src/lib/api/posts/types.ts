@@ -14,4 +14,5 @@ export type Post = {
   created_at: string;
   updated_at: string;
   read_count?: number;
+  read_time?: number;
 };

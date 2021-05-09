@@ -2,7 +2,11 @@ import { Post } from '@src/entity/Post';
 import { PostRead } from '@src/entity/PostRead';
 import { TempPost } from '@src/entity/TempPost';
 import { User } from '@src/entity/User';
-import { generateUrlSlug, validateBodySchema } from '@src/lib/common';
+import {
+  getReadTime,
+  generateUrlSlug,
+  validateBodySchema,
+} from '@src/lib/common';
 import Joi, { equal } from 'joi';
 import { Context } from 'koa';
 import { getManager, getRepository, LessThan } from 'typeorm';
@@ -64,6 +68,7 @@ export const saveNewPost = async (ctx: Context) => {
     newPost.url_slug = urlSlug;
     newPost.user = currentUser;
     newPost.is_temp = false;
+    newPost.read_time = getReadTime(body);
 
     const savedPost = await getRepository(Post).save(newPost);
 
@@ -113,6 +118,7 @@ export const updatePost = async (ctx: Context) => {
     post.short_description = shortDescription;
     post.thumbnail = thumbnail;
     post.is_temp = false;
+    post.read_time = getReadTime(body);
 
     const manager = getManager();
     const savedPost = await manager.save(post);

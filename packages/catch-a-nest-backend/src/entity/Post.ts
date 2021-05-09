@@ -37,6 +37,9 @@ export class Post {
   @Column({ default: false })
   is_temp!: boolean;
 
+  @Column({ type: 'double' })
+  read_time?: number;
+
   @Index()
   @CreateDateColumn({ type: 'timestamp' })
   created_at!: Date;
