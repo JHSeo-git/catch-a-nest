@@ -6,3 +6,7 @@ export const getScrollTop = () => {
     : document.body.scrollTop;
   return scrollTop;
 };
+
+export const convertSpaceToEncodedString = (text: string) => {
+  return text.replace(/ /g, '%20');
+};

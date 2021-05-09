@@ -29,12 +29,6 @@ const generateSignedUrl = (path: string, filename: string) => {
 
   const key = `${path}/${filename}`;
   const signedUrlExpireSeconds = 60 * 5;
-  console.log({
-    Bucket: AWS_BUCKET_NAME,
-    Key: key,
-    ContentType: contentType,
-    Expires: signedUrlExpireSeconds,
-  });
   return s3.getSignedUrl('putObject', {
     Bucket: AWS_BUCKET_NAME,
     Key: key,
@@ -88,6 +82,7 @@ export const uploadImage = async (ctx: Context) => {
     const image = new Image();
     image.type = type;
     image.user = currentUser;
+    image.filename = filename;
     const imageRepo = getRepository(Image);
     await imageRepo.save(image);
 
@@ -96,6 +91,7 @@ export const uploadImage = async (ctx: Context) => {
       type,
       username: currentUser.email.split('@')[0],
     });
+
     const signedUrl = generateSignedUrl(path, filename);
     image.path = `${path}/${filename}`;
     await imageRepo.save(image);
@@ -105,6 +101,10 @@ export const uploadImage = async (ctx: Context) => {
       signed_url: signedUrl,
     };
   } catch (e) {
+    if (e.name === 'ContentTypeError') {
+      ctx.status = 401;
+      return;
+    }
     ctx.throw(500, e);
   }
 };

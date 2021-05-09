@@ -1,13 +1,14 @@
 import 'codemirror/lib/codemirror.css';
 import '@toast-ui/editor/dist/toastui-editor.css';
 
+import { forwardRef, useEffect } from 'react';
 import { Editor as ReactEditor } from '@toast-ui/react-editor';
 import { syntaxHighlightPlugIn } from '@src/lib/editor/tuiPlugins';
 import TuiStyleWrapper from './TuiStyleWrapper';
 import { useEditorMarkdownState } from '@src/states/editorState';
 import useUploadImage from '@src/hooks/useUploadImage';
 import useAppToast from '@src/hooks/useAppToast';
-import { forwardRef, useEffect } from 'react';
+import { convertSpaceToEncodedString } from '@src/lib/utils/viewerUtils';
 
 export type EditorProps = {
   onForceBodyUpdate(markdown: string): void;
@@ -47,7 +48,7 @@ const Editor = (
             try {
               const imageUrl = await upload({ file, type: 'post' });
               if (!imageUrl) return;
-              callback(imageUrl, file.name);
+              callback(convertSpaceToEncodedString(imageUrl), file.name);
             } catch (e) {
               notify(`Image Upload Fail: ${e.name}`, 'error');
             }

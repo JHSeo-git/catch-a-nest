@@ -17,6 +17,9 @@ export class Image {
   @Column({ length: 255, nullable: true })
   path?: string;
 
+  @Column()
+  filename?: string;
+
   @Column({ length: 255 })
   type!: string;
 
