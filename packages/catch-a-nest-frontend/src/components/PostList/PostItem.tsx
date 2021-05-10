@@ -44,7 +44,7 @@ const PostItem = ({ post }: PostItemProps) => {
               </>
             )}
           </h4>
-          <h2>{post.title}</h2>
+          <h1>{post.title}</h1>
           <p>{post.short_description}</p>
         </div>
       </Link>
@@ -61,7 +61,7 @@ const block = css`
 
 const itemStyle = css`
   text-decoration: none;
-  height: 6.6rem;
+  height: 6.8rem;
   overflow: hidden;
   border-radius: 0.5rem;
   border: 0.0625rem solid ${palette.blueGrey[100]};
@@ -118,7 +118,7 @@ const infoWrapper = css`
       color: ${palette.blue[500]};
     }
   }
-  h2 {
+  h1 {
     margin: 0;
     padding: 0;
     margin-bottom: 0.25rem;

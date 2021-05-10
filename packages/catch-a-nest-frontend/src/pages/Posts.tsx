@@ -12,6 +12,7 @@ const Posts = (props: PostsProps) => {
     <>
       <Helmet>
         <title>Posts – Seo Nest</title>
+        <meta name="title" content="Seo Nest" />
         <meta name="description" content="Seo's honest nest" />
         <meta
           property="og:image"

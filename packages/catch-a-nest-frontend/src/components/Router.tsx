@@ -59,10 +59,10 @@ const Router = (props: RouterProps) => {
         <Route exact path={'/write/:slug?'}>
           <Write />
         </Route>
-        <Route exact path="/error">
+        <Route exact path={['/error', '/404']}>
           <Error />
         </Route>
-        <Redirect to="/error" />
+        <Redirect to="/404" />
       </Switch>
     </BrowserRouter>
   );

@@ -12,6 +12,7 @@ const TempPosts = (props: TempPostsProps) => {
     <>
       <Helmet>
         <title>Temp Posts – Seo Nest</title>
+        <meta name="robots" content="noindex" />
       </Helmet>
       <TempPostList userId={user?.id} />
     </>
