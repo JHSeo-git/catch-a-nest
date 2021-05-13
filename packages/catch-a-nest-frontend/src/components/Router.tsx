@@ -30,14 +30,14 @@ const Router = (props: RouterProps) => {
     <BrowserRouter>
       <ScrollToTop />
       <Switch>
-        <Route exact path={['/', '/temps', '/post/:slug', '/admin']}>
+        <Route exact path={['/', '/posts', '/temps', '/post/:slug', '/admin']}>
           <Layout>
             <Layout.Header>
               <Header />
             </Layout.Header>
             <Switch>
               <Layout.Main>
-                <Route exact path="/">
+                <Route exact path={['/', '/posts']}>
                   <Posts />
                 </Route>
                 <Route path="/temps">

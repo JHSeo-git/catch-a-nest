@@ -1,3 +1,4 @@
+import React from 'react';
 import { css } from '@emotion/react';
 import { undraw401, undraw404 } from '@src/assets/images';
 import palette from '@src/lib/palette';
@@ -15,9 +16,17 @@ const ErrorInfo = ({ errorType = 'NotFound' }: ErrorInfoProps) => {
   return (
     <div css={block}>
       <div css={inner}>
-        {errorType === 'NotFound' && <img src={undraw404} alt="404 Error" />}
+        {errorType === 'NotFound' && (
+          <>
+            <img src={undraw404} alt="404 Error" />
+            <p>Well... Not Found Page</p>
+          </>
+        )}
         {errorType === 'NotAuthorized' && (
-          <img src={undraw401} alt="401 Error" />
+          <>
+            <img src={undraw401} alt="401 Error" />
+            <p>Well... Not Authroized Request</p>
+          </>
         )}
         <Link css={linkStyle} to="/">
           Home
@@ -42,17 +51,27 @@ const inner = css`
   align-items: center;
   justify-content: center;
   img {
-    height: 15rem;
+    width: 27.5rem;
     margin-bottom: 2rem;
+  }
+  p {
+    font-weight: bold;
+    font-size: 1.5rem;
+    color: ${palette.blueGrey[700]};
+  }
 
-    ${media.xs} {
-      height: 9rem;
+  ${media.xs} {
+    img {
+      width: 16.5rem;
+    }
+    p {
+      font-size: 1rem;
     }
   }
 `;
 
 const linkStyle = css`
-  width: 100%;
+  width: 27.5rem;
   padding: 1rem;
   text-align: center;
   text-decoration: none;
@@ -68,6 +87,10 @@ const linkStyle = css`
   }
   &:active {
     background: ${palette.lightBlue[700]};
+  }
+
+  ${media.xs} {
+    width: 16.5rem;
   }
 `;
 

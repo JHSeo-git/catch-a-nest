@@ -129,6 +129,7 @@ const infoWrapper = css`
     -webkit-box-orient: vertical;
     overflow: hidden;
     text-overflow: ellipsis;
+    line-height: 1;
     ${media.sm} {
       font-size: 1.5rem;
     }
