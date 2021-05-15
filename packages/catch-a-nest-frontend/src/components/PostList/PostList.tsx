@@ -64,7 +64,7 @@ const PostList = ({ userId }: PostListProps) => {
       const errorUrl = error.response?.status
         ? `/error?status=${error.response.status}`
         : `/error`;
-      history.push(errorUrl);
+      history.replace(errorUrl);
     } else {
       throw error;
     }

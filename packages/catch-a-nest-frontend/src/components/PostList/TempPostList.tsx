@@ -8,6 +8,7 @@ import useGetTempPostsQuery from '@src/hooks/query/useGetTempPostsQuery';
 import palette from '@src/lib/palette';
 import media from '@src/lib/styles/media';
 import TempPostItem from './TempPostItem';
+import { isAxiosError } from '@src/lib/utils/isAxiosError';
 
 export type TempPostListProps = {
   userId?: number;
@@ -18,7 +19,7 @@ const TempPostList = ({ userId }: TempPostListProps) => {
     data,
     hasNextPage,
     fetchNextPage,
-    isError,
+    error,
   } = useGetTempPostsQuery(userId, { retry: 3 });
   const ref = useRef<HTMLDivElement>(null);
   const history = useHistory();
@@ -50,8 +51,15 @@ const TempPostList = ({ userId }: TempPostListProps) => {
     };
   }, [items, observer]);
 
-  if (isError) {
-    history.push('/error?status=404');
+  if (error) {
+    if (isAxiosError(error)) {
+      const errorUrl = error.response?.status
+        ? `/error?status=${error.response.status}`
+        : `/error`;
+      history.replace(errorUrl);
+    } else {
+      throw error;
+    }
   }
 
   return (

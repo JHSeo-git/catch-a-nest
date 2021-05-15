@@ -1,3 +1,4 @@
+import { isAxiosError } from '@src/lib/utils/isAxiosError';
 import { useAppModalActions } from '@src/states/appModalState';
 import {
   useEditorIsTempUseState,
@@ -5,7 +6,6 @@ import {
   useEditTargetSlugState,
 } from '@src/states/editorState';
 import { useEffect, useMemo, useState } from 'react';
-import { useHistory } from 'react-router';
 import useGetLastTempPostQuery from './query/useGetLastTempPostQuery';
 import useGetPostBySlugQuery from './query/useGetPostBySlugQuery';
 
@@ -16,23 +16,40 @@ export default function useEditorLoad() {
   const { open } = useAppModalActions();
   const {
     data: postData,
-    isError,
+    error: postQueryError,
     isLoading: postQueryLoading,
   } = useGetPostBySlugQuery(slug!, {
     enabled: slug !== undefined && slug !== null,
   });
   const {
     data: tempData,
+    error: lastTempQueryError,
     isLoading: lastTempQueryLoading,
   } = useGetLastTempPostQuery(slug!, {
     enabled: slug !== undefined && slug !== null,
     cacheTime: 0,
   });
-  const history = useHistory();
   const sync = useEditorSync();
 
-  if (isError) {
-    history.push('/error?status=404');
+  if (postQueryError) {
+    if (isAxiosError(postQueryError)) {
+      open({
+        title: postQueryError.name,
+        message: postQueryError.message,
+      });
+    } else {
+      throw postQueryError;
+    }
+  }
+  if (lastTempQueryError) {
+    if (isAxiosError(lastTempQueryError)) {
+      open({
+        title: lastTempQueryError.name,
+        message: lastTempQueryError.message,
+      });
+    } else {
+      throw lastTempQueryError;
+    }
   }
 
   const data = useMemo(() => {

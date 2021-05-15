@@ -14,23 +14,20 @@ import { Helmet } from 'react-helmet-async';
 import ReadPostSkeleton from './ReadPostSkeleton';
 import { useAppModalActions } from '@src/states/appModalState';
 import { humanizeTime } from '@src/lib/utils/viewerUtils';
+import { isAxiosError } from '@src/lib/utils/isAxiosError';
 
 export type ReadPostProps = {
   slug: string;
 };
 
 const ReadPost = ({ slug }: ReadPostProps) => {
-  const [user] = useUserState();
-  const { open } = useAppModalActions();
-  const { data: post, isError, isLoading } = useGetPostBySlugQuery(slug, {
+  const { data: post, error, isLoading } = useGetPostBySlugQuery(slug, {
     retry: 3,
   });
+  const [user] = useUserState();
+  const { open } = useAppModalActions();
   const { onDelete } = useDeletePost();
   const history = useHistory();
-  // useFullScreenLoaderEffect(isLoading);
-  if (isError) {
-    history.push('/error?status=404');
-  }
 
   const onDeleteModalOpen = () => {
     open({
@@ -46,10 +43,22 @@ const ReadPost = ({ slug }: ReadPostProps) => {
 
   if (!post || isLoading) return <ReadPostSkeleton />;
 
+  // TODO: Refactoring to appBoundary
+  if (error) {
+    if (isAxiosError(error)) {
+      const errorUrl = error.response?.status
+        ? `/error?status=${error.response.status}`
+        : `/error`;
+      history.replace(errorUrl);
+    } else {
+      throw error;
+    }
+  }
+
   return (
     <>
       <Helmet>
-        <title>{post.title}</title>
+        <title>{post.title} – Seo Nest</title>
         {post.short_description && (
           <meta name="description" content={post.short_description} />
         )}
