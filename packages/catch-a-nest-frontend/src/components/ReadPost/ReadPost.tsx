@@ -122,7 +122,7 @@ const ReadPost = ({ slug }: ReadPostProps) => {
 const postStyle = css`
   display: flex;
   flex-direction: column;
-  padding-bottom: 10rem;
+  margin-bottom: 10rem;
 
   .title {
     margin: 0;
