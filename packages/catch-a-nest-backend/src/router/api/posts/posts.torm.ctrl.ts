@@ -171,6 +171,11 @@ export const getPosts = async (ctx: Context) => {
   }
 };
 
+type PostShortUrlInfo = {
+  id: number;
+  url_slug: string;
+};
+
 export const getPostBySlug = async (ctx: Context) => {
   try {
     const params = ctx.params;
@@ -185,7 +190,9 @@ export const getPostBySlug = async (ctx: Context) => {
       return;
     }
 
-    const post = await getRepository(Post).findOne({
+    const postRepo = getRepository(Post);
+
+    const post = await postRepo.findOne({
       url_slug: slug,
     });
 
@@ -208,16 +215,33 @@ export const getPostBySlug = async (ctx: Context) => {
       await postReadRepo.save(postRead);
     }
 
-    const postCountArr = await getRepository(PostRead)
+    const postCountArr = await postReadRepo
       .createQueryBuilder('post_reads')
       .select('post_reads.ip_hash')
       .where('post_reads.post.id = :id', { id: post.id })
       .groupBy('post_reads.ip_hash')
       .getRawMany();
 
+    const nextPostUrl = await postRepo
+      .createQueryBuilder('posts')
+      .select('posts.id, posts.url_slug')
+      .where('posts.id > :id', { id: post.id })
+      .limit(1)
+      .getRawOne<PostShortUrlInfo | undefined>();
+
+    const prevPostUrl = await postRepo
+      .createQueryBuilder('posts')
+      .select('posts.id, posts.url_slug')
+      .where('posts.id < :id', { id: post.id })
+      .limit(1)
+      .orderBy('posts.id', 'DESC')
+      .getRawOne<PostShortUrlInfo | undefined>();
+
     ctx.body = {
       ...post,
       read_count: postCountArr.length,
+      next_posturl: nextPostUrl,
+      prev_posturl: prevPostUrl,
     };
   } catch (e) {
     ctx.throw(500, e);
