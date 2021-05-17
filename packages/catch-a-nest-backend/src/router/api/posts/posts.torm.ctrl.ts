@@ -31,12 +31,8 @@ export const saveNewPost = async (ctx: Context) => {
     return;
   }
 
-  const {
-    title,
-    body,
-    shortDescription,
-    thumbnail,
-  }: SaveNewPostBodySchema = ctx.request.body;
+  const { title, body, shortDescription, thumbnail }: SaveNewPostBodySchema =
+    ctx.request.body;
   try {
     const currentUser = await getRepository(User).findOne({
       id: ctx.user?.id,
@@ -90,12 +86,8 @@ export const updatePost = async (ctx: Context) => {
     return;
   }
 
-  const {
-    title,
-    body,
-    shortDescription,
-    thumbnail,
-  }: SaveNewPostBodySchema = ctx.request.body;
+  const { title, body, shortDescription, thumbnail }: SaveNewPostBodySchema =
+    ctx.request.body;
   try {
     const params = ctx.params;
     const { slug } = params;
@@ -219,7 +211,7 @@ export const getPostBySlug = async (ctx: Context) => {
     const postCountArr = await getRepository(PostRead)
       .createQueryBuilder('post_reads')
       .select('post_reads.ip_hash')
-      .where(`post_reads.post.id = ${post.id}`)
+      .where('post_reads.post.id = :id', { id: post.id })
       .groupBy('post_reads.ip_hash')
       .getRawMany();
 
