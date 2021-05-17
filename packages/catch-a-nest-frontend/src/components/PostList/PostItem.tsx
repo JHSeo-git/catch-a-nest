@@ -35,9 +35,9 @@ const PostItem = ({ post }: PostItemProps) => {
         <div css={infoWrapper}>
           <h4>
             {getDiffOfNow(post.created_at)}
-            {post.read_time && (
+            {post.read_time !== undefined && (
               <>
-                <div className="splitter"></div>
+                <div className="splitter" />
                 <span className="readTimeStyle">
                   {humanizeTime(post.read_time)}
                 </span>
@@ -113,7 +113,7 @@ const infoWrapper = css`
       border-radius: 50%;
     }
 
-    span {
+    .readTimeStyle {
       font-style: italic;
       color: ${palette.blue[500]};
     }

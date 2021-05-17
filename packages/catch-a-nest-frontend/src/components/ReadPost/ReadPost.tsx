@@ -21,7 +21,11 @@ export type ReadPostProps = {
 };
 
 const ReadPost = ({ slug }: ReadPostProps) => {
-  const { data: post, error, isLoading } = useGetPostBySlugQuery(slug, {
+  const {
+    data: post,
+    error,
+    isLoading,
+  } = useGetPostBySlugQuery(slug, {
     retry: 3,
   });
   const [user] = useUserState();
@@ -77,7 +81,7 @@ const ReadPost = ({ slug }: ReadPostProps) => {
         <h1 className="title">{post.title}</h1>
         <div className="sub-info">
           <p className="date">{stringToDateMoreDetail(post.created_at)}</p>
-          {post.read_time && (
+          {post.read_time !== undefined && (
             <>
               <div className="splitter" />
               <p className="view readTimeStyle">
