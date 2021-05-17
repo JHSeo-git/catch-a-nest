@@ -9,6 +9,7 @@ import { ReactComponent as save } from './save.svg';
 import { ReactComponent as upload } from './upload.svg';
 import { ReactComponent as triangle } from './triangle.svg';
 import { ReactComponent as arrowUp } from './arrow-up.svg';
+import { ReactComponent as arrowRight } from './arrow-right.svg';
 
 export {
   google,
@@ -22,4 +23,5 @@ export {
   upload,
   triangle,
   arrowUp,
+  arrowRight,
 };

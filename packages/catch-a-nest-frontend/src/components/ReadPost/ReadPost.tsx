@@ -15,6 +15,7 @@ import ReadPostSkeleton from './ReadPostSkeleton';
 import { useAppModalActions } from '@src/states/appModalState';
 import { humanizeTime } from '@src/lib/utils/viewerUtils';
 import { isAxiosError } from '@src/lib/utils/isAxiosError';
+import PostPageMove from './PostPageMove';
 
 export type ReadPostProps = {
   slug: string;
@@ -111,6 +112,7 @@ const ReadPost = ({ slug }: ReadPostProps) => {
           </div>
         )}
         <MarkdownItViewer markdown={post.body} />
+        <PostPageMove nextPost={post.next_post} prevPost={post.prev_post} />
         <PostEditButton slug={post.url_slug} />
       </section>
     </>
@@ -120,6 +122,7 @@ const ReadPost = ({ slug }: ReadPostProps) => {
 const postStyle = css`
   display: flex;
   flex-direction: column;
+  padding-bottom: 10rem;
 
   .title {
     margin: 0;

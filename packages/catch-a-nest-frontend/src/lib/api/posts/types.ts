@@ -2,6 +2,12 @@
 
 import { User } from '../auth/types';
 
+export type PostShortInfo = {
+  id: number;
+  title: string;
+  url_slug: string;
+};
+
 export type Post = {
   id: number;
   title: string;
@@ -15,4 +21,6 @@ export type Post = {
   updated_at: string;
   read_count?: number;
   read_time?: number;
+  next_post?: PostShortInfo;
+  prev_post?: PostShortInfo;
 };

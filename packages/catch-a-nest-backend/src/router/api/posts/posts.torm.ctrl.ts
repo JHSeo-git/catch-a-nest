@@ -171,8 +171,9 @@ export const getPosts = async (ctx: Context) => {
   }
 };
 
-type PostShortUrlInfo = {
+type PostShortInfo = {
   id: number;
+  title: string;
   url_slug: string;
 };
 
@@ -224,24 +225,24 @@ export const getPostBySlug = async (ctx: Context) => {
 
     const nextPostUrl = await postRepo
       .createQueryBuilder('posts')
-      .select('posts.id, posts.url_slug')
+      .select('posts.id, posts.title, posts.url_slug')
       .where('posts.id > :id', { id: post.id })
       .limit(1)
-      .getRawOne<PostShortUrlInfo | undefined>();
+      .getRawOne<PostShortInfo | undefined>();
 
     const prevPostUrl = await postRepo
       .createQueryBuilder('posts')
-      .select('posts.id, posts.url_slug')
+      .select('posts.id, posts.title, posts.url_slug')
       .where('posts.id < :id', { id: post.id })
       .limit(1)
       .orderBy('posts.id', 'DESC')
-      .getRawOne<PostShortUrlInfo | undefined>();
+      .getRawOne<PostShortInfo | undefined>();
 
     ctx.body = {
       ...post,
       read_count: postCountArr.length,
-      next_posturl: nextPostUrl,
-      prev_posturl: prevPostUrl,
+      next_post: nextPostUrl,
+      prev_post: prevPostUrl,
     };
   } catch (e) {
     ctx.throw(500, e);
