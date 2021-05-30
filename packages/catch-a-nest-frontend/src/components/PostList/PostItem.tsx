@@ -12,6 +12,8 @@ export type PostItemProps = {
 };
 
 const PostItem = ({ post }: PostItemProps) => {
+  const updatedBy =
+    post.created_at === post.updated_at ? null : getDiffOfNow(post.updated_at);
   return (
     <li css={block}>
       <Link css={itemStyle} to={`/post/${post.url_slug}`}>
@@ -46,6 +48,12 @@ const PostItem = ({ post }: PostItemProps) => {
           </h4>
           <h1>{post.title}</h1>
           <p>{post.short_description}</p>
+          {updatedBy && (
+            <div className="updated">
+              <span>updated</span>
+              {updatedBy}
+            </div>
+          )}
         </div>
       </Link>
     </li>
@@ -61,7 +69,7 @@ const block = css`
 
 const itemStyle = css`
   text-decoration: none;
-  height: 6.8rem;
+  height: 7rem;
   overflow: hidden;
   border-radius: 0.5rem;
   border: 0.0625rem solid ${palette.blueGrey[100]};
@@ -146,6 +154,22 @@ const infoWrapper = css`
     -webkit-box-orient: vertical;
     overflow: hidden;
     text-overflow: ellipsis;
+  }
+  .updated {
+    text-align: right;
+    margin: 0;
+    padding: 0;
+    color: ${palette.blueGrey[700]};
+    word-break: break-word;
+    font-size: 0.75rem;
+    line-height: 1.5;
+    font-style: italic;
+    span {
+      margin-right: 0.5rem;
+      color: ${palette.red[500]};
+      font-size: 0.75rem;
+      line-height: 1.5;
+    }
   }
 `;
 
