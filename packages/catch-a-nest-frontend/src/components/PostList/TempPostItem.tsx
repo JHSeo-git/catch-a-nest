@@ -1,4 +1,3 @@
-import React from 'react';
 import { css } from '@emotion/react';
 import { Post } from '@src/lib/api/posts/types';
 import palette from '@src/lib/palette';
@@ -6,44 +5,28 @@ import media from '@src/lib/styles/media';
 import { resetButton } from '@src/lib/styles/resetButton';
 import { getDiffOfNow } from '@src/lib/utils/dateUtils';
 import { Link } from 'react-router-dom';
-import useDeletePost from '@src/hooks/useDeletePost';
-import { useAppModalActions } from '@src/states/appModalState';
 
 export type TempPostItemProps = {
   post: Post;
+  onDelete: () => void;
 };
 
-const TempPostItem = ({ post }: TempPostItemProps) => {
-  const { onDelete } = useDeletePost();
-  const { open } = useAppModalActions();
-
-  const onDeleteModalOpen = () => {
-    open({
-      title: 'Temp Post Delete',
-      message: 'Could you delete this temp post?',
-      onConfirm: () => {
-        onDelete(post.url_slug);
-      },
-    });
-  };
-
+const TempPostItem = ({ post, onDelete }: TempPostItemProps) => {
   return (
-    <>
-      <li css={block}>
-        <div css={itemStyle}>
-          <div css={infoWrapper}>
+    <li css={block}>
+      <div css={itemStyle}>
+        <div css={infoWrapper}>
+          <Link css={linkStyle} to={`/post/${post.url_slug}`}>
             <h4>{getDiffOfNow(post.updated_at)}</h4>
-            <Link css={linkStyle} to={`/post/${post.url_slug}`}>
-              <h2>{post.title}</h2>
-              <p>
-                {post.body.length > 150 ? post.body.slice(0, 150) : post.body}
-              </p>
-            </Link>
-            <button onClick={onDeleteModalOpen}>DELETE</button>
-          </div>
+            <h2>{post.title}</h2>
+            <p>
+              {post.body.length > 150 ? post.body.slice(0, 150) : post.body}
+            </p>
+          </Link>
+          <button onClick={onDelete}>DELETE</button>
         </div>
-      </li>
-    </>
+      </div>
+    </li>
   );
 };
 
@@ -65,7 +48,7 @@ const linkStyle = css`
   text-decoration: none;
   text-decoration-color: ${palette.blueGrey[900]};
 
-  transition: all 0.1s ease-in-out;
+  transition: all 0.2s ease-in-out;
   &:hover {
     text-decoration: underline;
     text-decoration-color: ${palette.blueGrey[900]};

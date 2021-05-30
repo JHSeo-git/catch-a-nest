@@ -9,20 +9,33 @@ import palette from '@src/lib/palette';
 import media from '@src/lib/styles/media';
 import TempPostItem from './TempPostItem';
 import { isAxiosError } from '@src/lib/utils/isAxiosError';
+import useDeletePost from '@src/hooks/useDeletePost';
+import { useAppModalActions } from '@src/states/appModalState';
 
 export type TempPostListProps = {
   userId?: number;
 };
 
 const TempPostList = ({ userId }: TempPostListProps) => {
-  const {
-    data,
-    hasNextPage,
-    fetchNextPage,
-    error,
-  } = useGetTempPostsQuery(userId, { retry: 3 });
+  const { data, hasNextPage, fetchNextPage, error } = useGetTempPostsQuery(
+    userId,
+    { retry: 3, refetchOnWindowFocus: true }
+  );
   const ref = useRef<HTMLDivElement>(null);
   const history = useHistory();
+
+  const { onDelete } = useDeletePost();
+  const { open } = useAppModalActions();
+
+  const onDeleteModalOpen = (urlSlug: string) => {
+    open({
+      title: 'Temp Post Delete',
+      message: 'Could you delete this temp post?',
+      onConfirm: () => {
+        onDelete(urlSlug);
+      },
+    });
+  };
 
   const items = useMemo(() => {
     if (!data) return null;
@@ -67,7 +80,15 @@ const TempPostList = ({ userId }: TempPostListProps) => {
       <h1 css={title}>Temp Posts</h1>
       <ul css={listStyle}>
         {items
-          ? items.map((item) => <TempPostItem key={item.id} post={item} />)
+          ? items.map((item) => (
+              <TempPostItem
+                key={item.id}
+                post={item}
+                onDelete={() => {
+                  onDeleteModalOpen(item.url_slug);
+                }}
+              />
+            ))
           : Array.from({ length: 10 }).map((_, i) => (
               <PostItemSkeleton key={i} />
             ))}
