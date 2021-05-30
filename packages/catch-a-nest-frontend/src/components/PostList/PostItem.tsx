@@ -11,9 +11,21 @@ export type PostItemProps = {
   post: Post;
 };
 
+const isUpdated = (createdAt: string, updatedAt: string) => {
+  const created = new Date(createdAt);
+  const updated = new Date(updatedAt);
+
+  const diff = updated.getTime() - created.getTime();
+  if (diff < 1000 * 60 * 60) {
+    return false;
+  }
+  return true;
+};
+
 const PostItem = ({ post }: PostItemProps) => {
-  const updatedBy =
-    post.created_at === post.updated_at ? null : getDiffOfNow(post.updated_at);
+  const updatedBy = isUpdated(post.created_at, post.updated_at)
+    ? null
+    : getDiffOfNow(post.updated_at);
   return (
     <li css={block}>
       <Link css={itemStyle} to={`/post/${post.url_slug}`}>
