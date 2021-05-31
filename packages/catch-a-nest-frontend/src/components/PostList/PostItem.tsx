@@ -16,7 +16,8 @@ const isUpdated = (createdAt: string, updatedAt: string) => {
   const updated = new Date(updatedAt);
 
   const diff = updated.getTime() - created.getTime();
-  if (diff < 1000 * 60 * 60) {
+  // 하루 미만일 때는 updated 표시 안하도록
+  if (diff < 1000 * 60 * 60 * 24) {
     return false;
   }
   return true;
