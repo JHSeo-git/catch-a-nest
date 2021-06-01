@@ -25,8 +25,8 @@ const isUpdated = (createdAt: string, updatedAt: string) => {
 
 const PostItem = ({ post }: PostItemProps) => {
   const updatedBy = isUpdated(post.created_at, post.updated_at)
-    ? null
-    : getDiffOfNow(post.updated_at);
+    ? getDiffOfNow(post.updated_at)
+    : null;
   return (
     <li css={block}>
       <Link css={itemStyle} to={`/post/${post.url_slug}`}>
