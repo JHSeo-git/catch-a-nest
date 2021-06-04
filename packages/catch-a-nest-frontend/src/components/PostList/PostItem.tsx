@@ -82,7 +82,7 @@ const block = css`
 
 const itemStyle = css`
   text-decoration: none;
-  height: 7rem;
+  height: 8rem;
   overflow: hidden;
   border-radius: 0.5rem;
   border: 0.0625rem solid ${palette.blueGrey[100]};
@@ -116,6 +116,8 @@ const thumbnailImage = css`
 const infoWrapper = css`
   flex: 1;
   padding: 0.5rem 1rem;
+  display: flex;
+  flex-direction: column;
   h4 {
     margin: 0;
     padding: 0;
@@ -172,6 +174,7 @@ const infoWrapper = css`
     text-align: right;
     margin: 0;
     padding: 0;
+    margin-top: auto;
     color: ${palette.blueGrey[700]};
     word-break: break-word;
     font-size: 0.75rem;
