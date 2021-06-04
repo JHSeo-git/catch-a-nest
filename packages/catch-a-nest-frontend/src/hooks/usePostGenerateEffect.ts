@@ -24,6 +24,9 @@ export default function usePostGenerateEffect({
   const [tocEl, setTocEl] = useState<HTMLElement | null>(null);
   const [headers, setHeaders] = useState<HeadingType>([]);
   const [, setHeadingId] = useObservedHeadingIdState();
+  const [docHeight, setDocHeight] = useState(
+    document.documentElement.scrollHeight
+  );
 
   const onActivateTOCHeading = useCallback(() => {
     if (!headers || headers.length === 0) return;
@@ -40,6 +43,10 @@ export default function usePostGenerateEffect({
 
   const onScroll = useCallback(() => {
     if (!tocEl) return;
+    if (docHeight !== document.documentElement.scrollHeight) {
+      setDocHeight(document.documentElement.scrollHeight);
+      return;
+    }
     const { top } = tocEl.getBoundingClientRect();
     if (top < fixedTocPos) {
       tocEl.classList.add('fixed');
@@ -47,7 +54,7 @@ export default function usePostGenerateEffect({
       tocEl.classList.remove('fixed');
     }
     onActivateTOCHeading();
-  }, [tocEl, fixedTocPos, onActivateTOCHeading]);
+  }, [tocEl, fixedTocPos, onActivateTOCHeading, docHeight]);
 
   useEffect(() => {
     if (!markdown) return;
@@ -67,7 +74,7 @@ export default function usePostGenerateEffect({
       top: h.getBoundingClientRect().top + scrollTop,
     }));
     setHeaders(targetHeadings);
-  }, [ref, markdown, tocLevel]);
+  }, [ref, markdown, tocLevel, docHeight]);
 
   useEffect(() => {
     window.addEventListener('scroll', onScroll);
