@@ -37,7 +37,7 @@ const skeleton = css`
 `;
 
 const itemStyle = css`
-  height: 6.6rem;
+  height: 8rem;
   overflow: hidden;
   border-radius: 0.5rem;
   border: 0.0625rem solid ${palette.blueGrey[50]};
