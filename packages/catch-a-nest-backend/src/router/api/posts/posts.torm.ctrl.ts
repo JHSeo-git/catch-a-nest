@@ -227,6 +227,7 @@ export const getPostBySlug = async (ctx: Context) => {
       .createQueryBuilder('posts')
       .select('posts.id, posts.title, posts.url_slug')
       .where('posts.id > :id', { id: post.id })
+      .andWhere('posts.is_temp = :isTemp', { isTemp: false })
       .limit(1)
       .getRawOne<PostShortInfo | undefined>();
 
@@ -234,6 +235,7 @@ export const getPostBySlug = async (ctx: Context) => {
       .createQueryBuilder('posts')
       .select('posts.id, posts.title, posts.url_slug')
       .where('posts.id < :id', { id: post.id })
+      .andWhere('posts.is_temp = :isTemp', { isTemp: false })
       .limit(1)
       .orderBy('posts.id', 'DESC')
       .getRawOne<PostShortInfo | undefined>();
