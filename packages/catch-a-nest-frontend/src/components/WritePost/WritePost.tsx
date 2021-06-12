@@ -7,23 +7,24 @@ import WritePostDetail from './WritePostDetail';
 import WritePostFooter from './WritePostFooter';
 import useEditorLoad from '@src/hooks/useEditorLoad';
 import { Helmet } from 'react-helmet-async';
-import { useEditorTitleState } from '@src/states/editorState';
+import { useEditorTitleValue } from '@src/states/editorState';
 import useFullScreenLoaderEffect from '@src/hooks/useFullScreenLoaderEffect';
 
 export type WritePostProps = {};
 
 const WritePost = (props: WritePostProps) => {
-  const [postTitle] = useEditorTitleState();
+  const postTitle = useEditorTitleValue();
 
   const {
-    reset,
+    titleRef,
     editorRef,
-    onForceBodyUpdate,
+    onCancel,
     onPostPageSave,
     onTempPageSave,
-    onCancel,
+    onForceBodyUpdate,
     onDetailPageCancel,
     editorMode,
+    reset,
     isEdit,
     loading: saveLoading,
   } = useEditor();
@@ -40,13 +41,15 @@ const WritePost = (props: WritePostProps) => {
 
   if (syncLoading) return null;
 
+  // TODO: 화면 isEdit 값이 초기 값부터 false 인데... 껌뻑이는거 없애야함
+
   return (
     <>
       <Helmet>
         <title>{isEdit ? `Edit – ${postTitle}` : 'New Post'}</title>
       </Helmet>
       <section css={panelStyle}>
-        <WritePostTitle />
+        <WritePostTitle ref={titleRef} />
         <Editor
           ref={editorRef}
           isEdit={isEdit}

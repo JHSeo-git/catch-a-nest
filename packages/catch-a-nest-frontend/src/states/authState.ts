@@ -1,5 +1,5 @@
 import { User } from '@src/lib/api/auth/types';
-import { atom, useRecoilState } from 'recoil';
+import { atom, useRecoilState, useRecoilValue } from 'recoil';
 
 export const googleTokenState = atom<string | null>({
   key: 'googleTokenState',
@@ -17,4 +17,8 @@ export function useGoogleTokenState() {
 
 export function useUserState() {
   return useRecoilState(userState);
+}
+
+export function useUserValue() {
+  return useRecoilValue(userState);
 }

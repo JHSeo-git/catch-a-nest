@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { useHistory } from 'react-router';
 import { Editor } from '@toast-ui/react-editor';
 import {
@@ -6,17 +6,20 @@ import {
   useEditorContentValue,
   useEditorMarkdownState,
   useEditorModeState,
+  useEditorTitleState,
 } from '@src/states/editorState';
 import useAppToast from './useAppToast';
 import { useEditingInfoValue } from '../states/editorState';
 import useWritePost from './useWritePost';
 
 export default function useEditor() {
+  const titleRef = useRef<HTMLTextAreaElement>(null);
   const editorRef = useRef<Editor>(null);
   const history = useHistory();
 
   const [editorMode, setEditorMode] = useEditorModeState();
   const [, setEditorMarkdownValue] = useEditorMarkdownState();
+  const [title, setEditorTitle] = useEditorTitleState();
   const postContent = useEditorContentValue();
   const { isEdit } = useEditingInfoValue();
 
@@ -24,6 +27,12 @@ export default function useEditor() {
 
   const { notify } = useAppToast();
   const { onSaveTempPost, loading } = useWritePost();
+
+  useEffect(() => {
+    if (!title) return;
+    if (!titleRef?.current) return;
+    titleRef.current.value = title;
+  }, [title]);
 
   const onForceBodyUpdate = (markdown: string) => {
     if (!editorRef.current) return;
@@ -44,24 +53,30 @@ export default function useEditor() {
   };
 
   const onPostPageSave = () => {
+    if (!titleRef.current) return;
     if (!editorRef.current) return;
     const markdown = editorRef.current.getInstance().getMarkdown();
+    const title = titleRef.current.value;
 
-    if (!isPostValid(postContent.title, markdown)) return;
+    if (!isPostValid(title, markdown)) return;
 
+    setEditorTitle(title);
     setEditorMarkdownValue(markdown);
     setEditorMode('detail-page');
   };
 
   const onTempPageSave = () => {
+    if (!titleRef.current) return;
     if (!editorRef.current) return;
     const markdown = editorRef.current.getInstance().getMarkdown();
+    const title = titleRef.current.value;
 
-    if (!isPostValid(postContent.title, markdown)) return;
+    if (!isPostValid(title, markdown)) return;
 
+    setEditorTitle(title);
     setEditorMarkdownValue(markdown);
     onSaveTempPost({
-      title: postContent.title,
+      title: title,
       body: markdown,
       shortDescription: postContent.shortDescription,
       thumbnail: postContent.thumbnail,
@@ -83,15 +98,16 @@ export default function useEditor() {
   // }, [clearAllToast]);
 
   return {
-    onCancel,
-    onForceBodyUpdate,
-    onPostPageSave,
-    onDetailPageCancel,
-    editorMode,
+    titleRef,
     editorRef,
+    onCancel,
+    onPostPageSave,
+    onForceBodyUpdate,
+    onDetailPageCancel,
+    onTempPageSave,
+    editorMode,
     reset,
     isEdit,
-    onTempPageSave,
     loading,
   };
 }

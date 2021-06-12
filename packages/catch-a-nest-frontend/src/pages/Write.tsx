@@ -1,11 +1,11 @@
-import WritePost from '@src/components/WritePost';
-import { useUserState } from '@src/states/authState';
-import {
-  useEditTargetSlugState,
-  useIsEditState,
-} from '@src/states/editorState';
 import { useEffect } from 'react';
 import { useHistory, useParams } from 'react-router';
+import WritePost from '@src/components/WritePost';
+import { useUserValue } from '@src/states/authState';
+import {
+  useSetEditTargetSlug,
+  useSetIsEditState,
+} from '@src/states/editorState';
 
 export type WriteProps = {};
 
@@ -14,10 +14,11 @@ type WriteParams = {
 };
 
 const Write = (props: WriteProps) => {
-  const [user] = useUserState();
   const { slug } = useParams<WriteParams>();
-  const [, setIsEdit] = useIsEditState();
-  const [, setEditTargetSlug] = useEditTargetSlugState();
+
+  const user = useUserValue();
+  const setIsEdit = useSetIsEditState();
+  const setEditTargetSlug = useSetEditTargetSlug();
   const history = useHistory();
 
   useEffect(() => {

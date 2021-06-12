@@ -6,6 +6,7 @@ import {
   useRecoilValue,
   useResetRecoilState,
   useSetRecoilState,
+  waitForAll,
 } from 'recoil';
 
 const editorMarkdownState = atom<string | null>({
@@ -146,9 +147,16 @@ export function useEditorContentValue() {
 export function useEditorMarkdownState() {
   return useRecoilState(editorMarkdownState);
 }
+export function useEditorMarkdownValue() {
+  return useRecoilValue(editorMarkdownState);
+}
 
 export function useEditorTitleState() {
   return useRecoilState(editorTitleState);
+}
+
+export function useEditorTitleValue() {
+  return useRecoilValue(editorTitleState);
 }
 
 export function useEditorModeState() {
@@ -166,9 +174,16 @@ export function useEditorThumbnailState() {
 export function useIsEditState() {
   return useRecoilState(isEditState);
 }
+export function useSetIsEditState() {
+  return useSetRecoilState(isEditState);
+}
 
 export function useEditTargetSlugState() {
   return useRecoilState(editTargetSlugState);
+}
+
+export function useSetEditTargetSlug() {
+  return useSetRecoilState(editTargetSlugState);
 }
 
 export function useEditingInfoValue() {
