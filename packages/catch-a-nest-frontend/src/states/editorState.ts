@@ -6,7 +6,6 @@ import {
   useRecoilValue,
   useResetRecoilState,
   useSetRecoilState,
-  waitForAll,
 } from 'recoil';
 
 const editorMarkdownState = atom<string | null>({
