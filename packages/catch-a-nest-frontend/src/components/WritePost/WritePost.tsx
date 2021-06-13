@@ -7,13 +7,20 @@ import WritePostDetail from './WritePostDetail';
 import WritePostFooter from './WritePostFooter';
 import useEditorLoad from '@src/hooks/useEditorLoad';
 import { Helmet } from 'react-helmet-async';
-import { useEditorTitleValue } from '@src/states/editorState';
+import {
+  useEditorMarkdownValue,
+  useEditorTitleValue,
+} from '@src/states/editorState';
 import useFullScreenLoaderEffect from '@src/hooks/useFullScreenLoaderEffect';
+import { fadeIn } from '@src/lib/styles/animation';
 
-export type WritePostProps = {};
+export type WritePostProps = {
+  isEdit: boolean;
+};
 
-const WritePost = (props: WritePostProps) => {
-  const postTitle = useEditorTitleValue();
+const WritePost = ({ isEdit }: WritePostProps) => {
+  const title = useEditorTitleValue();
+  const markdown = useEditorMarkdownValue();
 
   const {
     titleRef,
@@ -25,7 +32,6 @@ const WritePost = (props: WritePostProps) => {
     onDetailPageCancel,
     editorMode,
     reset,
-    isEdit,
     loading: saveLoading,
   } = useEditor();
 
@@ -39,14 +45,12 @@ const WritePost = (props: WritePostProps) => {
     };
   }, [reset]);
 
-  if (syncLoading) return null;
-
-  // TODO: 화면 isEdit 값이 초기 값부터 false 인데... 껌뻑이는거 없애야함
+  if (isEdit && !title && !markdown) return null;
 
   return (
     <>
       <Helmet>
-        <title>{isEdit ? `Edit – ${postTitle}` : 'New Post'}</title>
+        <title>{isEdit ? `Edit – ${title}` : 'New Post'}</title>
       </Helmet>
       <section css={panelStyle}>
         <WritePostTitle ref={titleRef} />
@@ -74,6 +78,7 @@ const panelStyle = css`
   height: 100%;
   display: flex;
   flex-direction: column;
+  animation: ${fadeIn} 0.2s ease-in-out;
 `;
 
 export default WritePost;

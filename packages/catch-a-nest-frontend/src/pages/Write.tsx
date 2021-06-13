@@ -31,7 +31,7 @@ const Write = (props: WriteProps) => {
     history.push('/error?status=401');
   }
 
-  return <WritePost />;
+  return <WritePost isEdit={!!slug} />;
 };
 
 export default Write;

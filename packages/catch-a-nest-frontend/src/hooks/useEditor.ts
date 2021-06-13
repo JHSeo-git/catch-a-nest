@@ -9,7 +9,6 @@ import {
   useEditorTitleState,
 } from '@src/states/editorState';
 import useAppToast from './useAppToast';
-import { useEditingInfoValue } from '../states/editorState';
 import useWritePost from './useWritePost';
 
 export default function useEditor() {
@@ -21,7 +20,6 @@ export default function useEditor() {
   const [, setEditorMarkdownValue] = useEditorMarkdownState();
   const [title, setEditorTitle] = useEditorTitleState();
   const postContent = useEditorContentValue();
-  const { isEdit } = useEditingInfoValue();
 
   const { reset } = useEditorContentActions();
 
@@ -107,7 +105,6 @@ export default function useEditor() {
     onTempPageSave,
     editorMode,
     reset,
-    isEdit,
     loading,
   };
 }
