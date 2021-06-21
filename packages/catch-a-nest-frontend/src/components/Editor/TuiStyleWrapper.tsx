@@ -1,5 +1,3 @@
-import 'highlight.js/styles/atom-one-light.css';
-
 import { css } from '@emotion/react';
 import React from 'react';
 import palette from '@src/lib/palette';
@@ -11,26 +9,26 @@ export type TuiStyleWrapperProps = {
 };
 
 const TuiStyleWrapper = ({ children }: TuiStyleWrapperProps) => {
-  return <div css={tuiStyle}>{children}</div>;
+  return <div css={toastuiStyle}>{children}</div>;
 };
 
-const tuiStyle = css`
+const toastuiStyle = css`
   height: 100%;
   position: relative;
   word-break: break-word;
 
-  .tui-editor {
-    .te-editor {
+  .toastui-editor-defaultUI {
+    .toastui-editor {
       ${media.md} {
         width: 100%;
       }
     }
-    .te-md-splitter {
+    .toastui-editor-md-splitter {
       ${media.md} {
         display: none;
       }
     }
-    .te-preview {
+    .toastui-editor-md-preview {
       ${media.md} {
         display: none;
         padding: 0;
@@ -39,8 +37,8 @@ const tuiStyle = css`
     }
   }
 
-  .te-editor {
-    .CodeMirror {
+  .toastui-editor {
+    .ProseMirror {
       ${fontFamily}
       font-size: 1.125rem;
       display: flex;
@@ -58,65 +56,67 @@ const tuiStyle = css`
         box-sizing: inherit;
       }
 
-      .tui-md-heading.tui-md-delimiter.setext {
-        line-height: 1.5;
-      }
-
-      .tui-md-delimiter,
-      .tui-md-thematic-break,
-      .tui-md-link,
-      .tui-md-table,
-      .tui-md-block-quote {
+      .toastui-editor-md-delimiter,
+      .toastui-editor-md-thematic-break,
+      .toastui-editor-md-link,
+      .toastui-editor-md-table,
+      .toastui-editor-md-block-quote {
         color: ${palette.blueGrey[500]};
       }
 
-      .tui-md-code-block.tui-md-meta,
-      .tui-md-code.tui-md-delimiter {
+      .toastui-editor-md-code-block .toastui-editor-md-meta,
+      .toastui-editor-md-code-block .toastui-editor-md-delimiter {
         color: ${palette.blueGrey[500]};
       }
 
-      .tui-md-meta,
-      .tui-md-html,
-      .tui-md-link.tui-md-link-url.tui-md-marked-text {
-        color: ${palette.blueGrey[700]};
+      .toastui-editor-md-code .toastui-editor-md-meta,
+      .toastui-editor-md-code .toastui-editor-md-delimiter {
+        color: ${palette.blueGrey[500]};
       }
 
-      .tui-md-block-quote.tui-md-marked-text,
-      .tui-md-list-item.tui-md-meta {
+      .toastui-editor-md-meta,
+      .toastui-editor-md-html,
+      .toastui-editor-md-link.toastui-editor-md-link-url.toastui-editor-md-marked-text {
+        color: ${palette.blueGrey[500]};
+      }
+
+      .toastui-editor-md-block-quote.toastui-editor-md-marked-text,
+      .toastui-editor-md-list-item.toastui-editor-md-meta {
         color: ${palette.blueGrey[800]};
       }
 
-      .tui-md-table.tui-md-marked-text {
+      .toastui-editor-md-table.toastui-editor-md-marked-text {
         color: ${palette.blueGrey[900]};
       }
 
-      .tui-md-link.tui-md-link-desc.tui-md-marked-text {
+      .toastui-editor-md-link.toastui-editor-md-link-desc.toastui-editor-md-marked-text {
         color: ${palette.blue[700]};
       }
-      .tui-md-list-item-odd.tui-md-list-item-bullet {
+
+      .toastui-editor-md-list-item-odd {
         color: ${palette.lightBlue[500]};
         margin-right: 0.25rem;
       }
 
-      .tui-md-list-item-even.tui-md-list-item-bullet {
+      .toastui-editor-md-list-item-even {
         color: ${palette.pink[500]};
         margin-right: 0.25rem;
       }
 
-      .tui-md-code.tui-md-marked-text {
+      .toastui-editor-md-code {
+        background-color: ${palette.lightBlue[50]};
+        padding: 0.125rem 0;
+        letter-spacing: -0.2px;
+      }
+
+      .toastui-editor-md-code.toastui-editor-md-marked-text {
         padding-top: 0.375rem;
         padding-bottom: 0.375rem;
         color: ${palette.lightBlue[700]};
         background-color: ${palette.lightBlue[50]};
       }
 
-      .tui-md-code {
-        background-color: ${palette.lightBlue[50]};
-        padding: 0.125rem 0;
-        letter-spacing: -0.2px;
-      }
-
-      .tui-md-code.tui-md-delimiter.start {
+      .toastui-editor-md-code.toastui-editor-md-delimiter.toastui-editor-md-start {
         padding-top: 0.375rem;
         padding-bottom: 0.375rem;
         padding-left: 0.25rem;
@@ -124,7 +124,7 @@ const tuiStyle = css`
         border-bottom-left-radius: 0.25rem;
       }
 
-      .tui-md-code.tui-md-delimiter.end {
+      .toastui-editor-md-code.toastui-editor-md-delimiter.toastui-editor-md-end {
         padding-top: 0.375rem;
         padding-bottom: 0.375rem;
         padding-right: 0.25rem;
@@ -132,26 +132,26 @@ const tuiStyle = css`
         border-bottom-right-radius: 0.25rem;
       }
 
-      .tui-md-code-block.CodeMirror-linebackground {
-        left: 1.125rem;
-        right: 1.125rem;
+      .toastui-editor-md-code-block-line-background {
         background: ${palette.grey[100]};
+        padding-left: 0.5rem;
+        padding-right: 0.5rem;
       }
 
-      .tui-md-code-block.CodeMirror-linebackground.start {
+      .toastui-editor-md-code-block-line-background.start {
         border-top-left-radius: 0.25rem;
         border-top-right-radius: 0.25rem;
-        top: -0.125rem;
+        padding-top: 0.375rem;
       }
 
-      .tui-md-code-block.CodeMirror-linebackground.end {
+      .toastui-editor-md-code-block-line-background.end {
         border-bottom-left-radius: 0.25rem;
         border-bottom-right-radius: 0.25rem;
-        bottom: 0.125rem;
+        padding-bottom: 0.375rem;
       }
 
-      .tui-md-code,
-      .tui-md-code-block {
+      .toastui-editor-md-code,
+      .toastui-editor-md-code-block {
         font-family: SFMono-Regular, Consolas, Liberation Mono, Menlo, monospace;
         font-size: 1rem;
 
@@ -160,17 +160,25 @@ const tuiStyle = css`
         }
       }
 
-      .tui-md-heading1,
-      .tui-md-heading2,
-      .tui-md-heading3,
-      .tui-md-heading4,
-      .tui-md-heading5,
-      .tui-md-heading6 {
+      .toastui-editor-md-heading {
+        line-height: 1.5;
+
+        .toastui-editor-md-delimiter {
+          color: inherit;
+        }
+      }
+
+      .toastui-editor-md-heading1,
+      .toastui-editor-md-heading2,
+      .toastui-editor-md-heading3,
+      .toastui-editor-md-heading4,
+      .toastui-editor-md-heading5,
+      .toastui-editor-md-heading6 {
         margin: 0;
         padding: 0;
       }
 
-      .tui-md-heading1 {
+      .toastui-editor-md-heading1 {
         margin: 1rem 0;
         padding-bottom: 0.5rem;
         font-size: 2rem;
@@ -181,7 +189,7 @@ const tuiStyle = css`
         }
       }
 
-      .tui-md-heading2 {
+      .toastui-editor-md-heading2 {
         margin: 0.75rem 0;
         padding-bottom: 0.5rem;
         font-size: 1.75rem;
@@ -192,7 +200,7 @@ const tuiStyle = css`
         }
       }
 
-      .tui-md-heading3 {
+      .toastui-editor-md-heading3 {
         margin: 0.5rem 0;
         font-size: 1.5rem;
         color: ${palette.blueGrey[800]};
@@ -202,7 +210,7 @@ const tuiStyle = css`
         }
       }
 
-      .tui-md-heading4 {
+      .toastui-editor-md-heading4 {
         margin: 0.5rem 0;
         font-size: 1.25rem;
         color: ${palette.blueGrey[800]};
@@ -211,22 +219,23 @@ const tuiStyle = css`
         }
       }
 
-      .tui-md-heading5 {
+      .toastui-editor-md-heading5 {
         margin: 0.25rem 0;
         font-size: 1rem;
         color: ${palette.blueGrey[700]};
       }
 
-      .tui-md-heading6 {
+      .toastui-editor-md-heading6 {
         margin: 0.25rem 0;
         font-size: 0.875rem;
         color: ${palette.blueGrey[700]};
       }
     }
   }
-  .te-toolbar-section {
+  .toastui-editor-defaultUI-toolbar {
   }
-  .tui-editor-contents {
+  .markdown-viewer-contents,
+  .toastui-editor-contents {
     ${fontFamily};
     font-size: 1.125rem;
     display: flex;
@@ -341,7 +350,7 @@ const tuiStyle = css`
       li {
         &::before {
           content: '';
-          margin-left: -1.25rem;
+          /* margin-left: -1.25rem; */
           margin-top: 0.6875rem;
           width: 0.375rem;
           height: 0.375rem;
@@ -351,7 +360,7 @@ const tuiStyle = css`
       }
     }
 
-    ol {
+    /* ol {
       li {
         &::before {
           content: '.' counter(li);
@@ -362,7 +371,7 @@ const tuiStyle = css`
           color: ${palette.blueGrey[700]};
         }
       }
-    }
+    } */
 
     code,
     pre,
@@ -428,6 +437,8 @@ const tuiStyle = css`
       th {
         background: ${palette.blueGrey[800]};
         border: 0.0625rem solid ${palette.grey[500]};
+        font-weight: 300;
+        color: #fff;
       }
       td {
         border: 0.0625rem solid ${palette.blueGrey[50]};

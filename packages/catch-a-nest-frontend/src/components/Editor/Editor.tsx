@@ -1,9 +1,11 @@
-import 'codemirror/lib/codemirror.css';
+import 'prismjs/themes/prism.css';
+import '@toast-ui/editor-plugin-code-syntax-highlight/dist/toastui-editor-plugin-code-syntax-highlight.css';
 import '@toast-ui/editor/dist/toastui-editor.css';
 
 import { forwardRef, useEffect } from 'react';
 import { Editor as ReactEditor } from '@toast-ui/react-editor';
-import { syntaxHighlightPlugIn } from '@src/lib/editor/tuiPlugins';
+import codeSyntaxHighlight from '@toast-ui/editor-plugin-code-syntax-highlight';
+import Prism from 'prismjs';
 import TuiStyleWrapper from './TuiStyleWrapper';
 import {
   useEditorIsTempUseState,
@@ -45,7 +47,7 @@ const Editor = (
         initialValue={markdown ?? ''}
         previewStyle="vertical"
         hideModeSwitch
-        plugins={[syntaxHighlightPlugIn]}
+        plugins={[[codeSyntaxHighlight, { highlighter: Prism }]]}
         extendedAutolinks={true}
         usageStatistics={false}
         hooks={{

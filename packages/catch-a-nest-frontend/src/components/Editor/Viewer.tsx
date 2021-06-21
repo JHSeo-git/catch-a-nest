@@ -1,6 +1,9 @@
-import '@toast-ui/editor/dist/toastui-editor-viewer.css';
+import 'prismjs/themes/prism.css';
+import '@toast-ui/editor-plugin-code-syntax-highlight/dist/toastui-editor-plugin-code-syntax-highlight.css';
 
-import { syntaxHighlightPlugInForViewer } from '@src/lib/editor/tuiPlugins';
+import codeSyntaxHighlight from '@toast-ui/editor-plugin-code-syntax-highlight';
+import Prism from 'prismjs';
+
 import { Viewer as ReactViewer } from '@toast-ui/react-editor';
 import TuiStyleWrapper from './TuiStyleWrapper';
 
@@ -27,7 +30,7 @@ const Viewer = ({ markdown }: ViewerProps) => {
     <TuiStyleWrapper>
       <ReactViewer
         initialValue={markdown}
-        plugins={[syntaxHighlightPlugInForViewer]}
+        plugins={[[codeSyntaxHighlight, { highlighter: Prism }]]}
         extendedAutolinks={true}
         referenceDefinition={true}
       />
