@@ -1,3 +1,5 @@
+import 'highlight.js/styles/atom-one-light.css';
+
 import { useRef } from 'react';
 import { css } from '@emotion/react';
 import TuiStyleWrapper from './TuiStyleWrapper';
@@ -23,7 +25,7 @@ function MarkdownItViewer({ markdown }: MarkdownItViewerProps) {
       <div
         ref={ref}
         css={viewerStyle(`${fixedTocPos}px`, `#${headingId}`)}
-        className="tui-editor-contents"
+        className="markdown-viewer-contents"
       ></div>
     </TuiStyleWrapper>
   );
