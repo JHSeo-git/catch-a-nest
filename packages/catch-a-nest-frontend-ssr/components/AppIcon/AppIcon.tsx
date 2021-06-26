@@ -1,6 +1,6 @@
 import React from 'react';
-import * as svg from './svg';
-import Google from './svg/google.svg';
+import * as svg from '@/assets/icons';
+import Google from '@/assets/icons/google.svg';
 
 export type AppIconProps = {
   name: IconType;

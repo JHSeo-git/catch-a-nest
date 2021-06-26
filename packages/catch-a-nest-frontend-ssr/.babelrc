@@ -16,8 +16,9 @@
       "module-resolver",
       {
         "alias": {
-          "@components": "./components",
-          "@lib": "./lib"
+          "@/components": "./components",
+          "@/lib": "./lib",
+          "@/assets": "./assets"
         }
       }
     ],

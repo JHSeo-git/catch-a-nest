@@ -74,6 +74,54 @@ https://github.com/vercel/next.js/tree/canary/examples/dynamic-routing
 
 # nextjs svg { ReactComponent } undefined 오류
 
-nextjs에서는 svg 파일을 file-loader를 통해 img로 변환해버린다.
+nextjs에서는 svg 파일을 next/image 통해 img를 관리한다.
+
+그래서 ReactComponent 내부 값이 undefined로 되버리는 문제가 있다.
+
+https://github.com/twopluszero/next-images/issues/15
 
 이거저거 적용해봐도 계속 undefined로 나오는 문제가 있어서 구조 변경
+
+# svg /w svgr/webpack
+
+svgr 라이브러리를 쓰면 svg를 쓸 수는 있지만 default로 viewBox를 제거해버린다.
+
+제거하지 않도록 webpack config를 설정 해준다.
+
+https://github.com/gregberge/svgr/issues/142
+https://stackoverflow.com/questions/64376001/pass-options-to-the-builtin-svgo-from-svgr-webpack
+
+```js
+module.exports = {
+  reactStrictMode: true,
+  webpack: (config) => {
+    config.module.rules.push({
+      test: /\.svg$/,
+      use: [
+        {
+          loader: '@svgr/webpack',
+          options: {
+            svgoConfig: {
+              plugins: {
+                removeViewBox: false,
+              },
+            },
+          },
+        },
+      ],
+    });
+    return config;
+  },
+};
+```
+
+# emotion css props /w next/link
+
+next/link 를 이용해 component를 만들고 css props를 받아 처리하려 했는데
+
+일단 component로 css가 전달되지 않음
+
+그래서 component로 만들지 않고 그대로 적용
+
+anchor를 드러나게(?) 하기 위해 passHref를 true로 하고 드러나게 해준다.
+스타일 적용을 위해?... 뭐가 어떻게 된건지 나도 헷갈리는데 어째뜬 anchor 역할을 하기 위해서(link) next/link에서 자동생성하게 하지 않고 드러나게 하는 것으로 이해함.

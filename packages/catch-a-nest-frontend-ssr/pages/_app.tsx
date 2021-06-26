@@ -1,9 +1,11 @@
-import '../styles/globals.css';
 import React from 'react';
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
 import { RecoilRoot } from 'recoil';
 import { css, Global } from '@emotion/react';
+import Layout from '@/components/Layout';
+import AppHeader from '@/components/AppHeader';
+import AppInfo from '@/components/AppInfo';
 
 const globalStyle = css`
   html {
@@ -14,7 +16,7 @@ const globalStyle = css`
   }
   html,
   body,
-  __root {
+  #__next {
     height: 100%;
   }
 
@@ -39,7 +41,17 @@ function MyApp({ Component, pageProps }: AppProps) {
       </Head>
       <RecoilRoot>
         <Global styles={globalStyle} />
-        <Component {...pageProps} />
+        <Layout>
+          <Layout.Header>
+            <AppHeader />
+          </Layout.Header>
+          <Layout.Main>
+            <Component {...pageProps} />
+          </Layout.Main>
+          <Layout.Footer>
+            <AppInfo />
+          </Layout.Footer>
+        </Layout>
       </RecoilRoot>
     </>
   );
