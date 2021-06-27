@@ -142,3 +142,33 @@ module.exports = {
   },
 };
 ```
+
+# react-query /w nextjs
+
+ssg, ssr 둘 다 사용 가능하다.
+동작 개념은 preFetch를 통해 데이터를 '미리' 가지고 있도록 하는 것이다.
+실제 사용 시에는 react-query cache 기능을 통해 렌더링 하는 방식
+
+기존 대로 csr 방식으로 불러오는 것도 상관없다.(다만 ssg, ssr 보단 느림)
+
+https://github.com/tannerlinsley/react-query/tree/master/examples/nextjs
+
+hydration이라고 하는 용어는 '서버사이드 렌더링으로 만들어진 수분이 없는 정적 HTML, State로 부터 수분을 보충하는 과정(동적인 상태로 변화)을 말한다.
+
+# next/image
+
+next에서 제공하는 image component를 사용시에 public path가 아닌 외부 url 일 경우 사전에 url 을 등록해주어야 한다.
+
+```js
+module.exports = {
+  images: {
+    domains: ['files.seonest.net', 'd1ml1bwdb9n1pg.cloudfront.net'],
+  },
+};
+```
+
+그리고 자동으로 image 크기나 여러가지를 최적화해서 화면에 rendering 해주는데 스타일이 꼬일 수가 있다.
+
+layout props나 width, height 적절히 사용하고
+fill 사용 시에는 상위 component에 position: relative를 걸어주어야 한다.
+image render 시에 스타일이 absolute이기 때문에 fill시 예상한 범위내에서 그려져야 하기 때문

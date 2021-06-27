@@ -7,3 +7,9 @@ declare module '*.svg' {
 
   export default ReactComponent;
 }
+
+interface Window {
+  gapi: any | undefined;
+  auth2: any | undefined;
+  firebase: any | undefined;
+}

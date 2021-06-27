@@ -18,12 +18,7 @@ module.exports = {
     });
     return config;
   },
-  async rewrites() {
-    return [
-      {
-        source: '/',
-        destination: '/posts',
-      },
-    ];
+  images: {
+    domains: ['files.seonest.net', 'd1ml1bwdb9n1pg.cloudfront.net'],
   },
 };

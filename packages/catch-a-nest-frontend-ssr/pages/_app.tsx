@@ -1,4 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { QueryClient, QueryClientProvider } from 'react-query';
+import { Hydrate } from 'react-query/hydration';
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
 import { RecoilRoot } from 'recoil';
@@ -30,6 +32,8 @@ const globalStyle = css`
 `;
 
 function MyApp({ Component, pageProps }: AppProps) {
+  const [queryClient] = useState(() => new QueryClient());
+
   return (
     <>
       <Head>
@@ -40,18 +44,22 @@ function MyApp({ Component, pageProps }: AppProps) {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
       <RecoilRoot>
-        <Global styles={globalStyle} />
-        <Layout>
-          <Layout.Header>
-            <AppHeader />
-          </Layout.Header>
-          <Layout.Main>
-            <Component {...pageProps} />
-          </Layout.Main>
-          <Layout.Footer>
-            <AppInfo />
-          </Layout.Footer>
-        </Layout>
+        <QueryClientProvider client={queryClient}>
+          <Hydrate state={pageProps.dehydratedState}>
+            <Global styles={globalStyle} />
+            <Layout>
+              <Layout.Header>
+                <AppHeader />
+              </Layout.Header>
+              <Layout.Main>
+                <Component {...pageProps} />
+              </Layout.Main>
+              <Layout.Footer>
+                <AppInfo />
+              </Layout.Footer>
+            </Layout>
+          </Hydrate>
+        </QueryClientProvider>
       </RecoilRoot>
     </>
   );

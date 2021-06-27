@@ -143,7 +143,7 @@ export const getPosts = async (ctx: Context) => {
         is_temp: false,
       },
       relations: ['user'],
-      take: 10,
+      take: 5,
       order: {
         id: 'DESC',
       },
