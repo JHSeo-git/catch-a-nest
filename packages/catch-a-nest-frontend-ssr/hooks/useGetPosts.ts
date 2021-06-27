@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef } from 'react';
-import useGetPostsQuery from './querys/useGetPostsQuery';
+import useGetPostsQuery from './query/useGetPostsQuery';
 import useIntersectionObserver from './useIntersectionObserver';
 
 export default function useGetPosts(userId?: number) {
