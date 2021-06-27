@@ -167,8 +167,18 @@ module.exports = {
 };
 ```
 
-그리고 자동으로 image 크기나 여러가지를 최적화해서 화면에 rendering 해주는데 스타일이 꼬일 수가 있다.
+그리고 자동으로 image 크기나 lazy loading등 최적화해서 화면에 rendering 해주는데 스타일이 꼬일 수가 있다.
 
 layout props나 width, height 적절히 사용하고
 fill 사용 시에는 상위 component에 position: relative를 걸어주어야 한다.
 image render 시에 스타일이 absolute이기 때문에 fill시 예상한 범위내에서 그려져야 하기 때문
+
+# WebAPI Issue
+
+nextjs pre-render 기능으로 인해 WebAPI에 접근하여 사용할 때 없는 경우가 발생한다.
+
+recoil initialize 를 위해 localStorage에 접근하는데 문제가 생기면서 찾아보았다.
+
+해결책은 useEffect를 이용해 render 후 진행 되도록 하는 방법...이 있고 여러가지 있는듯
+
+https://github.com/facebookexperimental/Recoil/issues/408

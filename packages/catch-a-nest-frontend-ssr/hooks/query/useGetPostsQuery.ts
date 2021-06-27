@@ -19,7 +19,7 @@ export default function useGetPostsQuery(
     ({ pageParam = undefined }) => getPosts(userId, pageParam),
     {
       getNextPageParam: (lastPage) =>
-        lastPage.length === 5 ? lastPage[4].id : undefined,
+        lastPage.length === 10 ? lastPage[9].id : undefined,
       ...options,
     }
   );

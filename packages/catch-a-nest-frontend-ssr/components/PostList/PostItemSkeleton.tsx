@@ -25,7 +25,7 @@ const PostItemSkeleton = (
 };
 
 const block = css`
-  &::not(:first-child) {
+  &::not(:first-of-type) {
     margin-top: 1rem;
   }
 `;

@@ -1,19 +1,31 @@
-import { useRef } from 'react';
+import React, { useRef, useState } from 'react';
+import Script from 'next/script';
 import { css } from '@emotion/react';
 import palette from '@/lib/styles/palette';
 import { resetButton } from '@/lib/styles/reset/resetButton';
 import AppIcon from '../AppIcon';
+import useGoogleLoginEffect from '@/hooks/useGoogleLoginEffect';
 
 export type GoogleLoginButtonProps = {};
 
 const GoogleLoginButton = (props: GoogleLoginButtonProps) => {
   const buttonRef = useRef<HTMLButtonElement>(null);
+  const [load, setLoad] = useState(false);
+
+  useGoogleLoginEffect(buttonRef, load);
 
   return (
-    <button css={button} ref={buttonRef}>
-      <AppIcon name="google" />
-      Sign in with Google
-    </button>
+    <>
+      <button css={button} ref={buttonRef}>
+        <AppIcon name="google" />
+        Sign in with Google
+      </button>
+
+      <Script
+        onLoad={() => setLoad(true)}
+        src="https://apis.google.com/js/api:client.js"
+      ></Script>
+    </>
   );
 };
 

@@ -16,11 +16,11 @@ const PostList = (props: PostListProps) => {
       <ul css={listStyle}>
         {posts
           ? posts.map((item) => <PostItem key={item.id} post={item} />)
-          : Array.from({ length: 5 }).map((_, i) => (
+          : Array.from({ length: 10 }).map((_, i) => (
               <PostItemSkeleton key={i} />
             ))}
         {hasNextPage &&
-          Array.from({ length: 5 }).map((_, i) => (
+          Array.from({ length: 10 }).map((_, i) => (
             <PostItemSkeleton key={i} ref={i === 0 ? elementRef : undefined} />
           ))}
       </ul>

@@ -2,10 +2,15 @@ import { css } from '@emotion/react';
 import palette from '@/lib/styles/palette';
 import { resetButton } from '@/lib/styles/reset/resetButton';
 import ActiveLink from '../ActiveLink';
+import { useUserValue } from '@/lib/recoil/authState';
 
 export type NavigationProps = {};
 
 const Navigation = (props: NavigationProps) => {
+  const userState = useUserValue();
+
+  if (!userState) return null;
+
   return (
     <nav css={block}>
       <ActiveLink to="/temps" css={linkStyle} tabIndex={0}>

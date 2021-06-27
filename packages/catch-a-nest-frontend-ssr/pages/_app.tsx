@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { Hydrate } from 'react-query/hydration';
 import type { AppProps } from 'next/app';
@@ -8,6 +8,7 @@ import { css, Global } from '@emotion/react';
 import Layout from '@/components/Layout';
 import AppHeader from '@/components/AppHeader';
 import AppInfo from '@/components/AppInfo';
+import initialize from '@/lib/recoil/initialize';
 
 const globalStyle = css`
   html {
@@ -33,6 +34,11 @@ const globalStyle = css`
 
 function MyApp({ Component, pageProps }: AppProps) {
   const [queryClient] = useState(() => new QueryClient());
+  const [load, setLoad] = useState(false);
+
+  useEffect(() => {
+    setLoad(true);
+  }, [setLoad]);
 
   return (
     <>
@@ -43,7 +49,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         <meta name="theme-color" content="#ffffff" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
-      <RecoilRoot>
+      <RecoilRoot initializeState={load ? initialize : undefined}>
         <QueryClientProvider client={queryClient}>
           <Hydrate state={pageProps.dehydratedState}>
             <Global styles={globalStyle} />
