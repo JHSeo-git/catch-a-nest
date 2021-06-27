@@ -1,21 +1,16 @@
 import { css } from '@emotion/react';
-import Logo from '@/assets/images/logo.svg';
-import Link from 'next/link';
 import { responsiveWidth } from '@/lib/styles/responsive';
 import media from '@/lib/styles/media';
+import Navigation from './Navigation';
+import AppLogo from './AppLogo';
 
 export type AppHeaderProps = {};
 
 const AppHeader = (props: AppHeaderProps) => {
   return (
     <section css={sectionStyle}>
-      {/* <AppLink css={logoStyle} to="/"> */}
-      <Link href="/" passHref={true}>
-        <a css={logoStyle}>
-          <Logo className="logo" alt="logo" />
-        </a>
-      </Link>
-      {/* </AppLink> */}
+      <AppLogo />
+      <Navigation />
     </section>
   );
 };
@@ -28,15 +23,6 @@ const sectionStyle = css`
   ${responsiveWidth};
   ${media.custom(650)} {
     padding: 0 1rem;
-  }
-`;
-
-const logoStyle = css`
-  display: flex;
-  align-items: center;
-  .logo {
-    width: auto;
-    height: 2.5rem;
   }
 `;
 

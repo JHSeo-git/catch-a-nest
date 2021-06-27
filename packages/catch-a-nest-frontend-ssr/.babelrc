@@ -18,7 +18,8 @@
         "alias": {
           "@/components": "./components",
           "@/lib": "./lib",
-          "@/assets": "./assets"
+          "@/assets": "./assets",
+          "@/hooks": "./hooks"
         }
       }
     ],

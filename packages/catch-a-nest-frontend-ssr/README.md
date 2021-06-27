@@ -10,7 +10,7 @@ react to nextjs(CSR to SSR) migration 시에 문제가 될 부분들을 위해 �
 
 ```json
 {
-  "..." : {}
+  "...": {},
   "workspaces": {
     "packages": ["packages/*"],
     "nohoist": [
@@ -125,3 +125,20 @@ next/link 를 이용해 component를 만들고 css props를 받아 처리하려 
 
 anchor를 드러나게(?) 하기 위해 passHref를 true로 하고 드러나게 해준다.
 스타일 적용을 위해?... 뭐가 어떻게 된건지 나도 헷갈리는데 어째뜬 anchor 역할을 하기 위해서(link) next/link에서 자동생성하게 하지 않고 드러나게 하는 것으로 이해함.
+
+# same page in different route
+
+next.config.js 에서 rewrites 함수를 이용해 redirect? 해주면 된다.
+
+```js
+module.exports = {
+  async rewrites() {
+    return [
+      {
+        source: '/',
+        destination: '/posts',
+      },
+    ];
+  },
+};
+```
