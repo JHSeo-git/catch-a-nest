@@ -2,9 +2,9 @@ import React from 'react';
 import Head from 'next/head';
 import PostList from '@/components/PostList';
 
-export type PostsProps = {};
+export type PostsPageProps = {};
 
-// TODO:
+// TODO: 구조 변경 고민
 // - ssg, ssr 할 수 없는 구조 인 것 같다
 // - 1. loggin 된 userId를 이용해 cache key를 구성하는 점
 // - 2. createKey 함수를 hook에서 관리하는 점
@@ -25,24 +25,15 @@ export type PostsProps = {};
 //   };
 // };
 
-const Posts = (props: PostsProps) => {
+const PostsPage = (props: PostsPageProps) => {
   return (
     <>
       <Head>
         <title>Posts – Seo Nest</title>
-        <meta name="title" content="Seo Nest" />
-        <meta name="description" content="Seo's honest nest" />
-        <meta
-          property="og:image"
-          content="https://files.seonest.net/seonest-logo.png"
-        />
-        <meta property="og:type" content="website" />
-        <meta property="og:title" content="Seo Nest" />
-        <meta property="og:description" content="Seo's honest nest" />
       </Head>
       <PostList />
     </>
   );
 };
 
-export default Posts;
+export default PostsPage;

@@ -2,13 +2,15 @@ import React from 'react';
 import { css } from '@emotion/react';
 import Head from 'next/head';
 import GoogleLoginButton from '@/components/GoogleLoginButton';
+import { useUserValue } from '@/lib/recoil/authState';
 
 export type AdminProps = {};
 
 function Admin(props: AdminProps) {
-  // const [user] = useUserState();
+  const userState = useUserValue();
 
-  // if (user) return null;
+  if (userState) return null;
+
   return (
     <>
       <Head>

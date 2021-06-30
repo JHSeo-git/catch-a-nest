@@ -30,7 +30,7 @@ const PostItem = ({ post }: PostItemProps) => {
     : null;
   return (
     <li css={block}>
-      <ActiveLink css={itemStyle} to={`/post/${post.url_slug}`}>
+      <ActiveLink css={itemStyle} to={`/posts/${post.url_slug}`}>
         <div css={imageWrapper}>
           {post.thumbnail ? (
             <Image
@@ -38,6 +38,8 @@ const PostItem = ({ post }: PostItemProps) => {
               src={post.thumbnail}
               alt="post thumbnail"
               layout="fill"
+              placeholder={'blur'}
+              blurDataURL={post.thumbnail}
             />
           ) : (
             <div

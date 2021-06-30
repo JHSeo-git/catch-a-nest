@@ -182,3 +182,31 @@ recoil initialize 를 위해 localStorage에 접근하는데 문제가 생기면
 해결책은 useEffect를 이용해 render 후 진행 되도록 하는 방법...이 있고 여러가지 있는듯
 
 https://github.com/facebookexperimental/Recoil/issues/408
+
+# getStaticProps typescript
+
+```ts
+import { InferGetStaticPropsType } from 'next';
+
+type Post = {
+  author: string;
+  content: string;
+};
+
+export const getStaticProps = async () => {
+  const res = await fetch('https://.../posts');
+  const posts: Post[] = await res.json();
+
+  return {
+    props: {
+      posts,
+    },
+  };
+};
+
+function Blog({ posts }: InferGetStaticPropsType<typeof getStaticProps>) {
+  // will resolve posts to type Post[]
+}
+
+export default Blog;
+```

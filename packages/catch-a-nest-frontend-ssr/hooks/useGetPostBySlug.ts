@@ -1,0 +1,16 @@
+import { useMemo } from 'react';
+import useGetPostBySlugQuery from './query/useGetPostBySlugQuery';
+
+export default function useGetPostBySlug(slug: string) {
+  const { data, error } = useGetPostBySlugQuery(slug);
+
+  const post = useMemo(() => {
+    if (!data) return null;
+    return data;
+  }, [data]);
+
+  return {
+    post,
+    error,
+  };
+}

@@ -4,12 +4,19 @@ import palette from '@/lib/styles/palette';
 import { css } from '@emotion/react';
 import PostItem from './PostItem';
 import PostItemSkeleton from './PostItemSkeleton';
+import { useUserValue } from '@/lib/recoil/authState';
 
 export type PostListProps = {};
 
 const PostList = (props: PostListProps) => {
-  // TODO: userId 가져와서 넣어야 함
-  const { posts, elementRef, hasNextPage } = useGetPosts(3);
+  const userState = useUserValue();
+  const { posts, elementRef, hasNextPage, error } = useGetPosts(userState?.id);
+
+  // FIXME: error 처리
+  if (error) {
+    console.log(error);
+    return null;
+  }
 
   return (
     <>
