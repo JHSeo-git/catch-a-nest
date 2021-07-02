@@ -10,6 +10,6 @@ const client = axios.create();
 client.defaults.baseURL = 'http://localhost:5001';
 client.defaults.withCredentials = true;
 
-console.log('NODE_ENV = ', process.env.NODE_ENV);
+console.log('NODE_ENV =', process.env.NODE_ENV);
 
 export default client;

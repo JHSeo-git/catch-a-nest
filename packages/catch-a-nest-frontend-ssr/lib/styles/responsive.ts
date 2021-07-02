@@ -26,7 +26,7 @@ export const responsiveModalWidth = css`
   }
 `;
 
-export const responsiveReadPostToc = css`
+export const responsivePostToc = css`
   ${media.custom(1550)} {
     display: none;
   }

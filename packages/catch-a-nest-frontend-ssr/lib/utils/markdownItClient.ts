@@ -13,7 +13,7 @@ import MDAnchor from 'markdown-it-anchor';
 import MDToc from 'markdown-it-toc-done-right';
 import uslug from 'uslug';
 
-const md = new MarkdownIt({
+const markdownItClient = new MarkdownIt({
   linkify: true,
   typographer: true,
   highlight: (str, lang) => {
@@ -50,4 +50,4 @@ const md = new MarkdownIt({
     containerClass: 'md-toc-wrapper',
   });
 
-export default md;
+export default markdownItClient;
