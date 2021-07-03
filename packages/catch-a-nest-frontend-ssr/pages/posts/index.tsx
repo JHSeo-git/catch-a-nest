@@ -1,6 +1,7 @@
 import React from 'react';
 import Head from 'next/head';
 import PostList from '@/components/PostList';
+import FloatLinkButton from '@/components/FloatLinkButton';
 
 export type PostsPageProps = {};
 
@@ -32,6 +33,7 @@ const PostsPage = (props: PostsPageProps) => {
         <title>Posts – Seo Nest</title>
       </Head>
       <PostList />
+      <FloatLinkButton iconName="write" to="/write" />
     </>
   );
 };
