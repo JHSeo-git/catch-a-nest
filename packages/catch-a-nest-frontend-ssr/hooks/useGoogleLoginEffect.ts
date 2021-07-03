@@ -12,6 +12,7 @@ export default function useGoogleLoginEffect(
   const setGoogleToken = useSetGoogleToken();
   const { loggedIn } = useAuthManage();
 
+  // FIXME: notify
   // const { notify } = useAppToast();
 
   const login = useCallback(

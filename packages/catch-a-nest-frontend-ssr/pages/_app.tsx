@@ -9,6 +9,7 @@ import Layout from '@/components/Layout';
 import AppHeader from '@/components/AppHeader';
 import AppInfo from '@/components/AppInfo';
 import initialize from '@/lib/recoil/initialize';
+import RecoilInitializer from '@/components/RecoilInitializer';
 
 const globalStyle = css`
   html {
@@ -34,12 +35,6 @@ const globalStyle = css`
 
 function MyApp({ Component, pageProps }: AppProps) {
   const [queryClient] = useState(() => new QueryClient());
-  const [load, setLoad] = useState(false);
-
-  useEffect(() => {
-    setLoad(true);
-  }, [setLoad]);
-
   return (
     <>
       <Head>
@@ -59,7 +54,8 @@ function MyApp({ Component, pageProps }: AppProps) {
         <meta property="og:title" content="Seo Nest" />
         <meta property="og:description" content="Seo's honest nest" />
       </Head>
-      <RecoilRoot initializeState={load ? initialize : undefined}>
+      <RecoilRoot>
+        <RecoilInitializer />
         <QueryClientProvider client={queryClient}>
           <Hydrate state={pageProps.dehydratedState}>
             <Global styles={globalStyle} />

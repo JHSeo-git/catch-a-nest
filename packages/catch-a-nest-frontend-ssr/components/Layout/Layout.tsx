@@ -17,9 +17,11 @@ export type HeaderProps = {
 };
 const Header = ({ children }: HeaderProps) => {
   return (
-    <Headroom disableInlineStyles={true} css={headerStyle}>
-      {children}
-    </Headroom>
+    <header>
+      <Headroom disableInlineStyles={true} css={headerStyle}>
+        {children}
+      </Headroom>
+    </header>
   );
 };
 
