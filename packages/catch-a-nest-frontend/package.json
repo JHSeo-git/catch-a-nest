@@ -32,6 +32,7 @@
     "craco-alias": "^2.2.0",
     "date-fns": "^2.19.0",
     "eslint-config-prettier": "^8.1.0",
+    "eslint-config-react-app": "^6.0.0",
     "highlight.js": "^10.7.1",
     "markdown-it": "^12.0.4",
     "markdown-it-abbr": "^1.0.4",
