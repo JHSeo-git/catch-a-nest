@@ -49,11 +49,13 @@ const fixedLink = (color: string, position: PositionType) => css`
   display: flex;
   justify-content: center;
   align-items: center;
+  transition: all 0.2s ease-in-out;
   svg {
     color: white;
     transition: all 0.2s ease-in-out;
   }
   &:hover {
+    opacity: 1;
     svg {
       transform: scale3d(1.2, 1.2, 1.2);
     }

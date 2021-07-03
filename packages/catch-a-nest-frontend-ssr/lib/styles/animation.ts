@@ -1,4 +1,4 @@
-import { keyframes } from '@emotion/react';
+import { css, keyframes } from '@emotion/react';
 
 export const rotateAnimation = keyframes`
   from {
@@ -37,4 +37,8 @@ export const fadeIn = keyframes`
   100%{
     opacity :1;
   }
+`;
+
+export const pageFadeInStyle = css`
+  animation: ${fadeIn} 0.5s ease-in-out;
 `;

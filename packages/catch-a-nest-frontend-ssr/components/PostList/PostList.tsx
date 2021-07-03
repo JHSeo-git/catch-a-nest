@@ -22,7 +22,7 @@ const PostList = (props: PostListProps) => {
     <>
       <ul css={listStyle}>
         {posts
-          ? posts.map((item) => <PostItem key={item.id} post={item} />)
+          ? posts.map((post) => <PostItem key={post.id} post={post} />)
           : Array.from({ length: 10 }).map((_, i) => (
               <PostItemSkeleton key={i} />
             ))}

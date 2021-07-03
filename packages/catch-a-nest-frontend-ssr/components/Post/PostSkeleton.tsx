@@ -1,5 +1,5 @@
 import { css } from '@emotion/react';
-import { shining } from '@/lib/styles/animation';
+import { fadeIn, pageFadeInStyle, shining } from '@/lib/styles/animation';
 import media from '@/lib/styles/media';
 import palette from '@/lib/styles/palette';
 
@@ -14,6 +14,9 @@ const PostSkeleton = (props: PostSkeletonProps) => {
       <div css={[skeleton, content('5rem')]}></div>
       <div css={[skeleton, content('15rem')]}></div>
       <div css={[skeleton, content('10rem')]}></div>
+      <div css={[skeleton, content('10rem')]}></div>
+      <div css={[skeleton, content('10rem')]}></div>
+      <div css={[skeleton, content('10rem')]}></div>
     </section>
   );
 };
@@ -21,12 +24,12 @@ const PostSkeleton = (props: PostSkeletonProps) => {
 const skeleton = css`
   background: ${palette.blueGrey[50]};
   border-radius: 0.25rem;
-  animation: ${shining} 1s ease-in-out infinite;
 `;
 
 const postStyle = css`
   display: flex;
   flex-direction: column;
+  ${pageFadeInStyle};
 `;
 
 const title = css`

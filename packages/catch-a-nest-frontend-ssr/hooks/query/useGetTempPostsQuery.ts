@@ -6,16 +6,16 @@ import {
   useQueryClient,
 } from 'react-query';
 import produce from 'immer';
-import getPosts from '@/lib/api/posts/getPosts';
+import getTempPosts from '@/lib/api/posts/getTempPosts';
 import { Post } from '@/lib/api/posts/types';
 
-export default function useGetPostsQuery(
+export default function useGetTempPostsQuery(
   userId?: number,
   options: UseInfiniteQueryOptions<Post[], unknown, Post[], Post[]> = {}
 ) {
   return useInfiniteQuery(
     createKey(userId),
-    ({ pageParam = undefined }) => getPosts(userId, pageParam),
+    ({ pageParam = undefined }) => getTempPosts(userId, pageParam),
     {
       getNextPageParam: (lastPage) =>
         lastPage.length === 10 ? lastPage[9].id : undefined,
@@ -24,7 +24,7 @@ export default function useGetPostsQuery(
   );
 }
 
-export function useGetPostsQueryUpdator() {
+export function useGetTempPostsQueryUpdator() {
   const queryClient = useQueryClient();
   return useMemo(() => {
     const remove = (slug: string, userId?: number) => {
@@ -46,5 +46,5 @@ export function useGetPostsQueryUpdator() {
   }, [queryClient]);
 }
 
-const createKey = (userId?: number) => ['posts', userId ?? 'all'];
-useGetPostsQuery.createKey = createKey;
+const createKey = (userId?: number) => ['tempPosts', userId ?? 'all'];
+useGetTempPostsQuery.createKey = createKey;

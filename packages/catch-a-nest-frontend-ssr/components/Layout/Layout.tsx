@@ -3,6 +3,7 @@ import { css } from '@emotion/react';
 import palette from '@/lib/styles/palette';
 import { responsiveWidth } from '@/lib/styles/responsive';
 import zIndex from '@/lib/styles/zIndex';
+import { pageFadeInStyle } from '@/lib/styles/animation';
 
 export type LayoutProps = {
   children: React.ReactNode;
@@ -93,6 +94,7 @@ const mainStyle = css`
   padding-top: 1rem;
   padding-bottom: 2rem;
   ${responsiveWidth};
+  ${pageFadeInStyle};
 `;
 
 Layout.Header = Header;

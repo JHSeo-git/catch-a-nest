@@ -3,6 +3,8 @@ import * as svg from '@/assets/icons';
 import Google from '@/assets/icons/google.svg';
 import Write from '@/assets/icons/write.svg';
 import Fix from '@/assets/icons/fix.svg';
+import ArrowLeft from '@/assets/icons/arrow-left.svg';
+import ArrowRight from '@/assets/icons/arrow-right.svg';
 
 export type AppIconProps = {
   name: IconType;
@@ -27,6 +29,10 @@ const AppIcon = ({ name, ...props }: AppIconProps) => {
       return <Write {...props} />;
     case 'fix':
       return <Fix {...props} />;
+    case 'arrowLeft':
+      return <ArrowLeft {...props} />;
+    case 'arrowRight':
+      return <ArrowRight {...props} />;
     default:
       return null;
   }

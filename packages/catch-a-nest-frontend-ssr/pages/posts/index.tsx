@@ -13,7 +13,6 @@ export type PostsPageProps = {};
 // - 다만, 구조를 변경할 시점이 오게 되면 최우선적으로 ssg, ssr을 고려한다
 // export const getStaticProps: GetStaticProps = async (context) => {
 //   console.log(context);
-//   // FIXME: userId test
 //   // 문제는 prefetch 할 때 userId가 필요한데 state를 통해서 가져올 수 있나?
 //   const queryClient = new QueryClient();
 
