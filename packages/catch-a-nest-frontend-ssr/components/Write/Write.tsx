@@ -1,31 +1,20 @@
-import { useRef } from 'react';
-import dynamic from 'next/dynamic';
+import { useEffect, useRef } from 'react';
 import { useRouter } from 'next/router';
 import { css } from '@emotion/react';
 import { Editor } from '@toast-ui/react-editor';
 import { pageFadeInStyle } from '@/lib/styles/animation';
 import WriteButtons from './WriteButtons';
-
-const WriteTitle = dynamic(() => import('./WriteTitle'), { ssr: false });
-const TuiEditor = dynamic(() => import('../Markdown/TuiEditor'), {
-  ssr: false,
-  // loading: function Loading() {
-  //   return <div>Loading...</div>;
-  // },
-});
+import { useResetAllState } from '@/lib/recoil/writeState';
+import WriteTitle from './WriteTitle';
+import TuiEditor from '../Markdown/TuiEditor';
 
 export type WriteProps = {};
 
 const Write = (props: WriteProps) => {
   const router = useRouter();
-  const editorRef = useRef<Editor | null>(null);
-  const titleRef = useRef<HTMLTextAreaElement | null>(null);
-
-  // Editor props
-  const onForceUpdate = (markdown: string) => {
-    if (!editorRef?.current) return;
-    editorRef.current.getInstance().setMarkdown(markdown, true);
-  };
+  const editorRef = useRef<Editor>(null);
+  const titleRef = useRef<HTMLTextAreaElement>(null);
+  const reset = useResetAllState();
 
   // Buttons props
   const onBackClick = () => {
@@ -34,18 +23,21 @@ const Write = (props: WriteProps) => {
   };
   const onTempClick = () => {
     console.log('temp click');
+    console.log({ editorRef });
   };
   const onPostClick = () => {
     console.log('post click');
   };
 
-  console.log('re=render write');
+  useEffect(() => {
+    return () => reset();
+  }, [reset]);
 
   return (
     <section css={formStyle}>
       <WriteTitle ref={titleRef} placeholder="Please write title" />
       <div css={editorWrapper}>
-        <TuiEditor ref={editorRef} onForceUpdate={onForceUpdate} />
+        <TuiEditor ref={editorRef} />
       </div>
       <WriteButtons
         onBackClick={onBackClick}

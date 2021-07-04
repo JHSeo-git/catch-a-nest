@@ -1,9 +1,12 @@
-import { useSetPostAllContent } from '@/lib/recoil/writeState';
-import { useEffect, useMemo, useState } from 'react';
+import {
+  useSetPostAllContent,
+  useSyncLoadedValue,
+} from '@/lib/recoil/writeState';
+import { useEffect, useMemo } from 'react';
 import useGetPostBySlugQuery from './query/useGetPostBySlugQuery';
 
 export default function useLoadPost(slug: string) {
-  const [loaded, setLoaded] = useState(false);
+  const loaded = useSyncLoadedValue();
   const set = useSetPostAllContent();
   const { data, error, isLoading } = useGetPostBySlugQuery(slug, {
     refetchOnWindowFocus: false,
@@ -25,8 +28,6 @@ export default function useLoadPost(slug: string) {
       shortDescription: post.short_description,
       thumbnailUrl: post.thumbnail,
     });
-
-    setLoaded(true);
     console.log('set time');
   }, [isLoading, post, set]);
 

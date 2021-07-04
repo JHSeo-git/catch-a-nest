@@ -18,6 +18,8 @@ const EditPage = (props: EditPageProps) => {
 
   const { error, loaded } = useLoadPost(guardSlug);
 
+  console.log('post loaded', { loaded });
+
   // FIXME: error 처리
   if (error) return <div>{`${error}`}</div>;
 
