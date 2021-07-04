@@ -3,6 +3,7 @@ import { css } from '@emotion/react';
 import media from '@/lib/styles/media';
 import palette from '@/lib/styles/palette';
 import { fontFamily } from '@/lib/styles/typography';
+import { pageFadeInStyle } from '@/lib/styles/animation';
 
 export type MarkdownStyleWrapperProps = {
   children?: React.ReactNode;
@@ -16,6 +17,7 @@ const toastuiStyle = css`
   height: 100%;
   position: relative;
   word-break: break-word;
+  ${pageFadeInStyle};
 
   .toastui-editor-defaultUI {
     .toastui-editor {
@@ -40,6 +42,7 @@ const toastuiStyle = css`
   .toastui-editor {
     .ProseMirror {
       ${fontFamily}
+      height: 100%;
       font-size: 1.125rem;
       display: flex;
       flex-direction: column;

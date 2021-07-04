@@ -1,15 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { Hydrate } from 'react-query/hydration';
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
 import { RecoilRoot } from 'recoil';
 import { css, Global } from '@emotion/react';
-import Layout from '@/components/Layout';
-import AppHeader from '@/components/AppHeader';
-import AppInfo from '@/components/AppInfo';
-import initialize from '@/lib/recoil/initialize';
 import RecoilInitializer from '@/components/RecoilInitializer';
+import RecoilDebugObserver from '@/components/RecoilDebugObserver';
 
 const globalStyle = css`
   html {
@@ -35,6 +32,7 @@ const globalStyle = css`
 
 function MyApp({ Component, pageProps }: AppProps) {
   const [queryClient] = useState(() => new QueryClient());
+
   return (
     <>
       <Head>
@@ -56,20 +54,11 @@ function MyApp({ Component, pageProps }: AppProps) {
       </Head>
       <RecoilRoot>
         <RecoilInitializer />
+        <RecoilDebugObserver />
         <QueryClientProvider client={queryClient}>
           <Hydrate state={pageProps.dehydratedState}>
             <Global styles={globalStyle} />
-            <Layout>
-              <Layout.Header>
-                <AppHeader />
-              </Layout.Header>
-              <Layout.Main>
-                <Component {...pageProps} />
-              </Layout.Main>
-              <Layout.Footer>
-                <AppInfo />
-              </Layout.Footer>
-            </Layout>
+            <Component {...pageProps} />
           </Hydrate>
         </QueryClientProvider>
       </RecoilRoot>

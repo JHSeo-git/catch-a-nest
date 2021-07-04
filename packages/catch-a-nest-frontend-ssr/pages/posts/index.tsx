@@ -2,6 +2,7 @@ import React from 'react';
 import Head from 'next/head';
 import PostList from '@/components/PostList';
 import FloatLinkButton from '@/components/FloatLinkButton';
+import AppLayout from '@/components/AppLayout';
 
 export type PostsPageProps = {};
 
@@ -31,8 +32,10 @@ const PostsPage = (props: PostsPageProps) => {
       <Head>
         <title>Posts – Seo Nest</title>
       </Head>
-      <PostList />
-      <FloatLinkButton iconName="write" to="/write" />
+      <AppLayout>
+        <PostList />
+        <FloatLinkButton iconName="write" to="/write" />
+      </AppLayout>
     </>
   );
 };

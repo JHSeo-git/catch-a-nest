@@ -2,11 +2,12 @@ import 'prismjs/themes/prism.css';
 import '@toast-ui/editor-plugin-code-syntax-highlight/dist/toastui-editor-plugin-code-syntax-highlight.css';
 import '@toast-ui/editor/dist/toastui-editor.css';
 
-import { forwardRef, useEffect } from 'react';
+import { forwardRef, useCallback, useEffect } from 'react';
 import { Editor } from '@toast-ui/react-editor';
 import codeSyntaxHighlight from '@toast-ui/editor-plugin-code-syntax-highlight';
 import Prism from 'prismjs';
 import MarkdownStyleWrapper from './MarkdownStyleWrapper';
+import { usePostMarkdownValue } from '@/lib/recoil/writeState';
 // import { convertSpaceToEncodedString } from '@/lib/utils/viewerUtils';
 // import {
 //   useEditorIsTempUseState,
@@ -16,12 +17,11 @@ import MarkdownStyleWrapper from './MarkdownStyleWrapper';
 // import useAppToast from '@src/hooks/useAppToast';
 
 export type TuiEditorProps = {
-  onForceBodyUpdate(markdown: string): void;
-  isEdit: boolean;
+  onForceUpdate(markdown: string): void;
 };
 
 const TuiEditor = (
-  { onForceBodyUpdate, isEdit }: TuiEditorProps,
+  { onForceUpdate }: TuiEditorProps,
   ref: React.Ref<Editor>
 ) => {
   // const [isTempUse, setIsTempUse] = useEditorIsTempUseState();
@@ -36,9 +36,11 @@ const TuiEditor = (
   //   }
   // }, [markdown, isTempUse, setIsTempUse, onForceBodyUpdate]);
 
-  // if (isEdit && !markdown) return null;
+  const markdown = usePostMarkdownValue();
 
-  const markdown = '';
+  console.log(ref);
+
+  console.log('rerender tui');
 
   return (
     <MarkdownStyleWrapper>

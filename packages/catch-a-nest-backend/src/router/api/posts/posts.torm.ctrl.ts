@@ -165,6 +165,8 @@ export const getPosts = async (ctx: Context) => {
     //   })
     // );
 
+    // TODO: serialized ... omit body
+
     ctx.body = posts;
   } catch (e) {
     ctx.throw(500, e);

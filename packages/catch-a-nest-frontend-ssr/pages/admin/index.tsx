@@ -3,6 +3,7 @@ import { css } from '@emotion/react';
 import Head from 'next/head';
 import GoogleLoginButton from '@/components/GoogleLoginButton';
 import { useUserValue } from '@/lib/recoil/authState';
+import AppLayout from '@/components/AppLayout';
 
 export type AdminProps = {};
 
@@ -17,11 +18,13 @@ function Admin(props: AdminProps) {
         <title>Login (Admin) – Seo Nest</title>
         <meta name="robots" content="noindex" />
       </Head>
-      <div css={block}>
-        <div css={box}>
-          <GoogleLoginButton />
+      <AppLayout>
+        <div css={block}>
+          <div css={box}>
+            <GoogleLoginButton />
+          </div>
         </div>
-      </div>
+      </AppLayout>
     </>
   );
 }

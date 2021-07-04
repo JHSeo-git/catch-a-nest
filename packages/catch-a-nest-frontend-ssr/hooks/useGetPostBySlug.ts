@@ -2,7 +2,7 @@ import { useMemo } from 'react';
 import useGetPostBySlugQuery from './query/useGetPostBySlugQuery';
 
 export default function useGetPostBySlug(slug: string) {
-  const { data, error } = useGetPostBySlugQuery(slug);
+  const { data, error, isLoading } = useGetPostBySlugQuery(slug);
 
   const post = useMemo(() => {
     if (!data) return null;
@@ -12,5 +12,6 @@ export default function useGetPostBySlug(slug: string) {
   return {
     post,
     error,
+    isLoading,
   };
 }
