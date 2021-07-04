@@ -16,6 +16,8 @@ export type PostHeaderProps = {
 const PostHeader = ({ post }: PostHeaderProps) => {
   const userState = useUserValue();
 
+  // TODO: Image blur placeholder lib 사용해보기
+
   return (
     <section css={postStyle}>
       <h1 className="title">{post.title}</h1>
@@ -47,13 +49,14 @@ const PostHeader = ({ post }: PostHeaderProps) => {
       {post.thumbnail && (
         <div css={thumbnailWrapper}>
           <Image
+            css={imageStyle}
             quality={100}
             src={post.thumbnail}
             alt="post thumbnail"
-            blurDataURL={post.thumbnail}
             width={768}
             height={500}
             objectFit="contain"
+            blurDataURL={post.thumbnail}
             placeholder="blur"
           />
         </div>
@@ -119,6 +122,13 @@ const thumbnailWrapper = css`
   position: relative;
   margin-bottom: 5em;
   margin: 0 auto;
+`;
+
+const imageStyle = css`
+  display: block;
+  width: auto;
+  margin: 0px auto;
+  object-fit: cover;
 `;
 
 export default PostHeader;

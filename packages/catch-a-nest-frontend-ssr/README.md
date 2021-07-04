@@ -210,3 +210,34 @@ function Blog({ posts }: InferGetStaticPropsType<typeof getStaticProps>) {
 
 export default Blog;
 ```
+
+# tui editor issue
+
+## window is not defined
+
+dynamic import 사용하여 브라우저에서 로드되고 나서 쓸 수 있게 하면 된다.
+
+## ref, ref.current is null
+
+pre-render 기능으로 인해 ref 값이 정상적으로 전달되지 않는다.
+해결할 수 있는 구조가 있으니 참고 하자.
+
+> - https://myeongjae.kim/blog/2020/04/05/tui-editor-with-nextjs
+
+# write에서 new | edit 관리
+
+new 일 경우 title, markdown 등이 초기화 된 값이 들어가야 하고
+edit 일 경우 api를 통해 가져온 값들이 채워져야 한다.
+
+각 page가 다르기 때문에 간단하게 진행 될 걸로 예상했으나
+첫 페이지를 write 페이지로 한다던지, dynamic import를 쓰지않아 문제가 되었던지
+꽤 자잘한 버그들이 많아서 고생했다.
+
+sync 완료했다는 값을 관리할 atom을 만들어 관리하였다.
+(여기서 sync라는 것은 외부(api나 변수 등)에서 post content atom에 주입하는 것을 말한다.)
+
+현재 sync case는 2,3개 정도 될것으로 생각된다.
+
+1. edit인데 temp가 없는 것 sync
+2. edit인데 temp가 있고 그 temp를 사용할 때 sync
+3. reset을 위해 sync

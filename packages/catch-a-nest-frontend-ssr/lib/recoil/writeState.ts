@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react';
+import { useCallback } from 'react';
 import {
   atom,
   selector,
@@ -10,6 +10,11 @@ import {
 
 const syncLoadedState = atom<boolean>({
   key: 'syncLoadedState',
+  default: false,
+});
+
+const isEditPost = atom<boolean>({
+  key: 'isEditPost',
   default: false,
 });
 
@@ -31,6 +36,11 @@ const postShortDescriptionState = atom<string | null>({
 const postThumbnailUrlState = atom<string | null>({
   key: 'postThumbnailUrlState',
   default: null,
+});
+
+const visiblePublishScreen = atom<boolean>({
+  key: 'visibleWriteScreen',
+  default: false,
 });
 
 export type PostAllContentType = {
@@ -65,12 +75,44 @@ export function useSyncLoadedValue() {
   return useRecoilValue(syncLoadedState);
 }
 
+export function useIsEditPostValue() {
+  return useRecoilValue(isEditPost);
+}
+
+export function useSetIsEditPost() {
+  return useSetRecoilState(isEditPost);
+}
+
+export function usePostTitleValue() {
+  return useRecoilValue(postTitleState);
+}
+
 export function usePostTitleState() {
   return useRecoilState(postTitleState);
 }
 
 export function usePostMarkdownValue() {
   return useRecoilValue(postMarkdownState);
+}
+
+export function usePostThumbnailUrlState() {
+  return useRecoilState(postThumbnailUrlState);
+}
+
+export function usePostShortDescriptionState() {
+  return useRecoilState(postShortDescriptionState);
+}
+
+export function useVisiblePublishScreen() {
+  return useRecoilValue(visiblePublishScreen);
+}
+
+export function useSetVisiblePublishScreen() {
+  return useSetRecoilState(visiblePublishScreen);
+}
+
+export function useVisiblePublishScreenState() {
+  return useRecoilState(visiblePublishScreen);
 }
 
 export function useResetAllState() {
@@ -81,6 +123,8 @@ export function useResetAllState() {
   );
   const resetPostThumbnailUrl = useResetRecoilState(postThumbnailUrlState);
   const resetSyncLoaded = useResetRecoilState(syncLoadedState);
+  const resetVisiblePublishScreen = useResetRecoilState(visiblePublishScreen);
+  const resetIsEditPost = useResetRecoilState(isEditPost);
 
   const reset = useCallback(() => {
     resetPostTitle();
@@ -88,12 +132,16 @@ export function useResetAllState() {
     resetPostShortDescription();
     resetPostThumbnailUrl();
     resetSyncLoaded();
+    resetVisiblePublishScreen();
+    resetIsEditPost();
   }, [
     resetPostTitle,
     resetPostMarkdown,
     resetPostShortDescription,
     resetPostThumbnailUrl,
     resetSyncLoaded,
+    resetVisiblePublishScreen,
+    resetIsEditPost,
   ]);
 
   return reset;
@@ -104,6 +152,7 @@ export function useSetPostAllContent() {
   const setPostMarkdown = useSetRecoilState(postMarkdownState);
   const setPostShortDescription = useSetRecoilState(postShortDescriptionState);
   const setPostThumbnailUrl = useSetRecoilState(postThumbnailUrlState);
+  const setIsEditPost = useSetRecoilState(isEditPost);
 
   const setSyncLoaded = useSetRecoilState(syncLoadedState);
 
@@ -113,6 +162,7 @@ export function useSetPostAllContent() {
       setPostMarkdown(post.markdown);
       setPostShortDescription(post.shortDescription);
       setPostThumbnailUrl(post.thumbnailUrl);
+      setIsEditPost(true);
 
       setSyncLoaded(true);
     },
@@ -121,6 +171,7 @@ export function useSetPostAllContent() {
       setPostMarkdown,
       setPostShortDescription,
       setPostThumbnailUrl,
+      setIsEditPost,
       setSyncLoaded,
     ]
   );

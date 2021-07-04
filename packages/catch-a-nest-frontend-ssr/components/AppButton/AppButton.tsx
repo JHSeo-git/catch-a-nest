@@ -14,10 +14,12 @@ export type AppButtonProps = {
   preIconName?: IconType;
   preIconColor?: string;
   size?: SizeType;
+  hoverAnimationDirect?: HoverAnimationDirect;
 };
 
 type SizeType = 'normal' | 'big' | 'small';
 type ButtonType = 'primary' | 'normal' | 'secondary' | 'thirdary';
+type HoverAnimationDirect = 'left' | 'right' | 'up' | 'down';
 
 const AppButton = ({
   text,
@@ -27,9 +29,14 @@ const AppButton = ({
   preIconName,
   preIconColor = palette.blueGrey[900],
   size = 'normal',
+  hoverAnimationDirect = 'left',
 }: AppButtonProps) => {
   return (
-    <button css={buttonStyle(type, size)} onClick={onClick} disabled={loading}>
+    <button
+      css={buttonStyle(type, size, hoverAnimationDirect)}
+      onClick={onClick}
+      disabled={loading}
+    >
       {loading ? (
         <AppIcon className="spinner" name="spinner" />
       ) : (
@@ -48,7 +55,11 @@ const AppButton = ({
   );
 };
 
-const buttonStyle = (type: ButtonType, size: SizeType) => css`
+const buttonStyle = (
+  type: ButtonType,
+  size: SizeType,
+  hoverAnimationDirect: HoverAnimationDirect
+) => css`
   ${resetButton};
   cursor: pointer;
   height: 2.5rem;
@@ -85,7 +96,22 @@ const buttonStyle = (type: ButtonType, size: SizeType) => css`
   &:hover {
     background: ${palette.grey[100]};
     .pre-icon {
-      transform: translate3d(-0.25rem, 0, 0);
+      ${hoverAnimationDirect === 'left' &&
+      css`
+        transform: translate3d(-0.25rem, 0, 0);
+      `}
+      ${hoverAnimationDirect === 'right' &&
+      css`
+        transform: translate3d(0.25rem, 0, 0);
+      `}
+      ${hoverAnimationDirect === 'up' &&
+      css`
+        transform: translate3d(0, -0.25rem, 0);
+      `}
+      ${hoverAnimationDirect === 'down' &&
+      css`
+        transform: translate3d(0, 0.25rem, 0);
+      `}
     }
   }
   &:active {

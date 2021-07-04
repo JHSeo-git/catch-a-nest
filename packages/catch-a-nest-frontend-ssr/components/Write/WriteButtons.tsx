@@ -2,6 +2,7 @@ import { css } from '@emotion/react';
 import media from '@/lib/styles/media';
 import palette from '@/lib/styles/palette';
 import AppButton from '../AppButton';
+import { useIsEditPostValue } from '@/lib/recoil/writeState';
 
 export type WriteButtonsProps = {
   onBackClick(): void;
@@ -14,6 +15,8 @@ const WriteButtons = ({
   onTempClick,
   onPostClick,
 }: WriteButtonsProps) => {
+  const isEditPost = useIsEditPostValue();
+
   return (
     <div css={buttonBox}>
       <AppButton
@@ -31,10 +34,11 @@ const WriteButtons = ({
       />
       <AppButton
         type="primary"
-        text="POST"
+        text={isEditPost ? 'UPDATE' : 'POST'}
         onClick={onPostClick}
         preIconName="arrowUp"
         preIconColor={palette.white}
+        hoverAnimationDirect="up"
       />
     </div>
   );

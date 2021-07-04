@@ -4,9 +4,13 @@ import { css } from '@emotion/react';
 import { Editor } from '@toast-ui/react-editor';
 import { pageFadeInStyle } from '@/lib/styles/animation';
 import WriteButtons from './WriteButtons';
-import { useResetAllState } from '@/lib/recoil/writeState';
+import {
+  useResetAllState,
+  useSetVisiblePublishScreen,
+} from '@/lib/recoil/writeState';
 import WriteTitle from './WriteTitle';
 import TuiEditor from '../Markdown/TuiEditor';
+import PublishScreen from './PublishScreen';
 
 export type WriteProps = {};
 
@@ -16,6 +20,8 @@ const Write = (props: WriteProps) => {
   const titleRef = useRef<HTMLTextAreaElement>(null);
   const reset = useResetAllState();
 
+  const setVisiblePublishScreen = useSetVisiblePublishScreen();
+
   // Buttons props
   const onBackClick = () => {
     // TODO: 첫 페이지로 이 페이지를 들어왔을 때, push 기능
@@ -23,18 +29,18 @@ const Write = (props: WriteProps) => {
   };
   const onTempClick = () => {
     console.log('temp click');
-    console.log({ editorRef });
   };
   const onPostClick = () => {
-    console.log('post click');
+    setVisiblePublishScreen(true);
   };
 
+  // 페이지 unmount될 때 write editor와 관련된 state 모두 reset
   useEffect(() => {
     return () => reset();
   }, [reset]);
 
   return (
-    <section css={formStyle}>
+    <div css={formStyle}>
       <WriteTitle ref={titleRef} placeholder="Please write title" />
       <div css={editorWrapper}>
         <TuiEditor ref={editorRef} />
@@ -44,7 +50,8 @@ const Write = (props: WriteProps) => {
         onTempClick={onTempClick}
         onPostClick={onPostClick}
       />
-    </section>
+      <PublishScreen />
+    </div>
   );
 };
 
