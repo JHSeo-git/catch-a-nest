@@ -7,6 +7,7 @@ export type TuiEditorWithForwardedProps = EditorProps & {
 };
 
 const TuiEditorWrapper = (props: TuiEditorWithForwardedProps) => {
+  console.log('rerender');
   return (
     <Editor
       {...props}

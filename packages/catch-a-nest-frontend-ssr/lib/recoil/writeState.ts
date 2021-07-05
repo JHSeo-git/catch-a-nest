@@ -13,8 +13,18 @@ const syncLoadedState = atom<boolean>({
   default: false,
 });
 
-const isEditPost = atom<boolean>({
-  key: 'isEditPost',
+const isEditPostState = atom<boolean>({
+  key: 'isEditPostState',
+  default: false,
+});
+
+const existsTempPostState = atom<boolean>({
+  key: 'existsTempData',
+  default: false,
+});
+
+const loadTempPostState = atom<boolean>({
+  key: 'loadTempPostState',
   default: false,
 });
 
@@ -42,6 +52,44 @@ const visiblePublishScreen = atom<boolean>({
   key: 'visibleWriteScreen',
   default: false,
 });
+
+export function useResetAllState() {
+  const resetPostTitle = useResetRecoilState(postTitleState);
+  const resetPostMarkdown = useResetRecoilState(postMarkdownState);
+  const resetPostShortDescription = useResetRecoilState(
+    postShortDescriptionState
+  );
+  const resetPostThumbnailUrl = useResetRecoilState(postThumbnailUrlState);
+  const resetSyncLoaded = useResetRecoilState(syncLoadedState);
+  const resetVisiblePublishScreen = useResetRecoilState(visiblePublishScreen);
+  const resetIsEditPostState = useResetRecoilState(isEditPostState);
+  const resetExistsTempPost = useResetRecoilState(existsTempPostState);
+  const resetLoadTempPost = useResetRecoilState(loadTempPostState);
+
+  const reset = useCallback(() => {
+    resetPostTitle();
+    resetPostMarkdown();
+    resetPostShortDescription();
+    resetPostThumbnailUrl();
+    resetSyncLoaded();
+    resetVisiblePublishScreen();
+    resetIsEditPostState();
+    resetExistsTempPost();
+    resetLoadTempPost();
+  }, [
+    resetPostTitle,
+    resetPostMarkdown,
+    resetPostShortDescription,
+    resetPostThumbnailUrl,
+    resetSyncLoaded,
+    resetVisiblePublishScreen,
+    resetIsEditPostState,
+    resetExistsTempPost,
+    resetLoadTempPost,
+  ]);
+
+  return reset;
+}
 
 export type PostAllContentType = {
   title: string | null;
@@ -76,11 +124,27 @@ export function useSyncLoadedValue() {
 }
 
 export function useIsEditPostValue() {
-  return useRecoilValue(isEditPost);
+  return useRecoilValue(isEditPostState);
 }
 
-export function useSetIsEditPost() {
-  return useSetRecoilState(isEditPost);
+export function useSetIsEditPostState() {
+  return useSetRecoilState(isEditPostState);
+}
+
+export function useExistsTempPostValue() {
+  return useRecoilValue(existsTempPostState);
+}
+
+export function useSetExistsTempPost() {
+  return useSetRecoilState(existsTempPostState);
+}
+
+export function useLoadTempPostValue() {
+  return useRecoilValue(loadTempPostState);
+}
+
+export function useSetLoadTempPost() {
+  return useSetRecoilState(loadTempPostState);
 }
 
 export function usePostTitleValue() {
@@ -115,44 +179,12 @@ export function useVisiblePublishScreenState() {
   return useRecoilState(visiblePublishScreen);
 }
 
-export function useResetAllState() {
-  const resetPostTitle = useResetRecoilState(postTitleState);
-  const resetPostMarkdown = useResetRecoilState(postMarkdownState);
-  const resetPostShortDescription = useResetRecoilState(
-    postShortDescriptionState
-  );
-  const resetPostThumbnailUrl = useResetRecoilState(postThumbnailUrlState);
-  const resetSyncLoaded = useResetRecoilState(syncLoadedState);
-  const resetVisiblePublishScreen = useResetRecoilState(visiblePublishScreen);
-  const resetIsEditPost = useResetRecoilState(isEditPost);
-
-  const reset = useCallback(() => {
-    resetPostTitle();
-    resetPostMarkdown();
-    resetPostShortDescription();
-    resetPostThumbnailUrl();
-    resetSyncLoaded();
-    resetVisiblePublishScreen();
-    resetIsEditPost();
-  }, [
-    resetPostTitle,
-    resetPostMarkdown,
-    resetPostShortDescription,
-    resetPostThumbnailUrl,
-    resetSyncLoaded,
-    resetVisiblePublishScreen,
-    resetIsEditPost,
-  ]);
-
-  return reset;
-}
-
 export function useSetPostAllContent() {
   const setPostTitle = useSetRecoilState(postTitleState);
   const setPostMarkdown = useSetRecoilState(postMarkdownState);
   const setPostShortDescription = useSetRecoilState(postShortDescriptionState);
   const setPostThumbnailUrl = useSetRecoilState(postThumbnailUrlState);
-  const setIsEditPost = useSetRecoilState(isEditPost);
+  const setIsEditPostState = useSetRecoilState(isEditPostState);
 
   const setSyncLoaded = useSetRecoilState(syncLoadedState);
 
@@ -162,7 +194,7 @@ export function useSetPostAllContent() {
       setPostMarkdown(post.markdown);
       setPostShortDescription(post.shortDescription);
       setPostThumbnailUrl(post.thumbnailUrl);
-      setIsEditPost(true);
+      setIsEditPostState(true);
 
       setSyncLoaded(true);
     },
@@ -171,7 +203,7 @@ export function useSetPostAllContent() {
       setPostMarkdown,
       setPostShortDescription,
       setPostThumbnailUrl,
-      setIsEditPost,
+      setIsEditPostState,
       setSyncLoaded,
     ]
   );

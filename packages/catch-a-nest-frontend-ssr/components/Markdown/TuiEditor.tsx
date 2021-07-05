@@ -2,7 +2,7 @@ import 'prismjs/themes/prism.css';
 import '@toast-ui/editor-plugin-code-syntax-highlight/dist/toastui-editor-plugin-code-syntax-highlight.css';
 import '@toast-ui/editor/dist/toastui-editor.css';
 
-import { forwardRef } from 'react';
+import { forwardRef, useCallback } from 'react';
 import dynamic from 'next/dynamic';
 import { Editor as EditorType, EditorProps } from '@toast-ui/react-editor';
 import MarkdownStyleWrapper from './MarkdownStyleWrapper';

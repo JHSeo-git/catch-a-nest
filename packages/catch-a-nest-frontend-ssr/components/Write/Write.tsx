@@ -1,16 +1,19 @@
-import { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/router';
 import { css } from '@emotion/react';
 import { Editor } from '@toast-ui/react-editor';
 import { pageFadeInStyle } from '@/lib/styles/animation';
 import WriteButtons from './WriteButtons';
 import {
+  useExistsTempPostValue,
   useResetAllState,
+  useSetLoadTempPost,
   useSetVisiblePublishScreen,
 } from '@/lib/recoil/writeState';
 import WriteTitle from './WriteTitle';
 import TuiEditor from '../Markdown/TuiEditor';
 import PublishScreen from './PublishScreen';
+import PopupConfirm from '../Popup/PopupConfirm';
 
 export type WriteProps = {};
 
@@ -20,7 +23,20 @@ const Write = (props: WriteProps) => {
   const titleRef = useRef<HTMLTextAreaElement>(null);
   const reset = useResetAllState();
 
+  const existsTempPost = useExistsTempPostValue();
+  const [visiblePopup, setVisiblePopup] = useState(existsTempPost);
+  const setLoadTempPost = useSetLoadTempPost();
   const setVisiblePublishScreen = useSetVisiblePublishScreen();
+
+  // load Temp post Popup OK handler
+  const onOK = () => {
+    setLoadTempPost(true);
+    setVisiblePopup(false);
+  };
+
+  const onCancel = () => {
+    setVisiblePopup(false);
+  };
 
   // Buttons props
   const onBackClick = () => {
@@ -40,18 +56,26 @@ const Write = (props: WriteProps) => {
   }, [reset]);
 
   return (
-    <div css={formStyle}>
-      <WriteTitle ref={titleRef} placeholder="Please write title" />
-      <div css={editorWrapper}>
-        <TuiEditor ref={editorRef} />
+    <>
+      <div css={formStyle}>
+        <WriteTitle ref={titleRef} placeholder="Please write title" />
+        <div css={editorWrapper}>
+          <TuiEditor ref={editorRef} />
+        </div>
+        <WriteButtons
+          onBackClick={onBackClick}
+          onTempClick={onTempClick}
+          onPostClick={onPostClick}
+        />
+        <PublishScreen />
       </div>
-      <WriteButtons
-        onBackClick={onBackClick}
-        onTempClick={onTempClick}
-        onPostClick={onPostClick}
+      <PopupConfirm
+        visible={visiblePopup}
+        title="Could you Load Temp Post?"
+        onCancel={onCancel}
+        onOK={onOK}
       />
-      <PublishScreen />
-    </div>
+    </>
   );
 };
 
