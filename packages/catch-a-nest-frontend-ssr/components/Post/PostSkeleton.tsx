@@ -29,7 +29,7 @@ const skeleton = css`
 const postStyle = css`
   display: flex;
   flex-direction: column;
-  ${pageFadeInStyle};
+  ${pageFadeInStyle()};
 `;
 
 const title = css`

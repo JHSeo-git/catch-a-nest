@@ -12,9 +12,11 @@ import Modal from '../Modal';
 import PublishThumbnail from './PublishThumbnail';
 import AppButton from '../AppButton';
 
-export type PublishScreenProps = {};
+export type PublishScreenProps = {
+  onSave: () => void;
+};
 
-const PublishScreen = (props: PublishScreenProps) => {
+const PublishScreen = ({ onSave }: PublishScreenProps) => {
   const [visible, setVisible] = useVisiblePublishScreenState();
   const [description, setDescription] = usePostShortDescriptionState();
   const isEditPost = useIsEditPostValue();
@@ -22,10 +24,6 @@ const PublishScreen = (props: PublishScreenProps) => {
 
   const onCancel = () => {
     setVisible(false);
-  };
-
-  const onSave = () => {
-    console.log('onSave');
   };
 
   if (!visible) return null;

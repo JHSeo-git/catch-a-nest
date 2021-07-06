@@ -55,7 +55,7 @@ export default function useLoadPost(slug: string) {
       shortDescription: post.short_description,
       thumbnailUrl: post.thumbnail,
     });
-  }, [postQuery.isLoading, post, set, loading]);
+  }, [post, set, loading]);
 
   return {
     loaded,

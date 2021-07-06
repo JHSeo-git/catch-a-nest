@@ -57,8 +57,21 @@ export const fadeIn = keyframes`
   }
 `;
 
-export const pageFadeInStyle = css`
-  animation: ${fadeIn} 0.5s ease-in-out;
+export const fadeOut = keyframes`
+  0%{
+    opacity: 1;
+  }
+  100%{
+    opacity: 0;
+  }
+`;
+
+export const pageFadeInStyle = (runTime = 500) => css`
+  animation: ${fadeIn} ${runTime / 1000}s ease-in-out forwards;
+`;
+
+export const pageFadeOutStyle = (runTime = 500) => css`
+  animation: ${fadeIn} ${runTime / 1000}s ease-in-out forwards;
 `;
 
 export const pageZoomInStyle = (runTime = 500, delayTime = 0) => css`

@@ -94,7 +94,7 @@ const mainStyle = css`
   padding-top: 1rem;
   padding-bottom: 2rem;
   ${responsiveWidth};
-  ${pageFadeInStyle};
+  ${pageFadeInStyle()};
 `;
 
 Layout.Header = Header;

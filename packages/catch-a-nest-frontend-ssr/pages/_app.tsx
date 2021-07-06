@@ -7,6 +7,7 @@ import { RecoilRoot } from 'recoil';
 import { css, Global } from '@emotion/react';
 import RecoilInitializer from '@/components/RecoilInitializer';
 import RecoilDebugObserver from '@/components/RecoilDebugObserver';
+import FullscreenLoader from '@/components/FullscreenLoader';
 
 const globalStyle = css`
   html {
@@ -59,6 +60,7 @@ function MyApp({ Component, pageProps }: AppProps) {
           <Hydrate state={pageProps.dehydratedState}>
             <Global styles={globalStyle} />
             <Component {...pageProps} />
+            <FullscreenLoader />
           </Hydrate>
         </QueryClientProvider>
       </RecoilRoot>

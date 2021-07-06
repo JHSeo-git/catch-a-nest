@@ -7,6 +7,7 @@ import ArrowLeft from '@/assets/icons/arrow-left.svg';
 import ArrowRight from '@/assets/icons/arrow-right.svg';
 import ArrowUp from '@/assets/icons/arrow-up.svg';
 import Plus from '@/assets/icons/plus.svg';
+import Spinner from '@/assets/icons/spinner.svg';
 
 export type AppIconProps = {
   name: IconType;
@@ -39,6 +40,8 @@ const AppIcon = ({ name, ...props }: AppIconProps) => {
       return <ArrowUp {...props} />;
     case 'plus':
       return <Plus {...props} />;
+    case 'spinner':
+      return <Spinner {...props} />;
     default:
       return null;
   }

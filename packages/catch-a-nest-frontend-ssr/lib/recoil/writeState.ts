@@ -163,8 +163,16 @@ export function usePostThumbnailUrlState() {
   return useRecoilState(postThumbnailUrlState);
 }
 
+export function usePostThumbnailUrlValue() {
+  return useRecoilValue(postThumbnailUrlState);
+}
+
 export function usePostShortDescriptionState() {
   return useRecoilState(postShortDescriptionState);
+}
+
+export function usePostShortDescriptionValue() {
+  return useRecoilValue(postShortDescriptionState);
 }
 
 export function useVisiblePublishScreen() {
@@ -189,12 +197,14 @@ export function useSetPostAllContent() {
   const setSyncLoaded = useSetRecoilState(syncLoadedState);
 
   const set = useCallback(
-    (post: PostAllContentType) => {
+    (post: PostAllContentType, loadPhase: boolean = true) => {
       setPostTitle(post.title);
       setPostMarkdown(post.markdown);
       setPostShortDescription(post.shortDescription);
       setPostThumbnailUrl(post.thumbnailUrl);
-      setIsEditPostState(true);
+      if (loadPhase) {
+        setIsEditPostState(true);
+      }
 
       setSyncLoaded(true);
     },

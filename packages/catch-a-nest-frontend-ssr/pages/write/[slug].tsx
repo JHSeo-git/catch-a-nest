@@ -6,19 +6,8 @@ import { useMemo } from 'react';
 
 export type EditPageProps = {};
 
-const EditPage = (props: EditPageProps) => {
-  const router = useRouter();
-  const { slug } = router.query;
-
-  const guardSlug = useMemo(() => {
-    if (!slug) return '';
-    if (typeof slug !== 'string') return '';
-    return slug;
-  }, [slug]);
-
-  const { error, loaded } = useLoadPost(guardSlug);
-
-  console.log('post loaded', { loaded });
+const LoadedEditPage = ({ slug }: { slug: string }) => {
+  const { error, loaded } = useLoadPost(slug);
 
   // FIXME: error 처리
   if (error) return <div>{`${error}`}</div>;
@@ -27,9 +16,24 @@ const EditPage = (props: EditPageProps) => {
 
   return (
     <AppLayout layoutType="naked">
-      <Write />
+      <Write slug={slug} />
     </AppLayout>
   );
+};
+
+const EditPage = (props: EditPageProps) => {
+  const router = useRouter();
+  const { slug } = router.query;
+
+  const guardSlug = useMemo(() => {
+    if (!slug) return null;
+    if (typeof slug !== 'string') return null;
+    return slug;
+  }, [slug]);
+
+  if (!guardSlug) return null;
+
+  return <LoadedEditPage slug={guardSlug} />;
 };
 
 export default EditPage;

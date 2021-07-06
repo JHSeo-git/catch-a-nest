@@ -1,3 +1,4 @@
+import useLazyClose from '@/hooks/useLazyClose';
 import { pageZoomInStyle, pageZoomOutStyle } from '@/lib/styles/animation';
 import media from '@/lib/styles/media';
 import palette from '@/lib/styles/palette';
@@ -14,24 +15,7 @@ const ANIMATION_ON_INTERVAL = 500;
 const ANIMATION_OFF_INTERVAL = 200;
 
 const PopupBase = ({ visible, children }: PopupBaseProps) => {
-  const [lazyClosed, setLazyClosed] = useState(true);
-
-  useEffect(() => {
-    let timeoutId: NodeJS.Timeout | null = null;
-    if (visible) {
-      setLazyClosed(false);
-    } else {
-      timeoutId = setTimeout(() => {
-        setLazyClosed(true);
-      }, ANIMATION_OFF_INTERVAL);
-    }
-
-    return () => {
-      if (timeoutId) {
-        clearTimeout(timeoutId);
-      }
-    };
-  }, [visible]);
+  const { lazyClosed } = useLazyClose(visible, ANIMATION_OFF_INTERVAL);
 
   if (!visible && lazyClosed) return null;
 

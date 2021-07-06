@@ -1,19 +1,19 @@
+import { PostAllContentType } from '@/lib/recoil/writeState';
+import client from '../client';
 import { Post } from './types';
 
-// FIXME: 수정 필요
-export default async function saveNewTempPost() {}
-// export default async function saveNewTempPost({
-//   title,
-//   body,
-//   shortDescription,
-//   thumbnail,
-// }: EditorContent) {
-//   const response = await axiosClient.post<Post>(`/api/temps/new`, {
-//     title,
-//     body,
-//     shortDescription,
-//     thumbnail,
-//   });
+export default async function saveNewTempPost({
+  title,
+  markdown,
+  shortDescription,
+  thumbnailUrl,
+}: PostAllContentType) {
+  const response = await client.post<Post>(`/api/temps/new`, {
+    title,
+    body: markdown,
+    shortDescription,
+    thumbnail: thumbnailUrl,
+  });
 
-//   return response.data;
-// }
+  return response.data;
+}
