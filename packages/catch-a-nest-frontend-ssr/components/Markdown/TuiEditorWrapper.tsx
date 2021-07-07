@@ -10,8 +10,25 @@ const TuiEditorWrapper = (props: TuiEditorWithForwardedProps) => {
   return (
     <Editor
       {...props}
-      plugins={[[codeSyntaxHighlight, { highlighter: Prism }]]}
       ref={props.forwardedRef}
+      previewStyle="vertical"
+      hideModeSwitch
+      initialEditType="markdown"
+      extendedAutolinks={true}
+      usageStatistics={false}
+      plugins={[[codeSyntaxHighlight, { highlighter: Prism }]]}
+      hooks={{
+        addImageBlobHook: async (blob, callback) => {
+          // const file = blob as File;
+          // try {
+          //   const imageUrl = await upload({ file, type: 'post' });
+          //   if (!imageUrl) return;
+          //   callback(convertSpaceToEncodedString(imageUrl), file.name);
+          // } catch (e) {
+          //   notify(`Image Upload Fail: ${e.name}`, 'error');
+          // }
+        },
+      }}
     />
   );
 };

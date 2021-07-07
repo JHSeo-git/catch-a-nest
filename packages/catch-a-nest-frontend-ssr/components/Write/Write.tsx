@@ -31,6 +31,7 @@ export type WriteInputs = {
 const Write = ({ slug }: WriteProps) => {
   const router = useRouter();
   const editorRef = useRef<Editor>(null);
+  const titleRef = useRef<HTMLTextAreaElement>(null);
   const reset = useResetAllState();
 
   const existsTempPost = useExistsTempPostValue();
@@ -93,7 +94,6 @@ const Write = ({ slug }: WriteProps) => {
     setLoadTempPost(true);
     setVisiblePopup(false);
   };
-
   const onCancel = () => {
     setVisiblePopup(false);
   };
@@ -108,7 +108,6 @@ const Write = ({ slug }: WriteProps) => {
     // TODO: 첫 페이지로 이 페이지를 들어왔을 때, push 기능
     router.back();
   };
-
   const onPostClick = () => {
     setVisiblePublishScreen(true);
   };
@@ -124,7 +123,11 @@ const Write = ({ slug }: WriteProps) => {
   return (
     <>
       <div css={formStyle}>
-        <WriteTitle register={register} placeholder="Please write title" />
+        <WriteTitle
+          ref={titleRef}
+          register={register}
+          placeholder="Please write title"
+        />
         <div css={editorWrapper}>
           <TuiEditor ref={editorRef} />
         </div>

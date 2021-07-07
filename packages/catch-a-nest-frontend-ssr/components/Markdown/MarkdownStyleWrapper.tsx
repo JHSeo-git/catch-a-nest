@@ -19,7 +19,7 @@ const toastuiStyle = css`
   word-break: break-word;
 
   .toastui-editor-defaultUI {
-    ${pageFadeInStyle()};
+    ${pageFadeInStyle(200)};
     .toastui-editor {
       ${media.md} {
         width: 100%;

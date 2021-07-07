@@ -47,24 +47,7 @@ const TuiEditor = forwardRef<EditorType | undefined, TuiEditorProps>(
           {...props}
           forwardedRef={ref as React.MutableRefObject<EditorType>}
           height="100%"
-          initialEditType="markdown"
           initialValue={markdown ?? ''}
-          previewStyle="vertical"
-          hideModeSwitch
-          extendedAutolinks={true}
-          usageStatistics={false}
-          hooks={{
-            addImageBlobHook: async (blob, callback) => {
-              // const file = blob as File;
-              // try {
-              //   const imageUrl = await upload({ file, type: 'post' });
-              //   if (!imageUrl) return;
-              //   callback(convertSpaceToEncodedString(imageUrl), file.name);
-              // } catch (e) {
-              //   notify(`Image Upload Fail: ${e.name}`, 'error');
-              // }
-            },
-          }}
         />
       </MarkdownStyleWrapper>
     );
