@@ -1,7 +1,11 @@
 import { css } from '@emotion/react';
 import { useScreenLoadingValue } from '@/lib/recoil/appState';
 import zIndex from '@/lib/styles/zIndex';
-import { pageFadeInStyle, rotateAnimation } from '@/lib/styles/animation';
+import {
+  pageFadeInStyle,
+  pageFadeOutStyle,
+  rotateAnimation,
+} from '@/lib/styles/animation';
 import useLazyClose from '@/hooks/useLazyClose';
 import AppIcon from '../AppIcon';
 
@@ -9,7 +13,7 @@ export type FullscreenLoaderProps = {};
 
 const FullscreenLoader = (props: FullscreenLoaderProps) => {
   const screenLoading = useScreenLoadingValue();
-  const { lazyClosed } = useLazyClose(screenLoading, 500);
+  const { lazyClosed } = useLazyClose(screenLoading, 200);
 
   if (!screenLoading && lazyClosed) return null;
 
@@ -26,7 +30,7 @@ const fullScreen = (visible: boolean) => css`
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(0, 0, 0, 0.4);
+  background: rgba(0, 0, 0, 0.3);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -44,7 +48,7 @@ const fullScreen = (visible: boolean) => css`
         ${pageFadeInStyle()};
       `
     : css`
-        ${pageFadeInStyle(500)}
+        ${pageFadeOutStyle(200)}
       `}
 `;
 

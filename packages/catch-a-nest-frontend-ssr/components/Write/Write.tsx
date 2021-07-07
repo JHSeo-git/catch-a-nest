@@ -2,17 +2,14 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/router';
 import { css } from '@emotion/react';
 import { Editor } from '@toast-ui/react-editor';
+import { useForm } from 'react-hook-form';
 import { pageFadeInStyle } from '@/lib/styles/animation';
 import WriteButtons from './WriteButtons';
 import {
+  PostAllContentType,
   useExistsTempPostValue,
-  usePostAllContentValue,
-  usePostShortDescriptionValue,
-  usePostThumbnailUrlValue,
-  usePostTitleValue,
   useResetAllState,
   useSetLoadTempPost,
-  useSetPostAllContent,
   useSetVisiblePublishScreen,
 } from '@/lib/recoil/writeState';
 import WriteTitle from './WriteTitle';
@@ -25,29 +22,70 @@ export type WriteProps = {
   slug?: string;
 };
 
+export type WriteInputs = {
+  title: string;
+  shortDescription?: string;
+  thumbnailUrl?: string;
+};
+
 const Write = ({ slug }: WriteProps) => {
   const router = useRouter();
   const editorRef = useRef<Editor>(null);
-  const titleRef = useRef<HTMLTextAreaElement>(null);
   const reset = useResetAllState();
-  const setPostAllContent = useSetPostAllContent();
 
   const existsTempPost = useExistsTempPostValue();
   const setLoadTempPost = useSetLoadTempPost();
-  const setVisiblePublishScreen = useSetVisiblePublishScreen();
-  const postAllContent = usePostAllContentValue();
 
+  // publish prepare
+  const { register, handleSubmit, setValue } = useForm<WriteInputs>();
+  const handleThumbnailUrl = (url: string) => {
+    setValue('thumbnailUrl', url);
+  };
+  const validateTextRequired = (text?: string) => {
+    if (text && text.trim().length > 0) return true;
+    return false;
+  };
+
+  // popup hook
+  const setVisiblePublishScreen = useSetVisiblePublishScreen();
   const [visiblePopup, setVisiblePopup] = useState(existsTempPost);
   const [visibleAlert, setVisibleAlert] = useState(false);
   const [alertMessage, setAlertMessage] = useState<string>('');
 
-  // save prepare
-  const title = usePostTitleValue();
-
   // save post hook
   const { savePost, saveTempPost, error } = useSavePost();
-  const onSave = () => {
-    savePost({ slug, post: postAllContent });
+
+  // submit
+  const onPublish = async (data: WriteInputs, isTemp = false) => {
+    try {
+      const { title, shortDescription, thumbnailUrl } = data;
+      const markdown = editorRef?.current?.getInstance().getMarkdown();
+
+      if (!validateTextRequired(title)) {
+        setAlertMessage('Please type title!');
+        setVisibleAlert(true);
+        return;
+      }
+      if (!validateTextRequired(markdown)) {
+        setAlertMessage('Please type markdown!');
+        setVisibleAlert(true);
+        return;
+      }
+
+      const publishPost: PostAllContentType = {
+        title: title,
+        markdown: markdown!,
+        shortDescription: shortDescription ?? '',
+        thumbnailUrl: thumbnailUrl ?? '',
+      };
+
+      if (isTemp) {
+        await saveTempPost({ slug, post: publishPost });
+      } else {
+        await savePost({ slug, post: publishPost });
+        router.replace('/posts');
+      }
+    } catch (e) {}
   };
 
   // load Temp post Popup OK handler
@@ -70,33 +108,7 @@ const Write = ({ slug }: WriteProps) => {
     // TODO: 첫 페이지로 이 페이지를 들어왔을 때, push 기능
     router.back();
   };
-  const onTempClick = () => {
-    if (!title || title.trim().length === 0) {
-      setAlertMessage('Title is Required');
-      setVisibleAlert(true);
-      return;
-    }
-    if (
-      !editorRef.current?.getInstance().getMarkdown() ||
-      editorRef.current?.getInstance().getMarkdown().trim().length === 0
-    ) {
-      setAlertMessage('Markdown is Required');
-      setVisibleAlert(true);
-      return;
-    }
 
-    setPostAllContent(
-      {
-        title,
-        markdown: editorRef.current?.getInstance().getMarkdown() ?? '',
-        shortDescription: postAllContent.shortDescription,
-        thumbnailUrl: postAllContent.thumbnailUrl,
-      },
-      false
-    );
-
-    saveTempPost({ slug, post: postAllContent });
-  };
   const onPostClick = () => {
     setVisiblePublishScreen(true);
   };
@@ -112,22 +124,29 @@ const Write = ({ slug }: WriteProps) => {
   return (
     <>
       <div css={formStyle}>
-        <WriteTitle ref={titleRef} placeholder="Please write title" />
+        <WriteTitle register={register} placeholder="Please write title" />
         <div css={editorWrapper}>
           <TuiEditor ref={editorRef} />
         </div>
         <WriteButtons
           onBackClick={onBackClick}
-          onTempClick={onTempClick}
+          onTempClick={handleSubmit(
+            async (data) => await onPublish(data, true)
+          )}
           onPostClick={onPostClick}
         />
-        <PublishScreen onSave={onSave} />
+        <PublishScreen
+          handleThumbnailUrl={handleThumbnailUrl}
+          register={register}
+          onPublish={handleSubmit(async (data) => await onPublish(data))}
+        />
       </div>
       <PopupConfirm
         visible={visiblePopup}
         title="Could you Load Temp Post?"
         onCancel={onCancel}
         onOK={onOK}
+        openDelay={true}
       />
       <PopupConfirm
         visible={visibleAlert}

@@ -241,3 +241,34 @@ sync 완료했다는 값을 관리할 atom을 만들어 관리하였다.
 1. edit인데 temp가 없는 것 sync
 2. edit인데 temp가 있고 그 temp를 사용할 때 sync
 3. reset을 위해 sync
+
+# react-hook-form 사용
+
+일단 form이 크지 않고 해서 이번에 한 번 적용해보려고 한다.
+validation 기능을 쓰려 했지만 사전에 erro를 위한 alert창을 따로 만들어놔서 별도 validate을 넣진 않았다.(react-hook-form 내에서)
+
+typescript 지원이 매우 깔끔하게 잘 되어 있어서 무리 없이 적용가능 할 것 같다.
+
+그런데 만약 form 내부에 깊게 input 이 있다면 prop drilling을 해야할 것 같은데
+별도 context를 관리하는 hook이 있는진 봐야 될 것 같다.
+그렇지 않다면 register도 마찬가지로 recoil state로 관리해서 하는 방법이 있을 수 있겠다.
+
+```ts
+export type WriteInputs = {
+  title: string;
+  shortDescription?: string;
+  thumbnailUrl?: string;
+};
+
+const { register, handleSubmit } = useForm<WriteInputs>();
+
+<textarea
+  {...register('title')}
+  css={textareaStyle}
+  rows={1}
+  placeholder={placeholder}
+  value={postTitle ?? ''}
+  onChange={onChange}
+  autoFocus
+/>;
+```

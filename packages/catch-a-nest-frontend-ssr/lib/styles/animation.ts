@@ -14,7 +14,16 @@ export const slideUp = keyframes`
     transform: translate3d(0, 100%, 0);
   }
   to {
-    transofmr: translate3d(0, 0, 0);,
+    transform: translate3d(0, 0, 0);,
+  }
+`;
+
+export const slideDown = keyframes`
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(0, 100%, 0);,
   }
 `;
 
@@ -71,7 +80,7 @@ export const pageFadeInStyle = (runTime = 500) => css`
 `;
 
 export const pageFadeOutStyle = (runTime = 500) => css`
-  animation: ${fadeIn} ${runTime / 1000}s ease-in-out forwards;
+  animation: ${fadeOut} ${runTime / 1000}s ease-in-out forwards;
 `;
 
 export const pageZoomInStyle = (runTime = 500, delayTime = 0) => css`

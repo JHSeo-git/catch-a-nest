@@ -1,44 +1,54 @@
 import { css } from '@emotion/react';
+import { UseFormRegister } from 'react-hook-form';
 import {
   useIsEditPostValue,
-  usePostShortDescriptionState,
+  usePostShortDescriptionValue,
   usePostTitleValue,
   useVisiblePublishScreenState,
 } from '@/lib/recoil/writeState';
-import { slideUp } from '@/lib/styles/animation';
+import { slideDown, slideUp } from '@/lib/styles/animation';
 import palette from '@/lib/styles/palette';
 import { responsiveModalWidth } from '@/lib/styles/responsive';
 import Modal from '../Modal';
-import PublishThumbnail from './PublishThumbnail';
+import WriteThumbnail from './WriteThumbnail';
 import AppButton from '../AppButton';
+import { WriteInputs } from './Write';
+import useLazyClose from '@/hooks/useLazyClose';
 
 export type PublishScreenProps = {
-  onSave: () => void;
+  register: UseFormRegister<WriteInputs>;
+  onPublish: () => void;
+  handleThumbnailUrl: (url: string) => void;
 };
 
-const PublishScreen = ({ onSave }: PublishScreenProps) => {
+const PublishScreen = ({
+  register,
+  onPublish,
+  handleThumbnailUrl,
+}: PublishScreenProps) => {
   const [visible, setVisible] = useVisiblePublishScreenState();
-  const [description, setDescription] = usePostShortDescriptionState();
+  const { lazyClosed } = useLazyClose(visible, 200);
   const isEditPost = useIsEditPostValue();
   const title = usePostTitleValue();
+  const shortDescription = usePostShortDescriptionValue();
 
   const onCancel = () => {
     setVisible(false);
   };
 
-  if (!visible) return null;
+  if (!visible && lazyClosed) return null;
 
   return (
-    <Modal css={modalStyle}>
+    <Modal css={modalStyle(visible)}>
       <section css={wrapper}>
         <h1 css={titleStyle}>{title}</h1>
-        <PublishThumbnail />
+        <WriteThumbnail handleThumbnailUrl={handleThumbnailUrl} />
         <textarea
+          {...register('shortDescription')}
           maxLength={160}
           tabIndex={0}
           css={textareaStyle}
-          value={description ?? ''}
-          onChange={(e) => setDescription(e.target.value)}
+          defaultValue={shortDescription ?? ''}
           placeholder="Please write short description"
         />
         <div css={btnGroup}>
@@ -51,7 +61,7 @@ const PublishScreen = ({ onSave }: PublishScreenProps) => {
           <AppButton
             type="primary"
             text={isEditPost ? 'UPDATE' : 'SAVE'}
-            onClick={onSave}
+            onClick={onPublish}
             // loading={loading}
           />
         </div>
@@ -60,12 +70,18 @@ const PublishScreen = ({ onSave }: PublishScreenProps) => {
   );
 };
 
-const modalStyle = css`
+const modalStyle = (visible: boolean) => css`
   display: flex;
   justify-content: center;
   align-items: center;
   background: ${palette.blueGrey[100]};
-  animation: ${slideUp} 0.2s ease-in-out;
+  ${visible
+    ? css`
+        animation: ${slideUp} 0.2s ease-in-out forwards;
+      `
+    : css`
+        animation: ${slideDown} 0.2s ease-in-out forwards;
+      `}
 `;
 
 const titleStyle = css`

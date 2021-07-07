@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { css } from '@emotion/react';
 import Image from 'next/image';
 import EmptyImage from '@/assets/images/undraw-empty.svg';
@@ -7,10 +7,14 @@ import palette from '@/lib/styles/palette';
 import { resetButton } from '@/lib/styles/reset/resetButton';
 import useUploadImage from '@/hooks/useUploadImage';
 import AppIcon from '../AppIcon';
+import { UseFormRegister } from 'react-hook-form';
+import { WriteInputs } from './Write';
 
-export type PublishThumbnailProps = {};
+export type WriteThumbnailProps = {
+  handleThumbnailUrl: (url: string) => void;
+};
 
-const PublishThumbnail = (props: PublishThumbnailProps) => {
+const WriteThumbnail = ({ handleThumbnailUrl }: WriteThumbnailProps) => {
   const ref = useRef<HTMLInputElement>(null);
   const { upload } = useUploadImage();
   const [thumbnailUrl, setThumbnailUrl] = usePostThumbnailUrlState();
@@ -28,8 +32,14 @@ const PublishThumbnail = (props: PublishThumbnailProps) => {
         return;
       }
       setThumbnailUrl(imageUrl);
+      handleThumbnailUrl(imageUrl);
     }
   };
+
+  useEffect(() => {
+    if (!thumbnailUrl) return;
+    handleThumbnailUrl(thumbnailUrl);
+  }, [thumbnailUrl, handleThumbnailUrl]);
 
   return (
     <>
@@ -148,4 +158,4 @@ const hideInput = css`
   display: none;
 `;
 
-export default PublishThumbnail;
+export default WriteThumbnail;

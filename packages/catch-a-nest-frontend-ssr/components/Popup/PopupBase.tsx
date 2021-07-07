@@ -9,24 +9,25 @@ import Modal from '../Modal';
 export type PopupBaseProps = {
   visible: boolean;
   children: React.ReactNode;
+  isDelay?: boolean;
 };
 
 const ANIMATION_ON_INTERVAL = 500;
 const ANIMATION_OFF_INTERVAL = 200;
 
-const PopupBase = ({ visible, children }: PopupBaseProps) => {
+const PopupBase = ({ visible, children, isDelay = false }: PopupBaseProps) => {
   const { lazyClosed } = useLazyClose(visible, ANIMATION_OFF_INTERVAL);
 
   if (!visible && lazyClosed) return null;
 
   return (
     <Modal>
-      <div css={popupWrapper(visible)}>{children}</div>
+      <div css={popupWrapper(visible, isDelay)}>{children}</div>
     </Modal>
   );
 };
 
-const popupWrapper = (visible: boolean) => css`
+const popupWrapper = (visible: boolean, isDelay: boolean) => css`
   width: 25rem;
   display: flex;
   flex-direction: column;
@@ -44,7 +45,10 @@ const popupWrapper = (visible: boolean) => css`
 
   ${visible
     ? css`
-        ${pageZoomInStyle(ANIMATION_ON_INTERVAL, ANIMATION_ON_INTERVAL)}
+        ${pageZoomInStyle(
+          ANIMATION_ON_INTERVAL,
+          isDelay ? ANIMATION_ON_INTERVAL : 0
+        )}
       `
     : css`
         ${pageZoomOutStyle(ANIMATION_OFF_INTERVAL)}

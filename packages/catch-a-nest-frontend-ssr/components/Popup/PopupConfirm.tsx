@@ -11,6 +11,7 @@ export type PopupConfirmProps = {
   message?: string;
   onCancel?: () => void;
   onOK: () => void;
+  openDelay?: boolean;
 };
 
 const PopupConfirm = ({
@@ -19,9 +20,10 @@ const PopupConfirm = ({
   onCancel,
   onOK,
   title,
+  openDelay = false,
 }: PopupConfirmProps) => {
   return (
-    <PopupBase visible={visible}>
+    <PopupBase visible={visible} isDelay={openDelay}>
       <h1 css={titleStyle}>{title}</h1>
       {message && <p css={messageStyle}>{message}</p>}
       <div css={buttonGroup}>

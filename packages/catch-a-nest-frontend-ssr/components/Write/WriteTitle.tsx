@@ -1,17 +1,16 @@
+import { UseFormRegister } from 'react-hook-form';
 import { css } from '@emotion/react';
-import { forwardRef } from 'react';
 import { usePostTitleState } from '@/lib/recoil/writeState';
 import media from '@/lib/styles/media';
 import palette from '@/lib/styles/palette';
+import { WriteInputs } from './Write';
 
 export type WriteTitleProps = {
+  register: UseFormRegister<WriteInputs>;
   placeholder?: string;
 };
 
-const WriteTitle = (
-  { placeholder }: WriteTitleProps,
-  ref: React.Ref<HTMLTextAreaElement>
-) => {
+const WriteTitle = ({ register, placeholder }: WriteTitleProps) => {
   const [postTitle, setPostTitle] = usePostTitleState();
 
   const onChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -27,7 +26,7 @@ const WriteTitle = (
   return (
     <div css={wrapper}>
       <textarea
-        // ref={ref}
+        {...register('title')}
         css={textareaStyle}
         rows={1}
         placeholder={placeholder}
@@ -35,16 +34,6 @@ const WriteTitle = (
         onChange={onChange}
         autoFocus
       />
-      {/* {ref && (
-        <TextareaAutosize
-          ref={ref}
-          css={textareaStyle}
-          rows={1}
-          placeholder={placeholder}
-          // value={title ?? ''}
-          // onChange={(e) => setTitle(e.target.value)}
-        />
-      )} */}
     </div>
   );
 };
@@ -77,4 +66,4 @@ const textareaStyle = css`
   }
 `;
 
-export default forwardRef<HTMLTextAreaElement, WriteTitleProps>(WriteTitle);
+export default WriteTitle;

@@ -197,14 +197,12 @@ export function useSetPostAllContent() {
   const setSyncLoaded = useSetRecoilState(syncLoadedState);
 
   const set = useCallback(
-    (post: PostAllContentType, loadPhase: boolean = true) => {
+    (post: PostAllContentType) => {
       setPostTitle(post.title);
       setPostMarkdown(post.markdown);
       setPostShortDescription(post.shortDescription);
       setPostThumbnailUrl(post.thumbnailUrl);
-      if (loadPhase) {
-        setIsEditPostState(true);
-      }
+      setIsEditPostState(true);
 
       setSyncLoaded(true);
     },
@@ -215,6 +213,29 @@ export function useSetPostAllContent() {
       setPostThumbnailUrl,
       setIsEditPostState,
       setSyncLoaded,
+    ]
+  );
+  return set;
+}
+
+export function useSetPublishPost() {
+  const setPostTitle = useSetRecoilState(postTitleState);
+  const setPostMarkdown = useSetRecoilState(postMarkdownState);
+  const setPostShortDescription = useSetRecoilState(postShortDescriptionState);
+  const setPostThumbnailUrl = useSetRecoilState(postThumbnailUrlState);
+
+  const set = useCallback(
+    (post: PostAllContentType) => {
+      setPostTitle(post.title);
+      setPostMarkdown(post.markdown);
+      setPostShortDescription(post.shortDescription);
+      setPostThumbnailUrl(post.thumbnailUrl);
+    },
+    [
+      setPostTitle,
+      setPostMarkdown,
+      setPostShortDescription,
+      setPostThumbnailUrl,
     ]
   );
   return set;
