@@ -53,6 +53,8 @@ const Write = ({ slug }: WriteProps) => {
   const [visibleAlert, setVisibleAlert] = useState(false);
   const [alertMessage, setAlertMessage] = useState<string>('');
 
+  console.log(visiblePopup);
+
   // save post hook
   const { savePost, saveTempPost, error } = useSavePost();
 
@@ -160,7 +162,7 @@ const Write = ({ slug }: WriteProps) => {
       </div>
       <PopupConfirm
         visible={visiblePopup}
-        title="Could you Load Temp Post?"
+        title="Load Temp Post?"
         onCancel={onCancel}
         onOK={onOK}
         openDelay={true}

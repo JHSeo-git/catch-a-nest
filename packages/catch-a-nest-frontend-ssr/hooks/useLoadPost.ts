@@ -20,6 +20,7 @@ export default function useLoadPost(slug: string) {
   const lastTempPostQuery = useGetLastTempPostBySlugQuery(slug, {
     refetchOnWindowFocus: false,
     retry: 3,
+    cacheTime: 0,
   });
 
   const loading = useMemo(() => {
