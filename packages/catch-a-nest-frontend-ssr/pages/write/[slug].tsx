@@ -1,13 +1,15 @@
+import React, { useMemo } from 'react';
+import { useRouter } from 'next/router';
 import AppLayout from '@/components/AppLayout';
+import PageSEO from '@/components/AppSEO/PageSEO';
 import Write from '@/components/Write';
 import useLoadPost from '@/hooks/useLoadPost';
-import { useRouter } from 'next/router';
-import { useMemo } from 'react';
 
 export type EditPageProps = {};
 
 const LoadedEditPage = ({ slug }: { slug: string }) => {
   const { error, loaded } = useLoadPost(slug);
+  const title = `${slug.length > 10 ? `${slug.slice(0, 10)}...` : slug}`;
 
   // FIXME: error 처리
   if (error) return <div>{`${error}`}</div>;
@@ -15,9 +17,12 @@ const LoadedEditPage = ({ slug }: { slug: string }) => {
   if (!loaded) return null;
 
   return (
-    <AppLayout layoutType="naked">
-      <Write slug={slug} />
-    </AppLayout>
+    <>
+      <PageSEO title={title} description="new post" noRobots={true} />
+      <AppLayout layoutType="naked">
+        <Write slug={slug} />
+      </AppLayout>
+    </>
   );
 };
 

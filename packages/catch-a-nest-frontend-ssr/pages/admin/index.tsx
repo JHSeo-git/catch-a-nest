@@ -4,6 +4,7 @@ import Head from 'next/head';
 import GoogleLoginButton from '@/components/GoogleLoginButton';
 import { useUserValue } from '@/lib/recoil/authState';
 import AppLayout from '@/components/AppLayout';
+import PageSEO from '@/components/AppSEO/PageSEO';
 
 export type AdminProps = {};
 
@@ -14,10 +15,7 @@ function Admin(props: AdminProps) {
 
   return (
     <>
-      <Head>
-        <title>Login (Admin) – Seo Nest</title>
-        <meta name="robots" content="noindex" />
-      </Head>
+      <PageSEO title="Admin" description="admin page" noRobots={true} />
       <AppLayout>
         <div css={block}>
           <div css={box}>

@@ -8,6 +8,7 @@ import { css, Global } from '@emotion/react';
 import RecoilInitializer from '@/components/RecoilInitializer';
 import RecoilDebugObserver from '@/components/RecoilDebugObserver';
 import FullscreenLoader from '@/components/FullscreenLoader';
+import { DefaultSEO } from '@/components/AppSEO/DefaultSEO';
 
 const globalStyle = css`
   html {
@@ -37,22 +38,9 @@ function MyApp({ Component, pageProps }: AppProps) {
   return (
     <>
       <Head>
-        <meta charSet="utf-8" />
-        <title>Seo Nest</title>
-        <meta name="msapplication-TileColor" content="#da532c" />
-        <meta name="theme-color" content="#ffffff" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-
-        <meta name="title" content="Seo Nest" />
-        <meta name="description" content="Seo's honest nest" />
-        <meta
-          property="og:image"
-          content="https://files.seonest.net/seonest-logo.png"
-        />
-        <meta property="og:type" content="website" />
-        <meta property="og:title" content="Seo Nest" />
-        <meta property="og:description" content="Seo's honest nest" />
       </Head>
+      <DefaultSEO />
       <RecoilRoot>
         <RecoilInitializer />
         <RecoilDebugObserver />

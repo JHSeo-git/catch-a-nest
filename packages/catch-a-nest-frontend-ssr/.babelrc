@@ -19,7 +19,8 @@
           "@/components": "./components",
           "@/lib": "./lib",
           "@/assets": "./assets",
-          "@/hooks": "./hooks"
+          "@/hooks": "./hooks",
+          "@/config": "./config"
         }
       }
     ],

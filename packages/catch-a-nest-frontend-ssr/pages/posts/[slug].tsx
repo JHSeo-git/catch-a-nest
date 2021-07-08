@@ -1,4 +1,3 @@
-import React from 'react';
 import { useRouter } from 'next/router';
 import Post from '@/components/Post';
 import FloatLinkButton from '@/components/FloatLinkButton';
@@ -14,23 +13,21 @@ const PostPage = (props: PostPageProps) => {
   if (typeof slug !== 'string') return null;
 
   return (
-    <>
-      <AppLayout>
-        <Post slug={slug} />
-        <FloatLinkButton
-          //
-          iconName="write"
-          to={`/write`}
-          position="first"
-        />
-        <FloatLinkButton
-          iconName="fix"
-          to={`/write/${slug}`}
-          color={palette.indigo[500]}
-          position="second"
-        />
-      </AppLayout>
-    </>
+    <AppLayout>
+      <Post slug={slug} />
+      <FloatLinkButton
+        //
+        iconName="write"
+        to={`/write`}
+        position="first"
+      />
+      <FloatLinkButton
+        iconName="fix"
+        to={`/write/${slug}`}
+        color={palette.indigo[500]}
+        position="second"
+      />
+    </AppLayout>
   );
 };
 

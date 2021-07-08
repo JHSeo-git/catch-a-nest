@@ -272,3 +272,9 @@ const { register, handleSubmit } = useForm<WriteInputs>();
   autoFocus
 />;
 ```
+
+# seo 구성을 위해 next-seo 를 이용함
+
+https://github.com/garmeeh/next-seo#
+
+간편하게 설정할 수 있고 og나 다른 meta tag들을 쉽게 제공해주는 듯...
