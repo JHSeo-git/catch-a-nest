@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/router';
 import { css } from '@emotion/react';
 import { Editor } from '@toast-ui/react-editor';
-import { useForm } from 'react-hook-form';
+import { SubmitHandler, useForm } from 'react-hook-form';
 import { pageFadeInStyle } from '@/lib/styles/animation';
 import WriteButtons from './WriteButtons';
 import {
@@ -108,7 +108,21 @@ const Write = ({ slug }: WriteProps) => {
     // TODO: 첫 페이지로 이 페이지를 들어왔을 때, push 기능
     router.back();
   };
-  const onPostClick = () => {
+  const onPostClick: SubmitHandler<WriteInputs> = (data) => {
+    const { title } = data;
+    const markdown = editorRef?.current?.getInstance().getMarkdown();
+
+    if (!validateTextRequired(title)) {
+      setAlertMessage('Please type title!');
+      setVisibleAlert(true);
+      return;
+    }
+    if (!validateTextRequired(markdown)) {
+      setAlertMessage('Please type markdown!');
+      setVisibleAlert(true);
+      return;
+    }
+
     setVisiblePublishScreen(true);
   };
 
@@ -136,7 +150,7 @@ const Write = ({ slug }: WriteProps) => {
           onTempClick={handleSubmit(
             async (data) => await onPublish(data, true)
           )}
-          onPostClick={onPostClick}
+          onPostClick={handleSubmit(onPostClick)}
         />
         <PublishScreen
           handleThumbnailUrl={handleThumbnailUrl}
