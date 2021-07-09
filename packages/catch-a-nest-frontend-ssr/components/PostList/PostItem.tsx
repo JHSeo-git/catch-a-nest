@@ -79,9 +79,6 @@ const PostItem = ({ post }: PostItemProps) => {
 
 const block = css`
   position: relative;
-  & + & {
-    margin-top: 1rem;
-  }
 `;
 
 const itemStyle = css`

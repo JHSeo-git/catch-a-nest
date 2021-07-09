@@ -24,11 +24,7 @@ const PostItemSkeleton = (
   );
 };
 
-const block = css`
-  &::not(:first-of-type) {
-    margin-top: 1rem;
-  }
-`;
+const block = css``;
 
 const skeleton = css`
   background: ${palette.blueGrey[50]};

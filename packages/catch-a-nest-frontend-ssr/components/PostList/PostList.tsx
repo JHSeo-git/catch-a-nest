@@ -10,7 +10,7 @@ export type PostListProps = {};
 
 const PostList = (props: PostListProps) => {
   const userState = useUserValue();
-  const { posts, elementRef, hasNextPage, error } = useGetPosts(userState?.id);
+  const { posts, elementRef, hasNextPage } = useGetPosts(userState?.id);
 
   return (
     <>
@@ -34,6 +34,10 @@ const listStyle = css`
   margin: 0;
   padding: 0;
   list-style: none;
+
+  li + li {
+    margin-top: 1rem;
+  }
 `;
 
 const emptyStyle = css`
