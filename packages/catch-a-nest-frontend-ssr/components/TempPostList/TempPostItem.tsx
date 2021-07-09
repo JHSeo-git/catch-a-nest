@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { css } from '@emotion/react';
+import markdownToText from 'markdown-to-text';
 import { Post } from '@/lib/api/posts/types';
 import media from '@/lib/styles/media';
 import palette from '@/lib/styles/palette';
@@ -31,7 +32,9 @@ const TempPostItem = ({ post }: TempPostItemProps) => {
             <h4>{getDiffOfNow(post.updated_at)}</h4>
             <h2>{post.title}</h2>
             <p>
-              {post.body.length > 150 ? post.body.slice(0, 150) : post.body}
+              {post.body.length > 150
+                ? markdownToText(post.body).trim().slice(0, 150)
+                : post.body}
             </p>
           </ActiveLink>
           <button onClick={() => setVisiblePopup(true)}>DELETE</button>

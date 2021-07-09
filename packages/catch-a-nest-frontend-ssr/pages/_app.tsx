@@ -44,7 +44,7 @@ function MyApp({ Component, pageProps }: AppProps) {
       </Head>
       <DefaultSEO />
       <RecoilRoot>
-        {NODE_ENV !== 'production' && <RecoilInitializer />}
+        {/* {NODE_ENV !== 'production' && <RecoilInitializer />} */}
         <RecoilDebugObserver />
         <AppToastProvider />
         <QueryClientProvider client={queryClient}>

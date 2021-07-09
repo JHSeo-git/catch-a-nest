@@ -11,9 +11,7 @@ export type TempPostListProps = {};
 
 const TempPostList = (props: TempPostListProps) => {
   const userState = useUserValue();
-  const { posts, elementRef, hasNextPage, error } = useGetTempPosts(
-    userState?.id
-  );
+  const { posts, elementRef, hasNextPage } = useGetTempPosts(userState?.id);
 
   return (
     <>
