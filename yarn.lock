@@ -2763,6 +2763,11 @@
   resolved "https://registry.yarnpkg.com/@types/prismjs/-/prismjs-1.16.5.tgz#378f491ff02304ce50924b05283111d4a286ecba"
   integrity sha512-nSU7U6FQDJJCraFNwaHmH5YDsd/VA9rTnJ7B7AGFdn+m+VSt3FjLWN7+AbqxZ67dbFazqtrDFUto3HK4ljrHIg==
 
+"@types/prismjs@^1.16.6":
+  version "1.16.6"
+  resolved "https://registry.yarnpkg.com/@types/prismjs/-/prismjs-1.16.6.tgz#377054f72f671b36dbe78c517ce2b279d83ecc40"
+  integrity sha512-dTvnamRITNqNkqhlBd235kZl3KfVJQQoT5jkXeiWSBK7i4/TLKBNLV0S1wOt8gy4E2TY722KLtdmv2xc6+Wevg==
+
 "@types/prop-types@*":
   version "15.7.3"
   resolved "https://registry.yarnpkg.com/@types/prop-types/-/prop-types-15.7.3.tgz#2ab0d5da2e5815f94b0b9d4b95d1e5f243ab2ca7"
@@ -2794,6 +2799,13 @@
   version "2.2.1"
   resolved "https://registry.yarnpkg.com/@types/react-headroom/-/react-headroom-2.2.1.tgz#54f2cf222aa4411c9948bc6078658de23269d90f"
   integrity sha512-BVfra15oucJnSEImUEivP+QXSevdnf2Tf5ED65vO3S1uB8GxAjbxKkLmFPvfKU9EwaFnSdstgFdnhi7SK6atiw==
+  dependencies:
+    "@types/react" "*"
+
+"@types/react-headroom@^2.2.2":
+  version "2.2.2"
+  resolved "https://registry.yarnpkg.com/@types/react-headroom/-/react-headroom-2.2.2.tgz#a6c0fa68025db2b038497f1e3362676ecdd6968b"
+  integrity sha512-gSdmlTv8CjM3d6nMyJHrHjmxzYdoQwacjWwM/2Wlw/c+e+I0M4mPSLxnIUL6dGm/c7j/74ei9aJIljZur2pPJQ==
   dependencies:
     "@types/react" "*"
 
@@ -2914,6 +2926,11 @@
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/@types/uslug/-/uslug-1.0.0.tgz#cbc7d83059000f16a3fd0b897cf4a0c8c8f23c86"
   integrity sha512-nE09t7VkH3c2G4k8xyaAoWxBJ2agiy1horenlTc9JR/Y6Hg+yA7l/60DFGapSzkyqjZsYlGM9SNyX9agXD33Pw==
+
+"@types/uslug@^1.0.1":
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@types/uslug/-/uslug-1.0.1.tgz#78b67d4e0010b4b16a30eec215de494e7b804680"
+  integrity sha512-o1q19vUrPPO50ZwJTO/1Wu/EcMWKFE8lpdL7GfZYXADiR3lOpGDQCpZMgHfMA8flFu5JNUe2OWXXv4YflId1ew==
 
 "@types/webpack-sources@*":
   version "2.1.0"
