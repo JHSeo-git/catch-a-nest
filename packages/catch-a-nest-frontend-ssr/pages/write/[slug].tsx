@@ -8,11 +8,8 @@ import useLoadPost from '@/hooks/useLoadPost';
 export type EditPageProps = {};
 
 const LoadedEditPage = ({ slug }: { slug: string }) => {
-  const { error, loaded } = useLoadPost(slug);
+  const { loaded } = useLoadPost(slug);
   const title = `${slug.length > 10 ? `${slug.slice(0, 10)}...` : slug}`;
-
-  // FIXME: error 처리
-  if (error) return <div>{`${error}`}</div>;
 
   if (!loaded) return null;
 

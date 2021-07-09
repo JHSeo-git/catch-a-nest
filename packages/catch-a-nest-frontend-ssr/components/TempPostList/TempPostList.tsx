@@ -15,12 +15,6 @@ const TempPostList = (props: TempPostListProps) => {
     userState?.id
   );
 
-  // FIXME: error 처리
-  if (error) {
-    console.log(error);
-    return null;
-  }
-
   return (
     <>
       <h1 css={title}>Temp Posts</h1>

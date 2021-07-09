@@ -1,5 +1,6 @@
 import { RefObject, useCallback, useEffect } from 'react';
 import { useRouter } from 'next/router';
+import { toast } from 'react-toastify';
 import { useSetGoogleToken } from '@/lib/recoil/authState';
 import googleLogin from '@/lib/api/auth/googleLogin';
 import useAuthManage from './useAuthManage';
@@ -12,21 +13,13 @@ export default function useGoogleLoginEffect(
   const setGoogleToken = useSetGoogleToken();
   const { loggedIn } = useAuthManage();
 
-  // FIXME: notify
-  // const { notify } = useAppToast();
-
   const login = useCallback(
     async (accessToken: string, adminMode: boolean = false) => {
       setGoogleToken(accessToken);
       try {
         const { user } = await googleLogin({ token: accessToken, adminMode });
         loggedIn(user);
-      } catch (e) {
-        console.log(e);
-        // if (e.response?.status && e.response.status === 401) {
-        //   notify(`Login Fail: ${e.response.statusText}`, 'error');
-        // }
-      }
+      } catch (e) {}
     },
     [setGoogleToken, loggedIn]
   );
@@ -41,8 +34,7 @@ export default function useGoogleLoginEffect(
   );
 
   const onFailure = useCallback((e: any) => {
-    // notify('Failed Google Login');
-    console.log('onFailure: ', e);
+    toast.error(`Failed Google Login: ${e}`);
   }, []);
 
   useEffect(() => {

@@ -133,9 +133,6 @@ const Write = ({ slug }: WriteProps) => {
     return () => reset();
   }, [reset]);
 
-  // FIXME: error 처리
-  if (error) console.log(error);
-
   return (
     <>
       <div css={formStyle}>

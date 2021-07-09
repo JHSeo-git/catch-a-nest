@@ -4,11 +4,10 @@ import { toast } from 'react-toastify';
 const client = axios.create();
 
 // test : ec2-54-180-96-175.ap-northeast-2.compute.amazonaws.com
-// client.defaults.baseURL =
-//   process.env.NODE_ENV === 'development'
-//     ? 'http://localhost:5001'
-//     : 'https://api.seonest.net';
-client.defaults.baseURL = 'http://localhost:5001';
+client.defaults.baseURL =
+  process.env.NODE_ENV === 'production'
+    ? 'https://api.seonest.net'
+    : 'http://localhost:5001';
 client.defaults.withCredentials = true;
 client.interceptors.response.use(
   (response: AxiosResponse): AxiosResponse => {
@@ -24,7 +23,5 @@ client.interceptors.response.use(
     return Promise.reject(error);
   }
 );
-
-console.log('NODE_ENV =', process.env.NODE_ENV);
 
 export default client;

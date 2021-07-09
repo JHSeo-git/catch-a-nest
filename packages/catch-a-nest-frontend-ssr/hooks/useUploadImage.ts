@@ -1,8 +1,7 @@
 import { useCallback, useState } from 'react';
 import axios from 'axios';
+import { toast } from 'react-toastify';
 import uploadImage from '@/lib/api/upload/uploadImage';
-// import { isAxiosError } from '@src/lib/utils/isAxiosError';
-// import { useAppModalActions } from '@src/states/appModalState';
 
 export default function useUploadImage() {
   const [loading, setLoading] = useState(false);
@@ -43,21 +42,7 @@ export default function useUploadImage() {
 
         return image_path;
       } catch (e) {
-        // FIXME: error 처리
-        console.log(e);
-        // if (isAxiosError(e)) {
-        //   open({
-        //     title: 'Error upload image',
-        //     message: `Error ${e.message}`,
-        //     isDestructive: true,
-        //   });
-        // } else {
-        //   open({
-        //     title: e.name ?? 'Error upload image',
-        //     message: `Error ${e.message}`,
-        //     isDestructive: true,
-        //   });
-        // }
+        toast.error(`Image Upload Error: ${e}`);
       } finally {
         setLoading(false);
       }

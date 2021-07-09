@@ -12,12 +12,6 @@ const PostList = (props: PostListProps) => {
   const userState = useUserValue();
   const { posts, elementRef, hasNextPage, error } = useGetPosts(userState?.id);
 
-  // FIXME: error 처리
-  if (error) {
-    console.log(error);
-    return null;
-  }
-
   return (
     <>
       <ul css={listStyle}>
