@@ -1,17 +1,28 @@
+import { useState } from 'react';
 import { css } from '@emotion/react';
 import { Post } from '@/lib/api/posts/types';
 import media from '@/lib/styles/media';
 import palette from '@/lib/styles/palette';
 import { resetButton } from '@/lib/styles/reset/resetButton';
 import { getDiffOfNow } from '@/lib/utils/dateUtils';
+import useDeletePost from '@/hooks/useDeletePost';
 import ActiveLink from '../ActiveLink';
+import PopupConfirm from '../Popup/PopupConfirm';
+import { useRouter } from 'next/router';
 
 export type TempPostItemProps = {
   post: Post;
-  onDelete: () => void;
 };
 
-const TempPostItem = ({ post, onDelete }: TempPostItemProps) => {
+const TempPostItem = ({ post }: TempPostItemProps) => {
+  const router = useRouter();
+  const [visiblePopup, setVisiblePopup] = useState(false);
+  const { deletePost } = useDeletePost();
+  const onOK = async (slug: string) => {
+    await deletePost(slug);
+    setVisiblePopup(false);
+    router.reload();
+  };
   return (
     <li css={block}>
       <div css={itemStyle}>
@@ -23,9 +34,16 @@ const TempPostItem = ({ post, onDelete }: TempPostItemProps) => {
               {post.body.length > 150 ? post.body.slice(0, 150) : post.body}
             </p>
           </ActiveLink>
-          <button onClick={onDelete}>DELETE</button>
+          <button onClick={() => setVisiblePopup(true)}>DELETE</button>
         </div>
       </div>
+      <PopupConfirm
+        visible={visiblePopup}
+        title="Delete Temp Post?"
+        onCancel={() => setVisiblePopup(false)}
+        onOK={() => onOK(post.url_slug)}
+        openDelay={false}
+      />
     </li>
   );
 };

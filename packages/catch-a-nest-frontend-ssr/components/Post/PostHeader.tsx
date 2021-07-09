@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { css } from '@emotion/react';
 import Image from 'next/image';
 import { Post } from '@/lib/api/posts/types';
@@ -8,60 +8,82 @@ import { humanizeTime } from '@/lib/utils/viewerUtils';
 import palette from '@/lib/styles/palette';
 import media from '@/lib/styles/media';
 import AppButton from '../AppButton';
+import useDeletePost from '@/hooks/useDeletePost';
+import { useRouter } from 'next/router';
+import PopupConfirm from '../Popup/PopupConfirm';
 
 export type PostHeaderProps = {
   post: Post;
 };
 
 const PostHeader = ({ post }: PostHeaderProps) => {
+  const router = useRouter();
   const userState = useUserValue();
+  const { deletePost } = useDeletePost();
+
+  const [visiblePopup, setVisiblePopup] = useState(false);
+  const onOK = async (slug: string) => {
+    await deletePost(slug);
+    setVisiblePopup(false);
+    router.back();
+  };
 
   // TODO: Image blur placeholder lib 사용해보기
 
   return (
-    <section css={postStyle}>
-      <h1 className="title">{post.title}</h1>
-      <div className="sub-info">
-        <p className="date">{stringToDateMoreDetail(post.created_at)}</p>
-        {post.read_time !== undefined && (
-          <>
-            <div className="splitter" />
-            <p className="view readTimeStyle">{humanizeTime(post.read_time)}</p>
-          </>
-        )}
-        <div className="splitter" />
-        <p className="view">
-          {post.read_count ?? 0} view
-          {post.read_count && post.read_count > 1 && 's'}
-        </p>
-      </div>
-      {userState && (
+    <>
+      <section css={postStyle}>
+        <h1 className="title">{post.title}</h1>
         <div className="sub-info">
-          <AppButton
-            text="DELETE"
-            type="thirdary"
-            size="small"
-            // onClick={(onDeleteModalOpen)}
-            onClick={() => console.log('delete button')}
-          />
+          <p className="date">{stringToDateMoreDetail(post.created_at)}</p>
+          {post.read_time !== undefined && (
+            <>
+              <div className="splitter" />
+              <p className="view readTimeStyle">
+                {humanizeTime(post.read_time)}
+              </p>
+            </>
+          )}
+          <div className="splitter" />
+          <p className="view">
+            {post.read_count ?? 0} view
+            {post.read_count && post.read_count > 1 && 's'}
+          </p>
         </div>
-      )}
-      {post.thumbnail && (
-        <div css={thumbnailWrapper}>
-          <Image
-            css={imageStyle}
-            quality={100}
-            src={post.thumbnail}
-            alt="post thumbnail"
-            width={768}
-            height={500}
-            objectFit="contain"
-            blurDataURL={post.thumbnail}
-            placeholder="blur"
-          />
-        </div>
-      )}
-    </section>
+        {userState && (
+          <div className="sub-info">
+            <AppButton
+              text="DELETE"
+              type="thirdary"
+              size="small"
+              onClick={() => setVisiblePopup(true)}
+            />
+          </div>
+        )}
+        {post.thumbnail && (
+          <div css={thumbnailWrapper}>
+            <Image
+              css={imageStyle}
+              quality={100}
+              src={post.thumbnail}
+              alt="post thumbnail"
+              width={768}
+              height={500}
+              objectFit="contain"
+              blurDataURL={post.thumbnail}
+              placeholder="blur"
+            />
+          </div>
+        )}
+      </section>
+      <PopupConfirm
+        visible={visiblePopup}
+        title="Delete Post?"
+        onCancel={() => setVisiblePopup(false)}
+        onOK={() => onOK(post.url_slug)}
+        openDelay={false}
+      />
+    </>
   );
 };
 

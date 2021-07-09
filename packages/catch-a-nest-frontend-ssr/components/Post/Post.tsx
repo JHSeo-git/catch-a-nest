@@ -15,14 +15,8 @@ export type PostProps = {
 };
 
 const Post = ({ slug }: PostProps) => {
-  const { post, error } = useGetPostBySlug(slug);
+  const { post } = useGetPostBySlug(slug);
   const images = post?.thumbnail ? [post.thumbnail] : [];
-
-  // FIXME: error 처리
-  if (error) {
-    console.log(error);
-    return null;
-  }
 
   if (!post) return <PostSkeleton />;
 

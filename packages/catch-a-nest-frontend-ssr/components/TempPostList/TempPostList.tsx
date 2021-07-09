@@ -26,15 +26,7 @@ const TempPostList = (props: TempPostListProps) => {
       <h1 css={title}>Temp Posts</h1>
       <ul css={listStyle}>
         {posts
-          ? posts.map((item) => (
-              <TempPostItem
-                key={item.id}
-                post={item}
-                onDelete={() => {
-                  // onDeleteModalOpen(item.url_slug);
-                }}
-              />
-            ))
+          ? posts.map((item) => <TempPostItem key={item.id} post={item} />)
           : Array.from({ length: 10 }).map((_, i) => (
               <PostItemSkeleton key={i} />
             ))}
