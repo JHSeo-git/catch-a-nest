@@ -1,3 +1,4 @@
+import { toast } from 'react-toastify';
 import { User } from '@/lib/api/auth/types';
 import { useSetUser } from '@/lib/recoil/authState';
 import userStorage from '@/lib/storage/userStorage';
@@ -10,23 +11,24 @@ export default function useAuthManage() {
     setUser(user);
     userStorage.set(user);
 
-    // notify('Welcome! My Lord 👑', undefined, {
-    //   hideProgressBar: true,
-    //   position: 'top-center',
-    // });
+    toast.info('👑 Welcome! My Lord!');
   };
 
-  const loggedOut = () => {
+  const logout = () => {
     setUser(null);
     userStorage.clear();
     try {
       const auth2 = window.gapi.auth2.getAuthInstance();
       auth2.signOut();
-    } catch (e) {}
+
+      toast.info('🙇‍♂️ See you soon! My Lord!');
+    } catch (e) {
+      toast.error(`Logout Error: ${e}`);
+    }
   };
 
   return {
     loggedIn,
-    loggedOut,
+    logout,
   };
 }

@@ -1,6 +1,5 @@
 import React from 'react';
 import { css } from '@emotion/react';
-import Head from 'next/head';
 import GoogleLoginButton from '@/components/GoogleLoginButton';
 import { useUserValue } from '@/lib/recoil/authState';
 import AppLayout from '@/components/AppLayout';

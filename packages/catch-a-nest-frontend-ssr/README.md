@@ -278,3 +278,17 @@ const { register, handleSubmit } = useForm<WriteInputs>();
 https://github.com/garmeeh/next-seo#
 
 간편하게 설정할 수 있고 og나 다른 meta tag들을 쉽게 제공해주는 듯...
+
+# toast 처리
+
+프로그레스 바 사용 시 좋을 것 같음
+https://fkhadra.github.io/react-toastify/use-a-controlled-progress-bar
+
+# 에러처리
+
+공통 처리 영역을 만들어서 처리하는게 좋을 것 같음
+
+https://gist.github.com/saqueib/a495af17d7c0e2fd5c2316b0822ebac3
+
+1. axios intercepter를 이용해 error 시 toast 처리
+2. 401일 경우 logout 처리

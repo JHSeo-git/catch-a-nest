@@ -3,8 +3,8 @@ import { useRouter } from 'next/router';
 import { css } from '@emotion/react';
 import { Editor } from '@toast-ui/react-editor';
 import { SubmitHandler, useForm } from 'react-hook-form';
+import { toast } from 'react-toastify';
 import { pageFadeInStyle } from '@/lib/styles/animation';
-import WriteButtons from './WriteButtons';
 import {
   PostAllContentType,
   useExistsTempPostValue,
@@ -12,11 +12,12 @@ import {
   useSetLoadTempPost,
   useSetVisiblePublishScreen,
 } from '@/lib/recoil/writeState';
+import useSavePost from '@/hooks/useSavePost';
+import WriteButtons from './WriteButtons';
 import WriteTitle from './WriteTitle';
 import TuiEditor from '../Markdown/TuiEditor';
 import PublishScreen from './PublishScreen';
 import PopupConfirm from '../Popup/PopupConfirm';
-import useSavePost from '@/hooks/useSavePost';
 
 export type WriteProps = {
   slug?: string;
@@ -53,8 +54,6 @@ const Write = ({ slug }: WriteProps) => {
   const [visibleAlert, setVisibleAlert] = useState(false);
   const [alertMessage, setAlertMessage] = useState<string>('');
 
-  console.log(visiblePopup);
-
   // save post hook
   const { savePost, saveTempPost, error } = useSavePost();
 
@@ -88,6 +87,7 @@ const Write = ({ slug }: WriteProps) => {
         await savePost({ slug, post: publishPost });
         router.replace('/posts');
       }
+      toast.success('👍 Success Save!');
     } catch (e) {}
   };
 

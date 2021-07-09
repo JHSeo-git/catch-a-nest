@@ -9,6 +9,7 @@ import RecoilInitializer from '@/components/RecoilInitializer';
 import RecoilDebugObserver from '@/components/RecoilDebugObserver';
 import FullscreenLoader from '@/components/FullscreenLoader';
 import { DefaultSEO } from '@/components/AppSEO/DefaultSEO';
+import AppToastProvider from '@/components/AppToastProvider';
 
 const globalStyle = css`
   html {
@@ -34,6 +35,7 @@ const globalStyle = css`
 
 function MyApp({ Component, pageProps }: AppProps) {
   const [queryClient] = useState(() => new QueryClient());
+  const { NODE_ENV } = process.env;
 
   return (
     <>
@@ -42,8 +44,9 @@ function MyApp({ Component, pageProps }: AppProps) {
       </Head>
       <DefaultSEO />
       <RecoilRoot>
-        <RecoilInitializer />
+        {NODE_ENV !== 'production' && <RecoilInitializer />}
         <RecoilDebugObserver />
+        <AppToastProvider />
         <QueryClientProvider client={queryClient}>
           <Hydrate state={pageProps.dehydratedState}>
             <Global styles={globalStyle} />

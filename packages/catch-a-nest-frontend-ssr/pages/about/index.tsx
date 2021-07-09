@@ -11,10 +11,15 @@ const AboutPage = (props: AboutPageProps) => {
       <PageSEO title="About" description="about SeoNest" />
       <AppLayout>
         <div css={block}>
-          이 페이지는 아직 완성 되지 않았습니다.
+          🙇‍♂️ 안녕하세요! JHSeo 입니다.
           <br />
           <br />
-          url을 직접 치고 들어오신 당신께 환호를 보냅니다!
+          ❤️ 방문해 주셔서 감사합니다
+          <br />
+          <br />
+          👷 이 페이지는 아직 완성 되지 않았습니다.
+          <br />
+          <br />
         </div>
       </AppLayout>
     </>
@@ -27,6 +32,8 @@ const block = css`
   display: flex;
   justify-content: center;
   align-items: center;
+
+  letter-spacing: 0.5px;
 `;
 
 export default AboutPage;

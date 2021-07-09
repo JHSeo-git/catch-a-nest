@@ -1,13 +1,15 @@
 import { css } from '@emotion/react';
 import palette from '@/lib/styles/palette';
 import { resetButton } from '@/lib/styles/reset/resetButton';
-import ActiveLink from '../ActiveLink';
 import { useUserValue } from '@/lib/recoil/authState';
+import useAuthManage from '@/hooks/useAuthManage';
+import ActiveLink from '../ActiveLink';
 
-export type NavigationProps = {};
+export type UserNavigationProps = {};
 
-const Navigation = (props: NavigationProps) => {
+const UserNavigation = (props: UserNavigationProps) => {
   const userState = useUserValue();
+  const { logout } = useAuthManage();
 
   if (!userState) return null;
 
@@ -16,11 +18,7 @@ const Navigation = (props: NavigationProps) => {
       <ActiveLink to="/temps" css={linkStyle} tabIndex={0}>
         Temp
       </ActiveLink>
-      <button
-        css={buttonStyle}
-        tabIndex={0}
-        onClick={() => console.log('logout')}
-      >
+      <button css={buttonStyle} tabIndex={0} onClick={() => logout()}>
         Logout
       </button>
     </nav>
@@ -28,6 +26,7 @@ const Navigation = (props: NavigationProps) => {
 };
 
 const block = css`
+  margin-left: auto;
   display: flex;
   align-items: center;
   img {
@@ -73,9 +72,9 @@ const linkStyle = css`
     color: ${palette.blueGrey[500]};
   }
 
-  &[aria-current='page'] {
+  &.current {
     color: ${palette.blue[500]};
   }
 `;
 
-export default Navigation;
+export default UserNavigation;

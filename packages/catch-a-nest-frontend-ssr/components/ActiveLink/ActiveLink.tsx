@@ -13,7 +13,7 @@ export type ActiveLinkProps = {
 
 const ActiveLink = ({
   to,
-  scroll = false,
+  scroll = true,
   exact,
   children,
   className,
@@ -23,7 +23,7 @@ const ActiveLink = ({
   const isActive = exact ? pathname === to : pathname.startsWith(to);
 
   if (isActive) {
-    className += ' active';
+    className += ' current';
   }
 
   return (
