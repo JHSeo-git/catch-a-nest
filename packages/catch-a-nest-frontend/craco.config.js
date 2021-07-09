@@ -15,4 +15,7 @@ module.exports = {
   babel: {
     presets: ['@emotion/babel-preset-css-prop'],
   },
+  eslint: {
+    extends: ['react-app'],
+  },
 };

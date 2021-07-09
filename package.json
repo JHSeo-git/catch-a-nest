@@ -13,7 +13,13 @@
     ],
     "nohoist": [
       "**/typeorm/**",
-      "**/typeorm"
+      "**/typeorm",
+      "**/babel-eslint",
+      "**/babel-jest",
+      "**/eslint",
+      "**/jest",
+      "**/webpack-dev-server",
+      "**/webpack-cli"
     ]
   }
 }
