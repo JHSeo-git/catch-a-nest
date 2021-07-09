@@ -12,6 +12,7 @@ export type FloatLinkButtonProps = {
   to: string;
   color?: string;
   position?: PositionType;
+  visible?: boolean;
 };
 
 const FloatLinkButton = ({
@@ -19,7 +20,11 @@ const FloatLinkButton = ({
   to,
   color = palette.lightBlue[500],
   position = 'first',
+  visible = false,
 }: FloatLinkButtonProps) => {
+  console.log(visible);
+  if (!visible) return null;
+
   return (
     <ActiveLink to={to} css={fixedLink(color, position)}>
       <AppIcon name={iconName} />

@@ -1,11 +1,9 @@
 import React from 'react';
-import Head from 'next/head';
 import PostList from '@/components/PostList';
 import FloatLinkButton from '@/components/FloatLinkButton';
 import AppLayout from '@/components/AppLayout';
 import PageSEO from '@/components/AppSEO/PageSEO';
-import appConfig from '@/config/app.config';
-import { useRouter } from 'next/router';
+import { useUserValue } from '@/lib/recoil/authState';
 
 export type PostsPageProps = {};
 
@@ -30,12 +28,13 @@ export type PostsPageProps = {};
 // };
 
 const PostsPage = (props: PostsPageProps) => {
+  const user = useUserValue();
   return (
     <>
       <PageSEO title="Posts" description="posts" />
       <AppLayout>
         <PostList />
-        <FloatLinkButton iconName="write" to="/write" />
+        <FloatLinkButton iconName="write" to="/write" visible={!!user} />
       </AppLayout>
     </>
   );

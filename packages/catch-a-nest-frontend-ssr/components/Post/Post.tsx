@@ -1,14 +1,11 @@
 import React from 'react';
-import { css } from '@emotion/react';
 import markdownToText from 'markdown-to-text';
 import useGetPostBySlug from '@/hooks/useGetPostBySlug';
 import PostSkeleton from './PostSkeleton';
 import PostHeader from './PostHeader';
 import PostBody from './PostBody';
 import PostFooter from './PostFooter';
-import { fadeIn, pageFadeInStyle } from '@/lib/styles/animation';
 import PostSEO from '../AppSEO/PostSEO';
-import appConfig from '@/config/app.config';
 
 export type PostProps = {
   slug: string;

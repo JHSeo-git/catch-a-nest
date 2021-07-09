@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router';
 import Link from 'next/link';
-import React, { Children } from 'react';
+import React from 'react';
 
 export type ActiveLinkProps = {
   to: string;

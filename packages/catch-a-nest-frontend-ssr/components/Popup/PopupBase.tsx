@@ -1,9 +1,7 @@
 import useLazyClose from '@/hooks/useLazyClose';
 import { pageZoomInStyle, pageZoomOutStyle } from '@/lib/styles/animation';
 import media from '@/lib/styles/media';
-import palette from '@/lib/styles/palette';
 import { css } from '@emotion/react';
-import { useEffect, useState } from 'react';
 import Modal from '../Modal';
 
 export type PopupBaseProps = {
