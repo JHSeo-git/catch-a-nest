@@ -49,14 +49,16 @@ emotion 설정과 css-prop preset 적용을 위해 custom config 설정
 }
 ```
 
-# dark mode /w emotion
+# 개발
+
+## dark mode w/ emotion
 
 palette 로 color를 관리하도록 만들었다 보니 색깔이 너무 많다.
 dark mode일 경우 색을 만들어두지는 않고 palette에서 색을 지정해서 적용하는 방향으로 가야할 듯 싶다.
 
 https://levelup.gitconnected.com/adding-dark-mode-to-your-react-app-with-emotion-css-in-js-fc5c0f926838
 
-# dynamic route
+## dynamic route
 
 https://nextjs.org/docs/routing/introduction
 https://github.com/vercel/next.js/tree/canary/examples/dynamic-routing
@@ -72,7 +74,7 @@ https://github.com/vercel/next.js/tree/canary/examples/dynamic-routing
 </Link>
 ```
 
-# nextjs svg { ReactComponent } undefined 오류
+## nextjs svg { ReactComponent } undefined 오류
 
 nextjs에서는 svg 파일을 next/image 통해 img를 관리한다.
 
@@ -82,7 +84,7 @@ https://github.com/twopluszero/next-images/issues/15
 
 이거저거 적용해봐도 계속 undefined로 나오는 문제가 있어서 구조 변경
 
-# svg /w svgr/webpack
+## svg w/ @svgr/webpack
 
 svgr 라이브러리를 쓰면 svg를 쓸 수는 있지만 default로 viewBox를 제거해버린다.
 
@@ -115,7 +117,7 @@ module.exports = {
 };
 ```
 
-# emotion css props /w next/link
+## emotion css props w/ next/link
 
 next/link 를 이용해 component를 만들고 css props를 받아 처리하려 했는데
 
@@ -126,7 +128,7 @@ next/link 를 이용해 component를 만들고 css props를 받아 처리하려 
 anchor를 드러나게(?) 하기 위해 passHref를 true로 하고 드러나게 해준다.
 스타일 적용을 위해?... 뭐가 어떻게 된건지 나도 헷갈리는데 어째뜬 anchor 역할을 하기 위해서(link) next/link에서 자동생성하게 하지 않고 드러나게 하는 것으로 이해함.
 
-# same page in different route
+## same page in different route
 
 next.config.js 에서 rewrites 함수를 이용해 redirect? 해주면 된다.
 
@@ -143,7 +145,7 @@ module.exports = {
 };
 ```
 
-# react-query /w nextjs
+## react-query w/ nextjs
 
 ssg, ssr 둘 다 사용 가능하다.
 동작 개념은 preFetch를 통해 데이터를 '미리' 가지고 있도록 하는 것이다.
@@ -155,7 +157,7 @@ https://github.com/tannerlinsley/react-query/tree/master/examples/nextjs
 
 hydration이라고 하는 용어는 '서버사이드 렌더링으로 만들어진 수분이 없는 정적 HTML, State로 부터 수분을 보충하는 과정(동적인 상태로 변화)을 말한다.
 
-# next/image
+## next/image
 
 next에서 제공하는 image component를 사용시에 public path가 아닌 외부 url 일 경우 사전에 url 을 등록해주어야 한다.
 
@@ -173,7 +175,7 @@ layout props나 width, height 적절히 사용하고
 fill 사용 시에는 상위 component에 position: relative를 걸어주어야 한다.
 image render 시에 스타일이 absolute이기 때문에 fill시 예상한 범위내에서 그려져야 하기 때문
 
-# WebAPI Issue
+## WebAPI Issue
 
 nextjs pre-render 기능으로 인해 WebAPI에 접근하여 사용할 때 없는 경우가 발생한다.
 
@@ -183,7 +185,7 @@ recoil initialize 를 위해 localStorage에 접근하는데 문제가 생기면
 
 https://github.com/facebookexperimental/Recoil/issues/408
 
-# getStaticProps typescript
+## getStaticProps typescript
 
 ```ts
 import { InferGetStaticPropsType } from 'next';
@@ -211,20 +213,26 @@ function Blog({ posts }: InferGetStaticPropsType<typeof getStaticProps>) {
 export default Blog;
 ```
 
-# tui editor issue
+## tui editor issue
 
-## window is not defined
+### window is not defined
 
 dynamic import 사용하여 브라우저에서 로드되고 나서 쓸 수 있게 하면 된다.
 
-## ref, ref.current is null
+### ref, ref.current is null
 
 pre-render 기능으로 인해 ref 값이 정상적으로 전달되지 않는다.
 해결할 수 있는 구조가 있으니 참고 하자.
 
 > - https://myeongjae.kim/blog/2020/04/05/tui-editor-with-nextjs
 
-# write에서 new | edit 관리
+### image add hook 문제
+
+v3.0.0 버전에서 해당 hook에 custom하면 기존 hook을 부르지 않도록 해야 하는데
+기존 버전에 이슈가 있어서 수정되었다.
+canary가 존재 하지 않아 v3.0.1 이 되서야 고쳐져서 수정됨
+
+## write에서 new | edit 관리
 
 new 일 경우 title, markdown 등이 초기화 된 값이 들어가야 하고
 edit 일 경우 api를 통해 가져온 값들이 채워져야 한다.
@@ -242,7 +250,7 @@ sync 완료했다는 값을 관리할 atom을 만들어 관리하였다.
 2. edit인데 temp가 있고 그 temp를 사용할 때 sync
 3. reset을 위해 sync
 
-# react-hook-form 사용
+## react-hook-form 사용
 
 일단 form이 크지 않고 해서 이번에 한 번 적용해보려고 한다.
 validation 기능을 쓰려 했지만 사전에 erro를 위한 alert창을 따로 만들어놔서 별도 validate을 넣진 않았다.(react-hook-form 내에서)
@@ -273,18 +281,18 @@ const { register, handleSubmit } = useForm<WriteInputs>();
 />;
 ```
 
-# seo 구성을 위해 next-seo 를 이용함
+## seo 구성을 위해 next-seo 를 이용함
 
 https://github.com/garmeeh/next-seo#
 
 간편하게 설정할 수 있고 og나 다른 meta tag들을 쉽게 제공해주는 듯...
 
-# toast 처리
+## toast 처리 : react-toastify
 
 프로그레스 바 사용 시 좋을 것 같음
 https://fkhadra.github.io/react-toastify/use-a-controlled-progress-bar
 
-# 에러처리
+## 에러처리 : axios interceptors
 
 공통 처리 영역을 만들어서 처리하는게 좋을 것 같음
 
@@ -293,7 +301,11 @@ https://gist.github.com/saqueib/a495af17d7c0e2fd5c2316b0822ebac3
 1. axios intercepter를 이용해 error 시 toast 처리
 2. 401일 경우 logout 처리
 
-# firebase analytics 설정
+## firebase analytics 설정
+
+기존 사용방식대로 html 내부에서 js를 직접 호출해서 사용하려고 했다.
+문제는 nextjs prerender 이슈로 인해 build 시 에러가 계속 난다는 점인데
+window 체크와 별도 예외처리를 해주도록 하자.
 
 ```ts
 // _app.ts
@@ -333,3 +345,21 @@ https://gist.github.com/saqueib/a495af17d7c0e2fd5c2316b0822ebac3
   );
 }
 ```
+
+## monorepo deploy
+
+모노레포로 만든 프로젝트다 보니 package 관리를 너무 안일하게 생각했다.
+디펜던시가 기존에 있던걸 많이 사용하다 보니 package list에 등록안된게 많았고
+vercel deploy 시에 당연히 module not found 에러가 났다.
+
+항상 조심하자...
+
+## lighthouse
+
+react에서 nextjs 즉 csr에서 ssr로 바꾸게 된 계기가 라이트하우스 평가 점수인데
+다른거 제쳐두고 performance가 기존에 20점대 였었다...
+
+nextjs로 프로젝트를 migration하고 처음 재보니 70점 정도가 나왔는데 많이 향상되었다.
+
+문제는 ssg를 거의 사용하지 못했기도 했는데, 일단 생각을 좀 더 해보고 가능한 방향으로 살펴봐야 겠다.
+(나머지 항목점수는 [접근성: 91], [Best Practices: 100], [SEO: 100] 이다.)
