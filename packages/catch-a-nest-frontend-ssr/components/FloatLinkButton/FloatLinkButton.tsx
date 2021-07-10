@@ -22,7 +22,6 @@ const FloatLinkButton = ({
   position = 'first',
   visible = false,
 }: FloatLinkButtonProps) => {
-  console.log(visible);
   if (!visible) return null;
 
   return (

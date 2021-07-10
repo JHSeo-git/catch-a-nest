@@ -14,6 +14,11 @@ export const DefaultSEO = () => {
         description: appConfig.description,
         images: [{ alt: appConfig.title, url: appConfig.siteLogo }],
       }}
+      twitter={{
+        handle: '@handle',
+        site: '@site',
+        cardType: 'summary_large_image',
+      }}
     />
   );
 };
