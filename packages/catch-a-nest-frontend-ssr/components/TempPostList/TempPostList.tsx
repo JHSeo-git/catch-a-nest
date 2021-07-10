@@ -35,6 +35,10 @@ const listStyle = css`
   margin: 0;
   padding: 0;
   list-style: none;
+
+  li + li {
+    margin-top: 1rem;
+  }
 `;
 
 const title = css`

@@ -51,11 +51,7 @@ const TempPostItem = ({ post }: TempPostItemProps) => {
   );
 };
 
-const block = css`
-  & + & {
-    margin-top: 1rem;
-  }
-`;
+const block = css``;
 
 const itemStyle = css`
   height: 6.6rem;
@@ -81,7 +77,7 @@ const linkStyle = css`
 
 const infoWrapper = css`
   flex: 1;
-  padding: 0.5rem 1rem;
+  padding: 1rem 1rem;
   padding-right: 5rem;
   position: relative;
   h4 {

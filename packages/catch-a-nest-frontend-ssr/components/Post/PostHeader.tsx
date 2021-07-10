@@ -90,7 +90,7 @@ const PostHeader = ({ post }: PostHeaderProps) => {
 const postStyle = css`
   display: flex;
   flex-direction: column;
-  margin-bottom: 10rem;
+  margin-bottom: 2rem;
 
   .title {
     margin: 0;
