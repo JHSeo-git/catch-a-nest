@@ -56,7 +56,7 @@ function MyApp({ Component, pageProps }: AppProps) {
           </Hydrate>
         </QueryClientProvider>
       </RecoilRoot>
-      {NODE_ENV !== 'production' && (
+      {NODE_ENV === 'production' && (
         <>
           <Script src="https://www.gstatic.com/firebasejs/8.4.2/firebase-app.js" />
           <Script src="https://www.gstatic.com/firebasejs/8.4.2/firebase-analytics.js" />
