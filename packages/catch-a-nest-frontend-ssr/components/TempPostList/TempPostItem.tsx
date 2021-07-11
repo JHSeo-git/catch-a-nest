@@ -54,7 +54,7 @@ const TempPostItem = ({ post }: TempPostItemProps) => {
 const block = css``;
 
 const itemStyle = css`
-  height: 6.6rem;
+  min-height: 6.6rem;
   overflow: hidden;
   border-bottom: 0.0625rem solid ${palette.blueGrey[100]};
 
