@@ -21,7 +21,7 @@ export class Post {
   @Column()
   title!: string;
 
-  @Column({ type: 'text' })
+  @Column({ type: 'longtext' })
   body!: string;
 
   @Column({ nullable: true })

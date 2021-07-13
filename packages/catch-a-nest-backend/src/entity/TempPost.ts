@@ -18,7 +18,7 @@ export class TempPost {
   @Column()
   title!: string;
 
-  @Column({ type: 'text' })
+  @Column({ type: 'longtext' })
   body!: string;
 
   @Index()

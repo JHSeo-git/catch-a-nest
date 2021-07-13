@@ -27,6 +27,7 @@ export default class Database {
       database: process.env.TYPEORM_DATABASE,
       synchronize: process.env.TYPEORM_SYNCHRONIZE === 'true',
       logging: process.env.TYPEORM_LOGGING === 'true',
+      charset: 'utf8mb4',
     };
 
     return createConnection(options);
