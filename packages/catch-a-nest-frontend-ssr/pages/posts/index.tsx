@@ -31,7 +31,7 @@ const PostsPage = (props: PostsPageProps) => {
   const user = useUserValue();
   return (
     <>
-      <PageSEO title="Posts" description="posts" />
+      <PageSEO title="Posts" description="Seo's honest nest" />
       <AppLayout>
         <PostList />
         <FloatLinkButton iconName="write" to="/write" visible={!!user} />

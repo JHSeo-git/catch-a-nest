@@ -268,6 +268,31 @@ const toastuiStyle = css`
     h6 {
       margin: 0;
       padding: 0;
+
+      display: flex;
+      align-items: center;
+
+      .header-anchor {
+        visibility: hidden;
+        display: flex;
+        color: ${palette.blueGrey[700]};
+        margin-right: 0.25rem;
+        svg {
+          height: 1rem;
+        }
+
+        ${media.sm} {
+          svg {
+            height: 0.75rem;
+          }
+        }
+      }
+
+      &:hover {
+        .header-anchor {
+          visibility: visible;
+        }
+      }
     }
 
     h1 {

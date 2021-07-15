@@ -9,7 +9,7 @@ export type AboutPageProps = {};
 const AboutPage = (props: AboutPageProps) => {
   return (
     <>
-      <PageSEO title="About" description="about Seo Nest" />
+      <PageSEO title="About" description="About Seo Nest Blog" />
       <AppLayout>
         <article css={block}>
           <h1>

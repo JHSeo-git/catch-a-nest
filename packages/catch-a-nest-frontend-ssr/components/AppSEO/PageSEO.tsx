@@ -23,7 +23,7 @@ const PageSEO = ({
       canonical={url ?? `${appConfig.url}${router.pathname}`}
       openGraph={{
         type: 'website',
-        title,
+        title: `${title} – ${appConfig.title}`,
         description,
         url: url ?? `${appConfig.url}${router.pathname}`,
         images: [{ alt: title, url: appConfig.siteLogo }],
