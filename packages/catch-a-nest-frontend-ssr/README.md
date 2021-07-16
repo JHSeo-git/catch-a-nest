@@ -4,6 +4,9 @@ https://github.com/facebook/create-react-app/issues/6324
 
 react to nextjs(CSR to SSR) migration 시에 문제가 될 부분들을 위해 설정 정보를 작성한다.
 
+- 최대한 SSR로 해보려고 하고 더 가능하다면 SSG
+- 빠른 배포를 위해 기존 CSR 기본으로 반영하고 시간을 두고 SSG, SSR로 수정하도록 한다.
+
 ## monorepo nohoist: lint, test 등을 위해
 
 프로젝트 package.json (최상위) 에 nohoist에 문제가 될 부분을 추가해서 사전에 hoist되지 않도록 한다.
