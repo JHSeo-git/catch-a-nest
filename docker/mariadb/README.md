@@ -5,3 +5,6 @@ create database catch_a_nest;
 grant all privileges on catch_a_nest.* TO 'seo'@'%' identified by 'root';
 flush privileges;
 ```
+
+[my.cnf]
+https://jojoldu.tistory.com/461
