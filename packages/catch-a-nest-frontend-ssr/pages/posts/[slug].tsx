@@ -1,16 +1,38 @@
-import { useRouter } from 'next/router';
+import { GetServerSideProps, InferGetServerSidePropsType } from 'next';
+import { dehydrate } from 'react-query/hydration';
 import Post from '@/components/Post';
 import FloatLinkButton from '@/components/FloatLinkButton';
 import palette from '@/lib/styles/palette';
 import AppLayout from '@/components/AppLayout';
 import { useUserValue } from '@/lib/recoil/authState';
+import { prefetchGetPostBySlugQuery } from '@/hooks/query/useGetPostBySlugQuery';
 
-export type PostPageProps = {};
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const { slug } = context.query;
 
-const PostPage = (props: PostPageProps) => {
+  if (typeof slug !== 'string') {
+    return {
+      redirect: {
+        permanent: false,
+        destination: '/404',
+      },
+      props: {},
+    };
+  }
+
+  const queryClient = await prefetchGetPostBySlugQuery(slug);
+  return {
+    props: {
+      dehydratedState: JSON.parse(JSON.stringify(dehydrate(queryClient))),
+      slug,
+    },
+  };
+};
+
+const PostPage = ({
+  slug,
+}: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   const user = useUserValue();
-  const router = useRouter();
-  const { slug } = router.query;
 
   if (typeof slug !== 'string') return null;
 
