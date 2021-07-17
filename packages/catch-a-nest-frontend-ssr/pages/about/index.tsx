@@ -33,13 +33,13 @@ const AboutPage = (props: AboutPageProps) => {
             </ul>
             <h3>Back-end</h3>
             <ul>
-              <li>Nodejs</li>
-              <li>Koa</li>
+              <li>Nodejs(Koa)</li>
               <li>Mariadb</li>
               <li>Typeorm</li>
               <li>AWS-EC2</li>
               <li>AWS-S3</li>
               <li>PM2</li>
+              <li>nginx</li>
               <li>Cloudflare</li>
             </ul>
           </section>
