@@ -4,6 +4,7 @@ import zIndex from '@/lib/styles/zIndex';
 import AppIcon from '../AppIcon';
 import { IconType } from '../AppIcon/AppIcon';
 import ActiveLink from '../ActiveLink';
+import { useUserValue } from '@/lib/recoil/authState';
 
 type PositionType = 'first' | 'second' | 'third';
 
@@ -20,9 +21,12 @@ const FloatLinkButton = ({
   to,
   color = palette.lightBlue[500],
   position = 'first',
-  visible = false,
+  visible = true,
 }: FloatLinkButtonProps) => {
+  const user = useUserValue();
+
   if (!visible) return null;
+  if (!user) return null;
 
   return (
     <ActiveLink to={to} css={fixedLink(color, position)}>

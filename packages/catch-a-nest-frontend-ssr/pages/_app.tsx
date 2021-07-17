@@ -1,17 +1,18 @@
 import React, { useState } from 'react';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { Hydrate } from 'react-query/hydration';
-import { ReactQueryDevtools } from 'react-query/devtools';
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
 import Script from 'next/script';
 import { RecoilRoot } from 'recoil';
 import { css, Global } from '@emotion/react';
 import RecoilInitializer from '@/components/RecoilInitializer';
-import RecoilDebugObserver from '@/components/RecoilDebugObserver';
 import FullscreenLoader from '@/components/FullscreenLoader';
 import { DefaultSEO } from '@/components/AppSEO/DefaultSEO';
 import AppToastProvider from '@/components/AppToastProvider';
+
+import { ReactQueryDevtools } from 'react-query/devtools';
+import RecoilDebugObserver from '@/components/RecoilDebugObserver';
 
 const globalStyle = css`
   html {

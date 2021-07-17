@@ -1,11 +1,10 @@
 import React from 'react';
 import { GetServerSideProps } from 'next';
 import { dehydrate } from 'react-query/hydration';
-import PostList from '@/components/PostList';
 import FloatLinkButton from '@/components/FloatLinkButton';
 import AppLayout from '@/components/AppLayout';
 import PageSEO from '@/components/AppSEO/PageSEO';
-import { useUserValue } from '@/lib/recoil/authState';
+import PostList from '@/components/PostList';
 import { prefetchGetPostsQuery } from '@/hooks/query/useGetPostsQuery';
 
 export type PostsPageProps = {};
@@ -30,23 +29,22 @@ export type PostsPageProps = {};
 //   };
 // };
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
-  const queryClient = await prefetchGetPostsQuery();
-  return {
-    props: {
-      dehydratedState: JSON.parse(JSON.stringify(dehydrate(queryClient))),
-    },
-  };
-};
+// export const getServerSideProps: GetServerSideProps = async (context) => {
+//   const queryClient = await prefetchGetPostsQuery();
+//   return {
+//     props: {
+//       dehydratedState: JSON.parse(JSON.stringify(dehydrate(queryClient))),
+//     },
+//   };
+// };
 
 const PostsPage = (props: PostsPageProps) => {
-  const user = useUserValue();
   return (
     <>
       <PageSEO title="Posts" description="Seo's honest nest" />
       <AppLayout>
         <PostList />
-        <FloatLinkButton iconName="write" to="/write" visible={!!user} />
+        <FloatLinkButton iconName="write" to="/write" />
       </AppLayout>
     </>
   );
