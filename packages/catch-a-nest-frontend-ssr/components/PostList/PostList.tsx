@@ -4,13 +4,11 @@ import palette from '@/lib/styles/palette';
 import { css } from '@emotion/react';
 import PostItem from './PostItem';
 import PostItemSkeleton from './PostItemSkeleton';
-import { useUserValue } from '@/lib/recoil/authState';
 
 export type PostListProps = {};
 
 const PostList = (props: PostListProps) => {
-  const userState = useUserValue();
-  const { posts, elementRef, hasNextPage } = useGetPosts(userState?.id);
+  const { posts, elementRef, hasNextPage } = useGetPosts();
 
   return (
     <>

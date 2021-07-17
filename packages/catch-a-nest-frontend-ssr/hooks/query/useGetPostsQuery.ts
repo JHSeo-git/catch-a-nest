@@ -1,6 +1,7 @@
 import { useMemo } from 'react';
 import {
   InfiniteData,
+  QueryClient,
   useInfiniteQuery,
   UseInfiniteQueryOptions,
   useQueryClient,
@@ -22,6 +23,23 @@ export default function useGetPostsQuery(
       ...options,
     }
   );
+}
+
+export async function prefetchGetPostsQuery(
+  userId?: number,
+  options: UseInfiniteQueryOptions<Post[], unknown, Post[], Post[]> = {}
+) {
+  const queryClient = new QueryClient();
+  await queryClient.prefetchInfiniteQuery(
+    createKey(userId),
+    ({ pageParam = undefined }) => getPosts(userId, pageParam),
+    {
+      getNextPageParam: (lastPage) =>
+        lastPage.length === 10 ? lastPage[9].id : undefined,
+      ...options,
+    }
+  );
+  return queryClient;
 }
 
 export function useGetPostsQueryUpdator() {

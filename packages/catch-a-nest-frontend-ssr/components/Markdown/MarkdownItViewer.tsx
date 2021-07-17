@@ -13,6 +13,17 @@ export type MarkdownItViewerProps = {
   markdown: string;
 };
 
+function SSRMarkdownItViewer({ markdown }: MarkdownItViewerProps) {
+  return (
+    <MarkdownStyleWrapper>
+      <div
+        css={viewerStyle(`${100}px`)}
+        className="markdown-viewer-contents"
+      ></div>
+    </MarkdownStyleWrapper>
+  );
+}
+
 function MarkdownItViewer({ markdown }: MarkdownItViewerProps) {
   const ref = useRef<HTMLDivElement>(null);
   const tocHeadingIdValue = useTOCHeadingIdValue();
@@ -97,3 +108,4 @@ const viewerStyle = (fixedTocPos: string, headerId?: string) => css`
 `;
 
 export default MarkdownItViewer;
+export { SSRMarkdownItViewer };
