@@ -151,6 +151,7 @@ const imageStyle = css`
   width: auto;
   margin: 0px auto;
   object-fit: cover;
+  border-radius: 0.5rem;
 `;
 
 export default PostHeader;
