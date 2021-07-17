@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { Hydrate } from 'react-query/hydration';
+import { ReactQueryDevtools } from 'react-query/devtools';
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
 import Script from 'next/script';
@@ -49,6 +50,9 @@ function MyApp({ Component, pageProps }: AppProps) {
         <RecoilInitializer />
         <AppToastProvider />
         <QueryClientProvider client={queryClient}>
+          {NODE_ENV !== 'production' && (
+            <ReactQueryDevtools initialIsOpen={false} />
+          )}
           <Hydrate state={pageProps.dehydratedState}>
             <Global styles={globalStyle} />
             <Component {...pageProps} />
@@ -92,4 +96,5 @@ function MyApp({ Component, pageProps }: AppProps) {
     </>
   );
 }
+
 export default MyApp;
