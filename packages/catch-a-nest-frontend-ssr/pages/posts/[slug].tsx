@@ -20,13 +20,22 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     };
   }
 
-  const queryClient = await prefetchGetPostBySlugQuery(slug);
-  return {
-    props: {
-      dehydratedState: JSON.parse(JSON.stringify(dehydrate(queryClient))),
-      slug,
-    },
-  };
+  try {
+    const queryClient = await prefetchGetPostBySlugQuery(slug);
+    return {
+      props: {
+        dehydratedState: JSON.parse(JSON.stringify(dehydrate(queryClient))),
+        slug,
+      },
+    };
+  } catch (e) {
+    return {
+      redirect: {
+        permanent: false,
+        destination: '/404',
+      },
+    };
+  }
 };
 
 const PostPage = ({
