@@ -1,17 +1,17 @@
 import React from 'react';
 import markdownToText from 'markdown-to-text';
 import useGetPostBySlug from '@/hooks/useGetPostBySlug';
-// import PostSkeleton from './PostSkeleton';
-// import PostHeader from './PostHeader';
-// import PostBody from './PostBody';
-// import PostFooter from './PostFooter';
+import PostSkeleton from './PostSkeleton';
+import PostHeader from './PostHeader';
+import PostBody from './PostBody';
+import PostFooter from './PostFooter';
 import PostSEO from '../AppSEO/PostSEO';
 
-import dynamic from 'next/dynamic';
-const PostSkeleton = dynamic(() => import('./PostSkeleton'));
-const PostHeader = dynamic(() => import('./PostHeader'));
-const PostBody = dynamic(() => import('./PostBody'));
-const PostFooter = dynamic(() => import('./PostFooter'));
+// import dynamic from 'next/dynamic';
+// const PostSkeleton = dynamic(() => import('./PostSkeleton'));
+// const PostHeader = dynamic(() => import('./PostHeader'));
+// const PostBody = dynamic(() => import('./PostBody'));
+// const PostFooter = dynamic(() => import('./PostFooter'));
 
 export type PostProps = {
   slug: string;

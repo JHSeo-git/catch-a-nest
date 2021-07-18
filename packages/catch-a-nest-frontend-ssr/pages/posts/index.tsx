@@ -1,11 +1,11 @@
 import React from 'react';
-import { GetServerSideProps } from 'next';
-import { dehydrate } from 'react-query/hydration';
 import FloatLinkButton from '@/components/FloatLinkButton';
 import AppLayout from '@/components/AppLayout';
 import PageSEO from '@/components/AppSEO/PageSEO';
 import PostList from '@/components/PostList';
-import { prefetchGetPostsQuery } from '@/hooks/query/useGetPostsQuery';
+// import { GetServerSideProps } from 'next';
+// import { dehydrate } from 'react-query/hydration';
+// import { prefetchGetPostsQuery } from '@/hooks/query/useGetPostsQuery';
 
 export type PostsPageProps = {};
 
