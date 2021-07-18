@@ -131,6 +131,38 @@ export const updatePost = async (ctx: Context) => {
   }
 };
 
+export const getAllPostSlug = async (ctx: Context) => {
+  try {
+    const params = ctx.query;
+    const { include_temp } = params;
+    const posts = await getRepository(Post).find({
+      where: {
+        ...(include_temp !== 'true' ? { is_temp: false } : {}),
+      },
+    });
+
+    ctx.body = posts.map((post) => post.url_slug);
+  } catch (e) {
+    ctx.throw(500, e);
+  }
+};
+
+export const getAllPostId = async (ctx: Context) => {
+  try {
+    const params = ctx.query;
+    const { include_temp } = params;
+    const posts = await getRepository(Post).find({
+      where: {
+        ...(include_temp !== 'true' ? { is_temp: false } : {}),
+      },
+    });
+
+    ctx.body = posts.map((post) => post.id);
+  } catch (e) {
+    ctx.throw(500, e);
+  }
+};
+
 export const getPosts = async (ctx: Context) => {
   try {
     const params = ctx.query;
