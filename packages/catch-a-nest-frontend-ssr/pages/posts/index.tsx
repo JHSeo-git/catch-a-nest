@@ -22,8 +22,6 @@ import { prefetchGetPostsQuery } from '@/hooks/query/useGetPostsQuery';
 export const getStaticProps: GetStaticProps = async (context) => {
   const queryClient = await prefetchGetPostsQuery();
 
-  await queryClient.prefetchQuery('posts');
-
   return {
     props: {
       dehydratedState: JSON.parse(JSON.stringify(dehydrate(queryClient))),

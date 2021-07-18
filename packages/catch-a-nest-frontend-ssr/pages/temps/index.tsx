@@ -1,13 +1,24 @@
 import React from 'react';
+import { GetStaticProps } from 'next';
+import { dehydrate } from 'react-query/hydration';
 import TempPostList from '@/components/TempPostList';
 import FloatLinkButton from '@/components/FloatLinkButton';
 import AppLayout from '@/components/AppLayout';
 import PageSEO from '@/components/AppSEO/PageSEO';
-import { useUserValue } from '@/lib/recoil/authState';
+import { prefetchGetTempPostsQuery } from '@/hooks/query/useGetTempPostsQuery';
 
-export type TempsPageProps = {};
+// SSG
+export const getStaticProps: GetStaticProps = async (context) => {
+  const queryClient = await prefetchGetTempPostsQuery();
 
-const TempsPage = (props: TempsPageProps) => {
+  return {
+    props: {
+      dehydratedState: JSON.parse(JSON.stringify(dehydrate(queryClient))),
+    },
+  };
+};
+
+const TempsPage = () => {
   return (
     <>
       <PageSEO title="Temp Posts" description="temp posts" />
