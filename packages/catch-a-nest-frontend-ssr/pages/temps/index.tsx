@@ -12,6 +12,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
   const queryClient = await prefetchGetTempPostsQuery();
 
   return {
+    revalidate: 10,
     props: {
       dehydratedState: JSON.parse(JSON.stringify(dehydrate(queryClient))),
     },

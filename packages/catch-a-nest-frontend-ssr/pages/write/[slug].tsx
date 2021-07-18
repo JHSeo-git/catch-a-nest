@@ -4,6 +4,8 @@ import AppLayout from '@/components/AppLayout';
 import PageSEO from '@/components/AppSEO/PageSEO';
 import Write from '@/components/Write';
 import useLoadPost from '@/hooks/useLoadPost';
+import { useUserValue } from '@/lib/recoil/authState';
+import AppError from '@/components/AppError';
 
 export type EditPageProps = {};
 
@@ -24,6 +26,7 @@ const LoadedEditPage = ({ slug }: { slug: string }) => {
 };
 
 const EditPage = (props: EditPageProps) => {
+  const user = useUserValue();
   const router = useRouter();
   const { slug } = router.query;
 
@@ -32,6 +35,14 @@ const EditPage = (props: EditPageProps) => {
     if (typeof slug !== 'string') return null;
     return slug;
   }, [slug]);
+
+  if (!user) {
+    return (
+      <AppLayout layoutType="naked">
+        <AppError message="Not Authorized Page" status="401" />
+      </AppLayout>
+    );
+  }
 
   if (!guardSlug) return null;
 

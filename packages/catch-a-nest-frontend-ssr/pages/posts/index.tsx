@@ -23,6 +23,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
   const queryClient = await prefetchGetPostsQuery();
 
   return {
+    revalidate: 10,
     props: {
       dehydratedState: JSON.parse(JSON.stringify(dehydrate(queryClient))),
     },

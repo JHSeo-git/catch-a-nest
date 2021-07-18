@@ -2,10 +2,20 @@ import React from 'react';
 import AppLayout from '@/components/AppLayout';
 import PageSEO from '@/components/AppSEO/PageSEO';
 import Write from '@/components/Write';
+import { useUserValue } from '@/lib/recoil/authState';
+import AppError from '@/components/AppError';
 
-export type WritePageProps = {};
+const WritePage = () => {
+  const user = useUserValue();
 
-const WritePage = (props: WritePageProps) => {
+  if (!user) {
+    return (
+      <AppLayout layoutType="naked">
+        <AppError message="Not Authorized Page" status="401" />
+      </AppLayout>
+    );
+  }
+
   return (
     <>
       <PageSEO title="New post" description="new post" noRobots={true} />

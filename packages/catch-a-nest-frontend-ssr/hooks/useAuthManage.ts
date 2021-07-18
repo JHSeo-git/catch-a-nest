@@ -18,8 +18,11 @@ export default function useAuthManage() {
     setUser(null);
     userStorage.clear();
     try {
-      const auth2 = window.gapi.auth2.getAuthInstance();
-      auth2.signOut();
+      const auth2 = window.gapi.auth2?.getAuthInstance();
+
+      if (auth2) {
+        auth2.signOut();
+      }
 
       toast.info('🙇‍♂️ See you soon! My Lord!');
     } catch (e) {

@@ -46,6 +46,7 @@ export const getStaticProps: GetStaticProps = async ({
 
   if (typeof params.slug !== 'string') {
     return {
+      revalidate: 10,
       redirect: {
         permanent: false,
         destination: '/404',
