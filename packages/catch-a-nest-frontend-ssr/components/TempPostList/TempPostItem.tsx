@@ -28,12 +28,12 @@ const TempPostItem = ({ post }: TempPostItemProps) => {
     <li css={block}>
       <div css={itemStyle}>
         <div css={infoWrapper}>
-          <ActiveLink css={linkStyle} to={`/posts/${post.url_slug}`}>
+          <ActiveLink css={linkStyle} to={`/write/${post.url_slug}`}>
             <h4>{getDiffOfNow(post.updated_at)}</h4>
             <h2>{post.title}</h2>
             <p>
               {post.body.length > 150
-                ? markdownToText(post.body).trim().slice(0, 150)
+                ? `${markdownToText(post.body).trim().slice(0, 150)}...`
                 : post.body}
             </p>
           </ActiveLink>
