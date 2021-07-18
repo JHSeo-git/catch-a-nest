@@ -93,6 +93,8 @@ const viewerStyle = (fixedTocPos: string, headerId?: string) => css`
       }
 
       .md-toc-item {
+        margin-top: 0;
+        margin-bottom: 0;
         &::before {
           content: none;
         }

@@ -376,6 +376,8 @@ const toastuiStyle = css`
 
     ul {
       li {
+        margin-top: 0.625rem;
+        margin-bottom: 0.625rem;
         &::before {
           content: '';
           /* margin-left: -1.25rem; */
