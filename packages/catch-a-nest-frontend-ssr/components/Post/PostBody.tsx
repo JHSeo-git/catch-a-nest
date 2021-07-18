@@ -2,7 +2,9 @@
 
 import dynamic from 'next/dynamic';
 
-const MarkdownItViewer = dynamic(() => import('../Markdown/MarkdownItViewer'));
+const MarkdownItViewer = dynamic(() => import('../Markdown/MarkdownItViewer'), {
+  ssr: false,
+});
 
 export type PostBodyProps = {
   markdown: string;

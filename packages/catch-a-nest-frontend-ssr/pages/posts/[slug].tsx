@@ -1,13 +1,18 @@
-import { useRouter } from 'next/router';
+import {
+  GetStaticPaths,
+  GetStaticProps,
+  GetStaticPropsContext,
+  InferGetStaticPropsType,
+} from 'next';
+import { dehydrate } from 'react-query/hydration';
 import Post from '@/components/Post';
 import FloatLinkButton from '@/components/FloatLinkButton';
 import palette from '@/lib/styles/palette';
 import AppLayout from '@/components/AppLayout';
-// import { GetServerSideProps, InferGetServerSidePropsType } from 'next';
-// import { dehydrate } from 'react-query/hydration';
-// import { useUserValue } from '@/lib/recoil/authState';
-// import { prefetchGetPostBySlugQuery } from '@/hooks/query/useGetPostBySlugQuery';
+import getAllPostSlug from '@/lib/api/posts/getAllPostSlug';
+import { prefetchGetPostBySlugQuery } from '@/hooks/query/useGetPostBySlugQuery';
 
+// SSR
 // export const getServerSideProps: GetServerSideProps = async (context) => {
 //   const { slug } = context.query;
 
@@ -20,35 +25,70 @@ import AppLayout from '@/components/AppLayout';
 //       props: {},
 //     };
 //   }
-
-//   try {
-//     const queryClient = await prefetchGetPostBySlugQuery(slug);
-//     return {
-//       props: {
-//         dehydratedState: JSON.parse(JSON.stringify(dehydrate(queryClient))),
-//         slug,
-//       },
-//     };
-//   } catch (e) {
-//     return {
-//       redirect: {
-//         permanent: false,
-//         destination: '/404',
-//       },
-//     };
-//   }
+//   const queryClient = await prefetchGetPostBySlugQuery(slug);
+//   return {
+//     props: {
+//       dehydratedState: JSON.parse(JSON.stringify(dehydrate(queryClient))),
+//       slug,
+//     },
+//   };
 // };
 
+// SSG
+export const getStaticProps: GetStaticProps = async ({
+  params,
+}: GetStaticPropsContext) => {
+  if (!params) {
+    return {
+      notFound: true,
+    };
+  }
+
+  if (typeof params.slug !== 'string') {
+    return {
+      redirect: {
+        permanent: false,
+        destination: '/404',
+      },
+      props: {},
+    };
+  }
+
+  const queryClient = await prefetchGetPostBySlugQuery(params.slug);
+
+  return {
+    props: {
+      dehydratedState: JSON.parse(JSON.stringify(dehydrate(queryClient))),
+      slug: params.slug,
+    },
+  };
+};
+
+export const getStaticPaths: GetStaticPaths = async () => {
+  const postSlugs = await getAllPostSlug();
+  const paths = postSlugs.map((slug) => ({
+    params: { slug },
+  }));
+  return {
+    paths,
+    fallback: false,
+  };
+};
+
+// SSR
 // const PostPage = ({
 //   slug,
 // }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
-export type PostPageProps = {};
 
-const PostPage = (props: PostPageProps) => {
-  const router = useRouter();
-  const { slug } = router.query;
+// CSR
+// const PostPage = () => {
 
-  if (typeof slug !== 'string') return null;
+// SSG
+const PostPage = ({ slug }: InferGetStaticPropsType<typeof getStaticProps>) => {
+  // const router = useRouter();
+  // const { slug } = router.query;
+
+  // if (typeof slug !== 'string') return null;
 
   return (
     <AppLayout>
