@@ -15,7 +15,7 @@ const TempPostList = (props: TempPostListProps) => {
 
   return (
     <>
-      <h1 css={title}>Temp Posts</h1>
+      <h1 css={title}>Will be Post</h1>
       <ul css={listStyle}>
         {posts
           ? posts.map((item) => <TempPostItem key={item.id} post={item} />)
