@@ -46,7 +46,6 @@ export const getStaticProps: GetStaticProps = async ({
 
   if (typeof params.slug !== 'string') {
     return {
-      revalidate: 10,
       redirect: {
         permanent: false,
         destination: '/404',
@@ -58,6 +57,7 @@ export const getStaticProps: GetStaticProps = async ({
   const queryClient = await prefetchGetPostBySlugQuery(params.slug);
 
   return {
+    revalidate: 10,
     props: {
       dehydratedState: JSON.parse(JSON.stringify(dehydrate(queryClient))),
       slug: params.slug,

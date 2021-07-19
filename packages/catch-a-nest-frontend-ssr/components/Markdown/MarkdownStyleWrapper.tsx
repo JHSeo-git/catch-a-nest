@@ -372,12 +372,15 @@ const toastuiStyle = css`
       margin: 0.5rem 0;
       padding-left: 1.5rem;
       color: ${palette.blueGrey[900]};
+
+      li {
+        margin-top: 0.625rem;
+        margin-bottom: 0.625rem;
+      }
     }
 
     ul {
       li {
-        margin-top: 0.625rem;
-        margin-bottom: 0.625rem;
         &::before {
           content: '';
           /* margin-left: -1.25rem; */
