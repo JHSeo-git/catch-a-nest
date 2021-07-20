@@ -6,6 +6,7 @@ import PostHeader from './PostHeader';
 import PostBody from './PostBody';
 import PostFooter from './PostFooter';
 import PostSEO from '../AppSEO/PostSEO';
+import UtterancsComment from '../UtterancsComment';
 
 // import dynamic from 'next/dynamic';
 // const PostSkeleton = dynamic(() => import('./PostSkeleton'));
@@ -42,6 +43,7 @@ const Post = ({ slug }: PostProps) => {
         nextPost={post.next_post}
         prevPost={post.prev_post}
       />
+      <UtterancsComment />
     </>
   );
 };
