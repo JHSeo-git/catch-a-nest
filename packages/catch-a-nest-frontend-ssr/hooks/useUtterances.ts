@@ -1,11 +1,22 @@
 import appConfig from '@/config/app.config';
-import { useEffect, useState } from 'react';
+import { useRouter } from 'next/router';
+import { useCallback, useEffect, useRef } from 'react';
+// import useIntersectionObserver from './useIntersectionObserver';
 
-export function useUtterances(commentNodeId: string) {
-  const [visible, setVisible] = useState(false);
+export function useUtterances() {
+  const ref = useRef<HTMLElement>(null);
+  const router = useRouter();
+  // lazy loading ... 굳이?
+  // const entry = useIntersectionObserver(ref, true);
 
-  useEffect(() => {
-    if (!visible) return;
+  const handleRegenerate = useCallback(() => {
+    if (!ref?.current) return;
+    // if (!entry) return;
+
+    ref.current.childNodes.forEach((node) => {
+      ref.current?.removeChild(node);
+    });
+
     // docs - https://utteranc.es/
     const script = document.createElement('script');
     script.src = 'https://utteranc.es/client.js';
@@ -16,44 +27,21 @@ export function useUtterances(commentNodeId: string) {
     script.setAttribute('label', appConfig.utterances.label);
     script.setAttribute('theme', appConfig.utterances.theme);
 
-    const scriptParentNode = document.getElementById(commentNodeId);
-    if (!scriptParentNode) return;
+    ref.current.appendChild(script);
 
-    scriptParentNode.appendChild(script);
-
-    return () => {
-      // cleanup - remove the older script with previous theme
-      if (!scriptParentNode?.firstChild) return;
-      scriptParentNode.removeChild(scriptParentNode.firstChild);
-      // FIXME: inline style clean up at specific inline style
-      if (!document.head.firstChild) return;
-      if (document.head.firstChild.nodeName.toLocaleLowerCase() === 'style') {
-        document.head.removeChild(document.head.firstChild);
-      }
-    };
-  }, [visible, commentNodeId]);
+    // FIXME: inline style clean up at specific inline style
+    if (!document.head.firstChild) return;
+    if (document.head.firstChild.nodeName.toLocaleLowerCase() === 'style') {
+      document.head.removeChild(document.head.firstChild);
+    }
+  }, []);
 
   useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            setVisible(true);
-          }
-        });
-      },
-      {
-        threshold: 1,
-      }
-    );
-
-    const el = document.getElementById(commentNodeId);
-    if (!el) return;
-
-    observer.observe(el);
-
+    router.events.on('routeChangeComplete', handleRegenerate);
     return () => {
-      observer.disconnect();
+      router.events.off('routeChangeComplete', handleRegenerate);
     };
-  }, [commentNodeId]);
+  }, [router, handleRegenerate]);
+
+  return ref;
 }

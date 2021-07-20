@@ -1,19 +1,16 @@
 // import appConfig from '@/config/app.config';
 import { pageFadeInStyle } from '@/lib/styles/animation';
-import palette from '@/lib/styles/palette';
 import { css } from '@emotion/react';
 import { useUtterances } from '../../hooks/useUtterances';
 
 export type UtterancsCommentProps = {};
 
-const commentNodeId = 'utterancesComment';
-
 const UtterancsComment = (props: UtterancsCommentProps) => {
-  useUtterances(commentNodeId);
+  const ref = useUtterances();
 
   return (
     <div css={block}>
-      <section id={commentNodeId} />
+      <section ref={ref} />
     </div>
   );
   // return (
@@ -38,6 +35,7 @@ const UtterancsComment = (props: UtterancsCommentProps) => {
 
 const block = css`
   margin-top: 4rem;
+  transition: all 0.5s ease-in-out;
   ${pageFadeInStyle()};
 `;
 

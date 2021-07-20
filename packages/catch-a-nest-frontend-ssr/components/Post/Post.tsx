@@ -6,9 +6,12 @@ import PostHeader from './PostHeader';
 import PostBody from './PostBody';
 import PostFooter from './PostFooter';
 import PostSEO from '../AppSEO/PostSEO';
-import UtterancsComment from '../UtterancsComment';
+// import UtterancsComment from '../UtterancsComment';
 
-// import dynamic from 'next/dynamic';
+import dynamic from 'next/dynamic';
+const UtterancsComment = dynamic(() => import('../UtterancsComment'), {
+  ssr: false,
+});
 // const PostSkeleton = dynamic(() => import('./PostSkeleton'));
 // const PostHeader = dynamic(() => import('./PostHeader'));
 // const PostBody = dynamic(() => import('./PostBody'));
@@ -43,7 +46,7 @@ const Post = ({ slug }: PostProps) => {
         nextPost={post.next_post}
         prevPost={post.prev_post}
       />
-      {/* <UtterancsComment /> */}
+      <UtterancsComment />
     </>
   );
 };
