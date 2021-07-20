@@ -34,7 +34,7 @@ export function useUtterances() {
     if (document.head.firstChild.nodeName.toLocaleLowerCase() === 'style') {
       document.head.removeChild(document.head.firstChild);
     }
-  }, []);
+  }, [ref]);
 
   useEffect(() => {
     router.events.on('routeChangeComplete', handleRegenerate);
@@ -42,6 +42,11 @@ export function useUtterances() {
       router.events.off('routeChangeComplete', handleRegenerate);
     };
   }, [router, handleRegenerate]);
+
+  useEffect(() => {
+    // intial render
+    handleRegenerate();
+  }, [handleRegenerate]);
 
   return ref;
 }
