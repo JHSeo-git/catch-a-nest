@@ -11,9 +11,6 @@ const commentNodeId = 'utterancesComment';
 const UtterancsComment = (props: UtterancsCommentProps) => {
   useUtterances(commentNodeId);
 
-  // FIXME: csr not update
-  return null;
-
   return (
     <div css={block}>
       <section id={commentNodeId} />

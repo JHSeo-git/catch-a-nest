@@ -43,7 +43,7 @@ const Post = ({ slug }: PostProps) => {
         nextPost={post.next_post}
         prevPost={post.prev_post}
       />
-      <UtterancsComment />
+      {/* <UtterancsComment /> */}
     </>
   );
 };
