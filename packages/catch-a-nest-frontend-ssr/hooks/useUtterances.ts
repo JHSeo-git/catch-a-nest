@@ -44,7 +44,7 @@ export function useUtterances() {
   }, [router, handleRegenerate]);
 
   useEffect(() => {
-    // intial render
+    // initial render
     handleRegenerate();
   }, [handleRegenerate]);
 
