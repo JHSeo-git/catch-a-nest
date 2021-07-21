@@ -13,9 +13,9 @@ export function useUtterances() {
     if (!ref?.current) return;
     // if (!entry) return;
 
-    ref.current.childNodes.forEach((node) => {
-      ref.current?.removeChild(node);
-    });
+    while (ref.current.firstChild) {
+      ref.current.removeChild(ref.current.firstChild);
+    }
 
     // docs - https://utteranc.es/
     const script = document.createElement('script');
@@ -37,16 +37,9 @@ export function useUtterances() {
   }, [ref]);
 
   useEffect(() => {
-    router.events.on('routeChangeComplete', handleRegenerate);
-    return () => {
-      router.events.off('routeChangeComplete', handleRegenerate);
-    };
-  }, [router, handleRegenerate]);
-
-  useEffect(() => {
-    // initial render
+    // dependency: router 포함
     handleRegenerate();
-  }, [handleRegenerate]);
+  }, [router, handleRegenerate]);
 
   return ref;
 }
