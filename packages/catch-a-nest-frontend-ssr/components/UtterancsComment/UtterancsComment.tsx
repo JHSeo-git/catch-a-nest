@@ -37,6 +37,13 @@ const block = css`
   margin-top: 4rem;
   transition: all 0.5s ease-in-out;
   ${pageFadeInStyle()};
+
+  .utterances {
+    width: 100%;
+    max-width: 100%;
+    .utterances-frame {
+    }
+  }
 `;
 
 export default UtterancsComment;
