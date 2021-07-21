@@ -12,9 +12,9 @@ const UtterancsComment = (props: UtterancsCommentProps) => {
 
   return (
     <div css={block}>
-      <div css={loading}>
+      {/* <div css={loading}>
         <AppIcon name="spinner" />
-      </div>
+      </div> */}
       <section css={commentBox} ref={ref} />
     </div>
   );
@@ -59,11 +59,11 @@ const loading = css`
 `;
 
 const commentBox = css`
-  position: absolute;
+  /* position: absolute;
   background-color: white;
   left: 0;
   top: 0;
-  right: 0;
+  right: 0; */
   .utterances {
     width: 100%;
     max-width: 100%;
