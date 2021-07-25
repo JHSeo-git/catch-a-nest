@@ -70,8 +70,7 @@ const PostHeader = ({ post }: PostHeaderProps) => {
               width={768}
               height={500}
               objectFit="contain"
-              blurDataURL={post.thumbnail}
-              placeholder="blur"
+              placeholder="empty"
             />
           </div>
         )}
