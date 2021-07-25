@@ -1,9 +1,11 @@
+import React from 'react';
 import { css } from '@emotion/react';
 import palette from '@/lib/styles/palette';
 import { resetButton } from '@/lib/styles/reset/resetButton';
 import { useUserValue } from '@/lib/recoil/authState';
 import useAuthManage from '@/hooks/useAuthManage';
 import ActiveLink from '../ActiveLink';
+import AppMenu from './AppMenu';
 
 export type UserNavigationProps = {};
 
@@ -11,16 +13,19 @@ const UserNavigation = (props: UserNavigationProps) => {
   const userState = useUserValue();
   const { logout } = useAuthManage();
 
-  if (!userState) return null;
-
   return (
     <nav css={block}>
-      <ActiveLink to="/temps" css={linkStyle} tabIndex={0}>
-        Temp
-      </ActiveLink>
-      <button css={buttonStyle} tabIndex={0} onClick={() => logout()}>
-        Logout
-      </button>
+      {userState && (
+        <>
+          <ActiveLink to="/temps" css={linkStyle} tabIndex={0}>
+            Temp
+          </ActiveLink>
+          <button css={buttonStyle} tabIndex={0} onClick={() => logout()}>
+            Logout
+          </button>
+        </>
+      )}
+      <AppMenu />
     </nav>
   );
 };
