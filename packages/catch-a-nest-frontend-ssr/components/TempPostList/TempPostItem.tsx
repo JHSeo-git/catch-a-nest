@@ -10,12 +10,14 @@ import useDeletePost from '@/hooks/useDeletePost';
 import ActiveLink from '../ActiveLink';
 import PopupConfirm from '../Popup/PopupConfirm';
 import { useRouter } from 'next/router';
+import { useUserValue } from '@/lib/recoil/authState';
 
 export type TempPostItemProps = {
   post: Post;
 };
 
 const TempPostItem = ({ post }: TempPostItemProps) => {
+  const userState = useUserValue();
   const router = useRouter();
   const [visiblePopup, setVisiblePopup] = useState(false);
   const { deletePost } = useDeletePost();
@@ -37,7 +39,9 @@ const TempPostItem = ({ post }: TempPostItemProps) => {
                 : post.body}
             </p>
           </ActiveLink>
-          <button onClick={() => setVisiblePopup(true)}>DELETE</button>
+          {userState && (
+            <button onClick={() => setVisiblePopup(true)}>DELETE</button>
+          )}
         </div>
       </div>
       <PopupConfirm
