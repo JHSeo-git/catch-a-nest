@@ -4,6 +4,7 @@ import media from '@/lib/styles/media';
 import UserNavigation from './UserNavigation';
 import AppLogo from './AppLogo';
 import AppNavigation from './AppNavigation';
+import AppMenu from './AppMenu';
 
 export type AppHeaderProps = {};
 
@@ -13,6 +14,7 @@ const AppHeader = (props: AppHeaderProps) => {
       <AppLogo />
       <AppNavigation />
       <UserNavigation />
+      <AppMenu />
     </section>
   );
 };
