@@ -11,6 +11,7 @@ import MDIns from 'markdown-it-ins';
 import MDMark from 'markdown-it-mark';
 import MDAnchor from 'markdown-it-anchor';
 import MDToc from 'markdown-it-toc-done-right';
+import MDhljsLine from 'markdown-it-highlight-lines';
 import uslug from 'uslug';
 
 const markdownItClient = new MarkdownIt({
@@ -25,6 +26,7 @@ const markdownItClient = new MarkdownIt({
     return '';
   },
 })
+  .use(MDhljsLine)
   .use(MDSub)
   .use(MDSup)
   .use(MDFootnote)

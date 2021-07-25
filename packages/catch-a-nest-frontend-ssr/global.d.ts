@@ -28,3 +28,4 @@ declare module 'markdown-it-ins';
 declare module 'markdown-it-mark';
 declare module 'markdown-it-anchor';
 declare module 'markdown-it-toc-done-right';
+declare module 'markdown-it-highlight-lines';

@@ -430,6 +430,14 @@ const toastuiStyle = css`
         color: inherit;
         white-space: pre-wrap;
         background-color: transparent;
+
+        .highlighted-line {
+          background-color: ${palette.lightBlue[50]};
+          display: block;
+          border-left: 0.25rem solid ${palette.lightBlue[500]};
+          margin: 0 -1rem;
+          padding: 0 1rem;
+        }
       }
     }
 
