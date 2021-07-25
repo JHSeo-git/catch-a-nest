@@ -1,3 +1,4 @@
+import React from 'react';
 import { css } from '@emotion/react';
 import AppIcon from '../AppIcon';
 import palette from '@/lib/styles/palette';
@@ -5,6 +6,7 @@ import { resetButton } from '@/lib/styles/reset/resetButton';
 import ActiveLink from '../ActiveLink';
 import { useRef, useState } from 'react';
 import useOnClickOutside from '@/hooks/useOnClickOutside';
+import { useUserValue } from '@/lib/recoil/authState';
 
 type MenuProps = {
   name: string;
@@ -22,6 +24,7 @@ const Menu = ({ name, to }: MenuProps) => {
 export type AppMenuProps = {};
 
 const AppMenu = (props: AppMenuProps) => {
+  const userValue = useUserValue();
   const [visible, setVisible] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
 
@@ -39,9 +42,15 @@ const AppMenu = (props: AppMenuProps) => {
       <button css={buttonStyle} onClick={handleClickInSide}>
         <AppIcon name="threeDot" />
       </button>
-      <ul css={menuListStyle(visible)}>
+      <ul css={menuListStyle(visible)} onClick={handleClickInSide}>
         <Menu name="Home" to="/posts" />
         <Menu name="About" to="/about" />
+        {userValue && (
+          <>
+            <Menu name="New Post" to="/write" />
+            <Menu name="Temp Posts" to="/temps" />
+          </>
+        )}
       </ul>
     </div>
   );
@@ -98,7 +107,9 @@ const menuListStyle = (visible: boolean) => css`
 `;
 
 const menuStyle = css`
-  a {
+  a,
+  button {
+    ${resetButton}
     display: block;
     color: ${palette.blueGrey[700]};
     text-decoration: none;
