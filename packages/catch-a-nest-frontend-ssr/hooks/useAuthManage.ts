@@ -18,9 +18,8 @@ export default function useAuthManage() {
     setUser(null);
     userStorage.clear();
     try {
-      const auth2 = window.gapi.auth2?.getAuthInstance();
-
-      if (auth2) {
+      if (window.gapi?.auth2) {
+        const auth2 = window.gapi.auth2.getAuthInstance();
         auth2.signOut();
       }
 
