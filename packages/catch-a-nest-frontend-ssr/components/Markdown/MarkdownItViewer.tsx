@@ -7,7 +7,7 @@ import { responsivePostToc } from '@/lib/styles/responsive';
 import zIndex from '@/lib/styles/zIndex';
 import palette from '@/lib/styles/palette';
 import { useTOCHeadingIdValue } from '@/lib/recoil/viewerState';
-import useMarkdownTOCHeadingEffect from '@/hooks/useMarkdownTOCHeadingEffect';
+import useMarkdownItViewEffect from '@/hooks/useMarkdownItViewEffect';
 
 export type MarkdownItViewerProps = {
   markdown: string;
@@ -30,7 +30,7 @@ function MarkdownItViewer({ markdown }: MarkdownItViewerProps) {
   const fixedTocPos = 100;
 
   // TODO: re-render를 막을 좋은 방안을 생각해보자
-  useMarkdownTOCHeadingEffect({ ref, markdown, fixedTocPos });
+  useMarkdownItViewEffect({ ref, markdown, fixedTocPos });
 
   return (
     <MarkdownStyleWrapper>

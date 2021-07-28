@@ -3,7 +3,7 @@ import markdownItClient from '@/lib/utils/markdownItClient';
 import { getScrollTop } from '@/lib/utils/viewerUtils';
 import { useCallback, useEffect, useState } from 'react';
 
-type MarkdownTOCHeadingEffectProps = {
+type MarkdownItViewEffectProps = {
   ref: React.RefObject<HTMLDivElement>;
   markdown: string;
   fixedTocPos?: number;
@@ -15,12 +15,12 @@ type HeadingType = {
   top: number;
 }[];
 
-export default function useMarkdownTOCHeadingEffect({
+export default function useMarkdownItViewEffect({
   ref,
   markdown,
   fixedTocPos = 100,
   tocLevel = 4,
-}: MarkdownTOCHeadingEffectProps) {
+}: MarkdownItViewEffectProps) {
   const [tocElement, setTOCElement] = useState<HTMLElement | null>(null);
   const [headingIds, setHeadingIds] = useState<HeadingType>([]);
   const [currentPageHeight, setCurrentPageHeight] = useState(
