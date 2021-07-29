@@ -7,12 +7,14 @@ import { useIsEditPostValue } from '@/lib/recoil/writeState';
 export type WriteButtonsProps = {
   onBackClick(): void;
   onTempClick(): void;
+  onPreviewClick(): void;
   onPostClick(): void;
 };
 
 const WriteButtons = ({
   onBackClick,
   onTempClick,
+  onPreviewClick,
   onPostClick,
 }: WriteButtonsProps) => {
   const isEditPost = useIsEditPostValue();
@@ -25,6 +27,7 @@ const WriteButtons = ({
         onClick={onBackClick}
         preIconName="arrowLeft"
       />
+
       <AppButton
         type="secondary"
         text="TEMP"
@@ -32,14 +35,24 @@ const WriteButtons = ({
         preIconName="plus"
         preIconColor={palette.white}
       />
-      <AppButton
-        type="primary"
-        text={isEditPost ? 'UPDATE' : 'POST'}
-        onClick={onPostClick}
-        preIconName="arrowUp"
-        preIconColor={palette.white}
-        hoverAnimationDirect="up"
-      />
+      <div css={centerBox}>
+        <AppButton
+          type="secondary"
+          text="PREVIEW"
+          onClick={onPreviewClick}
+          preIconName="view"
+          preIconColor={palette.white}
+          hoverAnimationDirect="up"
+        />
+        <AppButton
+          type="primary"
+          text={isEditPost ? 'UPDATE' : 'POST'}
+          onClick={onPostClick}
+          preIconName="arrowUp"
+          preIconColor={palette.white}
+          hoverAnimationDirect="up"
+        />
+      </div>
     </div>
   );
 };
@@ -59,6 +72,14 @@ const buttonBox = css`
       height: 100%;
       width: 100%;
     }
+  }
+`;
+
+const centerBox = css`
+  display: flex;
+
+  button + button {
+    margin-left: 1rem;
   }
 `;
 

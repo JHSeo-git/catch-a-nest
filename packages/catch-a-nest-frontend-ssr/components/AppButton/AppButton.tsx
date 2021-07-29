@@ -63,7 +63,7 @@ const buttonStyle = (
   ${resetButton};
   cursor: pointer;
   height: 2.5rem;
-  width: 8rem;
+  min-width: 8rem;
   padding: 0.5rem 1rem;
   font-size: 1.125rem;
   border-radius: 0.25rem;

@@ -11,6 +11,8 @@ export { ReactComponent as triangle } from './triangle.svg';
 export { ReactComponent as arrowUp } from './arrow-up.svg';
 export { ReactComponent as arrowRight } from './arrow-right.svg';
 export { ReactComponent as threeDot } from './three-dot.svg';
+export { ReactComponent as view } from './view.svg';
+export { ReactComponent as close } from './close.svg';
 
 // export {
 //   google,

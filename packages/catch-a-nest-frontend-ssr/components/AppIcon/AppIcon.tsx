@@ -9,6 +9,8 @@ import ArrowUp from '@/assets/icons/arrow-up.svg';
 import Plus from '@/assets/icons/plus.svg';
 import Spinner from '@/assets/icons/spinner.svg';
 import ThreeDot from '@/assets/icons/three-dot.svg';
+import View from '@/assets/icons/view.svg';
+import Close from '@/assets/icons/close.svg';
 
 export type AppIconProps = {
   name: IconType;
@@ -45,6 +47,10 @@ const AppIcon = ({ name, ...props }: AppIconProps) => {
       return <Spinner {...props} />;
     case 'threeDot':
       return <ThreeDot {...props} />;
+    case 'view':
+      return <View {...props} />;
+    case 'close':
+      return <Close {...props} />;
     default:
       return null;
   }

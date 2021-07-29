@@ -18,6 +18,7 @@ import WriteTitle from './WriteTitle';
 import TuiEditor from '../Markdown/TuiEditor';
 import PublishScreen from './PublishScreen';
 import PopupConfirm from '../Popup/PopupConfirm';
+import PreviewScreen from './PreviewScreen';
 
 export type WriteProps = {
   slug?: string;
@@ -133,6 +134,24 @@ const Write = ({ slug }: WriteProps) => {
     return () => reset();
   }, [reset]);
 
+  // preview
+  const [visiblePreview, setVisiblePreview] = useState(false);
+  const [previewMarkdown, setPreviewMarkdown] = useState('');
+  const onPreviewClick = () => {
+    const markdown = editorRef?.current?.getInstance().getMarkdown();
+    if (!validateTextRequired(markdown)) {
+      setAlertMessage('Please type markdown!');
+      setVisibleAlert(true);
+      return;
+    }
+
+    setPreviewMarkdown(markdown!);
+    setVisiblePreview(true);
+  };
+  const onPreviewClose = () => {
+    setVisiblePreview(false);
+  };
+
   return (
     <>
       <div css={formStyle}>
@@ -149,12 +168,18 @@ const Write = ({ slug }: WriteProps) => {
           onTempClick={handleSubmit(
             async (data) => await onPublish(data, true)
           )}
+          onPreviewClick={onPreviewClick}
           onPostClick={handleSubmit(onPostClick)}
         />
         <PublishScreen
           handleThumbnailUrl={handleThumbnailUrl}
           register={register}
           onPublish={handleSubmit(async (data) => await onPublish(data))}
+        />
+        <PreviewScreen
+          markdown={previewMarkdown}
+          onClose={onPreviewClose}
+          visible={visiblePreview}
         />
       </div>
       <PopupConfirm
