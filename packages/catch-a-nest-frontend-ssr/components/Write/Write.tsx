@@ -19,6 +19,7 @@ import TuiEditor from '../Markdown/TuiEditor';
 import PublishScreen from './PublishScreen';
 import PopupConfirm from '../Popup/PopupConfirm';
 import PreviewScreen from './PreviewScreen';
+import useWarnIfUnsavedChanges from '@/hooks/useWarnIfUnsavedChanges';
 
 export type WriteProps = {
   slug?: string;
@@ -151,6 +152,9 @@ const Write = ({ slug }: WriteProps) => {
   const onPreviewClose = () => {
     setVisiblePreview(false);
   };
+
+  // alert when exit page with unsavedChanges
+  useWarnIfUnsavedChanges(true);
 
   return (
     <>
