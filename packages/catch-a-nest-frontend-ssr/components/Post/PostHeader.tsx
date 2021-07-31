@@ -56,6 +56,7 @@ const PostHeader = ({ post }: PostHeaderProps) => {
               text="DELETE"
               type="thirdary"
               size="small"
+              preIconName="remove"
               onClick={() => setVisiblePopup(true)}
             />
           </div>

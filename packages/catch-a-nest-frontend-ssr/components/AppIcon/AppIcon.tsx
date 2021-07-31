@@ -11,6 +11,7 @@ import Spinner from '@/assets/icons/spinner.svg';
 import ThreeDot from '@/assets/icons/three-dot.svg';
 import View from '@/assets/icons/view.svg';
 import Close from '@/assets/icons/close.svg';
+import Remove from '@/assets/icons/remove.svg';
 
 export type AppIconProps = {
   name: IconType;
@@ -51,6 +52,8 @@ const AppIcon = ({ name, ...props }: AppIconProps) => {
       return <View {...props} />;
     case 'close':
       return <Close {...props} />;
+    case 'remove':
+      return <Remove {...props} />;
     default:
       return null;
   }
