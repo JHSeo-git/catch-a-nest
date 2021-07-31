@@ -1,3 +1,4 @@
+import Headroom from 'react-headroom';
 import useLazyClose from '@/hooks/useLazyClose';
 import { slideDown, slideUp } from '@/lib/styles/animation';
 import media from '@/lib/styles/media';
@@ -25,12 +26,16 @@ const PreviewScreen = ({ visible, markdown, onClose }: PreviewScreenProps) => {
   return (
     <Modal css={modalStyle(visible)}>
       <div css={innerStyle}>
-        <h1 css={headerStyle}>Markdown Preview</h1>
-        <MarkdownItViewer markdown={markdown} />
+        <div css={headerStyle}>
+          <h1 css={headingStyle}>PREVIEW</h1>
+          <button css={closeButton} onClick={onClose}>
+            <AppIcon name="close" />
+          </button>
+        </div>
+        <div css={mdBox}>
+          <MarkdownItViewer markdown={markdown} />
+        </div>
       </div>
-      <button css={closeButton} onClick={onClose}>
-        <AppIcon name="close" />
-      </button>
     </Modal>
   );
 };
@@ -39,7 +44,6 @@ const modalStyle = (visible: boolean) => css`
   display: block;
   width: 100%;
   background: #fff;
-  padding: 0 1rem 1rem 1rem;
   ${visible
     ? css`
         animation: ${slideUp} 0.2s ease-in-out forwards;
@@ -50,49 +54,59 @@ const modalStyle = (visible: boolean) => css`
 `;
 
 const headerStyle = css`
+  ${responsiveWidth};
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 5rem;
+  width: 100%;
+  background: #fff;
+  z-index: 1;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
+
+const headingStyle = css`
   margin: 0;
   padding: 0;
-  text-align: center;
-  font-size: 3rem;
-  padding-top: 1rem;
-  padding-bottom: 1rem;
-  margin-bottom: 1rem;
+
+  font-size: 2.5rem;
   color: ${palette.blue[500]};
-  border-bottom: 0.125rem solid ${palette.blue[500]};
 
   ${media.sm} {
     font-size: 2rem;
   }
 `;
 
-const innerStyle = css`
-  ${responsiveWidth};
-  padding-left: 1rem;
-  padding-right: 1rem;
-  overflow-y: auto;
-  height: 100%;
-`;
-
 const closeButton = css`
   ${resetButton}
   cursor: pointer;
-  position: fixed;
-  top: 2rem;
-  right: 2rem;
 
   svg {
     color: ${palette.blueGrey[700]};
-    width: 1.5rem;
-    height: 1.5rem;
+    width: 1.25rem;
+    height: 1.25rem;
   }
 
   ${media.sm} {
-    right: 1rem;
     svg {
       width: 1rem;
       height: 1rem;
     }
   }
+`;
+
+const innerStyle = css`
+  position: relative;
+  overflow-y: auto;
+  height: 100%;
+  padding-top: 4rem;
+`;
+
+const mdBox = css`
+  ${responsiveWidth};
 `;
 
 export default PreviewScreen;
