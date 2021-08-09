@@ -28,6 +28,11 @@ const PageSEO = ({
         url: url ?? `${appConfig.url}${router.pathname}`,
         images: [{ alt: title, url: appConfig.siteLogo }],
       }}
+      twitter={{
+        handle: '@handle',
+        site: '@site',
+        cardType: 'summary_large_image',
+      }}
       noindex={noRobots}
       nofollow={noRobots}
     />

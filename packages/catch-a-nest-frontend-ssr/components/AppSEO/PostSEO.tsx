@@ -44,6 +44,11 @@ const PostSEO = ({
           },
           images: ogImages,
         }}
+        twitter={{
+          handle: '@handle',
+          site: '@site',
+          cardType: 'summary_large_image',
+        }}
         noindex={noRobots}
         nofollow={noRobots}
       />
