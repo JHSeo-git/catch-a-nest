@@ -75,6 +75,10 @@ export const fadeOut = keyframes`
   }
 `;
 
+export const shiningInfiniteStyle = css`
+  animation: ${shining} 1s ease-in-out infinite;
+`;
+
 export const pageFadeInStyle = (runTime = 500) => css`
   animation: ${fadeIn} ${runTime / 1000}s ease-in-out forwards;
 `;

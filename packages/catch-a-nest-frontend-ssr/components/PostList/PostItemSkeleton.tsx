@@ -2,7 +2,7 @@ import React, { forwardRef } from 'react';
 import media from '@/lib/styles/media';
 import palette from '@/lib/styles/palette';
 import { css } from '@emotion/react';
-import { shining } from '../../lib/styles/animation';
+import { shiningInfiniteStyle } from '@/lib/styles/animation';
 
 export type PostItemSkeletonProps = {};
 
@@ -29,7 +29,7 @@ const block = css``;
 const skeleton = css`
   background: ${palette.blueGrey[50]};
   border-radius: 0.25rem;
-  animation: ${shining} 1s ease-in-out infinite;
+  ${shiningInfiniteStyle};
 `;
 
 const itemStyle = css`

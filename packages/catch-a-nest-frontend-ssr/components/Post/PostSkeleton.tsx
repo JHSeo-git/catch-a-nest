@@ -1,5 +1,5 @@
 import { css } from '@emotion/react';
-import { fadeIn, pageFadeInStyle, shining } from '@/lib/styles/animation';
+import { shiningInfiniteStyle } from '@/lib/styles/animation';
 import media from '@/lib/styles/media';
 import palette from '@/lib/styles/palette';
 
@@ -29,7 +29,7 @@ const skeleton = css`
 const postStyle = css`
   display: flex;
   flex-direction: column;
-  ${pageFadeInStyle()};
+  ${shiningInfiniteStyle};
 `;
 
 const title = css`
