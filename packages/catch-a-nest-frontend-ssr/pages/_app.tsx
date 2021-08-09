@@ -37,7 +37,17 @@ const globalStyle = css`
 `;
 
 function MyApp({ Component, pageProps }: AppProps) {
-  const [queryClient] = useState(() => new QueryClient());
+  // set retry 3 time, retryDelay 3 sec
+  const [queryClient] = useState(
+    () =>
+      new QueryClient({
+        defaultOptions: {
+          queries: {
+            retryDelay: 3000,
+          },
+        },
+      })
+  );
   const { NODE_ENV } = process.env;
 
   return (
