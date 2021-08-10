@@ -12,6 +12,10 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
     priority: 0.7,
   }));
 
+  fields.push({
+    loc: `${appConfig.url}/about/`,
+  });
+
   return getServerSideSitemap(ctx, fields);
 };
 
