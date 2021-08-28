@@ -42,6 +42,14 @@ const switchBox = (isDarkMode: boolean) => css`
 
   background-color: ${palette.blueGrey[50]};
 
+  transition: all 0.2s ease-in-out;
+
+  ${isDarkMode &&
+  css`
+    border: 0.0625rem solid ${palette.blueGrey[500]};
+    background-color: ${palette.blueGrey[600]};
+  `}
+
   input[type='checkbox'] {
     border: 0;
     overflow: hidden;
@@ -58,20 +66,22 @@ const switchBox = (isDarkMode: boolean) => css`
     aspect-ratio: 1;
     border-radius: 50%;
 
-    background-color: ${palette.lightBlue[500]};
+    background-color: ${palette.blueGrey[50]};
 
     display: flex;
     align-items: center;
     justify-content: center;
 
-    transition: all 0.1s ease-out;
+    transition: inherit;
 
     font-size: 0.85rem;
     font-weight: bold;
-    color: #ffffff;
+    color: ${palette.blueGrey[700]};
 
     ${isDarkMode &&
     css`
+      color: #ffffff;
+      background-color: ${palette.blueGrey[900]};
       transform: translateY(-50%) translateX(calc(100% - 0.125rem));
     `}
   }
