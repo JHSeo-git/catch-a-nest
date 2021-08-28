@@ -15,6 +15,7 @@ import MDhljsLine from 'markdown-it-highlight-lines';
 import uslug from 'uslug';
 
 const markdownItClient = new MarkdownIt({
+  breaks: true,
   linkify: true,
   typographer: true,
   highlight: (str, lang) => {
