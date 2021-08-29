@@ -3,6 +3,7 @@ import media from '@/lib/styles/media';
 import palette from '@/lib/styles/palette';
 import { css } from '@emotion/react';
 import { shiningInfiniteStyle } from '@/lib/styles/animation';
+import { useThemeValue } from '@/lib/recoil/appState';
 
 export type PostItemSkeletonProps = {};
 
@@ -10,14 +11,16 @@ const PostItemSkeleton = (
   props: PostItemSkeletonProps,
   ref: React.Ref<HTMLDivElement>
 ) => {
+  const theme = useThemeValue();
+
   return (
     <li css={block}>
-      <div css={itemStyle} ref={ref}>
-        <div css={[skeleton, imageWrapper]} />
+      <div css={itemStyle(theme === 'DARK')} ref={ref}>
+        <div css={[skeleton(theme === 'DARK'), imageWrapper]} />
         <div css={infoWrapper}>
-          <div css={skeleton} className="date-box" />
-          <div css={skeleton} className="header-box" />
-          <div css={skeleton} className="description-box" />
+          <div css={skeleton(theme === 'DARK')} className="date-box" />
+          <div css={skeleton(theme === 'DARK')} className="header-box" />
+          <div css={skeleton(theme === 'DARK')} className="description-box" />
         </div>
       </div>
     </li>
@@ -26,17 +29,27 @@ const PostItemSkeleton = (
 
 const block = css``;
 
-const skeleton = css`
+const skeleton = (isDarkMode: boolean) => css`
   background: ${palette.blueGrey[50]};
   border-radius: 0.25rem;
   ${shiningInfiniteStyle};
+
+  ${isDarkMode &&
+  css`
+    background: ${palette.blueGrey[700]};
+  `}
 `;
 
-const itemStyle = css`
+const itemStyle = (isDarkMode: boolean) => css`
   height: 8rem;
   overflow: hidden;
   border-radius: 0.5rem;
   border: 0.0625rem solid ${palette.blueGrey[50]};
+
+  ${isDarkMode &&
+  css`
+    border-color: ${palette.blueGrey[700]};
+  `}
 
   display: flex;
 `;

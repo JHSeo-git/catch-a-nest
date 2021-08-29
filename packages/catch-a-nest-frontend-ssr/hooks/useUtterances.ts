@@ -1,10 +1,12 @@
 import appConfig from '@/config/app.config';
+import { useThemeValue } from '@/lib/recoil/appState';
 import { useRouter } from 'next/router';
 import { useCallback, useEffect, useRef } from 'react';
 // import useIntersectionObserver from './useIntersectionObserver';
 
 export function useUtterances() {
   const ref = useRef<HTMLElement>(null);
+  const theme = useThemeValue();
   const router = useRouter();
   // lazy loading ... 굳이?
   // const entry = useIntersectionObserver(ref, true);
@@ -25,7 +27,12 @@ export function useUtterances() {
     script.setAttribute('repo', appConfig.utterances.repo);
     script.setAttribute('issue-term', appConfig.utterances.issueTerm);
     script.setAttribute('label', appConfig.utterances.label);
-    script.setAttribute('theme', appConfig.utterances.theme);
+    script.setAttribute(
+      'theme',
+      theme === 'DARK'
+        ? appConfig.utterances.darkTheme
+        : appConfig.utterances.theme
+    );
 
     ref.current.appendChild(script);
 

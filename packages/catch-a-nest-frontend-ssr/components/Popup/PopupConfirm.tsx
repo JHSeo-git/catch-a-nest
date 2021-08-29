@@ -1,3 +1,4 @@
+import { useThemeValue } from '@/lib/recoil/appState';
 import palette from '@/lib/styles/palette';
 import { css } from '@emotion/react';
 import dynamic from 'next/dynamic';
@@ -22,10 +23,12 @@ const PopupConfirm = ({
   title,
   openDelay = false,
 }: PopupConfirmProps) => {
+  const theme = useThemeValue();
+
   return (
     <PopupBase visible={visible} isDelay={openDelay}>
-      <h1 css={titleStyle}>{title}</h1>
-      {message && <p css={messageStyle}>{message}</p>}
+      <h1 css={titleStyle(theme === 'DARK')}>{title}</h1>
+      {message && <p css={messageStyle(theme === 'DARK')}>{message}</p>}
       <div css={buttonGroup}>
         {onCancel && (
           <AppButton text="CANCEL" type="normal" onClick={onCancel} />
@@ -36,16 +39,26 @@ const PopupConfirm = ({
   );
 };
 
-const titleStyle = css`
+const titleStyle = (isDarkMode: boolean) => css`
   margin: 0;
   margin-bottom: 2rem;
   color: ${palette.blueGrey[900]};
+
+  ${isDarkMode &&
+  css`
+    color: ${palette.grey[50]};
+  `}
 `;
 
-const messageStyle = css`
+const messageStyle = (isDarkMode: boolean) => css`
   margin: 0;
   padding: 0;
   font-size: 1rem;
+
+  ${isDarkMode &&
+  css`
+    color: ${palette.grey[50]};
+  `}
 `;
 
 const buttonGroup = css`

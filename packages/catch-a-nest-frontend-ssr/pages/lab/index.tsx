@@ -2,16 +2,19 @@ import { css } from '@emotion/react';
 import AppLayout from '@/components/AppLayout';
 import palette from '@/lib/styles/palette';
 import ThemeSwitch from '@/components/ThemeSwitch';
+import { useThemeValue } from '@/lib/recoil/appState';
 
 export type LabPageProps = {};
 
 const LabPage = (props: LabPageProps) => {
+  const theme = useThemeValue();
+
   return (
     <AppLayout>
-      <h1 css={heading}>Labatory</h1>
+      <h1 css={heading(theme === 'DARK')}>Laboratory</h1>
       <ul css={listStyle}>
         <li>
-          <div css={themeSwitchBox}>
+          <div css={themeSwitchBox(theme === 'DARK')}>
             <h2>Dark Mode</h2>
             <ThemeSwitch />
           </div>
@@ -22,8 +25,13 @@ const LabPage = (props: LabPageProps) => {
   );
 };
 
-const heading = css`
+const heading = (isDarkMode: boolean) => css`
   color: ${palette.lightBlue[700]};
+
+  ${isDarkMode &&
+  css`
+    color: ${palette.lightBlue[500]};
+  `}
 `;
 
 const listStyle = css`
@@ -39,10 +47,17 @@ const listStyle = css`
   }
 `;
 
-const themeSwitchBox = css`
+const themeSwitchBox = (isDarkMode: boolean) => css`
   display: flex;
   align-items: center;
   justify-content: space-between;
+
+  h2 {
+    ${isDarkMode &&
+    css`
+      color: ${palette.grey[50]};
+    `}
+  }
 `;
 
 export default LabPage;

@@ -5,6 +5,7 @@ import { IconType } from '../AppIcon/AppIcon';
 import palette from '@/lib/styles/palette';
 import { resetButton } from '@/lib/styles/reset/resetButton';
 import { rotateAnimation } from '@/lib/styles/animation';
+import { useThemeValue } from '@/lib/recoil/appState';
 
 export type AppButtonProps = {
   text: string;
@@ -31,9 +32,11 @@ const AppButton = ({
   size = 'normal',
   hoverAnimationDirect = 'left',
 }: AppButtonProps) => {
+  const theme = useThemeValue();
+
   return (
     <button
-      css={buttonStyle(type, size, hoverAnimationDirect)}
+      css={buttonStyle(type, size, hoverAnimationDirect, theme === 'DARK')}
       onClick={onClick}
       disabled={loading}
     >
@@ -58,7 +61,8 @@ const AppButton = ({
 const buttonStyle = (
   type: ButtonType,
   size: SizeType,
-  hoverAnimationDirect: HoverAnimationDirect
+  hoverAnimationDirect: HoverAnimationDirect,
+  isDarkTheme: boolean
 ) => css`
   ${resetButton};
   cursor: pointer;
@@ -68,9 +72,15 @@ const buttonStyle = (
   font-size: 1.125rem;
   border-radius: 0.25rem;
   font-weight: bold;
-  color: ${palette.blueGrey[900]};
   transition: all 0.1s ease-in-out;
+  color: ${palette.blueGrey[900]};
   background: ${palette.blueGrey[50]};
+
+  ${isDarkTheme &&
+  css`
+    color: ${palette.grey[100]};
+    background: ${palette.blueGrey[700]};
+  `}
 
   ${size === 'small' &&
   css`
@@ -95,6 +105,12 @@ const buttonStyle = (
 
   &:hover {
     background: ${palette.grey[100]};
+
+    ${isDarkTheme &&
+    css`
+      background: ${palette.blueGrey[600]};
+    `}
+
     .pre-icon {
       ${hoverAnimationDirect === 'left' &&
       css`
@@ -116,6 +132,11 @@ const buttonStyle = (
   }
   &:active {
     background: ${palette.grey[200]};
+
+    ${isDarkTheme &&
+    css`
+      background: ${palette.blueGrey[800]};
+    `}
   }
   &:disabled {
     cursor: not-allowed;
@@ -128,12 +149,28 @@ const buttonStyle = (
     color: white;
     background: ${palette.lightBlue[500]};
 
+    ${isDarkTheme &&
+    css`
+      color: ${palette.grey[100]};
+      background: ${palette.lightBlue[700]};
+    `}
+
     &:hover {
       background: ${palette.lightBlue[300]};
+
+      ${isDarkTheme &&
+      css`
+        background: ${palette.lightBlue[800]};
+      `}
     }
 
     &:active {
       background: ${palette.lightBlue[400]};
+
+      ${isDarkTheme &&
+      css`
+        background: ${palette.lightBlue[900]};
+      `}
     }
 
     &:disabled {
@@ -146,12 +183,28 @@ const buttonStyle = (
     color: white;
     background: ${palette.blueGrey[500]};
 
+    ${isDarkTheme &&
+    css`
+      color: ${palette.grey[100]};
+      background: ${palette.blueGrey[700]};
+    `}
+
     &:hover {
       background: ${palette.blueGrey[300]};
+
+      ${isDarkTheme &&
+      css`
+        background: ${palette.blueGrey[600]};
+      `}
     }
 
     &:active {
       background: ${palette.blueGrey[400]};
+
+      ${isDarkTheme &&
+      css`
+        background: ${palette.blueGrey[800]};
+      `}
     }
 
     &:disabled {
@@ -164,12 +217,28 @@ const buttonStyle = (
     color: white;
     background: ${palette.red[500]};
 
+    ${isDarkTheme &&
+    css`
+      color: ${palette.grey[100]};
+      background: ${palette.red[700]};
+    `}
+
     &:hover {
       background: ${palette.red[300]};
+
+      ${isDarkTheme &&
+      css`
+        background: ${palette.red[600]};
+      `}
     }
 
     &:active {
       background: ${palette.red[400]};
+
+      ${isDarkTheme &&
+      css`
+        background: ${palette.red[800]};
+      `}
     }
 
     &:disabled {

@@ -4,28 +4,49 @@ import media from '@/lib/styles/media';
 import palette from '@/lib/styles/palette';
 import { fontFamily } from '@/lib/styles/typography';
 import { pageFadeInStyle } from '@/lib/styles/animation';
+import { useThemeValue } from '@/lib/recoil/appState';
 
 export type MarkdownStyleWrapperProps = {
   children?: React.ReactNode;
 };
 
 const MarkdownStyleWrapper = ({ children }: MarkdownStyleWrapperProps) => {
-  return <div css={toastuiStyle}>{children}</div>;
+  const theme = useThemeValue();
+
+  return <div css={toastuiStyle(theme === 'DARK')}>{children}</div>;
 };
 
-const toastuiStyle = css`
+const toastuiStyle = (isDarkMode: boolean) => css`
   height: 100%;
   position: relative;
   word-break: break-word;
 
   .toastui-editor-defaultUI {
     ${pageFadeInStyle(200)};
+    border-radius: 0;
+
+    ${isDarkMode &&
+    css`
+      border-left: none;
+      border-right: none;
+      border-color: ${palette.blueGrey[700]};
+    `}
+
     .toastui-editor {
       ${media.md} {
         width: 100%;
       }
     }
+    .toastui-editor-toolbar {
+      .toastui-editor-defaultUI-toolbar {
+        border-radius: 0;
+      }
+    }
     .toastui-editor-md-splitter {
+      ${isDarkMode &&
+      css`
+        background-color: ${palette.blueGrey[700]};
+      `}
       ${media.md} {
         display: none;
       }
@@ -49,6 +70,11 @@ const toastuiStyle = css`
       line-height: 1.5;
       color: ${palette.blueGrey[900]};
 
+      ${isDarkMode &&
+      css`
+        color: ${palette.grey[50]};
+      `}
+
       ${media.md} {
         font-size: 1rem;
       }
@@ -65,51 +91,98 @@ const toastuiStyle = css`
       .toastui-editor-md-table,
       .toastui-editor-md-block-quote {
         color: ${palette.blueGrey[500]};
+
+        ${isDarkMode &&
+        css`
+          color: ${palette.grey[100]};
+        `}
       }
 
       .toastui-editor-md-code-block .toastui-editor-md-meta,
       .toastui-editor-md-code-block .toastui-editor-md-delimiter {
         color: ${palette.blueGrey[500]};
+
+        ${isDarkMode &&
+        css`
+          color: ${palette.grey[500]};
+        `}
       }
 
       .toastui-editor-md-code .toastui-editor-md-meta,
       .toastui-editor-md-code .toastui-editor-md-delimiter {
         color: ${palette.blueGrey[500]};
+
+        ${isDarkMode &&
+        css`
+          color: ${palette.grey[500]};
+        `}
       }
 
       .toastui-editor-md-meta,
       .toastui-editor-md-html,
       .toastui-editor-md-link.toastui-editor-md-link-url.toastui-editor-md-marked-text {
         color: ${palette.blueGrey[500]};
+
+        ${isDarkMode &&
+        css`
+          color: ${palette.grey[500]};
+        `}
       }
 
-      .toastui-editor-md-block-quote.toastui-editor-md-marked-text,
-      .toastui-editor-md-list-item.toastui-editor-md-meta {
+      .toastui-editor-md-block-quote .toastui-editor-md-marked-text,
+      .toastui-editor-md-list-item .toastui-editor-md-meta {
         color: ${palette.blueGrey[800]};
+        ${isDarkMode &&
+        css`
+          color: ${palette.grey[100]};
+        `}
       }
 
-      .toastui-editor-md-table.toastui-editor-md-marked-text {
+      .toastui-editor-md-table .toastui-editor-md-marked-text {
         color: ${palette.blueGrey[900]};
+        ${isDarkMode &&
+        css`
+          color: ${palette.grey[50]};
+        `}
       }
 
       .toastui-editor-md-link.toastui-editor-md-link-desc.toastui-editor-md-marked-text {
         color: ${palette.blue[700]};
+        ${isDarkMode &&
+        css`
+          color: ${palette.lightBlue[500]};
+        `}
       }
 
       .toastui-editor-md-list-item-odd {
         color: ${palette.lightBlue[500]};
         margin-right: 0.25rem;
+
+        ${isDarkMode &&
+        css`
+          color: ${palette.lightBlue[300]};
+        `}
       }
 
       .toastui-editor-md-list-item-even {
         color: ${palette.pink[500]};
         margin-right: 0.25rem;
+
+        ${isDarkMode &&
+        css`
+          color: ${palette.pink[300]};
+        `}
       }
 
       .toastui-editor-md-code {
         background-color: ${palette.lightBlue[50]};
         padding: 0.125rem 0;
         letter-spacing: -0.2px;
+
+        ${isDarkMode &&
+        css`
+          background-color: ${palette.lightBlue[700]};
+        `}
       }
 
       .toastui-editor-md-code.toastui-editor-md-marked-text {
@@ -117,6 +190,12 @@ const toastuiStyle = css`
         padding-bottom: 0.375rem;
         color: ${palette.lightBlue[700]};
         background-color: ${palette.lightBlue[50]};
+
+        ${isDarkMode &&
+        css`
+          color: ${palette.lightBlue[50]};
+          background-color: ${palette.lightBlue[700]};
+        `}
       }
 
       .toastui-editor-md-code.toastui-editor-md-delimiter.toastui-editor-md-start {
@@ -139,6 +218,11 @@ const toastuiStyle = css`
         background: ${palette.grey[100]};
         padding-left: 0.5rem;
         padding-right: 0.5rem;
+
+        ${isDarkMode &&
+        css`
+          background: ${palette.blueGrey[800]};
+        `}
       }
 
       .toastui-editor-md-code-block-line-background.start {
@@ -187,6 +271,11 @@ const toastuiStyle = css`
         font-size: 2rem;
         color: ${palette.blueGrey[900]};
 
+        ${isDarkMode &&
+        css`
+          color: ${palette.grey[50]};
+        `}
+
         ${media.md} {
           font-size: 1.5rem;
         }
@@ -198,6 +287,11 @@ const toastuiStyle = css`
         font-size: 1.75rem;
         color: ${palette.blueGrey[900]};
 
+        ${isDarkMode &&
+        css`
+          color: ${palette.grey[50]};
+        `}
+
         ${media.md} {
           font-size: 1.5rem;
         }
@@ -208,6 +302,11 @@ const toastuiStyle = css`
         font-size: 1.5rem;
         color: ${palette.blueGrey[800]};
 
+        ${isDarkMode &&
+        css`
+          color: ${palette.grey[100]};
+        `}
+
         ${media.md} {
           font-size: 1.25rem;
         }
@@ -217,6 +316,12 @@ const toastuiStyle = css`
         margin: 0.5rem 0;
         font-size: 1.25rem;
         color: ${palette.blueGrey[800]};
+
+        ${isDarkMode &&
+        css`
+          color: ${palette.grey[100]};
+        `}
+
         ${media.md} {
           font-size: 1rem;
         }
@@ -226,16 +331,24 @@ const toastuiStyle = css`
         margin: 0.25rem 0;
         font-size: 1rem;
         color: ${palette.blueGrey[700]};
+
+        ${isDarkMode &&
+        css`
+          color: ${palette.grey[200]};
+        `}
       }
 
       .toastui-editor-md-heading6 {
         margin: 0.25rem 0;
         font-size: 0.875rem;
         color: ${palette.blueGrey[700]};
+
+        ${isDarkMode &&
+        css`
+          color: ${palette.grey[200]};
+        `}
       }
     }
-  }
-  .toastui-editor-defaultUI-toolbar {
   }
   .markdown-viewer-contents,
   .toastui-editor-contents {
@@ -258,6 +371,11 @@ const toastuiStyle = css`
       border-style: none;
       border-top: 0.125rem solid ${palette.blue[300]};
       margin: 1rem 0;
+
+      ${isDarkMode &&
+      css`
+        border-top: 0.125rem solid ${palette.blue[500]};
+      `}
     }
 
     h1,
@@ -277,6 +395,11 @@ const toastuiStyle = css`
         display: flex;
         color: ${palette.blueGrey[700]};
         margin-right: 0.25rem;
+
+        ${isDarkMode &&
+        css`
+          color: ${palette.grey[50]};
+        `}
         svg {
           height: 1rem;
         }
@@ -301,6 +424,12 @@ const toastuiStyle = css`
       font-size: 2rem;
       border-bottom: 0.125rem solid ${palette.grey[300]};
       color: ${palette.blueGrey[900]};
+
+      ${isDarkMode &&
+      css`
+        color: ${palette.grey[50]};
+        border-bottom: 0.125rem solid ${palette.grey[700]};
+      `}
     }
 
     h2 {
@@ -309,40 +438,77 @@ const toastuiStyle = css`
       font-size: 1.75rem;
       border-bottom: 0.125rem solid ${palette.grey[300]};
       color: ${palette.blueGrey[900]};
+
+      ${isDarkMode &&
+      css`
+        color: ${palette.grey[50]};
+        border-bottom: 0.125rem solid ${palette.grey[700]};
+      `}
     }
 
     h3 {
       margin: 0.5rem 0;
       font-size: 1.5rem;
       color: ${palette.blueGrey[800]};
+
+      ${isDarkMode &&
+      css`
+        color: ${palette.grey[100]};
+      `}
     }
 
     h4 {
       margin: 0.5rem 0;
       font-size: 1.25rem;
       color: ${palette.blueGrey[800]};
+
+      ${isDarkMode &&
+      css`
+        color: ${palette.grey[100]};
+      `}
     }
 
     h5 {
       margin: 0.25rem 0;
       font-size: 1rem;
       color: ${palette.blueGrey[700]};
+
+      ${isDarkMode &&
+      css`
+        color: ${palette.grey[200]};
+      `}
     }
 
     h6 {
       margin: 0.25rem 0;
       font-size: 0.875rem;
       color: ${palette.blueGrey[700]};
+
+      ${isDarkMode &&
+      css`
+        color: ${palette.grey[200]};
+      `}
     }
 
     p {
       margin: 0.625rem 0;
       color: ${palette.blueGrey[900]};
+      line-height: 1.85;
+
+      ${isDarkMode &&
+      css`
+        color: ${palette.grey[50]};
+      `}
     }
 
     a {
       color: ${palette.blue[700]};
       text-decoration: none;
+
+      ${isDarkMode &&
+      css`
+        color: ${palette.lightBlue[400]};
+      `}
 
       &:hover {
         text-decoration: underline;
@@ -356,6 +522,13 @@ const toastuiStyle = css`
       border-bottom-right-radius: 0.25rem;
       background: ${palette.grey[50]};
       padding: 0.75rem 1.5rem;
+
+      ${isDarkMode &&
+      css`
+        border-left: 0.25rem solid ${palette.lightBlue[700]};
+        background: ${palette.blueGrey[800]};
+      `}
+
       & blockquote {
         margin: 0;
       }
@@ -373,6 +546,11 @@ const toastuiStyle = css`
       padding-left: 1.5rem;
       color: ${palette.blueGrey[900]};
 
+      ${isDarkMode &&
+      css`
+        color: ${palette.grey[50]};
+      `}
+
       li {
         margin-top: 0.625rem;
         margin-bottom: 0.625rem;
@@ -389,6 +567,11 @@ const toastuiStyle = css`
           height: 0.375rem;
           border-radius: 50%;
           background-color: ${palette.blueGrey[700]};
+
+          ${isDarkMode &&
+          css`
+            background-color: ${palette.grey[300]};
+          `}
         }
       }
     }
@@ -417,14 +600,22 @@ const toastuiStyle = css`
       background-color: ${palette.lightBlue[50]};
       padding: 0.25rem 0.375rem;
       border-radius: 0.125rem;
+
+      ${isDarkMode &&
+      css`
+        color: ${palette.lightBlue[50]};
+        background-color: ${palette.lightBlue[700]};
+      `}
     }
 
     pre {
       font-size: 1rem;
       margin: 0.875rem 0;
       padding: 1rem;
-      background: ${palette.grey[100]};
+      /* background: white; */
+      background: ${palette.grey[50]};
       border-radius: 0.25rem;
+
       code {
         padding: 0;
         color: inherit;
@@ -452,6 +643,11 @@ const toastuiStyle = css`
       cursor: help;
       text-decoration: none;
       border-bottom: 0.0625rem dotted ${palette.teal[900]};
+
+      ${isDarkMode &&
+      css`
+        border-bottom: 0.0625rem dotted ${palette.teal[100]};
+      `}
     }
 
     dl {
@@ -470,6 +666,12 @@ const toastuiStyle = css`
       border-spacing: 0;
       margin: 0.75rem 0;
       color: ${palette.blueGrey[900]};
+
+      ${isDarkMode &&
+      css`
+        color: ${palette.grey[100]};
+      `}
+
       th,
       td {
         padding: 0.3125rem 0.75rem;

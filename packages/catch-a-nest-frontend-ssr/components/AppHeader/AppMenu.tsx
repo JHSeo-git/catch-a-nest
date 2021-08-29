@@ -7,6 +7,7 @@ import ActiveLink from '../ActiveLink';
 import { useRef, useState } from 'react';
 import useOnClickOutside from '@/hooks/useOnClickOutside';
 import { useUserValue } from '@/lib/recoil/authState';
+import { useThemeValue } from '@/lib/recoil/appState';
 
 type MenuProps = {
   name: string;
@@ -14,8 +15,10 @@ type MenuProps = {
 };
 
 const Menu = ({ name, to }: MenuProps) => {
+  const theme = useThemeValue();
+
   return (
-    <li css={menuStyle}>
+    <li css={menuStyle(theme === 'DARK')}>
       <ActiveLink to={to}>{name}</ActiveLink>
     </li>
   );
@@ -26,6 +29,7 @@ export type AppMenuProps = {};
 const AppMenu = (props: AppMenuProps) => {
   const userValue = useUserValue();
   const [visible, setVisible] = useState(false);
+  const theme = useThemeValue();
   const ref = useRef<HTMLDivElement>(null);
 
   const handleClickInSide = () => {
@@ -39,7 +43,10 @@ const AppMenu = (props: AppMenuProps) => {
 
   return (
     <div ref={ref} css={block}>
-      <button css={buttonStyle} onClick={handleClickInSide}>
+      <button
+        css={buttonStyle(visible, theme === 'DARK')}
+        onClick={handleClickInSide}
+      >
         <AppIcon name="threeDot" />
       </button>
       <ul css={menuListStyle(visible)} onClick={handleClickInSide}>
@@ -62,7 +69,7 @@ const block = css`
   position: relative;
 `;
 
-const buttonStyle = css`
+const buttonStyle = (isVisible: boolean, isDarkMode: boolean) => css`
   ${resetButton};
   cursor: pointer;
   padding-left: 0.375rem;
@@ -83,6 +90,32 @@ const buttonStyle = css`
       color: ${palette.blueGrey[900]};
     }
   }
+  ${isVisible &&
+  css`
+    svg {
+      color: ${palette.blueGrey[900]};
+    }
+  `}
+
+  ${isDarkMode &&
+  css`
+    svg {
+      color: ${palette.grey[500]};
+    }
+
+    &:hover {
+      svg {
+        color: ${palette.grey[50]};
+      }
+    }
+
+    ${isVisible &&
+    css`
+      svg {
+        color: ${palette.grey[50]};
+      }
+    `}
+  `}
 `;
 
 const menuListStyle = (visible: boolean) => css`
@@ -106,7 +139,7 @@ const menuListStyle = (visible: boolean) => css`
   `}
 `;
 
-const menuStyle = css`
+const menuStyle = (isDarkMode: boolean) => css`
   a,
   button {
     ${resetButton}
@@ -120,8 +153,20 @@ const menuStyle = css`
 
     font-size: 1rem;
 
+    ${isDarkMode &&
+    css`
+      background-color: ${palette.blueGrey[800]};
+
+      color: ${palette.grey[300]};
+    `}
+
     &:hover {
       background-color: ${palette.grey[50]};
+
+      ${isDarkMode &&
+      css`
+        background-color: ${palette.blueGrey[900]};
+      `}
     }
   }
 `;

@@ -9,6 +9,7 @@ import { css } from '@emotion/react';
 import dynamic from 'next/dynamic';
 import AppIcon from '../AppIcon';
 import Modal from '../Modal';
+import { useThemeValue } from '@/lib/recoil/appState';
 
 const MarkdownItViewer = dynamic(() => import('../Markdown/MarkdownItViewer'));
 
@@ -19,16 +20,17 @@ export type PreviewScreenProps = {
 };
 
 const PreviewScreen = ({ visible, markdown, onClose }: PreviewScreenProps) => {
+  const theme = useThemeValue();
   const { lazyClosed } = useLazyClose(visible, 200);
 
   if (!visible && lazyClosed) return null;
 
   return (
-    <Modal css={modalStyle(visible)}>
+    <Modal css={modalStyle(visible, theme === 'DARK')}>
       <div css={innerStyle}>
-        <div css={headerStyle}>
+        <div css={headerStyle(theme === 'DARK')}>
           <h1 css={headingStyle}>PREVIEW</h1>
-          <button css={closeButton} onClick={onClose}>
+          <button css={closeButton(theme === 'DARK')} onClick={onClose}>
             <AppIcon name="close" />
           </button>
         </div>
@@ -40,10 +42,16 @@ const PreviewScreen = ({ visible, markdown, onClose }: PreviewScreenProps) => {
   );
 };
 
-const modalStyle = (visible: boolean) => css`
+const modalStyle = (visible: boolean, isDarkMode: boolean) => css`
   display: block;
   width: 100%;
   background: #fff;
+
+  ${isDarkMode &&
+  css`
+    background: ${palette.blueGrey[900]};
+  `}
+
   ${visible
     ? css`
         animation: ${slideUp} 0.2s ease-in-out forwards;
@@ -53,7 +61,7 @@ const modalStyle = (visible: boolean) => css`
       `};
 `;
 
-const headerStyle = css`
+const headerStyle = (isDarkMode: boolean) => css`
   ${responsiveWidth};
   position: fixed;
   top: 0;
@@ -66,6 +74,11 @@ const headerStyle = css`
   display: flex;
   justify-content: space-between;
   align-items: center;
+
+  ${isDarkMode &&
+  css`
+    background: ${palette.blueGrey[900]};
+  `}
 `;
 
 const headingStyle = css`
@@ -80,7 +93,7 @@ const headingStyle = css`
   }
 `;
 
-const closeButton = css`
+const closeButton = (isDarkMode: boolean) => css`
   ${resetButton}
   cursor: pointer;
 
@@ -88,6 +101,11 @@ const closeButton = css`
     color: ${palette.blueGrey[700]};
     width: 1.25rem;
     height: 1.25rem;
+
+    ${isDarkMode &&
+    css`
+      color: ${palette.grey[100]};
+    `}
   }
 
   ${media.sm} {
