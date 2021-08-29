@@ -14,6 +14,7 @@ import WriteThumbnail from './WriteThumbnail';
 import AppButton from '../AppButton';
 import { WriteInputs } from './Write';
 import useLazyClose from '@/hooks/useLazyClose';
+import { useThemeValue } from '@/lib/recoil/appState';
 
 export type PublishScreenProps = {
   register: UseFormRegister<WriteInputs>;
@@ -26,6 +27,7 @@ const PublishScreen = ({
   onPublish,
   handleThumbnailUrl,
 }: PublishScreenProps) => {
+  const theme = useThemeValue();
   const [visible, setVisible] = useVisiblePublishScreenState();
   const { lazyClosed } = useLazyClose(visible, 200);
   const isEditPost = useIsEditPostValue();
@@ -39,15 +41,15 @@ const PublishScreen = ({
   if (!visible && lazyClosed) return null;
 
   return (
-    <Modal css={modalStyle(visible)}>
-      <section css={wrapper}>
-        <h1 css={titleStyle}>{title}</h1>
+    <Modal css={modalStyle(visible, theme === 'DARK')}>
+      <section css={wrapper(theme === 'DARK')}>
+        <h1 css={titleStyle(theme === 'DARK')}>{title}</h1>
         <WriteThumbnail handleThumbnailUrl={handleThumbnailUrl} />
         <textarea
           {...register('shortDescription')}
           maxLength={160}
           tabIndex={0}
-          css={textareaStyle}
+          css={textareaStyle(theme === 'DARK')}
           defaultValue={shortDescription ?? ''}
           placeholder="Please write short description"
         />
@@ -70,11 +72,17 @@ const PublishScreen = ({
   );
 };
 
-const modalStyle = (visible: boolean) => css`
+const modalStyle = (visible: boolean, isDarkMode: boolean) => css`
   display: flex;
   justify-content: center;
   align-items: center;
   background: ${palette.blueGrey[100]};
+
+  ${isDarkMode &&
+  css`
+    background: ${palette.blueGrey[900]};
+  `}
+
   ${visible
     ? css`
         animation: ${slideUp} 0.2s ease-in-out forwards;
@@ -84,18 +92,28 @@ const modalStyle = (visible: boolean) => css`
       `}
 `;
 
-const titleStyle = css`
+const titleStyle = (isDarkMode: boolean) => css`
   color: ${palette.lightBlue[700]};
   margin: 0;
   margin-bottom: 1rem;
   font-size: 2.5rem;
+
+  ${isDarkMode &&
+  css`
+    color: ${palette.lightBlue[200]};
+  `}
 `;
 
-const wrapper = css`
+const wrapper = (isDarkMode: boolean) => css`
   ${responsiveModalWidth};
   background: white;
   border-radius: 0.5rem;
   padding: 2rem;
+
+  ${isDarkMode &&
+  css`
+    background: ${palette.blueGrey[700]};
+  `}
 `;
 
 const btnGroup = css`
@@ -110,7 +128,7 @@ const btnGroup = css`
   }
 `;
 
-const textareaStyle = css`
+const textareaStyle = (isDarkMode: boolean) => css`
   font-family: inherit;
   resize: none;
   border: 0.0625rem solid ${palette.blueGrey[300]};
@@ -123,6 +141,9 @@ const textareaStyle = css`
   font-size: 0.875rem;
   line-height: 1.5;
   margin-bottom: 1rem;
+
+  ${isDarkMode && css``}
+
   &::placeholder {
     color: ${palette.blueGrey[300]};
   }

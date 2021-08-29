@@ -3,15 +3,18 @@ import { css } from '@emotion/react';
 import AppLayout from '@/components/AppLayout';
 import PageSEO from '@/components/AppSEO/PageSEO';
 import palette from '@/lib/styles/palette';
+import { useThemeValue } from '@/lib/recoil/appState';
 
 export type AboutPageProps = {};
 
 const AboutPage = (props: AboutPageProps) => {
+  const theme = useThemeValue();
+
   return (
     <>
       <PageSEO title="About" description="About Seo Nest Blog" />
       <AppLayout>
-        <article css={block}>
+        <article css={block(theme === 'DARK')}>
           <h1>
             Hi👋 I&apos;m <strong>JHSeo</strong> .
           </h1>
@@ -49,16 +52,24 @@ const AboutPage = (props: AboutPageProps) => {
   );
 };
 
-const block = css`
-  background: #fff;
+const block = (isDarkMode: boolean) => css`
   height: 100%;
-
   letter-spacing: 0.5px;
+
+  ${isDarkMode &&
+  css`
+    color: ${palette.grey[100]};
+  `}
 
   h1,
   h2 {
     strong {
       color: ${palette.lightBlue[800]};
+
+      ${isDarkMode &&
+      css`
+        color: ${palette.lightBlue[300]};
+      `}
     }
   }
   h1 {
@@ -76,6 +87,11 @@ const block = css`
       &::marker {
         font-size: 1rem;
         color: ${palette.lightBlue[800]};
+
+        ${isDarkMode &&
+        css`
+          color: ${palette.lightBlue[300]};
+        `}
       }
     }
     li + li {

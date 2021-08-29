@@ -6,16 +6,18 @@ import media from '@/lib/styles/media';
 import palette from '@/lib/styles/palette';
 import TempPostItem from './TempPostItem';
 import PostItemSkeleton from '../PostList/PostItemSkeleton';
+import { useThemeValue } from '@/lib/recoil/appState';
 
 export type TempPostListProps = {};
 
 const TempPostList = (props: TempPostListProps) => {
+  const theme = useThemeValue();
   const userState = useUserValue();
   const { posts, elementRef, hasNextPage } = useGetTempPosts(userState?.id);
 
   return (
     <>
-      <h1 css={title}>Will be Post</h1>
+      <h1 css={title(theme === 'DARK')}>Will be Post</h1>
       <ul css={listStyle}>
         {posts
           ? posts.map((item) => <TempPostItem key={item.id} post={item} />)
@@ -41,7 +43,7 @@ const listStyle = css`
   }
 `;
 
-const title = css`
+const title = (isDarkMode: boolean) => css`
   color: ${palette.blueGrey[900]};
   margin-top: 1rem;
   margin-bottom: 2rem;
@@ -49,6 +51,11 @@ const title = css`
   ${media.sm} {
     font-size: 2rem;
   }
+
+  ${isDarkMode &&
+  css`
+    color: ${palette.grey[100]};
+  `}
 `;
 
 export default TempPostList;

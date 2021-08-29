@@ -4,6 +4,7 @@ import { PostShortInfo } from '@/lib/api/posts/types';
 import { css } from '@emotion/react';
 import media from '@/lib/styles/media';
 import palette from '@/lib/styles/palette';
+import { useThemeValue } from '@/lib/recoil/appState';
 
 export type PostFooterProps = {
   isTemp: boolean;
@@ -12,12 +13,17 @@ export type PostFooterProps = {
 };
 
 const PostFooter = ({ isTemp, prevPost, nextPost }: PostFooterProps) => {
+  const theme = useThemeValue();
+
   if (isTemp) return null;
 
   return (
     <div css={block}>
       {prevPost && (
-        <ActiveLink css={linkStyle(false)} to={`/posts/${prevPost.url_slug}`}>
+        <ActiveLink
+          css={linkStyle(false, theme === 'DARK')}
+          to={`/posts/${prevPost.url_slug}`}
+        >
           <AppIcon name="arrowLeft" />
           <div className="title-info">
             <div className="label">Prev Post</div>
@@ -26,7 +32,10 @@ const PostFooter = ({ isTemp, prevPost, nextPost }: PostFooterProps) => {
         </ActiveLink>
       )}
       {nextPost && (
-        <ActiveLink css={linkStyle(true)} to={`/posts/${nextPost.url_slug}`}>
+        <ActiveLink
+          css={linkStyle(true, theme === 'DARK')}
+          to={`/posts/${nextPost.url_slug}`}
+        >
           <div className="title-info">
             <div className="label">Next Post</div>
             <h3 className="title">{nextPost.title}</h3>
@@ -56,9 +65,9 @@ const block = css`
   }
 `;
 
-const linkStyle = (alignEnd = false) => css`
+const linkStyle = (alignEnd = false, isDarkMode: boolean) => css`
   text-decoration: none;
-  border: 1px solid ${palette.blueGrey[100]};
+  border: 0.0625rem solid ${palette.blueGrey[100]};
   border-radius: 0.25rem;
   width: 100%;
   height: 5rem;
@@ -66,6 +75,11 @@ const linkStyle = (alignEnd = false) => css`
   display: flex;
   align-items: center;
   transition: all 0.1s ease-in-out;
+
+  ${isDarkMode &&
+  css`
+    border-color: ${palette.blueGrey[700]};
+  `}
 
   svg {
     height: 1.25rem;
@@ -76,6 +90,12 @@ const linkStyle = (alignEnd = false) => css`
 
   .title-info {
     color: ${palette.blueGrey[900]};
+
+    ${isDarkMode &&
+    css`
+      color: ${palette.grey[50]};
+    `}
+
     .label {
       line-height: 1;
       font-size: 0.75rem;
@@ -102,6 +122,12 @@ const linkStyle = (alignEnd = false) => css`
 
   &:hover {
     box-shadow: 0 0.25rem 0.5rem rgba(0 0 0 /5%);
+
+    ${isDarkMode &&
+    css`
+      box-shadow: 0 0.25rem 0.5rem rgba(0 0 0 /30%);
+    `}
+
     svg {
       transform: translateX(-0.25rem);
       color: ${palette.blue[500]};

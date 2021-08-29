@@ -13,6 +13,7 @@ import AppToastProvider from '@/components/AppToastProvider';
 
 import { ReactQueryDevtools } from 'react-query/devtools';
 import RecoilDebugObserver from '@/components/RecoilDebugObserver';
+import GlobalStyle from '@/components/GlobalStyle';
 
 const globalStyle = css`
   html {
@@ -65,7 +66,7 @@ function MyApp({ Component, pageProps }: AppProps) {
             <ReactQueryDevtools initialIsOpen={false} />
           )}
           <Hydrate state={pageProps.dehydratedState}>
-            <Global styles={globalStyle} />
+            <GlobalStyle />
             <Component {...pageProps} />
             <FullscreenLoader />
           </Hydrate>

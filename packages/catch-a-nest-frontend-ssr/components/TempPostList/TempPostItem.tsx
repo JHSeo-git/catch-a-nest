@@ -11,6 +11,7 @@ import ActiveLink from '../ActiveLink';
 import PopupConfirm from '../Popup/PopupConfirm';
 import { useRouter } from 'next/router';
 import { useUserValue } from '@/lib/recoil/authState';
+import { useThemeValue } from '@/lib/recoil/appState';
 
 export type TempPostItemProps = {
   post: Post;
@@ -18,6 +19,7 @@ export type TempPostItemProps = {
 
 const TempPostItem = ({ post }: TempPostItemProps) => {
   const userState = useUserValue();
+  const theme = useThemeValue();
   const router = useRouter();
   const [visiblePopup, setVisiblePopup] = useState(false);
   const { deletePost } = useDeletePost();
@@ -28,9 +30,12 @@ const TempPostItem = ({ post }: TempPostItemProps) => {
   };
   return (
     <li css={block}>
-      <div css={itemStyle}>
-        <div css={infoWrapper}>
-          <ActiveLink css={linkStyle} to={`/write/${post.url_slug}`}>
+      <div css={itemStyle(theme === 'DARK')}>
+        <div css={infoWrapper(theme === 'DARK')}>
+          <ActiveLink
+            css={linkStyle(theme === 'DARK')}
+            to={`/write/${post.url_slug}`}
+          >
             <h4>{getDiffOfNow(post.updated_at)}</h4>
             <h2>{post.title}</h2>
             <p>
@@ -57,29 +62,49 @@ const TempPostItem = ({ post }: TempPostItemProps) => {
 
 const block = css``;
 
-const itemStyle = css`
+const itemStyle = (isDarkMode: boolean) => css`
   min-height: 6.6rem;
   overflow: hidden;
   border-bottom: 0.0625rem solid ${palette.blueGrey[100]};
 
+  ${isDarkMode &&
+  css`
+    border-bottom: 0.0625rem solid ${palette.blueGrey[400]};
+  `}
+
   display: flex;
 `;
 
-const linkStyle = css`
+const linkStyle = (isDarkMode: boolean) => css`
   text-decoration: none;
   text-decoration-color: ${palette.blueGrey[900]};
+
+  ${isDarkMode &&
+  css`
+    text-decoration-color: ${palette.blueGrey[400]};
+  `}
 
   transition: all 0.2s ease-in-out;
   &:hover {
     text-decoration: underline;
     text-decoration-color: ${palette.blueGrey[900]};
+
+    ${isDarkMode &&
+    css`
+      text-decoration-color: ${palette.blueGrey[400]};
+    `}
   }
   &:active {
     text-decoration-color: ${palette.blueGrey[900]};
+
+    ${isDarkMode &&
+    css`
+      text-decoration-color: ${palette.blueGrey[400]};
+    `}
   }
 `;
 
-const infoWrapper = css`
+const infoWrapper = (isDarkMode: boolean) => css`
   flex: 1;
   padding: 1rem 1rem;
   padding-right: 5rem;
@@ -90,6 +115,11 @@ const infoWrapper = css`
     margin-bottom: 0.5rem;
     font-size: 0.75rem;
     color: ${palette.blueGrey[700]};
+
+    ${isDarkMode &&
+    css`
+      color: ${palette.grey[400]};
+    `}
   }
   h2 {
     margin: 0;
@@ -105,6 +135,11 @@ const infoWrapper = css`
     ${media.sm} {
       font-size: 1.5rem;
     }
+
+    ${isDarkMode &&
+    css`
+      color: ${palette.grey[200]};
+    `}
   }
   p {
     margin: 0;
@@ -118,6 +153,11 @@ const infoWrapper = css`
     -webkit-box-orient: vertical;
     overflow: hidden;
     text-overflow: ellipsis;
+
+    ${isDarkMode &&
+    css`
+      color: ${palette.grey[300]};
+    `}
   }
   button {
     ${resetButton}
@@ -129,9 +169,19 @@ const infoWrapper = css`
     word-break: break-word;
     font-size: 0.85rem;
     line-height: 1.5;
+
+    ${isDarkMode &&
+    css`
+      color: ${palette.grey[300]};
+    `}
     &:hover {
       text-decoration: underline;
       color: ${palette.red[700]};
+
+      ${isDarkMode &&
+      css`
+        color: ${palette.red[400]};
+      `}
     }
   }
 `;

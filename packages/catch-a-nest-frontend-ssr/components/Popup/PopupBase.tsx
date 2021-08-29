@@ -1,6 +1,8 @@
 import useLazyClose from '@/hooks/useLazyClose';
+import { useThemeValue } from '@/lib/recoil/appState';
 import { pageZoomInStyle, pageZoomOutStyle } from '@/lib/styles/animation';
 import media from '@/lib/styles/media';
+import palette from '@/lib/styles/palette';
 import { css } from '@emotion/react';
 import Modal from '../Modal';
 
@@ -14,26 +16,39 @@ const ANIMATION_ON_INTERVAL = 500;
 const ANIMATION_OFF_INTERVAL = 200;
 
 const PopupBase = ({ visible, children, isDelay = false }: PopupBaseProps) => {
+  const theme = useThemeValue();
   const { lazyClosed } = useLazyClose(visible, ANIMATION_OFF_INTERVAL);
 
   if (!visible && lazyClosed) return null;
 
   return (
     <Modal>
-      <div css={popupWrapper(visible, isDelay)}>{children}</div>
+      <div css={popupWrapper(visible, isDelay, theme === 'DARK')}>
+        {children}
+      </div>
     </Modal>
   );
 };
 
-const popupWrapper = (visible: boolean, isDelay: boolean) => css`
+const popupWrapper = (
+  visible: boolean,
+  isDelay: boolean,
+  isDarkMode: boolean
+) => css`
   width: 25rem;
   display: flex;
   flex-direction: column;
   background: white;
   padding: 2rem;
   border-radius: 0.5rem;
-  box-shadow: 0 0.25rem 0.5rem rgb(0, 0, 0, 0.25);
+  box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.05);
   transform: scale(0);
+
+  ${isDarkMode &&
+  css`
+    background: ${palette.blueGrey[700]};
+    box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.4);
+  `}
 
   ${media.custom(500)} {
     width: 100%;

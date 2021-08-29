@@ -1,3 +1,4 @@
+import { useThemeValue } from '@/lib/recoil/appState';
 import palette from '@/lib/styles/palette';
 import { responsiveWidth } from '@/lib/styles/responsive';
 import { css } from '@emotion/react';
@@ -5,8 +6,10 @@ import { css } from '@emotion/react';
 export type AppInfoProps = {};
 
 function AppInfo(props: AppInfoProps) {
+  const theme = useThemeValue();
+
   return (
-    <div css={block}>
+    <div css={block(theme === 'DARK')}>
       <p className="copywrite">&#169; 2021</p>
       <a
         rel="noreferrer"
@@ -20,7 +23,7 @@ function AppInfo(props: AppInfoProps) {
   );
 }
 
-const block = css`
+const block = (isDarkMode: boolean) => css`
   height: 100%;
   ${responsiveWidth};
   display: flex;
@@ -29,6 +32,12 @@ const block = css`
   font-size: 0.75rem;
   line-height: 1.5;
   color: ${palette.blueGrey[500]};
+
+  ${isDarkMode &&
+  css`
+    color: ${palette.grey[100]};
+  `}
+
   .copywrite {
     margin: 0;
     padding: 0;
@@ -41,6 +50,11 @@ const block = css`
     &:hover {
       text-decoration: underline;
     }
+
+    ${isDarkMode &&
+    css`
+      color: ${palette.lightBlue[400]};
+    `}
   }
 `;
 

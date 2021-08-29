@@ -4,6 +4,7 @@ import palette from '@/lib/styles/palette';
 import { responsiveWidth } from '@/lib/styles/responsive';
 import zIndex from '@/lib/styles/zIndex';
 import { pageFadeInStyle } from '@/lib/styles/animation';
+import { useThemeValue } from '@/lib/recoil/appState';
 
 export type LayoutProps = {
   children: React.ReactNode;
@@ -17,9 +18,11 @@ export type HeaderProps = {
   children: React.ReactNode;
 };
 const Header = ({ children }: HeaderProps) => {
+  const theme = useThemeValue();
+
   return (
     <header>
-      <Headroom disableInlineStyles={true} css={headerStyle}>
+      <Headroom disableInlineStyles={true} css={headerStyle(theme === 'DARK')}>
         {children}
       </Headroom>
     </header>
@@ -31,7 +34,9 @@ export type FooterProps = {
 };
 
 function Footer({ children }: FooterProps) {
-  return <footer css={footerStyle}>{children}</footer>;
+  const theme = useThemeValue();
+
+  return <footer css={footerStyle(theme === 'DARK')}>{children}</footer>;
 }
 
 export type MainProps = {
@@ -44,11 +49,18 @@ const Main = ({ children }: MainProps) => {
 const layoutStyle = css`
   height: 100%;
 `;
-const headerStyle = css`
+const headerStyle = (isDarkMode: boolean) => css`
   height: 4rem;
   width: 100%;
-  background: white;
   ${zIndex.fixedHeader};
+  background-color: #ffffff;
+
+  transition: background 0.2s ease-in-out;
+
+  ${isDarkMode &&
+  css`
+    background-color: ${palette.blueGrey[900]};
+  `}
   /* background: linear-gradient(
       110.7deg,
       rgba(255, 255, 255, 0.7) 1.64%,
@@ -83,9 +95,14 @@ const headerStyle = css`
   }
 `;
 
-const footerStyle = css`
+const footerStyle = (isDarkMode: boolean) => css`
   height: 3rem;
   border-top: 0.0625rem solid ${palette.blueGrey[50]};
+
+  ${isDarkMode &&
+  css`
+    border-top: 0.0625rem solid ${palette.blueGrey[700]};
+  `}
 `;
 
 const mainStyle = css`

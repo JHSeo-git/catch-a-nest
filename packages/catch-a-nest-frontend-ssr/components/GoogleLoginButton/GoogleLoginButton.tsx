@@ -5,10 +5,12 @@ import palette from '@/lib/styles/palette';
 import { resetButton } from '@/lib/styles/reset/resetButton';
 import AppIcon from '../AppIcon';
 import useGoogleLoginEffect from '@/hooks/useGoogleLoginEffect';
+import { useThemeValue } from '@/lib/recoil/appState';
 
 export type GoogleLoginButtonProps = {};
 
 const GoogleLoginButton = (props: GoogleLoginButtonProps) => {
+  const theme = useThemeValue();
   const buttonRef = useRef<HTMLButtonElement>(null);
   const [load, setLoad] = useState(false);
 
@@ -16,7 +18,7 @@ const GoogleLoginButton = (props: GoogleLoginButtonProps) => {
 
   return (
     <>
-      <button css={button} ref={buttonRef}>
+      <button css={button(theme === 'DARK')} ref={buttonRef}>
         <AppIcon name="google" />
         Sign in with Google
       </button>
@@ -29,7 +31,7 @@ const GoogleLoginButton = (props: GoogleLoginButtonProps) => {
   );
 };
 
-const button = css`
+const button = (isDarkMode: boolean) => css`
   ${resetButton}
   width: 100%;
   display: inline-flex;
@@ -43,6 +45,14 @@ const button = css`
   color: ${palette.blueGrey[800]};
   border-radius: 0.5rem;
   cursor: pointer;
+
+  ${isDarkMode &&
+  css`
+    border-color: ${palette.blueGrey[700]};
+    background: ${palette.blueGrey[900]};
+    color: ${palette.grey[200]};
+  `}
+
   svg {
     width: 1.5rem;
     height: 1.5rem;
@@ -51,6 +61,11 @@ const button = css`
   transition: all ease-in 0.125s;
   &:hover {
     box-shadow: 0 0.25rem 0.5rem rgba(0 0 0 /11%);
+
+    ${isDarkMode &&
+    css`
+      box-shadow: 0 0.25rem 0.5rem rgba(0 0 0 /30%);
+    `}
   }
 `;
 

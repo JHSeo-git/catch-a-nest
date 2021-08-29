@@ -8,16 +8,19 @@ import zIndex from '@/lib/styles/zIndex';
 import palette from '@/lib/styles/palette';
 import { useTOCHeadingIdValue } from '@/lib/recoil/viewerState';
 import useMarkdownItViewEffect from '@/hooks/useMarkdownItViewEffect';
+import { useThemeValue } from '@/lib/recoil/appState';
 
 export type MarkdownItViewerProps = {
   markdown: string;
 };
 
 function SSRMarkdownItViewer({ markdown }: MarkdownItViewerProps) {
+  const theme = useThemeValue();
+
   return (
     <MarkdownStyleWrapper>
       <div
-        css={viewerStyle(`${100}px`)}
+        css={viewerStyle(`${100}px`, theme === 'DARK')}
         className="markdown-viewer-contents"
       ></div>
     </MarkdownStyleWrapper>
@@ -25,6 +28,7 @@ function SSRMarkdownItViewer({ markdown }: MarkdownItViewerProps) {
 }
 
 function MarkdownItViewer({ markdown }: MarkdownItViewerProps) {
+  const theme = useThemeValue();
   const ref = useRef<HTMLDivElement>(null);
   const tocHeadingIdValue = useTOCHeadingIdValue();
   const fixedTocPos = 100;
@@ -36,14 +40,22 @@ function MarkdownItViewer({ markdown }: MarkdownItViewerProps) {
     <MarkdownStyleWrapper>
       <div
         ref={ref}
-        css={viewerStyle(`${fixedTocPos}px`, `#${tocHeadingIdValue}`)}
+        css={viewerStyle(
+          `${fixedTocPos}px`,
+          theme === 'DARK',
+          `#${tocHeadingIdValue}`
+        )}
         className="markdown-viewer-contents"
       ></div>
     </MarkdownStyleWrapper>
   );
 }
 
-const viewerStyle = (fixedTocPos: string, headerId?: string) => css`
+const viewerStyle = (
+  fixedTocPos: string,
+  isDarkMode: boolean,
+  headerId?: string
+) => css`
   nav {
     ${responsivePostToc};
     position: absolute;
@@ -56,6 +68,11 @@ const viewerStyle = (fixedTocPos: string, headerId?: string) => css`
       border-radius: 0.25rem;
       background: ${palette.grey[50]};
       margin: 0 2rem;
+
+      ${isDarkMode &&
+      css`
+        background: ${palette.blueGrey[800]};
+      `}
     }
 
     &.fixed {
@@ -80,15 +97,30 @@ const viewerStyle = (fixedTocPos: string, headerId?: string) => css`
         color: ${palette.blueGrey[500]};
         transition: all 0.1s linear;
 
+        ${isDarkMode &&
+        css`
+          color: ${palette.grey[100]};
+        `}
+
         &:hover {
           color: ${palette.blue[500]};
           text-decoration: none;
+
+          ${isDarkMode &&
+          css`
+            color: ${palette.lightBlue[400]};
+          `}
         }
 
         &[href='${headerId}'] {
           color: ${palette.lightBlue[500]};
           font-weight: bold;
           transform: scale3d(1, 1, 1.5);
+
+          ${isDarkMode &&
+          css`
+            color: ${palette.lightBlue[300]};
+          `}
         }
       }
 

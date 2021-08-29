@@ -7,6 +7,7 @@ import { getDiffOfNow } from '@/lib/utils/dateUtils';
 import palette from '@/lib/styles/palette';
 import { humanizeTime } from '@/lib/utils/viewerUtils';
 import media from '@/lib/styles/media';
+import { useThemeValue } from '@/lib/recoil/appState';
 
 export type PostItemProps = {
   post: Post;
@@ -25,12 +26,16 @@ const isUpdated = (createdAt: string, updatedAt: string) => {
 };
 
 const PostItem = ({ post }: PostItemProps) => {
+  const theme = useThemeValue();
   const updatedBy = isUpdated(post.created_at, post.updated_at)
     ? getDiffOfNow(post.updated_at)
     : null;
   return (
     <li css={block}>
-      <ActiveLink css={itemStyle} to={`/posts/${post.url_slug}`}>
+      <ActiveLink
+        css={itemStyle(theme === 'DARK')}
+        to={`/posts/${post.url_slug}`}
+      >
         <div css={imageWrapper}>
           {post.thumbnail ? (
             <Image
@@ -51,7 +56,7 @@ const PostItem = ({ post }: PostItemProps) => {
             ></div>
           )}
         </div>
-        <div css={infoWrapper}>
+        <div css={infoWrapper(theme === 'DARK')}>
           <h4>
             {getDiffOfNow(post.created_at)}
             {post.read_time !== undefined && (
@@ -81,17 +86,27 @@ const block = css`
   position: relative;
 `;
 
-const itemStyle = css`
+const itemStyle = (isDarkMode: boolean) => css`
   text-decoration: none;
   height: 8rem;
   overflow: hidden;
   border-radius: 0.5rem;
   border: 0.0625rem solid ${palette.blueGrey[100]};
 
+  ${isDarkMode &&
+  css`
+    border-color: ${palette.blueGrey[700]};
+  `}
+
   display: flex;
   transition: all 0.1s ease-in-out;
   &:hover {
     box-shadow: 0 0.25rem 0.5rem rgba(0 0 0 /5%);
+
+    ${isDarkMode &&
+    css`
+      box-shadow: 0 0.25rem 0.5rem rgba(0 0 0 /30%);
+    `}
   }
 `;
 
@@ -115,7 +130,7 @@ const thumbnailImage = css`
   object-fit: cover;
 `;
 
-const infoWrapper = css`
+const infoWrapper = (isDarkMode: boolean) => css`
   flex: 1;
   padding: 0.5rem 1rem;
   display: flex;
@@ -127,6 +142,11 @@ const infoWrapper = css`
     font-size: 0.75rem;
     color: ${palette.blueGrey[700]};
 
+    ${isDarkMode &&
+    css`
+      color: ${palette.grey[100]};
+    `}
+
     display: flex;
     align-items: center;
 
@@ -136,11 +156,21 @@ const infoWrapper = css`
       background: ${palette.blue[500]};
       margin: 0 0.25rem;
       border-radius: 50%;
+
+      ${isDarkMode &&
+      css`
+        background: ${palette.lightBlue[400]};
+      `}
     }
 
     .readTimeStyle {
       font-style: italic;
       color: ${palette.blue[500]};
+
+      ${isDarkMode &&
+      css`
+        color: ${palette.lightBlue[400]};
+      `}
     }
   }
   h1 {
@@ -158,6 +188,11 @@ const infoWrapper = css`
     ${media.sm} {
       font-size: 1.5rem;
     }
+
+    ${isDarkMode &&
+    css`
+      color: ${palette.grey[200]};
+    `}
   }
   p {
     margin: 0;
@@ -171,6 +206,11 @@ const infoWrapper = css`
     -webkit-box-orient: vertical;
     overflow: hidden;
     text-overflow: ellipsis;
+
+    ${isDarkMode &&
+    css`
+      color: ${palette.grey[300]};
+    `}
   }
   .updated {
     text-align: right;
@@ -182,11 +222,22 @@ const infoWrapper = css`
     font-size: 0.75rem;
     line-height: 1.5;
     font-style: italic;
+
+    ${isDarkMode &&
+    css`
+      color: ${palette.grey[300]};
+    `}
+
     span {
       margin-right: 0.5rem;
       color: ${palette.red[500]};
       font-size: 0.75rem;
       line-height: 1.5;
+
+      ${isDarkMode &&
+      css`
+        color: ${palette.red[400]};
+      `}
     }
   }
 `;

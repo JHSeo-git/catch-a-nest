@@ -11,6 +11,7 @@ import AppButton from '../AppButton';
 import useDeletePost from '@/hooks/useDeletePost';
 import { useRouter } from 'next/router';
 import PopupConfirm from '../Popup/PopupConfirm';
+import { useThemeValue } from '@/lib/recoil/appState';
 
 export type PostHeaderProps = {
   post: Post;
@@ -18,6 +19,7 @@ export type PostHeaderProps = {
 
 const PostHeader = ({ post }: PostHeaderProps) => {
   const router = useRouter();
+  const theme = useThemeValue();
   const userState = useUserValue();
   const { deletePost } = useDeletePost();
 
@@ -32,7 +34,7 @@ const PostHeader = ({ post }: PostHeaderProps) => {
 
   return (
     <>
-      <section css={postStyle}>
+      <section css={postStyle(theme === 'DARK')}>
         <h1 className="title">{post.title}</h1>
         <div className="sub-info">
           <p className="date">{stringToDateMoreDetail(post.created_at)}</p>
@@ -87,7 +89,7 @@ const PostHeader = ({ post }: PostHeaderProps) => {
   );
 };
 
-const postStyle = css`
+const postStyle = (isDarkMode: boolean) => css`
   display: flex;
   flex-direction: column;
   margin-bottom: 2rem;
@@ -99,6 +101,11 @@ const postStyle = css`
     font-weight: 900;
     font-size: 3rem;
     color: ${palette.blueGrey[900]};
+
+    ${isDarkMode &&
+    css`
+      color: ${palette.grey[100]};
+    `}
 
     ${media.md} {
       font-size: 2.25rem;
@@ -120,10 +127,20 @@ const postStyle = css`
       color: ${palette.blueGrey[700]};
       text-align: right;
       line-height: 1;
+
+      ${isDarkMode &&
+      css`
+        color: ${palette.grey[300]};
+      `}
     }
     .readTimeStyle {
       color: ${palette.blue[500]};
       font-style: italic;
+
+      ${isDarkMode &&
+      css`
+        color: ${palette.lightBlue[400]};
+      `}
     }
     .splitter {
       margin-left: 0.5rem;
@@ -136,6 +153,11 @@ const postStyle = css`
       margin-right: 5rem;
       height: 0.125rem;
       background: ${palette.blueGrey[100]}; */
+
+      ${isDarkMode &&
+      css`
+        background-color: ${palette.lightBlue[400]};
+      `}
     }
   }
 `;
