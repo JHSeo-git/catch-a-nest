@@ -387,6 +387,7 @@ const toastuiStyle = (isDarkMode: boolean) => css`
       margin: 0;
       padding: 0;
 
+      position: relative;
       display: flex;
       align-items: center;
 
@@ -394,7 +395,9 @@ const toastuiStyle = (isDarkMode: boolean) => css`
         visibility: hidden;
         display: flex;
         color: ${palette.blueGrey[700]};
-        margin-right: 0.25rem;
+
+        position: absolute;
+        left: -2rem;
 
         ${isDarkMode &&
         css`
@@ -403,17 +406,14 @@ const toastuiStyle = (isDarkMode: boolean) => css`
         svg {
           height: 1rem;
         }
-
-        ${media.sm} {
-          svg {
-            height: 0.75rem;
-          }
-        }
       }
 
       &:hover {
         .header-anchor {
           visibility: visible;
+          ${media.custom(870)} {
+            visibility: hidden;
+          }
         }
       }
     }
