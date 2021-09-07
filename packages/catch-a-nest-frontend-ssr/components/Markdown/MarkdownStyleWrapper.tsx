@@ -623,9 +623,9 @@ const toastuiStyle = (isDarkMode: boolean) => css`
         background-color: transparent;
 
         .highlighted-line {
-          background-color: ${palette.lightBlue[50]};
+          background-color: ${palette.grey[900]};
           display: block;
-          border-left: 0.25rem solid ${palette.lightBlue[500]};
+          border-left: 0.25rem solid ${palette.lightBlue[700]};
           margin: 0 -1rem;
           padding: 0 1rem;
         }
