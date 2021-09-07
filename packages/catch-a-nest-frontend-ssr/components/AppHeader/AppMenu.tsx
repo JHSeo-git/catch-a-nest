@@ -52,6 +52,7 @@ const AppMenu = (props: AppMenuProps) => {
       <ul css={menuListStyle(visible)} onClick={handleClickInSide}>
         <Menu name="Home" to="/posts" />
         <Menu name="About" to="/about" />
+        <Menu name="Lab" to="/lab" />
         {userValue && (
           <>
             <Menu name="New Post" to="/write" />

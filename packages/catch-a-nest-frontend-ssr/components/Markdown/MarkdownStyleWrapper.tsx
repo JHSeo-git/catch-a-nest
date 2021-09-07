@@ -613,12 +613,12 @@ const toastuiStyle = (isDarkMode: boolean) => css`
       margin: 0.875rem 0;
       padding: 1rem;
       /* background: white; */
-      background: ${palette.grey[50]};
+      background: ${palette.blueGrey[800]};
       border-radius: 0.25rem;
 
       code {
         padding: 0;
-        color: inherit;
+        color: ${palette.grey[50]};
         white-space: pre-wrap;
         background-color: transparent;
 

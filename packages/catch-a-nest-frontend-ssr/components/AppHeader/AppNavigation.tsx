@@ -10,13 +10,13 @@ const AppNavigation = (props: AppNavigationProps) => {
 
   return (
     <nav css={block}>
-      <ActiveLink
+      {/* <ActiveLink
         to="/about"
         css={HeaderLinkStyle(theme === 'DARK')}
         tabIndex={0}
       >
         About
-      </ActiveLink>
+      </ActiveLink> */}
     </nav>
   );
 };

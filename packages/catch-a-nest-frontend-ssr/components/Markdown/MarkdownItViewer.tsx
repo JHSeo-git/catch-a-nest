@@ -1,4 +1,4 @@
-import 'highlight.js/styles/atom-one-light.css';
+import 'highlight.js/styles/stackoverflow-dark.css';
 
 import { useRef } from 'react';
 import { css } from '@emotion/react';
