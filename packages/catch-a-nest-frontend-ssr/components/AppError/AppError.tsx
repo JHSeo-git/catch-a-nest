@@ -26,7 +26,7 @@ const AppError = ({ message, status }: AppErrorProps) => {
         <p>{message}</p>
       </div>
       <div css={contentStyle}>
-        <button css={backButton} onClick={onClick}>
+        <button css={backButton(theme === 'DARK')} onClick={onClick}>
           Go Back
         </button>
       </div>
