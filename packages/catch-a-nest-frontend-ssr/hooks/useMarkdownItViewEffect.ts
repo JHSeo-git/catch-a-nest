@@ -1,5 +1,4 @@
 import { useSetTOCHeadingId } from '@/lib/recoil/viewerState';
-import markdownItClient from '@/lib/utils/markdownItClient';
 import { getScrollTop } from '@/lib/utils/viewerUtils';
 import { useCallback, useEffect, useState } from 'react';
 
@@ -23,9 +22,7 @@ export default function useMarkdownItViewEffect({
 }: MarkdownItViewEffectProps) {
   const [tocElement, setTOCElement] = useState<HTMLElement | null>(null);
   const [headingIds, setHeadingIds] = useState<HeadingType>([]);
-  const [currentPageHeight, setCurrentPageHeight] = useState(
-    document.documentElement.scrollHeight
-  );
+  const [currentPageHeight, setCurrentPageHeight] = useState(0);
   const setTOCHeadingId = useSetTOCHeadingId();
 
   const onActivateTOCHeading = useCallback(() => {
@@ -43,6 +40,7 @@ export default function useMarkdownItViewEffect({
 
   const onScroll = useCallback(() => {
     if (!tocElement) return;
+    if (!window) return;
     if (currentPageHeight !== document.documentElement.scrollHeight) {
       setCurrentPageHeight(document.documentElement.scrollHeight);
       return;
@@ -60,8 +58,8 @@ export default function useMarkdownItViewEffect({
     if (!markdown) return;
     if (!ref?.current) return;
 
-    const result = markdownItClient.render('\n[[toc]]\n' + markdown);
-    ref.current.innerHTML = result;
+    // const result = markdownItClient.render('\n[[toc]]\n' + markdown);
+    // ref.current.innerHTML = result;
     setTOCElement(ref.current.querySelector('nav'));
 
     const scrollTop = getScrollTop();

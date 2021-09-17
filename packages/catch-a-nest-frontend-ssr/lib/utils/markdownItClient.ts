@@ -14,6 +14,11 @@ import MDToc from 'markdown-it-toc-done-right';
 import MDhljsLine from 'markdown-it-highlight-lines';
 import uslug from 'uslug';
 
+/**
+ * markdown it security including xss
+ * @see https://github.com/markdown-it/markdown-it/blob/master/docs/security.md
+ */
+
 const markdownItClient = new MarkdownIt({
   breaks: true,
   linkify: true,

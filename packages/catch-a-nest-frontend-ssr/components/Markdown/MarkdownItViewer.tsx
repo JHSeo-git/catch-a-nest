@@ -10,6 +10,8 @@ import { useTOCHeadingIdValue } from '@/lib/recoil/viewerState';
 import useMarkdownItViewEffect from '@/hooks/useMarkdownItViewEffect';
 import { useThemeValue } from '@/lib/recoil/appState';
 
+import markdownItClient from '@/lib/utils/markdownItClient';
+
 export type MarkdownItViewerProps = {
   markdown: string;
 };
@@ -46,6 +48,9 @@ function MarkdownItViewer({ markdown }: MarkdownItViewerProps) {
           `#${tocHeadingIdValue}`
         )}
         className="markdown-viewer-contents"
+        dangerouslySetInnerHTML={{
+          __html: markdownItClient.render('\n[[toc]]\n' + markdown),
+        }}
       ></div>
     </MarkdownStyleWrapper>
   );
