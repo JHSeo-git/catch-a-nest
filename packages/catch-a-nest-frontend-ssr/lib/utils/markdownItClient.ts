@@ -59,4 +59,17 @@ const markdownItClient = new MarkdownIt({
     containerClass: 'md-toc-wrapper',
   });
 
+markdownItClient.renderer.rules.image = (tokens, idx, options, env, slf) => {
+  const token = tokens[idx];
+  if (token.attrs) {
+    token.attrs[token.attrIndex('alt')][1] = slf.renderInlineAsText(
+      token.children ?? [],
+      options,
+      env
+    );
+    token.attrSet('loading', 'lazy');
+  }
+  return slf.renderToken(tokens, idx, options);
+};
+
 export default markdownItClient;
