@@ -612,14 +612,14 @@ const toastuiStyle = (isDarkMode: boolean) => css`
       font-size: 1rem;
       margin: 0.875rem 0;
       padding: 1rem;
-      /* background: white; */
       background: ${palette.blueGrey[800]};
       border-radius: 0.25rem;
+      overflow-x: auto;
 
       code {
         padding: 0;
         color: ${palette.grey[50]};
-        white-space: pre-wrap;
+        white-space: pre;
         background-color: transparent;
 
         .highlighted-line {
@@ -627,7 +627,8 @@ const toastuiStyle = (isDarkMode: boolean) => css`
           display: block;
           border-left: 0.25rem solid ${palette.lightBlue[700]};
           margin: 0 -1rem;
-          padding: 0 1rem;
+          padding-left: 0.75rem;
+          padding-right: 1rem;
         }
       }
     }
