@@ -16,6 +16,7 @@ const TuiEditorWrapper = (props: TuiEditorWithForwardedProps) => {
       ref={props.forwardedRef}
       previewStyle="vertical"
       hideModeSwitch
+      autofocus={false}
       initialEditType="markdown"
       extendedAutolinks={true}
       usageStatistics={false}
