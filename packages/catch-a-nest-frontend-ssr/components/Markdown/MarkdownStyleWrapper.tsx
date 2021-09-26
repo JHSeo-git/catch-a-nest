@@ -392,27 +392,33 @@ const toastuiStyle = (isDarkMode: boolean) => css`
       align-items: center;
 
       .header-anchor {
-        visibility: hidden;
+        height: 100%;
         display: flex;
+        align-items: center;
         color: ${palette.blueGrey[700]};
 
         position: absolute;
         left: -2rem;
 
+        svg {
+          height: 1rem;
+          visibility: hidden;
+        }
+
         ${isDarkMode &&
         css`
           color: ${palette.grey[50]};
         `}
-        svg {
-          height: 1rem;
+
+        ${media.custom(870)} {
+          display: none;
         }
       }
 
       &:hover {
         .header-anchor {
-          visibility: visible;
-          ${media.custom(870)} {
-            visibility: hidden;
+          svg {
+            visibility: visible;
           }
         }
       }
