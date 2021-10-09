@@ -23,7 +23,6 @@ const PostList = (props: PostListProps) => {
              <PostItemSkeleton key={i} ref={i === 0 ? elementRef : undefined} />
            ))} */}
       </ul>
-      {/* <PostWriteButton /> */}
     </>
   );
 };
@@ -35,27 +34,6 @@ const listStyle = css`
 
   li + li {
     margin-top: 1rem;
-  }
-`;
-
-const emptyStyle = css`
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  img {
-    width: 25rem;
-  }
-  p {
-    margin-top: 2.5rem;
-    font-size: 1.5rem;
-    color: ${palette.blueGrey[700]};
   }
 `;
 

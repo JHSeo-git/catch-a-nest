@@ -67,7 +67,6 @@ const PostHeader = ({ post }: PostHeaderProps) => {
           <div css={thumbnailWrapper}>
             <Image
               css={imageStyle}
-              quality={100}
               src={post.thumbnail}
               alt="post thumbnail"
               width={768}
