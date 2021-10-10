@@ -11,6 +11,7 @@ import palette from '@/lib/styles/palette';
 import PostItem from '@/components/PostList/PostItem';
 import ActiveLink from '@/components/ActiveLink';
 import AppIcon from '@/components/AppIcon';
+import { useThemeValue } from '@/lib/recoil/appState';
 
 export const getStaticProps: GetStaticProps = async (context) => {
   const queryClient = await prefetchGetPostsByLatestQuery();
@@ -25,6 +26,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
 
 const HomePage = () => {
   const { data, error } = useGetPostsByLatestQuery();
+  const theme = useThemeValue();
 
   const posts = useMemo(() => {
     if (!data) return null;
@@ -50,7 +52,7 @@ const HomePage = () => {
             <PostItem key={post.id} post={post} viewThumbnail={false} />
           ))}
         </ul>
-        <div css={linkBox}>
+        <div css={linkBox(theme === 'DARK')}>
           <ActiveLink to="/posts" tabIndex={0}>
             All Posts
             <AppIcon name="arrowRight" />
@@ -86,7 +88,7 @@ const list = css`
   }
 `;
 
-const linkBox = css`
+const linkBox = (isDark: boolean) => css`
   display: flex;
   justify-content: flex-end;
   margin-top: 1rem;
@@ -97,6 +99,11 @@ const linkBox = css`
 
     display: flex;
     align-items: center;
+
+    ${isDark &&
+    css`
+      color: ${palette.blueGrey[300]};
+    `}
 
     svg {
       margin-left: 0.25rem;
@@ -109,6 +116,11 @@ const linkBox = css`
 
     &:hover {
       color: ${palette.blueGrey[600]};
+
+      ${isDark &&
+      css`
+        color: ${palette.blueGrey[100]};
+      `}
 
       svg {
         color: ${palette.blue[300]};
