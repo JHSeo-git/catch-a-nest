@@ -166,8 +166,9 @@ export const getAllPostId = async (ctx: Context) => {
 export const getPosts = async (ctx: Context) => {
   try {
     const params = ctx.query;
-    const { user_id, cursor } = params;
-
+    const { user_id, cursor, take_latest } = params;
+    const takeLatest =
+      typeof take_latest === 'string' ? parseInt(take_latest) : undefined;
     const posts = await getRepository(Post).find({
       where: {
         ...(user_id ? { user: { id: user_id } } : {}),
@@ -175,7 +176,7 @@ export const getPosts = async (ctx: Context) => {
         is_temp: false,
       },
       relations: ['user'],
-      take: 10,
+      take: takeLatest ? takeLatest : 10,
       order: {
         id: 'DESC',
       },
