@@ -50,7 +50,7 @@ const AppMenu = (props: AppMenuProps) => {
         <AppIcon name="threeDot" />
       </button>
       <ul css={menuListStyle(visible)} onClick={handleClickInSide}>
-        <Menu name="Home" to="/posts" />
+        <Menu name="Posts" to="/posts" />
         <Menu name="About" to="/about" />
         <Menu name="Lab" to="/lab" />
         {userValue && (

@@ -11,6 +11,7 @@ import { useThemeValue } from '@/lib/recoil/appState';
 
 export type PostItemProps = {
   post: Post;
+  viewThumbnail?: boolean;
 };
 
 const isUpdated = (createdAt: string, updatedAt: string) => {
@@ -25,7 +26,7 @@ const isUpdated = (createdAt: string, updatedAt: string) => {
   return true;
 };
 
-const PostItem = ({ post }: PostItemProps) => {
+const PostItem = ({ post, viewThumbnail = true }: PostItemProps) => {
   const theme = useThemeValue();
   const updatedBy = isUpdated(post.created_at, post.updated_at)
     ? getDiffOfNow(post.updated_at)
@@ -36,26 +37,28 @@ const PostItem = ({ post }: PostItemProps) => {
         css={itemStyle(theme === 'DARK')}
         to={`/posts/${post.url_slug}`}
       >
-        <div css={imageWrapper}>
-          {post.thumbnail ? (
-            <Image
-              css={thumbnailImage}
-              src={post.thumbnail}
-              alt="post thumbnail"
-              layout="fill"
-              placeholder={'blur'}
-              blurDataURL={post.thumbnail}
-            />
-          ) : (
-            <div
-              css={imageEmptySection(
-                palette.colorArray[
-                  post.id % palette.colorArray.length
-                ]?.[200] ?? palette.blueGrey[200]
-              )}
-            ></div>
-          )}
-        </div>
+        {viewThumbnail && (
+          <div css={imageWrapper}>
+            {post.thumbnail ? (
+              <Image
+                css={thumbnailImage}
+                src={post.thumbnail}
+                alt="post thumbnail"
+                layout="fill"
+                placeholder={'blur'}
+                blurDataURL={post.thumbnail}
+              />
+            ) : (
+              <div
+                css={imageEmptySection(
+                  palette.colorArray[
+                    post.id % palette.colorArray.length
+                  ]?.[200] ?? palette.blueGrey[200]
+                )}
+              ></div>
+            )}
+          </div>
+        )}
         <div css={infoWrapper(theme === 'DARK')}>
           <h4>
             {getDiffOfNow(post.created_at)}

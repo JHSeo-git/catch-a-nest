@@ -35,7 +35,7 @@ export type PostsPageProps = {};
 const PostsPage = (props: PostsPageProps) => {
   return (
     <>
-      <PageSEO title="Posts" description="Seo's honest nest" />
+      <PageSEO title="Posts" description="Seo's honest posts" />
       <AppLayout>
         <PostList />
         <FloatLinkButton iconName="write" to="/write" />
