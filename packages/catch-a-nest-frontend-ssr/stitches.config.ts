@@ -121,7 +121,19 @@ const {
   createTheme,
   globalCss,
 } = createStitches({
-  media: {},
+  media: {
+    '3xl': '(min-width: 2200px)', // 137.5rem
+    '2xl': '(min-width: 1920px)', // 120rem
+    xl: '(min-width: 1440px)', // 90rem
+    lg: '(min-width: 1280px)', // 80rem
+    md: '(min-width: 1024px)', // 64rem
+    sm: '(min-width: 788px)', // 49.25rem
+    xs: '(min-width: 576px)', // 36rem
+    motion: '(prefers-reduced-motion)',
+    hover: '(any-hover: hover)',
+    dark: '(prefers-color-scheme: dark)',
+    light: '(prefers-color-scheme: light)',
+  },
   theme: {
     colors: {
       // gray-scale colors
@@ -204,16 +216,73 @@ const {
       base: `-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji'`,
       ubuntu: `'Ubuntu', Ubuntu, Roboto, 'Open Sans', 'Helvetica Neue', sans-serif`,
     },
-    sizes: {},
-    space: {},
-    radii: {},
-    zIndices: {},
-    fontSizes: {},
+    sizes: {
+      1: '5px',
+      2: '10px',
+      3: '15px',
+      4: '20px',
+      5: '25px',
+      6: '35px',
+      7: '45px',
+      8: '65px',
+      9: '80px',
+    },
+    space: {
+      1: '5px',
+      2: '10px',
+      3: '15px',
+      4: '20px',
+      5: '25px',
+      6: '35px',
+      7: '45px',
+      8: '65px',
+      9: '80px',
+    },
+    radii: {
+      1: '4px',
+      2: '6px',
+      3: '8px',
+      4: '12px',
+      round: '50%',
+      pill: '9999px',
+    },
+    zIndices: {
+      1: '10',
+      2: '20',
+      3: '30',
+      4: '40',
+      5: '50',
+      fixed: '500',
+      modal: '998',
+      max: '999',
+    },
+    fontSizes: {
+      xs: '0.75rem',
+      sm: '0.875rem',
+      base: '1rem',
+      lg: '1.125rem',
+      xl: '1.25rem',
+      '2xl': '1.5rem',
+      '3xl': '1.875rem',
+      '4xl': '2.25rem',
+      '5xl': '3rem',
+      '6xl': '3.75rem',
+      '7xl': '4.5rem',
+      '8xl': '6rem',
+      '9xl': '8rem',
+    },
+    shadows: {
+      muiShadow1: '0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24)',
+      muiShadow2: '0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23)',
+      muiShadow3: '0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23)',
+      muiShadow4: '0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22)',
+      muiShadow5: '0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22)',
+    },
+
+    letterSpacings: {},
+    transitions: {},
     fontWeights: {},
     lineHeights: {},
-    letterSpacings: {},
-    shadows: {},
-    transitions: {},
     borderStyles: {},
     borderWidths: {},
   },
