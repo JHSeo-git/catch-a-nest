@@ -20,7 +20,8 @@
           "@/lib": "./lib",
           "@/assets": "./assets",
           "@/hooks": "./hooks",
-          "@/config": "./config"
+          "@/config": "./config",
+          "@stitches.js": "./stitches.config.ts"
         }
       }
     ],
