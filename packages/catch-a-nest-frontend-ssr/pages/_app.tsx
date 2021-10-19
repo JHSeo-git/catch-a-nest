@@ -15,29 +15,35 @@ import { ReactQueryDevtools } from 'react-query/devtools';
 import RecoilDebugObserver from '@/components/RecoilDebugObserver';
 import GlobalStyle from '@/components/GlobalStyle';
 
-const globalStyle = css`
-  html {
-    box-sizing: border-box;
-    * {
-      box-sizing: inherit;
-    }
-  }
-  html,
-  body,
-  #__next {
-    height: 100%;
-  }
+import { globalCss } from '../stitches.config';
 
-  body {
-    margin: 0;
-    font-family: 'Ubuntu', Ubuntu, Roboto, 'Open Sans', 'Helvetica Neue',
-      sans-serif;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-  }
-`;
+const globalStyle = globalCss({
+  '*, *::before, *::after': {
+    boxSizing: 'border-box',
+  },
+
+  'html, body, #__next': {
+    height: '100%',
+  },
+
+  body: {
+    m: 0,
+    fontFamily: '$base',
+    WebkitFontSmoothing: 'antialiased',
+    MozOsxFontSmoothing: 'grayscale',
+    WebkitTextSizeAdjust: '100%',
+
+    bc: '$loContrast',
+
+    '& .dark-theme': {
+      bc: '$mauve1',
+    },
+  },
+});
 
 function MyApp({ Component, pageProps }: AppProps) {
+  globalStyle();
+
   // set retry 3 time, retryDelay 3 sec
   const [queryClient] = useState(
     () =>
