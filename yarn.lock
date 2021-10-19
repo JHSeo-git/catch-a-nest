@@ -2330,6 +2330,11 @@
     schema-utils "^2.6.5"
     source-map "^0.7.3"
 
+"@radix-ui/colors@^0.1.7":
+  version "0.1.7"
+  resolved "https://registry.yarnpkg.com/@radix-ui/colors/-/colors-0.1.7.tgz#055cdf104f92ae58a7d6a7f1c7327c635b90747f"
+  integrity sha512-E6+ZPQ+FFn1/NZ4c/KRvZTu9KjC/MXrbJNETYs1HKe96gyxQivPu65FkhOsRnPigvJ0YJ9ZxYGxayqDNmaC1cQ==
+
 "@reduxjs/toolkit@^1.5.0":
   version "1.5.0"
   resolved "https://registry.yarnpkg.com/@reduxjs/toolkit/-/toolkit-1.5.0.tgz#1025c1ccb224d1fc06d8d98a61f6717d57e6d477"
@@ -2413,6 +2418,16 @@
   version "1.2.2"
   resolved "https://registry.yarnpkg.com/@sqltools/formatter/-/formatter-1.2.2.tgz#9390a8127c0dcba61ebd7fdcc748655e191bdd68"
   integrity sha512-/5O7Fq6Vnv8L6ucmPjaWbVG1XkP4FO+w5glqfkIsq3Xw4oyNAdJddbnYodNDAfjVUvo/rrSCTom4kAND7T1o5Q==
+
+"@stitches/core@^1.2.5":
+  version "1.2.5"
+  resolved "https://registry.yarnpkg.com/@stitches/core/-/core-1.2.5.tgz#6dd8d1aa3d5f437cea7448498e66b2c1e9d7193e"
+  integrity sha512-E2N+Y2bKK7YS+J0kyORduGSwZMQsztYZAp3G/6Hgl2smA+Zzugwfuhc7sAYscdY3ShRf4gvHueNmO2vX+uLB4Q==
+
+"@stitches/react@^1.2.5":
+  version "1.2.5"
+  resolved "https://registry.yarnpkg.com/@stitches/react/-/react-1.2.5.tgz#2353343c220f0c59ba388a26fdd9ff7962cb6031"
+  integrity sha512-95Wwjp5cvoYQjg616OBiHZM1PnIF51pnFQIgSPxPzS/xXBrer9sNO1tfpVfLYfOifvuotse2IFNbypJ92BXzvg==
 
 "@surma/rollup-plugin-off-main-thread@^1.1.1":
   version "1.4.2"
