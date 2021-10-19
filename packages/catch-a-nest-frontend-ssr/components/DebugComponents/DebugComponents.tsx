@@ -8,7 +8,7 @@ function DebugComponents() {
   }
   return (
     <>
-      <ReactQueryDevtools initialIsOpen={false} />
+      <ReactQueryDevtools containerElement="div" initialIsOpen={false} />
       <RecoilDebugObserver />
     </>
   );
