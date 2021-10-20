@@ -117,6 +117,7 @@ import {
 const {
   styled,
   getCssText,
+  keyframes,
   theme: lightTheme,
   createTheme,
   globalCss,
@@ -209,7 +210,7 @@ const {
       // semantic colors
       black: '#000',
       white: '#fff',
-      hiContrast: '$slate12',
+      hiContrast: '$mauve12',
       loContrast: 'white',
     },
     fonts: {
@@ -226,6 +227,9 @@ const {
       7: '45px',
       8: '65px',
       9: '80px',
+      maxWidth: '770px', // 48.125rem
+      headerHeight: '70px', // 4.375rem
+      footerHeight: '70px', // 4.375rem
     },
     space: {
       1: '5px',
@@ -462,11 +466,11 @@ const darkTheme = createTheme('dark-theme', {
     ...bronzeDarkA,
 
     // semantic colors
-    hiContrast: '$slate12',
-    loContrast: '$slate1',
+    hiContrast: '$mauve12',
+    loContrast: '$mauve2',
   },
 });
 
 export const lightThemeClassName = lightTheme.className;
 export const darkThemeClassName = darkTheme.className;
-export { globalCss, styled, getCssText };
+export { globalCss, styled, getCssText, keyframes };
