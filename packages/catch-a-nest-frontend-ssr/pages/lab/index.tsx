@@ -1,63 +1,50 @@
-import { css } from '@emotion/react';
+import { styled } from '@stitches.js';
 import AppLayout from '@/components/AppLayout';
-import palette from '@/lib/styles/palette';
-import ThemeSwitch from '@/components/ThemeSwitch';
-import { useThemeValue } from '@/lib/recoil/appState';
+import Container from '@/components/common/Container';
+import MagicWand from '@/assets/icons/magic-wand.svg';
 
-export type LabPageProps = {};
-
-const LabPage = (props: LabPageProps) => {
-  const theme = useThemeValue();
-
+function LabPage() {
   return (
     <AppLayout>
-      <h1 css={heading(theme === 'DARK')}>Laboratory</h1>
-      <ul css={listStyle}>
-        <li>
-          <div css={themeSwitchBox(theme === 'DARK')}>
-            <h2>Dark Mode</h2>
-            <ThemeSwitch />
-          </div>
-        </li>
-        <li></li>
-      </ul>
+      <Container>
+        <Title>
+          <MagicWand className="icon" />
+          <h1 className="text">Lab</h1>
+        </Title>
+        <ListBox>
+          <ListItem></ListItem>
+        </ListBox>
+      </Container>
     </AppLayout>
   );
-};
+}
+const Title = styled('div', {
+  py: '$3',
+  mb: '$3',
 
-const heading = (isDarkMode: boolean) => css`
-  color: ${palette.lightBlue[700]};
+  display: 'flex',
+  jc: 'center',
+  ai: 'center',
 
-  ${isDarkMode &&
-  css`
-    color: ${palette.lightBlue[500]};
-  `}
-`;
+  '& .icon': {
+    color: '$purple9',
+    size: '$9',
+  },
 
-const listStyle = css`
-  margin: 0;
-  padding: 0;
-  list-style: none;
+  '& .text': {
+    m: 0,
+    ml: '$4',
+    color: '$purple9',
+    fontSize: '$6xl',
+  },
+});
 
-  display: block;
+const ListBox = styled('ul', {
+  m: 0,
+  p: 0,
+  listStyle: 'none',
+});
 
-  li + li {
-    margin-top: 1rem;
-    border-top: 0.0625rem solid ${palette.blueGrey[300]};
-  }
-`;
-
-const themeSwitchBox = (isDarkMode: boolean) => css`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-
-  h2 {
-    ${isDarkMode &&
-    css`
-      color: ${palette.grey[50]};
-    `}
-  }
-`;
+const ListItem = styled('li', {});
 
 export default LabPage;

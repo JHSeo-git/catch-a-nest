@@ -1,17 +1,17 @@
 import React, { useMemo } from 'react';
-import AppLayout from '@/components/AppLayout';
-import PageSEO from '@/components/AppSEO/PageSEO';
 import { GetStaticProps } from 'next';
+import Link from 'next/link';
 import { dehydrate } from 'react-query/hydration';
+import { styled } from '@stitches.js';
 import useGetPostsByLatestQuery, {
   prefetchGetPostsByLatestQuery,
 } from '@/hooks/query/useGetPostsByLatestQuery';
-import { css } from '@emotion/react';
-import palette from '@/lib/styles/palette';
-import PostItem from '@/components/PostList/PostItem';
-import ActiveLink from '@/components/ActiveLink';
-import AppIcon from '@/components/AppIcon';
-import { useThemeValue } from '@/lib/recoil/appState';
+import AppLayout from '@/components/AppLayout';
+import PageSEO from '@/components/AppSEO/PageSEO';
+import Container from '@/components/common/Container';
+import Button from '@/components/common/Button';
+import ChevronRightIcon from '@/assets/icons/chevron-right.svg';
+import PostList from '@/components/PostList';
 
 export const getStaticProps: GetStaticProps = async (context) => {
   const queryClient = await prefetchGetPostsByLatestQuery();
@@ -24,9 +24,8 @@ export const getStaticProps: GetStaticProps = async (context) => {
   };
 };
 
-const HomePage = () => {
+function HomePage() {
   const { data, error } = useGetPostsByLatestQuery();
-  const theme = useThemeValue();
 
   const posts = useMemo(() => {
     if (!data) return null;
@@ -38,96 +37,61 @@ const HomePage = () => {
 
   return (
     <>
-      <PageSEO title="Posts" description="Seo's honest nest" />
+      <PageSEO title="Seonest" description="Seo's honest nest" />
       <AppLayout>
-        <section css={hero}>
-          <h1>
-            &lt;<em className="highlight">S</em>
-            <em> / </em>&gt;
-          </h1>
-          <h2>Latest posts</h2>
-        </section>
-        <ul css={list}>
-          {posts?.map((post) => (
-            <PostItem key={post.id} post={post} viewThumbnail={false} />
-          ))}
-        </ul>
-        <div css={linkBox(theme === 'DARK')}>
-          <ActiveLink to="/posts" tabIndex={0}>
-            All Posts
-            <AppIcon name="arrowRight" />
-          </ActiveLink>
-        </div>
+        <Hero>
+          <h1>Slow but Steady</h1>
+        </Hero>
+        <Container>
+          <PostList posts={posts} />
+          <LinkWrapper>
+            <Link href="/posts" passHref>
+              <Button
+                as="a"
+                size="small"
+                kind="blueScale"
+                // FIXME: style to css after remove to emotion
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                }}
+              >
+                <span>More</span>
+                <ChevronRightIcon />
+              </Button>
+            </Link>
+          </LinkWrapper>
+        </Container>
       </AppLayout>
     </>
   );
-};
+}
 
-const hero = css`
-  h1 {
-    color: ${palette.blueGrey[400]};
-    .highlight {
-      color: #56ccf2;
-    }
-    font-size: 4rem;
-    text-align: center;
-  }
-  h2 {
-    color: ${palette.blueGrey[400]};
-    font-size: 2rem;
-  }
-`;
+const Hero = styled('section', {
+  width: '100%',
+  height: '400px',
 
-const list = css`
-  margin: 0;
-  padding: 0;
-  list-style: none;
+  // TODO: hero image
+  backgroundImage: 'linear-gradient(45deg, $colors$lime8, $colors$sky8)',
+  display: 'flex',
+  jc: 'center',
+  ai: 'center',
 
-  li + li {
-    margin-top: 1rem;
-  }
-`;
+  h1: {
+    m: 0,
+    fontSize: '$5xl',
+    color: 'transparent',
+    backgroundClip: 'text',
+    backgroundImage:
+      'linear-gradient(90deg, $colors$mauve12, $colors$crimson11)',
+  },
+});
 
-const linkBox = (isDark: boolean) => css`
-  display: flex;
-  justify-content: flex-end;
-  margin-top: 1rem;
-
-  a {
-    color: ${palette.blueGrey[800]};
-    text-decoration: none;
-
-    display: flex;
-    align-items: center;
-
-    ${isDark &&
-    css`
-      color: ${palette.blueGrey[300]};
-    `}
-
-    svg {
-      margin-left: 0.25rem;
-      color: ${palette.blue[500]};
-      width: 1rem;
-      height: 1rem;
-
-      transition: all 0.1s ease;
-    }
-
-    &:hover {
-      color: ${palette.blueGrey[600]};
-
-      ${isDark &&
-      css`
-        color: ${palette.blueGrey[100]};
-      `}
-
-      svg {
-        color: ${palette.blue[300]};
-        transform: translate3d(0.25rem, 0, 0);
-      }
-    }
-  }
-`;
+const LinkWrapper = styled('div', {
+  display: 'flex',
+  jc: 'flex-end',
+  px: '$2',
+  my: '$4',
+});
 
 export default HomePage;

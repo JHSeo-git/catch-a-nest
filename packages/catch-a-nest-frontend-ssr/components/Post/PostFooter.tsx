@@ -1,10 +1,8 @@
-import ActiveLink from '../ActiveLink';
-import AppIcon from '../AppIcon';
+import Link from 'next/link';
+import { styled } from '@stitches.js';
 import { PostShortInfo } from '@/lib/api/posts/types';
-import { css } from '@emotion/react';
-import media from '@/lib/styles/media';
-import palette from '@/lib/styles/palette';
 import { useThemeValue } from '@/lib/recoil/appState';
+import ChevronRightIcon from '@/assets/icons/chevron-right.svg';
 
 export type PostFooterProps = {
   isTemp: boolean;
@@ -12,141 +10,103 @@ export type PostFooterProps = {
   prevPost?: PostShortInfo;
 };
 
-const PostFooter = ({ isTemp, prevPost, nextPost }: PostFooterProps) => {
-  const theme = useThemeValue();
-
+function PostFooter({ isTemp, prevPost, nextPost }: PostFooterProps) {
   if (isTemp) return null;
 
   return (
-    <div css={block}>
+    <Box>
       {prevPost && (
-        <ActiveLink
-          css={linkStyle(false, theme === 'DARK')}
-          to={`/posts/${prevPost.url_slug}`}
-        >
-          <AppIcon name="arrowLeft" />
-          <div className="title-info">
-            <div className="label">Prev Post</div>
-            <h3 className="title">{prevPost.title}</h3>
-          </div>
-        </ActiveLink>
+        <Link href={`/posts/${prevPost.url_slug}`} passHref>
+          <LinkBox>
+            <ChevronRightIcon className="icon reverse" />
+            <TitleInfo>
+              <div className="label">Prev Post</div>
+              <p className="title">{prevPost.title}</p>
+            </TitleInfo>
+          </LinkBox>
+        </Link>
       )}
       {nextPost && (
-        <ActiveLink
-          css={linkStyle(true, theme === 'DARK')}
-          to={`/posts/${nextPost.url_slug}`}
-        >
-          <div className="title-info">
-            <div className="label">Next Post</div>
-            <h3 className="title">{nextPost.title}</h3>
-          </div>
-          <AppIcon name="arrowRight" />
-        </ActiveLink>
+        <Link href={`/posts/${nextPost.url_slug}`} passHref>
+          <LinkBox direction="right">
+            <TitleInfo>
+              <div className="label">Next Post</div>
+              <p className="title">{nextPost.title}</p>
+            </TitleInfo>
+            <ChevronRightIcon className="icon" />
+          </LinkBox>
+        </Link>
       )}
-    </div>
+    </Box>
   );
-};
+}
 
-const block = css`
-  margin-top: 4rem;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+const Box = styled('div', {
+  mt: '$8',
+  display: 'block',
 
-  a + a {
-    margin-left: 2rem;
-  }
-  ${media.sm} {
-    display: block;
-    a + a {
-      margin: 0;
-      margin-top: 2rem;
-    }
-  }
-`;
+  '@sm': {
+    display: 'flex',
+    jc: 'space-between',
+    ai: 'center',
 
-const linkStyle = (alignEnd = false, isDarkMode: boolean) => css`
-  text-decoration: none;
-  border: 0.0625rem solid ${palette.blueGrey[100]};
-  border-radius: 0.25rem;
-  width: 100%;
-  height: 5rem;
-  padding: 0 1rem;
-  display: flex;
-  align-items: center;
-  transition: all 0.1s ease-in-out;
+    gap: '$6',
+  },
+});
 
-  ${isDarkMode &&
-  css`
-    border-color: ${palette.blueGrey[700]};
-  `}
+const LinkBox = styled('a', {
+  textDecoration: 'none',
+  border: '1px solid $colors$blue6',
+  br: '$2',
+  width: '100%',
+  height: '$9',
+  display: 'flex',
+  ai: 'center',
+  gap: '$2',
+  transition: 'all 100ms ease',
+  px: '$3',
+  mb: '$6',
 
-  svg {
-    height: 1.25rem;
-    margin-right: 1rem;
-    color: ${palette.blue[300]};
-    transition: all 0.1s ease-in-out;
-  }
+  '& .icon': {
+    color: '$blue9',
+    size: '25px',
+  },
 
-  .title-info {
-    color: ${palette.blueGrey[900]};
+  '& .reverse': {
+    transform: 'rotateY(180deg)',
+  },
 
-    ${isDarkMode &&
-    css`
-      color: ${palette.grey[50]};
-    `}
+  '@hover': {
+    '&:hover': {
+      bs: '$muiShadow2',
+    },
+  },
 
-    .label {
-      line-height: 1;
-      font-size: 0.75rem;
-      margin-bottom: 0.5rem;
+  '@sm': {
+    mb: 0,
+  },
 
-      ${alignEnd &&
-      css`
-        text-align: right;
-      `}
-    }
-    h3 {
-      line-height: 1;
-      font-size: 1.5rem;
-      margin: 0;
+  variants: {
+    direction: {
+      right: {
+        jc: 'flex-end',
+      },
+    },
+  },
+});
 
-      word-break: break-word;
-      display: -webkit-box;
-      -webkit-line-clamp: 1;
-      -webkit-box-orient: vertical;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-  }
-
-  &:hover {
-    box-shadow: 0 0.25rem 0.5rem rgba(0 0 0 /5%);
-
-    ${isDarkMode &&
-    css`
-      box-shadow: 0 0.25rem 0.5rem rgba(0 0 0 /30%);
-    `}
-
-    svg {
-      transform: translateX(-0.25rem);
-      color: ${palette.blue[500]};
-    }
-  }
-
-  ${alignEnd &&
-  css`
-    justify-content: flex-end;
-    svg {
-      margin: 0;
-      margin-left: 1rem;
-    }
-    &:hover {
-      svg {
-        transform: translateX(0.25rem);
-      }
-    }
-  `}
-`;
+const TitleInfo = styled('div', {
+  '& .label': {
+    m: 0,
+    fontSize: '$xs',
+    color: '$mauve11',
+    mb: '$1',
+  },
+  '& .title': {
+    m: 0,
+    fontSize: '$xl',
+    ellipsisLine: 1,
+  },
+});
 
 export default PostFooter;

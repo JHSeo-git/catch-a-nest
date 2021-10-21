@@ -1,103 +1,127 @@
 import React from 'react';
-import { css } from '@emotion/react';
 import AppLayout from '@/components/AppLayout';
 import PageSEO from '@/components/AppSEO/PageSEO';
-import palette from '@/lib/styles/palette';
-import { useThemeValue } from '@/lib/recoil/appState';
+import Container from '@/components/common/Container';
+import { keyframes, styled } from '@stitches.js';
+import LogoImage from '@/assets/images/logo.svg';
 
-export type AboutPageProps = {};
-
-const AboutPage = (props: AboutPageProps) => {
-  const theme = useThemeValue();
-
+function AboutPage() {
   return (
     <>
       <PageSEO title="About" description="About Seo Nest Blog" />
       <AppLayout>
-        <article css={block(theme === 'DARK')}>
-          <h1>
-            Hi👋 I&apos;m <strong>JHSeo</strong> .
-          </h1>
-          <section>
-            <h2>
-              <strong>seonest.net</strong> developed by ...
-            </h2>
-            <h3>Front-end</h3>
-            <ul>
-              <li>Typescript</li>
-              <li>React</li>
-              <li>Nextjs</li>
-              <li>Recoiljs</li>
-              <li>Vercel</li>
-              <li>Axios</li>
-              <li>@emotion</li>
-              <li>@toast-ui/editor</li>
-              <li>Markdown-it</li>
-            </ul>
-            <h3>Back-end</h3>
-            <ul>
-              <li>Nodejs(Koa)</li>
-              <li>Mariadb</li>
-              <li>Typeorm</li>
-              <li>AWS-EC2</li>
-              <li>AWS-S3</li>
-              <li>PM2</li>
-              <li>nginx</li>
-              <li>Cloudflare</li>
-            </ul>
-          </section>
-        </article>
+        <BG />
+        <Box>
+          <LogoImage className="logo" />
+          <H1>Hi👋 I&apos;m JHSeo.</H1>
+          {/* <H2>
+              I&apos;m a <Strong>developer</Strong>.
+            </H2> */}
+          {/* <section>
+              <h3>Front-end</h3>
+              <ul>
+                <li>Typescript</li>
+                <li>React</li>
+                <li>Nextjs</li>
+                <li>Recoiljs</li>
+                <li>Vercel</li>
+                <li>Axios</li>
+                <li>@emotion</li>
+                <li>@toast-ui/editor</li>
+                <li>Markdown-it</li>
+              </ul>
+              <h3>Back-end</h3>
+              <ul>
+                <li>Nodejs(Koa)</li>
+                <li>Mariadb</li>
+                <li>Typeorm</li>
+                <li>AWS-EC2</li>
+                <li>AWS-S3</li>
+                <li>PM2</li>
+                <li>nginx</li>
+                <li>Cloudflare</li>
+              </ul>
+            </section> */}
+        </Box>
       </AppLayout>
     </>
   );
-};
+}
 
-const block = (isDarkMode: boolean) => css`
-  height: 100%;
-  letter-spacing: 0.5px;
+const logoAnimation = keyframes({
+  '0%': {
+    color: 'transparent',
+  },
+  '100%': {
+    color: '$mauveA10',
+  },
+});
 
-  ${isDarkMode &&
-  css`
-    color: ${palette.grey[100]};
-  `}
+const fadeInAnimation = keyframes({
+  from: {
+    opacity: 0,
+    transform: 'translateY(-20px)',
+  },
+  to: {
+    opacity: 1,
+    transform: 'translateY(0)',
+  },
+});
 
-  h1,
-  h2 {
-    strong {
-      color: ${palette.lightBlue[800]};
+const Box = styled('article', {
+  position: 'absolute',
+  inset: 0,
+  letterSpacing: '0.5px',
+  display: 'flex',
+  flexDirection: 'column',
+  jc: 'center',
+  ai: 'center',
 
-      ${isDarkMode &&
-      css`
-        color: ${palette.lightBlue[300]};
-      `}
-    }
-  }
-  h1 {
-    font-size: 2rem;
-  }
-  h2 {
-    font-size: 1.5rem;
-  }
+  '& .logo': {
+    height: '15rem',
+    width: 'auto',
 
-  ul {
-    padding-left: 2rem;
-    list-style: square;
+    animation: `${logoAnimation} 5s ease forwards, ${fadeInAnimation} 2s ease forwards`,
+  },
+});
 
-    li {
-      &::marker {
-        font-size: 1rem;
-        color: ${palette.lightBlue[800]};
+const H1 = styled('h1', {
+  fontSize: '$4xl',
+  color: '$mauve11',
+});
 
-        ${isDarkMode &&
-        css`
-          color: ${palette.lightBlue[300]};
-        `}
-      }
-    }
-    li + li {
-      margin-top: 0.5rem;
-    }
-  }
-`;
+const H2 = styled('h2', {
+  fontSize: '$2xl',
+});
+
+const Strong = styled('strong', {
+  br: '$2',
+  color: '$blue11',
+  bc: '$blue3',
+  px: '$2',
+});
+
+const flowAnimation = keyframes({
+  '0%': {
+    backgroundPosition: '0% 50%',
+  },
+  '50%': {
+    backgroundPosition: '100% 50%',
+  },
+  '100%': {
+    backgroundPosition: '0% 50%',
+  },
+});
+
+const BG = styled('div', {
+  position: 'absolute',
+  inset: 0,
+  zIndex: '-1',
+
+  backgroundImage:
+    'linear-gradient(45deg, $colors$pink6, $colors$plum6, $colors$yellow6, $colors$amber6)',
+  backgroundSize: '400% 100%',
+  animation: `${flowAnimation} 10s ease infinite`,
+});
 
 export default AboutPage;

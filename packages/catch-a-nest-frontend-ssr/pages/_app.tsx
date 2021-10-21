@@ -2,20 +2,20 @@ import React, { useState } from 'react';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { Hydrate } from 'react-query/hydration';
 import type { AppProps } from 'next/app';
+import { ThemeProvider } from 'next-themes';
 import Head from 'next/head';
-import Script from 'next/script';
 import { RecoilRoot } from 'recoil';
-import { css, Global } from '@emotion/react';
 import RecoilInitializer from '@/components/RecoilInitializer';
 import FullscreenLoader from '@/components/FullscreenLoader';
 import { DefaultSEO } from '@/components/AppSEO/DefaultSEO';
 import AppToastProvider from '@/components/AppToastProvider';
-
-import { ReactQueryDevtools } from 'react-query/devtools';
-import RecoilDebugObserver from '@/components/RecoilDebugObserver';
-import GlobalStyle from '@/components/GlobalStyle';
-
-import { globalCss } from '../stitches.config';
+import FirebaseAnalytics from '@/components/FirebaseAnalytics';
+import DebugComponents from '@/components/DebugComponents';
+import {
+  darkThemeClassName,
+  globalCss,
+  lightThemeClassName,
+} from '@stitches.js';
 
 const globalStyle = globalCss({
   '*, *::before, *::after': {
@@ -39,6 +39,36 @@ const globalStyle = globalCss({
       bc: '$mauve1',
     },
   },
+
+  button: {
+    border: 'none',
+    m: 0,
+    p: 0,
+    color: 'inherit',
+    font: 'inherit',
+    background: 'transparent',
+    WebkitFontSmoothing: 'inherit',
+    MozOsxFontSmoothing: 'inherit',
+    appearance: 'none',
+
+    cursor: 'pointer',
+  },
+
+  a: {
+    outline: 'none',
+    m: 0,
+    p: 0,
+    color: 'inherit',
+    font: 'inherit',
+    textDecoration: 'none',
+  },
+
+  'h1, h2, h3, h4, h5, h6': {
+    wordBreak: 'keep-all',
+  },
+  'p, span': {
+    wordBreak: 'keep-all',
+  },
 });
 
 function MyApp({ Component, pageProps }: AppProps) {
@@ -55,62 +85,32 @@ function MyApp({ Component, pageProps }: AppProps) {
         },
       })
   );
-  const { NODE_ENV } = process.env;
 
   return (
     <>
       <Head>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
-      <DefaultSEO />
-      <RecoilRoot>
-        {NODE_ENV !== 'production' && <RecoilDebugObserver />}
-        <RecoilInitializer />
-        <AppToastProvider />
-        <QueryClientProvider client={queryClient}>
-          {NODE_ENV !== 'production' && (
-            <ReactQueryDevtools initialIsOpen={false} />
-          )}
-          <Hydrate state={pageProps.dehydratedState}>
-            <GlobalStyle />
-            <Component {...pageProps} />
-            <FullscreenLoader />
-          </Hydrate>
-        </QueryClientProvider>
-      </RecoilRoot>
-      {NODE_ENV === 'production' && (
-        <>
-          <Script src="https://www.gstatic.com/firebasejs/8.4.2/firebase-app.js" />
-          <Script src="https://www.gstatic.com/firebasejs/8.4.2/firebase-analytics.js" />
-          <Script
-            defer
-            dangerouslySetInnerHTML={{
-              __html: `
-                // Your web app's Firebase configuration
-                // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-                var firebaseConfig = {
-                  apiKey: 'AIzaSyAVhsch2_emuZmD9KLh3kVkRr3rSUm7m6g',
-                  authDomain: 'catch-a-nest.firebaseapp.com',
-                  projectId: 'catch-a-nest',
-                  storageBucket: 'catch-a-nest.appspot.com',
-                  messagingSenderId: '581628041764',
-                  appId: '1:581628041764:web:622697f154d3faae6a16b1',
-                  measurementId: 'G-H82Q5FTZYK',
-                };
-                // Initialize Firebase
-                if(window?.firebase){
-                  if(!firebase.apps.length){
-                    firebase.initializeApp(firebaseConfig);                    
-                  } else {
-                    firebase.app();
-                  }
-                  firebase.analytics();
-                }
-              `,
-            }}
-          />
-        </>
-      )}
+      <ThemeProvider
+        disableTransitionOnChange
+        attribute="class"
+        value={{ light: lightThemeClassName, dark: darkThemeClassName }}
+        defaultTheme="system"
+      >
+        <DefaultSEO />
+        <RecoilRoot>
+          <RecoilInitializer />
+          <AppToastProvider />
+          <QueryClientProvider client={queryClient}>
+            <Hydrate state={pageProps.dehydratedState}>
+              <Component {...pageProps} />
+              <FullscreenLoader />
+            </Hydrate>
+            <DebugComponents />
+          </QueryClientProvider>
+        </RecoilRoot>
+        <FirebaseAnalytics />
+      </ThemeProvider>
     </>
   );
 }

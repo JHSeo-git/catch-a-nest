@@ -1,11 +1,14 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { GetStaticProps } from 'next';
 import { dehydrate } from 'react-query/hydration';
 import TempPostList from '@/components/TempPostList';
 import FloatLinkButton from '@/components/FloatLinkButton';
 import AppLayout from '@/components/AppLayout';
 import PageSEO from '@/components/AppSEO/PageSEO';
-import { prefetchGetTempPostsQuery } from '@/hooks/query/useGetTempPostsQuery';
+import useGetTempPostsQuery, {
+  prefetchGetTempPostsQuery,
+} from '@/hooks/query/useGetTempPostsQuery';
+import Container from '@/components/common/Container';
 
 // SSG
 export const getStaticProps: GetStaticProps = async (context) => {
@@ -19,16 +22,34 @@ export const getStaticProps: GetStaticProps = async (context) => {
   };
 };
 
-const TempsPage = () => {
+function TempsPage() {
+  const { data, hasNextPage, fetchNextPage } = useGetTempPostsQuery();
+  const posts = useMemo(() => {
+    if (!data) {
+      return null;
+    }
+    return data.pages.flat();
+  }, [data]);
+
+  const fetchNext = () => {
+    fetchNextPage();
+  };
+
   return (
     <>
       <PageSEO title="Temp Posts" description="temp posts" />
       <AppLayout>
-        <TempPostList />
+        <Container>
+          <TempPostList
+            posts={posts}
+            hasNextPage={hasNextPage}
+            fetchNext={fetchNext}
+          />
+        </Container>
         <FloatLinkButton iconName="write" to="/write" />
       </AppLayout>
     </>
   );
-};
+}
 
 export default TempsPage;

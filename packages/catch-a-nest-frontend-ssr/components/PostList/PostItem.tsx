@@ -1,248 +1,209 @@
-import React from 'react';
-import { css } from '@emotion/react';
+import Link from 'next/link';
 import Image from 'next/image';
-import ActiveLink from '@/components/ActiveLink';
+import { styled } from '@stitches.js';
 import { Post } from '@/lib/api/posts/types';
 import { getDiffOfNow } from '@/lib/utils/dateUtils';
-import palette from '@/lib/styles/palette';
 import { humanizeTime } from '@/lib/utils/viewerUtils';
-import media from '@/lib/styles/media';
-import { useThemeValue } from '@/lib/recoil/appState';
+import CalendarIcon from '@/assets/icons/calendar.svg';
+import CheckCircleIcon from '@/assets/icons/check-circle.svg';
+import ClockIcon from '@/assets/icons/clock.svg';
+import EyeIcon from '@/assets/icons/eye.svg';
 
-export type PostItemProps = {
-  post: Post;
-  viewThumbnail?: boolean;
-};
-
-const isUpdated = (createdAt: string, updatedAt: string) => {
+const Updated = ({
+  createdAt,
+  updatedAt,
+}: {
+  createdAt: string;
+  updatedAt: string;
+}) => {
   const created = new Date(createdAt);
   const updated = new Date(updatedAt);
 
   const diff = updated.getTime() - created.getTime();
   // 하루 미만일 때는 updated 표시 안하도록
   if (diff < 1000 * 60 * 60 * 24) {
-    return false;
+    return null;
   }
-  return true;
+  return (
+    <UpdatedBox>
+      <CheckCircleIcon />
+      <span>updated</span>
+    </UpdatedBox>
+  );
 };
 
-const PostItem = ({ post, viewThumbnail = true }: PostItemProps) => {
-  const theme = useThemeValue();
-  const updatedBy = isUpdated(post.created_at, post.updated_at)
-    ? getDiffOfNow(post.updated_at)
-    : null;
+const UpdatedBox = styled('div', {
+  ml: 'auto',
+  mt: 'auto',
+  display: 'flex',
+  ai: 'center',
+
+  svg: {
+    size: '15px',
+    color: '$crimson11',
+  },
+
+  span: {
+    ml: '$1',
+    fontSize: '$xs',
+    color: '$crimson11',
+  },
+});
+
+const ContentInfo = ({
+  createdAt,
+  updatedAt,
+  readTime,
+  views,
+}: {
+  createdAt: string;
+  updatedAt: string;
+  readTime?: number;
+  views?: number;
+}) => {
   return (
-    <li css={block}>
-      <ActiveLink
-        css={itemStyle(theme === 'DARK')}
-        to={`/posts/${post.url_slug}`}
-      >
-        {viewThumbnail && (
-          <div css={imageWrapper}>
-            {post.thumbnail ? (
+    <ContentInfoBox>
+      <ContentInfoCol>
+        <FlexBox>
+          <CalendarIcon className="icon" />
+          <span className="text">{getDiffOfNow(updatedAt)}</span>
+        </FlexBox>
+        {readTime && (
+          <FlexBox>
+            <ClockIcon className="icon" />
+            <span className="text">{humanizeTime(readTime)}</span>
+          </FlexBox>
+        )}
+        <FlexBox>
+          <EyeIcon className="icon" />
+          <span className="text">{views ? views : 0}</span>
+        </FlexBox>
+      </ContentInfoCol>
+      <Updated createdAt={createdAt} updatedAt={updatedAt} />
+    </ContentInfoBox>
+  );
+};
+
+const ContentInfoBox = styled('div', {
+  display: 'flex',
+  ai: 'center',
+  mt: 'auto',
+
+  '& .icon': {
+    size: '$3',
+    color: '$mauve11',
+  },
+
+  '& .text': {
+    fontSize: '$xs',
+    color: '$mauve11',
+    ml: '$1',
+  },
+});
+
+const ContentInfoCol = styled('div', {
+  display: 'flex',
+  flexDirection: 'column',
+  gap: '$1',
+});
+
+const FlexBox = styled('div', {
+  display: 'flex',
+  ai: 'center',
+});
+
+const Seperator = styled('div', {
+  height: '$3',
+  width: '1px',
+  mx: '$4',
+  bc: '$mauve7',
+});
+
+export type PostItemProps = {
+  post: Post;
+  loading?: boolean;
+  viewThumbnail?: boolean;
+};
+
+function PostItem({ post, loading }: PostItemProps) {
+  return (
+    <PostItemBox>
+      <Link href={`/posts/${post.url_slug}`} passHref>
+        <LinkBox>
+          <ImageWrapper>
+            {post.thumbnail && (
               <Image
-                css={thumbnailImage}
                 src={post.thumbnail}
                 alt="post thumbnail"
                 layout="fill"
                 placeholder={'blur'}
                 blurDataURL={post.thumbnail}
+                objectFit="cover"
               />
-            ) : (
-              <div
-                css={imageEmptySection(
-                  palette.colorArray[
-                    post.id % palette.colorArray.length
-                  ]?.[200] ?? palette.blueGrey[200]
-                )}
-              ></div>
             )}
-          </div>
-        )}
-        <div css={infoWrapper(theme === 'DARK')}>
-          <h4>
-            {getDiffOfNow(post.created_at)}
-            {post.read_time !== undefined && (
-              <>
-                <div className="splitter" />
-                <span className="readTimeStyle">
-                  {humanizeTime(post.read_time)}
-                </span>
-              </>
-            )}
-          </h4>
-          <h1>{post.title}</h1>
-          <p>{post.short_description}</p>
-          {updatedBy && (
-            <div className="updated">
-              <span>updated</span>
-              {updatedBy}
-            </div>
-          )}
-        </div>
-      </ActiveLink>
-    </li>
+          </ImageWrapper>
+          <ContentWrapper>
+            <ContentHeader>{post.title}</ContentHeader>
+            <ContentDescription>{post.short_description}</ContentDescription>
+            <ContentInfo
+              createdAt={post.created_at}
+              updatedAt={post.updated_at}
+              readTime={post.read_time}
+              views={post.read_count}
+            />
+          </ContentWrapper>
+        </LinkBox>
+      </Link>
+    </PostItemBox>
   );
-};
+}
 
-const block = css`
-  position: relative;
-`;
+const PostItemBox = styled('li', {
+  '&:not(:last-child)': {
+    borderBottom: '1px solid $colors$mauve6',
+  },
+});
 
-const itemStyle = (isDarkMode: boolean) => css`
-  text-decoration: none;
-  height: 8rem;
-  overflow: hidden;
-  border-radius: 0.5rem;
-  border: 0.0625rem solid ${palette.blueGrey[100]};
+const LinkBox = styled('a', {
+  height: '14rem',
+  display: 'flex',
+  gap: '$4',
+  py: '$6',
+});
 
-  ${isDarkMode &&
-  css`
-    border-color: ${palette.blueGrey[700]};
-  `}
+const ImageWrapper = styled('div', {
+  position: 'relative',
+  display: 'none',
+  br: '$2',
+  bc: '$cyan3',
+  overflow: 'hidden',
+  '@sm': {
+    display: 'block',
+    width: '220px',
+  },
+});
 
-  display: flex;
-  transition: all 0.1s ease-in-out;
-  &:hover {
-    box-shadow: 0 0.25rem 0.5rem rgba(0 0 0 /5%);
+const ContentWrapper = styled('div', {
+  flex: 1,
+  height: '100%',
+  display: 'flex',
+  flexDirection: 'column',
+  overflow: 'hidden',
+});
 
-    ${isDarkMode &&
-    css`
-      box-shadow: 0 0.25rem 0.5rem rgba(0 0 0 /30%);
-    `}
-  }
-`;
+const ContentHeader = styled('h3', {
+  m: 0,
+  fontSize: '$2xl',
+  color: '$mauve12',
+  mb: '$2',
+  ellipsisLine: 1,
+});
 
-const imageWrapper = css`
-  position: relative;
-  width: 11.25rem;
-  ${media.sm} {
-    width: 5rem;
-  }
-`;
-
-const imageEmptySection = (bgColor: string) => css`
-  height: 100%;
-  background: ${bgColor};
-`;
-
-const thumbnailImage = css`
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-`;
-
-const infoWrapper = (isDarkMode: boolean) => css`
-  flex: 1;
-  padding: 0.5rem 1rem;
-  display: flex;
-  flex-direction: column;
-  h4 {
-    margin: 0;
-    padding: 0;
-    margin-bottom: 0.5rem;
-    font-size: 0.75rem;
-    color: ${palette.blueGrey[700]};
-
-    ${isDarkMode &&
-    css`
-      color: ${palette.grey[100]};
-    `}
-
-    display: flex;
-    align-items: center;
-
-    .splitter {
-      width: 0.25rem;
-      height: 0.25rem;
-      background: ${palette.blue[500]};
-      margin: 0 0.25rem;
-      border-radius: 50%;
-
-      ${isDarkMode &&
-      css`
-        background: ${palette.lightBlue[400]};
-      `}
-    }
-
-    .readTimeStyle {
-      font-style: italic;
-      color: ${palette.blue[500]};
-
-      ${isDarkMode &&
-      css`
-        color: ${palette.lightBlue[400]};
-      `}
-    }
-  }
-  h1 {
-    margin: 0;
-    padding: 0;
-    margin-bottom: 0.25rem;
-    color: ${palette.blueGrey[900]};
-    word-break: break-word;
-    display: -webkit-box;
-    -webkit-line-clamp: 1;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    line-height: 1;
-    ${media.sm} {
-      font-size: 1.5rem;
-    }
-
-    ${isDarkMode &&
-    css`
-      color: ${palette.grey[200]};
-    `}
-  }
-  p {
-    margin: 0;
-    padding: 0;
-    color: ${palette.blueGrey[800]};
-    word-break: break-word;
-    font-size: 0.85rem;
-    line-height: 1.5;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-    text-overflow: ellipsis;
-
-    ${isDarkMode &&
-    css`
-      color: ${palette.grey[300]};
-    `}
-  }
-  .updated {
-    text-align: right;
-    margin: 0;
-    padding: 0;
-    margin-top: auto;
-    color: ${palette.blueGrey[700]};
-    word-break: break-word;
-    font-size: 0.75rem;
-    line-height: 1.5;
-    font-style: italic;
-
-    ${isDarkMode &&
-    css`
-      color: ${palette.grey[300]};
-    `}
-
-    span {
-      margin-right: 0.5rem;
-      color: ${palette.red[500]};
-      font-size: 0.75rem;
-      line-height: 1.5;
-
-      ${isDarkMode &&
-      css`
-        color: ${palette.red[400]};
-      `}
-    }
-  }
-`;
+const ContentDescription = styled('p', {
+  m: 0,
+  fontSize: '$base',
+  color: '$mauve11',
+  ellipsisLine: 2,
+});
 
 export default PostItem;

@@ -1,28 +1,23 @@
 import React from 'react';
+import dynamic from 'next/dynamic';
 import markdownToText from 'markdown-to-text';
-import useGetPostBySlug from '@/hooks/useGetPostBySlug';
 import PostSkeleton from './PostSkeleton';
 import PostHeader from './PostHeader';
 import PostBody from './PostBody';
 import PostFooter from './PostFooter';
 import PostSEO from '../AppSEO/PostSEO';
+import { Post } from '@/lib/api/posts/types';
 // import UtterancsComment from '../UtterancsComment';
 
-import dynamic from 'next/dynamic';
 const UtterancsComment = dynamic(() => import('../UtterancsComment'), {
   ssr: false,
 });
-// const PostSkeleton = dynamic(() => import('./PostSkeleton'));
-// const PostHeader = dynamic(() => import('./PostHeader'));
-// const PostBody = dynamic(() => import('./PostBody'));
-// const PostFooter = dynamic(() => import('./PostFooter'));
 
 export type PostProps = {
-  slug: string;
+  post: Post | null;
 };
 
-const Post = ({ slug }: PostProps) => {
-  const { post } = useGetPostBySlug(slug);
+function PostContainer({ post }: PostProps) {
   const images = post?.thumbnail ? [post.thumbnail] : [];
 
   if (!post) return <PostSkeleton />;
@@ -49,6 +44,6 @@ const Post = ({ slug }: PostProps) => {
       <UtterancsComment />
     </>
   );
-};
+}
 
-export default Post;
+export default PostContainer;

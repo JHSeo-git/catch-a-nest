@@ -390,6 +390,12 @@ const {
       WebkitBackgroundClip: value,
       backgroundClip: value,
     }),
+    ellipsisLine: (value: number) => ({
+      display: '-webkit-box',
+      WebkitLineClamp: value,
+      WebkitBoxOrient: 'vertical',
+      overflow: 'hidden',
+    }),
   },
 });
 

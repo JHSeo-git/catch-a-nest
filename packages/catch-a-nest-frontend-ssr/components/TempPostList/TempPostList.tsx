@@ -1,61 +1,45 @@
-import React from 'react';
-import { css } from '@emotion/react';
-import useGetTempPosts from '@/hooks/useGetTempPosts';
-import { useUserValue } from '@/lib/recoil/authState';
-import media from '@/lib/styles/media';
-import palette from '@/lib/styles/palette';
+import React, { useEffect, useRef } from 'react';
 import TempPostItem from './TempPostItem';
 import PostItemSkeleton from '../PostList/PostItemSkeleton';
-import { useThemeValue } from '@/lib/recoil/appState';
+import { Post } from '@/lib/api/posts/types';
+import useInView from '@/hooks/useInView';
+import { styled } from '@stitches.js';
 
-export type TempPostListProps = {};
-
-const TempPostList = (props: TempPostListProps) => {
-  const theme = useThemeValue();
-  const userState = useUserValue();
-  const { posts, elementRef, hasNextPage } = useGetTempPosts(userState?.id);
-
-  return (
-    <>
-      <h1 css={title(theme === 'DARK')}>Will be Post</h1>
-      <ul css={listStyle}>
-        {posts
-          ? posts.map((item) => <TempPostItem key={item.id} post={item} />)
-          : Array.from({ length: 10 }).map((_, i) => (
-              <PostItemSkeleton key={i} />
-            ))}
-        {hasNextPage &&
-          Array.from({ length: 10 }).map((_, i) => (
-            <PostItemSkeleton key={i} ref={i === 0 ? elementRef : undefined} />
-          ))}
-      </ul>
-    </>
-  );
+export type TempPostListProps = {
+  posts: Post[] | null;
+  hasNextPage?: boolean;
+  fetchNext?: () => void;
 };
 
-const listStyle = css`
-  margin: 0;
-  padding: 0;
-  list-style: none;
+function TempPostList({ posts, hasNextPage, fetchNext }: TempPostListProps) {
+  const ref = useRef<HTMLDivElement>(null);
+  const { inView } = useInView(ref);
 
-  li + li {
-    margin-top: 1rem;
-  }
-`;
+  useEffect(() => {
+    if (!inView) return;
+    if (!fetchNext) return;
+    if (!hasNextPage) return;
 
-const title = (isDarkMode: boolean) => css`
-  color: ${palette.blueGrey[900]};
-  margin-top: 1rem;
-  margin-bottom: 2rem;
-  font-size: 3rem;
-  ${media.sm} {
-    font-size: 2rem;
-  }
+    fetchNext();
+  }, [inView, fetchNext, hasNextPage]);
 
-  ${isDarkMode &&
-  css`
-    color: ${palette.grey[100]};
-  `}
-`;
+  return (
+    <ListBox>
+      {posts
+        ? posts.map((item) => <TempPostItem key={item.id} post={item} />)
+        : Array.from({ length: 10 }).map((_, i) => (
+            <PostItemSkeleton key={i} />
+          ))}
+      {hasNextPage && <PostItemSkeleton ref={ref} />}
+    </ListBox>
+  );
+}
+
+const ListBox = styled('ul', {
+  m: 0,
+  p: 0,
+  px: '$2',
+  listStyle: 'none',
+});
 
 export default TempPostList;
