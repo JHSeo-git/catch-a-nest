@@ -7,7 +7,7 @@ import PostBody from './PostBody';
 import PostFooter from './PostFooter';
 import PostSEO from '../AppSEO/PostSEO';
 import { Post } from '@/lib/api/posts/types';
-// import UtterancsComment from '../UtterancsComment';
+import PostProgressbar from './PostProgressbar';
 
 const UtterancsComment = dynamic(() => import('../UtterancsComment'), {
   ssr: false,
@@ -34,6 +34,7 @@ function PostContainer({ post }: PostProps) {
         modifiedTime={post.updated_at}
         publishedTime={post.created_at}
       />
+      {/* <PostProgressbar /> */}
       <PostHeader post={post} />
       <PostBody markdown={post.body} />
       <PostFooter

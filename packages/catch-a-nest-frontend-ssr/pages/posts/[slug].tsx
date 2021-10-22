@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import React, { useMemo } from 'react';
 import { GetStaticPaths, GetStaticProps, GetStaticPropsContext } from 'next';
 import { dehydrate } from 'react-query/hydration';
 import Post from '@/components/Post';
@@ -10,6 +10,7 @@ import useGetPostBySlugQuery, {
   prefetchGetPostBySlugQuery,
 } from '@/hooks/query/useGetPostBySlugQuery';
 import Container from '@/components/common/Container';
+import Head from 'next/head';
 
 export const getStaticProps: GetStaticProps = async ({
   params,
@@ -64,23 +65,37 @@ function PostPage({ slug }: PostPageProps) {
   }, [data]);
 
   return (
-    <AppLayout>
-      <Container>
-        <Post post={post} />
-      </Container>
-      <FloatLinkButton
-        //
-        iconName="write"
-        to={`/write`}
-        position="first"
-      />
-      <FloatLinkButton
-        iconName="fix"
-        to={`/write/${slug}`}
-        color={palette.indigo[500]}
-        position="second"
-      />
-    </AppLayout>
+    <>
+      <Head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link
+          rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossOrigin="true"
+        />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@500;700&display=swap"
+          rel="stylesheet"
+        />
+      </Head>
+      <AppLayout>
+        <Container>
+          <Post post={post} />
+        </Container>
+        <FloatLinkButton
+          //
+          iconName="write"
+          to={`/write`}
+          position="first"
+        />
+        <FloatLinkButton
+          iconName="fix"
+          to={`/write/${slug}`}
+          color={palette.indigo[500]}
+          position="second"
+        />
+      </AppLayout>
+    </>
   );
 }
 

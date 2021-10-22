@@ -34,6 +34,22 @@ const Button = styled('button', {
   },
   variants: {
     kind: {
+      whiteScale: {
+        bc: '$loContrast',
+        color: '$hiContrast',
+        borderColor: '$gray7',
+        '@hover': {
+          '&:hover': {
+            bc: '$gray4',
+          },
+        },
+        '&:active': {
+          bc: '$gray5',
+        },
+        '&:focus, &:focus-visible': {
+          borderColor: '$gray7',
+        },
+      },
       grayScale: {
         bc: '$mauve3',
         color: '$mauve11',
@@ -161,6 +177,14 @@ const Button = styled('button', {
     },
   },
   compoundVariants: [
+    {
+      kind: 'whiteScale',
+      ghost: 'true',
+      css: {
+        bc: 'transparent',
+        borderColor: 'transparent',
+      },
+    },
     {
       kind: 'grayScale',
       ghost: 'true',

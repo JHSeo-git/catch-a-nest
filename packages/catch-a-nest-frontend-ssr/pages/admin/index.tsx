@@ -18,9 +18,7 @@ function Admin(props: AdminProps) {
       <PageSEO title="Admin" description="admin page" noRobots={true} />
       <AppLayout>
         <Box>
-          <ButtonWrapper>
-            <GoogleLoginButton />
-          </ButtonWrapper>
+          <GoogleLoginButton />
         </Box>
       </AppLayout>
     </>
@@ -34,10 +32,6 @@ const Box = styled('div', {
   display: 'flex',
   jc: 'center',
   ai: 'center',
-});
-
-const ButtonWrapper = styled('div', {
-  width: '20rem',
 });
 
 export default Admin;

@@ -1,13 +1,16 @@
 import { styled } from '@stitches.js';
 import Button from './common/Button';
-import Container from './common/Container';
 import GithubIcon from '@/assets/icons/github.svg';
+import LogoImage from '@/assets/images/logo.svg';
 
 function Footer() {
   return (
-    <Container>
+    <Box>
       <FlexBox>
-        <p className="copywrite">&#169; 2021 &#183; JHSeo</p>
+        <LogoImage className="logo" />
+      </FlexBox>
+      <FlexBox>
+        <p className="copywrite">&#169; 2021 &#183; seonest.net</p>
         <Button
           as="a"
           kind="grayScale"
@@ -20,24 +23,39 @@ function Footer() {
           <GithubIcon className="github" />
         </Button>
       </FlexBox>
-    </Container>
+    </Box>
   );
 }
 
-const FlexBox = styled('div', {
+const Box = styled('div', {
   height: '100%',
+  display: 'flex',
+  flexDirection: 'column',
+  jc: 'center',
+  gap: '$1',
+});
+
+const FlexBox = styled('div', {
   display: 'flex',
   jc: 'center',
   ai: 'center',
 
-  '& .copywrite': {
+  '& p': {
     m: 0,
-    p: 0,
+  },
+
+  '& .name': {
+    fontWeight: 'bold',
+  },
+  '& .copywrite': {
     mr: '$2',
     fontSize: '$xs',
     color: '$mauve11',
   },
-
+  '& .logo': {
+    color: '$mauve9',
+    height: '40px',
+  },
   '& .github': {
     size: '20px',
   },

@@ -1,11 +1,9 @@
 import React, { useState } from 'react';
-import { css } from '@emotion/react';
 import Image from 'next/image';
 import { Post } from '@/lib/api/posts/types';
 import { useUserValue } from '@/lib/recoil/authState';
 import { stringToDateMoreDetail } from '@/lib/utils/dateUtils';
 import { humanizeTime } from '@/lib/utils/viewerUtils';
-import palette from '@/lib/styles/palette';
 import useDeletePost from '@/hooks/useDeletePost';
 import { useRouter } from 'next/router';
 import { styled } from '@stitches.js';
@@ -47,7 +45,7 @@ function PostHeader({ post }: PostHeaderProps) {
           {post.read_time && (
             <>
               <Seperator />
-              <WithIcon color="blue">
+              <WithIcon color="pink">
                 <ClockIcon className="icon" />
                 <span className="text">{humanizeTime(post.read_time)}</span>
               </WithIcon>
@@ -101,6 +99,7 @@ const Box = styled('section', {
   display: 'flex',
   flexDirection: 'column',
   my: '$4',
+  px: '$1',
 });
 
 const Title = styled('h1', {
@@ -144,8 +143,8 @@ const WithIcon = styled('div', {
 
   variants: {
     color: {
-      blue: {
-        color: '$blue9',
+      pink: {
+        color: '$pink9',
       },
     },
   },

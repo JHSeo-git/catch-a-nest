@@ -216,6 +216,7 @@ const {
     fonts: {
       base: `-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji'`,
       ubuntu: `'Ubuntu', Ubuntu, Roboto, 'Open Sans', 'Helvetica Neue', sans-serif`,
+      code: `Fira Code, Consolas, Monaco, Andale Mono, Ubuntu mono, monospace`,
     },
     sizes: {
       1: '5px',
@@ -229,7 +230,7 @@ const {
       9: '80px',
       maxWidth: '770px', // 48.125rem
       headerHeight: '70px', // 4.375rem
-      footerHeight: '70px', // 4.375rem
+      footerHeight: '120px', // 4.375rem
     },
     space: {
       1: '5px',

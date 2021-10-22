@@ -16,19 +16,6 @@ export type MarkdownItViewerProps = {
   markdown: string;
 };
 
-function SSRMarkdownItViewer({ markdown }: MarkdownItViewerProps) {
-  const theme = useThemeValue();
-
-  return (
-    <MarkdownStyleWrapper>
-      <div
-        css={viewerStyle(`${100}px`, theme === 'DARK')}
-        className="markdown-viewer-contents"
-      ></div>
-    </MarkdownStyleWrapper>
-  );
-}
-
 function MarkdownItViewer({ markdown }: MarkdownItViewerProps) {
   const theme = useThemeValue();
   const ref = useRef<HTMLDivElement>(null);
@@ -147,4 +134,3 @@ const viewerStyle = (
 `;
 
 export default MarkdownItViewer;
-export { SSRMarkdownItViewer };

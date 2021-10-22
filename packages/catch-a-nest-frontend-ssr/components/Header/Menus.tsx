@@ -103,8 +103,11 @@ const MenuList = styled('ul', {
 });
 
 const LinkBox = styled('a', {
+  userSelect: 'none',
+  cursor: 'pointer',
   textDecoration: 'none',
   display: 'block',
+  textAlign: 'left',
 
   width: '100%',
   color: '$slate11',

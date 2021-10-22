@@ -57,6 +57,7 @@ const MainBox = styled('main', {
 const FooterBox = styled('footer', {
   height: '$footerHeight',
   borderTop: '1px solid $colors$gray6',
+  bc: '$mauve1',
 });
 
 Layout.Header = Header;

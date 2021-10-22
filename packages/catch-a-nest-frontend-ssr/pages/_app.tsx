@@ -34,10 +34,6 @@ const globalStyle = globalCss({
     WebkitTextSizeAdjust: '100%',
 
     bc: '$loContrast',
-
-    '& .dark-theme': {
-      bc: '$mauve1',
-    },
   },
 
   button: {
