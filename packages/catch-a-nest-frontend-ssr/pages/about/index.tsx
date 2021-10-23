@@ -1,7 +1,6 @@
 import React from 'react';
 import AppLayout from '@/components/AppLayout';
 import PageSEO from '@/components/SEO/PageSEO';
-import Container from '@/components/common/Container';
 import { keyframes, styled } from '@stitches.js';
 import LogoImage from '@/assets/images/logo.svg';
 
