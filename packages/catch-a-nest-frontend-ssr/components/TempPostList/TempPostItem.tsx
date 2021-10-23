@@ -47,8 +47,7 @@ function TempPostItem({ post }: TempPostItemProps) {
           size="small"
           kind="redScale"
           ghost
-          // FIXME: style to css
-          style={{
+          css={{
             position: 'absolute',
             right: '1rem',
             bottom: '1rem',

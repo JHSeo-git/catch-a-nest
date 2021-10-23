@@ -50,10 +50,9 @@ function HomePage() {
                 as="a"
                 size="small"
                 kind="blueScale"
-                // FIXME: style to css after remove to emotion
-                style={{
+                css={{
                   display: 'flex',
-                  alignItems: 'center',
+                  ai: 'center',
                 }}
               >
                 <span>More</span>
