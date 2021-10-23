@@ -54,6 +54,7 @@ const TextAreaBox = styled('textarea', {
   height: '100%',
   width: '100%',
   display: 'block',
+  bc: '$loContrast',
   py: '$1',
   px: '$6',
   fontFamily: 'inherit',
