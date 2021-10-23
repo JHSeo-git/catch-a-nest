@@ -52,6 +52,7 @@ const TextAreaBox = styled('textarea', {
 
   maxHeight: '32rem',
   height: '100%',
+  width: '100%',
   display: 'block',
   py: '$1',
   px: '$6',
