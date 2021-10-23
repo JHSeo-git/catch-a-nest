@@ -113,7 +113,7 @@ const Title = styled('h1', {
   overflowWrap: 'break-word',
 
   '@sm': {
-    fontSize: '$6xl',
+    fontSize: '$5xl',
   },
 });
 
