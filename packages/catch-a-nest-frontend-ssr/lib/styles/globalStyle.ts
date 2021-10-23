@@ -17,6 +17,8 @@ const globalStyle = globalCss({
     WebkitTextSizeAdjust: '100%',
 
     bc: '$loContrast',
+
+    wordBreak: 'break-word',
   },
 
   button: {
@@ -42,12 +44,12 @@ const globalStyle = globalCss({
     textDecoration: 'none',
   },
 
-  'h1, h2, h3, h4, h5, h6': {
-    wordBreak: 'keep-all',
-  },
-  'p, span': {
-    wordBreak: 'keep-all',
-  },
+  // 'h1, h2, h3, h4, h5, h6': {
+  //   wordBreak: 'keep-all',
+  // },
+  // 'p, span': {
+  //   wordBreak: 'keep-all',
+  // },
 
   // TODO: everride style
   // react-toastify
