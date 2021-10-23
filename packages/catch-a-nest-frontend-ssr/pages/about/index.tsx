@@ -77,10 +77,16 @@ const Box = styled('article', {
   ai: 'center',
 
   '& .logo': {
-    height: '15rem',
-    width: 'auto',
+    width: '100%',
+    height: 'auto',
+    maxHeight: '15rem',
 
     animation: `${logoAnimation} 5s ease forwards, ${fadeInAnimation} 2s ease forwards`,
+
+    '@sm': {
+      height: '15rem',
+      mx: 0,
+    },
   },
 });
 
