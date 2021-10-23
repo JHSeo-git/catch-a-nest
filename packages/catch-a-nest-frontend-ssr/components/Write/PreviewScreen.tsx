@@ -1,17 +1,11 @@
-import Headroom from 'react-headroom';
 import useLazyClose from '@/hooks/useLazyClose';
-import { slideDown, slideUp } from '@/lib/styles/animation';
-import media from '@/lib/styles/media';
-import palette from '@/lib/styles/palette';
-import { resetButton } from '@/lib/styles/reset/resetButton';
-import { responsiveWidth } from '@/lib/styles/responsive';
-import { css } from '@emotion/react';
-import dynamic from 'next/dynamic';
-import AppIcon from '../AppIcon';
-import Modal from '../Modal';
-import { useThemeValue } from '@/lib/recoil/appState';
-
-const MarkdownItViewer = dynamic(() => import('../Markdown/MarkdownItViewer'));
+import Modal from '../common/Modal';
+import { styled } from '@stitches.js';
+import Container from '../common/Container';
+import Button from '../common/Button';
+import CloseIcon from '@/assets/icons/close.svg';
+import MarkdownRender from '../Markdown/MarkdownRender';
+import { slideDownAnimation, slideUpAnimation } from '@/lib/styles/animation';
 
 export type PreviewScreenProps = {
   visible: boolean;
@@ -20,111 +14,88 @@ export type PreviewScreenProps = {
 };
 
 const PreviewScreen = ({ visible, markdown, onClose }: PreviewScreenProps) => {
-  const theme = useThemeValue();
   const { lazyClosed } = useLazyClose(visible, 200);
 
   if (!visible && lazyClosed) return null;
 
   return (
-    <Modal css={modalStyle(visible, theme === 'DARK')}>
-      <div css={innerStyle}>
-        <div css={headerStyle(theme === 'DARK')}>
-          <h1 css={headingStyle}>PREVIEW</h1>
-          <button css={closeButton(theme === 'DARK')} onClick={onClose}>
-            <AppIcon name="close" />
-          </button>
-        </div>
-        <div css={mdBox}>
-          <MarkdownItViewer markdown={markdown} />
-        </div>
-      </div>
-    </Modal>
+    <ModalBox visible={visible}>
+      <HeaderBox>
+        <h1>PREVIEW</h1>
+        <IconButton kind="whiteScale" ghost onClick={onClose}>
+          <CloseIcon className="icon" />
+        </IconButton>
+      </HeaderBox>
+      <Content>
+        <Container>
+          <MarkdownRender markdown={markdown} />
+        </Container>
+      </Content>
+    </ModalBox>
   );
 };
 
-const modalStyle = (visible: boolean, isDarkMode: boolean) => css`
-  display: block;
-  width: 100%;
-  background: #fff;
+const ModalBox = styled(Modal, {
+  display: 'block',
+  width: '100%',
+  bc: '$loContrast',
 
-  ${isDarkMode &&
-  css`
-    background: ${palette.blueGrey[900]};
-  `}
+  variants: {
+    visible: {
+      true: {
+        animation: `${slideUpAnimation} 0.2s ease-in-out forwards`,
+      },
+      false: {
+        animation: `${slideDownAnimation} 0.2s ease-in-out forwards`,
+      },
+    },
+  },
+});
 
-  ${visible
-    ? css`
-        animation: ${slideUp} 0.2s ease-in-out forwards;
-      `
-    : css`
-        animation: ${slideDown} 0.2s ease-in-out forwards;
-      `};
-`;
+const HeaderBox = styled('div', {
+  position: 'fixed',
+  top: 0,
+  left: 0,
+  right: 0,
+  height: '$headerHeight',
+  width: '100%',
+  bc: '$loContrast',
+  zIndex: '$1',
+  display: 'flex',
+  jc: 'space-between',
+  ai: 'center',
+  px: '$4',
+  borderBottom: '1px solid $colors$mauve6',
 
-const headerStyle = (isDarkMode: boolean) => css`
-  ${responsiveWidth};
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 5rem;
-  width: 100%;
-  background: #fff;
-  z-index: 1;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  '& h1': {
+    m: 0,
+    fontSize: '$4xl',
+    color: '$mauve12',
 
-  ${isDarkMode &&
-  css`
-    background: ${palette.blueGrey[900]};
-  `}
-`;
+    '@sm': {
+      fontSize: '5xl',
+    },
+  },
+});
 
-const headingStyle = css`
-  margin: 0;
-  padding: 0;
+const IconButton = styled(Button, {
+  display: 'flex',
+  jc: 'center',
+  ai: 'center',
 
-  font-size: 2.5rem;
-  color: ${palette.blue[500]};
+  '& .icon': {
+    size: '$4',
+  },
+});
 
-  ${media.sm} {
-    font-size: 2rem;
-  }
-`;
-
-const closeButton = (isDarkMode: boolean) => css`
-  ${resetButton}
-  cursor: pointer;
-
-  svg {
-    color: ${palette.blueGrey[700]};
-    width: 1.25rem;
-    height: 1.25rem;
-
-    ${isDarkMode &&
-    css`
-      color: ${palette.grey[100]};
-    `}
-  }
-
-  ${media.sm} {
-    svg {
-      width: 1rem;
-      height: 1rem;
-    }
-  }
-`;
-
-const innerStyle = css`
-  position: relative;
-  overflow-y: auto;
-  height: 100%;
-  padding-top: 4rem;
-`;
-
-const mdBox = css`
-  ${responsiveWidth};
-`;
+// TODO: add margin
+const Content = styled('div', {
+  position: 'absolute',
+  top: '$sizes$headerHeight',
+  left: 0,
+  right: 0,
+  bottom: 0,
+  overflowY: 'auto',
+});
 
 export default PreviewScreen;

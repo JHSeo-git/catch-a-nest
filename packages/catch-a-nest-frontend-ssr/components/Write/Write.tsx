@@ -1,10 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/router';
-import { css } from '@emotion/react';
 import { Editor } from '@toast-ui/react-editor';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
-import { pageFadeInStyle } from '@/lib/styles/animation';
 import {
   PostAllContentType,
   useExistsTempPostValue,
@@ -17,9 +15,10 @@ import WriteButtons from './WriteButtons';
 import WriteTitle from './WriteTitle';
 import TuiEditor from '../Markdown/TuiEditor';
 import PublishScreen from './PublishScreen';
-import PopupConfirm from '../Popup/PopupConfirm';
 import PreviewScreen from './PreviewScreen';
 import useWarnIfUnsavedChanges from '@/hooks/useWarnIfUnsavedChanges';
+import { styled } from '@stitches.js';
+import Popup from '../common/Popup';
 
 export type WriteProps = {
   slug?: string;
@@ -158,15 +157,15 @@ const Write = ({ slug }: WriteProps) => {
 
   return (
     <>
-      <div css={formStyle}>
+      <Box>
         <WriteTitle
           ref={titleRef}
           register={register}
           placeholder="Please write title"
         />
-        <div css={editorWrapper}>
+        <EditorWrapper>
           <TuiEditor ref={editorRef} />
-        </div>
+        </EditorWrapper>
         <WriteButtons
           onBackClick={onBackClick}
           onTempClick={handleSubmit(
@@ -185,15 +184,15 @@ const Write = ({ slug }: WriteProps) => {
           onClose={onPreviewClose}
           visible={visiblePreview}
         />
-      </div>
-      <PopupConfirm
+      </Box>
+      <Popup
         visible={visiblePopup}
         title="Load Temp Post?"
         onCancel={onCancel}
         onOK={onOK}
         openDelay={true}
       />
-      <PopupConfirm
+      <Popup
         visible={visibleAlert}
         title="Alert"
         message={alertMessage}
@@ -203,15 +202,15 @@ const Write = ({ slug }: WriteProps) => {
   );
 };
 
-const formStyle = css`
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  ${pageFadeInStyle()};
-`;
+const Box = styled('div', {
+  position: 'absolute',
+  inset: 0,
+  display: 'flex',
+  flexDirection: 'column',
+});
 
-const editorWrapper = css`
-  flex: 1;
-`;
+const EditorWrapper = styled('div', {
+  flex: 1,
+});
 
 export default Write;

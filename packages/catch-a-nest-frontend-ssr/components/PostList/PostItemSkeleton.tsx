@@ -1,5 +1,6 @@
 import React from 'react';
-import { keyframes, styled } from '@stitches.js';
+import { styled } from '@stitches.js';
+import { shinyAnimation } from '@/lib/styles/animation';
 
 const PostItemSkeleton = React.forwardRef<React.ElementRef<'div'>, {}>(
   ({}, ref) => {
@@ -13,18 +14,6 @@ const PostItemSkeleton = React.forwardRef<React.ElementRef<'div'>, {}>(
     );
   }
 );
-
-const shinyAnimation = keyframes({
-  '0%': {
-    opacity: 1,
-  },
-  '50%': {
-    opacity: 0,
-  },
-  '100%': {
-    opacity: 1,
-  },
-});
 
 const ItemBox = styled('div', {
   '&:not(:last-child)': {

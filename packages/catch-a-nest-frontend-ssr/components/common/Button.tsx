@@ -114,6 +114,70 @@ const Button = styled('button', {
           borderColor: '$green7',
         },
       },
+      solidGrayScale: {
+        bc: '$mauve9',
+        color: '$mauve1',
+        border: '1px solid transparent',
+        '@hover': {
+          '&:hover': {
+            bc: '$mauve10',
+          },
+        },
+        '&:active': {
+          bc: '$mauve11',
+        },
+        '&:focus, &:focus-visible': {
+          borderColor: '$mauve10',
+        },
+      },
+      solidRedScale: {
+        bc: '$red9',
+        color: '$red1',
+        border: '1px solid transparent',
+        '@hover': {
+          '&:hover': {
+            bc: '$red10',
+          },
+        },
+        '&:active': {
+          bc: '$red11',
+        },
+        '&:focus, &:focus-visible': {
+          borderColor: '$red10',
+        },
+      },
+      solidBlueScale: {
+        bc: '$blue9',
+        color: '$blue1',
+        border: '1px solid transparent',
+        '@hover': {
+          '&:hover': {
+            bc: '$blue10',
+          },
+        },
+        '&:active': {
+          bc: '$blue11',
+        },
+        '&:focus, &:focus-visible': {
+          borderColor: '$blue10',
+        },
+      },
+      solidGreenScale: {
+        bc: '$green9',
+        color: '$green1',
+        border: '1px solid transparent',
+        '@hover': {
+          '&:hover': {
+            bc: '$green10',
+          },
+        },
+        '&:active': {
+          bc: '$green11',
+        },
+        '&:focus, &:focus-visible': {
+          borderColor: '$green10',
+        },
+      },
     },
     shape: {
       smooth: {
@@ -154,7 +218,7 @@ const Button = styled('button', {
       },
       waiting: {
         bc: '$mauve3',
-        color: '$transparent',
+        color: 'transparent',
         pointerEvents: 'none',
         '@hover': {
           '&:hover': {
@@ -168,6 +232,9 @@ const Button = styled('button', {
           },
         },
       },
+    },
+    responsive: {
+      true: {},
     },
     ghost: {
       true: {
@@ -215,6 +282,18 @@ const Button = styled('button', {
       css: {
         bc: 'transparent',
         borderColor: 'transparent',
+      },
+    },
+    {
+      responsive: 'true',
+      shape: 'smooth',
+      css: {
+        br: 0,
+        borderWidth: 0,
+        '@sm': {
+          br: '$2',
+          borderWidth: '1px',
+        },
       },
     },
   ],

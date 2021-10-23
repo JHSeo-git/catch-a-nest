@@ -9,7 +9,7 @@ import useAuthManage from '@/hooks/useAuthManage';
 
 const MenuItem = styled('li', {});
 
-function Menus() {
+const Menus = () => {
   const userValue = useUserValue();
   const { logout } = useAuthManage();
   const [visible, setVisible] = useState(false);
@@ -31,27 +31,27 @@ function Menus() {
       </IconButton>
       <MenuList visible={visible}>
         <li>
-          <Link href="/posts">
+          <Link href="/posts" passHref>
             <LinkBox>Posts</LinkBox>
           </Link>
         </li>
         <li>
-          <Link href="/about">
+          <Link href="/about" passHref>
             <LinkBox>About</LinkBox>
           </Link>
         </li>
-        <Link href="/lab">
+        <Link href="/lab" passHref>
           <LinkBox>Lab</LinkBox>
         </Link>
         {userValue && (
           <>
             <li>
-              <Link href="/write">
+              <Link href="/write" passHref>
                 <LinkBox>New Post</LinkBox>
               </Link>
             </li>
             <li>
-              <Link href="/temps">
+              <Link href="/temps" passHref>
                 <LinkBox>Temp Posts</LinkBox>
               </Link>
             </li>
@@ -65,7 +65,7 @@ function Menus() {
       </MenuList>
     </Box>
   );
-}
+};
 
 const Box = styled('div', {
   position: 'relative',

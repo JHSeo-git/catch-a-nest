@@ -1,7 +1,7 @@
 import { styled } from '@stitches.js';
-import Button from './common/Button';
 import GithubIcon from '@/assets/icons/github.svg';
 import LogoImage from '@/assets/images/logo.svg';
+import Button from '../common/Button';
 
 function Footer() {
   return (

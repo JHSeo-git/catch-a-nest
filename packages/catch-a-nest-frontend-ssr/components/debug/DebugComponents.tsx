@@ -1,6 +1,6 @@
 import React from 'react';
 import { ReactQueryDevtools } from 'react-query/devtools';
-import RecoilDebugObserver from '../RecoilDebugObserver';
+import RecoilDebugObserver from './RecoilDebugObserver';
 
 function DebugComponents() {
   if (process.env.NODE_ENV === 'production') {

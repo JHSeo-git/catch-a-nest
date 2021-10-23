@@ -60,18 +60,21 @@ const Box = styled('div', {
   bc: '$loContrast',
   br: '$2',
   bs: '$muiShadow3',
+  overflow: 'hidden',
 });
 
 const Title = styled('h1', {
   m: 0,
-  p: '$3',
-  mb: '$3',
-  color: '$hiContrast',
+  px: '$3',
+  py: '$2',
+  color: '$loContrast',
+  bc: '$crimson11',
   borderBottom: '1px solid $colors$gray6',
 });
 
 const Message = styled('p', {
   m: 0,
+  my: '$3',
   color: '$mauve11',
 });
 

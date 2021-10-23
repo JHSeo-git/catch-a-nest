@@ -14,7 +14,7 @@ type MarkdownRenderProps = {
 
 type ComponentType = ReactMarkdownOptions['components'];
 
-function MarkdownRender({ markdown }: MarkdownRenderProps) {
+const MarkdownRender = ({ markdown }: MarkdownRenderProps) => {
   return (
     <Box>
       <ReactMarkdown
@@ -26,7 +26,7 @@ function MarkdownRender({ markdown }: MarkdownRenderProps) {
       </ReactMarkdown>
     </Box>
   );
-}
+};
 
 const components: ComponentType = {
   a: ({ node, href, children, ...props }) => {
@@ -84,6 +84,7 @@ const components: ComponentType = {
 
 const Box = styled('section', {
   px: '$1',
+  py: '$2',
   color: '$mauve12',
   lineHeight: '1.5',
   // fontVariantNumeric: 'tabular-nums',

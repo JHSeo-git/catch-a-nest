@@ -1,11 +1,8 @@
-import { UseFormRegister } from 'react-hook-form';
-import { css } from '@emotion/react';
-import { usePostTitleState } from '@/lib/recoil/writeState';
-import media from '@/lib/styles/media';
-import palette from '@/lib/styles/palette';
-import { WriteInputs } from './Write';
 import { forwardRef } from 'react';
-import { useThemeValue } from '@/lib/recoil/appState';
+import { UseFormRegister } from 'react-hook-form';
+import { styled } from '@stitches.js';
+import { usePostTitleState } from '@/lib/recoil/writeState';
+import { WriteInputs } from './Write';
 
 export type WriteTitleProps = {
   register: UseFormRegister<WriteInputs>;
@@ -15,7 +12,6 @@ export type WriteTitleProps = {
 const WriteTitle = forwardRef<HTMLTextAreaElement, WriteTitleProps>(
   ({ register, placeholder }, ref) => {
     const [postTitle, setPostTitle] = usePostTitleState();
-    const theme = useThemeValue();
 
     const onChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
       handleAutoHeight(e);
@@ -28,59 +24,51 @@ const WriteTitle = forwardRef<HTMLTextAreaElement, WriteTitleProps>(
     };
 
     return (
-      <div css={wrapper}>
-        <textarea
+      <Box>
+        <TextAreaBox
           {...register('title')}
           ref={ref}
-          css={textareaStyle(theme === 'DARK')}
           rows={1}
           placeholder={placeholder}
           value={postTitle ?? ''}
           onChange={onChange}
           autoFocus
         />
-      </div>
+      </Box>
     );
   }
 );
 
 WriteTitle.displayName = 'WriteTitle';
 
-const wrapper = css`
-  display: flex;
-  align-items: center;
-  & > * {
-    width: 100%;
-  }
-`;
+const Box = styled('div', {
+  display: 'flex',
+  ai: 'center',
+});
 
-const textareaStyle = (isDarkMode: boolean) => css`
-  max-height: 32rem;
-  outline: none;
-  border: none;
-  display: block;
-  padding: 0.5rem 2rem;
-  height: 100%;
-  font-family: inherit;
-  font-size: 2.5rem;
-  font-weight: bold;
-  resize: none;
-  line-height: 1.5;
-  ${isDarkMode &&
-  css`
-    color: ${palette.grey[100]};
-    background: ${palette.blueGrey[900]};
-  `}
-  &::placeholder {
-    color: ${palette.blueGrey[200]};
-    ${isDarkMode &&
-    css`
-      color: ${palette.grey[600]};
-    `}
-  }
-  ${media.md} {
-    font-size: 2.25rem;
-  }
-`;
+const TextAreaBox = styled('textarea', {
+  outline: 'none',
+  border: 'none',
+
+  maxHeight: '32rem',
+  height: '100%',
+  display: 'block',
+  py: '$1',
+  px: '$6',
+  fontFamily: 'inherit',
+  fontSize: '$4xl',
+  fontWeight: 'bold',
+  resize: 'none',
+  lineHeight: '1.5',
+  color: '$mauve12',
+
+  '&::placeholder': {
+    color: '$mauve8',
+  },
+
+  '@sm': {
+    fontSize: '$5xl',
+  },
+});
 
 export default WriteTitle;

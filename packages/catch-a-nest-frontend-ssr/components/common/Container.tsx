@@ -1,10 +1,6 @@
 import { styled } from '@stitches.js';
 
-function Container({ children }: { children: React.ReactNode }) {
-  return <ContainerBox>{children}</ContainerBox>;
-}
-
-const ContainerBox = styled('section', {
+const Container = styled('section', {
   height: '100%',
   maxWidth: '$maxWidth',
   m: '0 auto',

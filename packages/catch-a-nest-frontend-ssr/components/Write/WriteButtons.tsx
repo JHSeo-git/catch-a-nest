@@ -1,8 +1,10 @@
-import { css } from '@emotion/react';
-import media from '@/lib/styles/media';
-import palette from '@/lib/styles/palette';
-import AppButton from '../AppButton';
 import { useIsEditPostValue } from '@/lib/recoil/writeState';
+import { styled } from '@stitches.js';
+import Button from '../common/Button';
+import ChevronRightIcon from '@/assets/icons/chevron-right.svg';
+import FilePlusIcon from '@/assets/icons/file-plus.svg';
+import Pencil2Icon from '@/assets/icons/pencil2.svg';
+import CameraIcon from '@/assets/icons/camera.svg';
 
 export type WriteButtonsProps = {
   onBackClick(): void;
@@ -20,67 +22,81 @@ const WriteButtons = ({
   const isEditPost = useIsEditPostValue();
 
   return (
-    <div css={buttonBox}>
-      <AppButton
-        type="normal"
-        text="BACK"
+    <Box>
+      <IconButton
+        size="small"
+        kind="grayScale"
+        responsive
         onClick={onBackClick}
-        preIconName="arrowLeft"
-      />
-
-      <AppButton
-        type="secondary"
-        text="TEMP"
+      >
+        <ChevronRightIcon className="icon reverse" />
+        <span className="text">BACK</span>
+      </IconButton>
+      <IconButton
+        size="small"
+        kind="greenScale"
+        responsive
         onClick={onTempClick}
-        preIconName="plus"
-        preIconColor={palette.white}
-      />
-      <div css={centerBox}>
-        <AppButton
-          type="secondary"
-          text="PREVIEW"
-          onClick={onPreviewClick}
-          preIconName="view"
-          preIconColor={palette.white}
-          hoverAnimationDirect="up"
-        />
-        <AppButton
-          type="primary"
-          text={isEditPost ? 'UPDATE' : 'POST'}
-          onClick={onPostClick}
-          preIconName="arrowUp"
-          preIconColor={palette.white}
-          hoverAnimationDirect="up"
-        />
-      </div>
-    </div>
+      >
+        <Pencil2Icon className="icon" />
+        <span className="text">TEMP</span>
+      </IconButton>
+      <IconButton
+        size="small"
+        kind="redScale"
+        responsive
+        onClick={onPreviewClick}
+      >
+        <CameraIcon className="icon" />
+        <span className="text">PREVIEW</span>
+      </IconButton>
+      <IconButton
+        size="small"
+        kind="blueScale"
+        responsive
+        onClick={onPostClick}
+      >
+        <FilePlusIcon className="icon" />
+        <span className="text">{isEditPost ? 'UPDATE' : 'POST'}</span>
+      </IconButton>
+    </Box>
   );
 };
 
-const buttonBox = css`
-  height: 5rem;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding-right: 1rem;
-  padding-left: 1rem;
+const Box = styled('div', {
+  height: '$8',
+  display: 'flex',
+  jc: 'flex-end',
+  ai: 'center',
+});
 
-  ${media.sm} {
-    padding: 0;
-    button {
-      border-radius: 0;
-      height: 100%;
-      width: 100%;
-    }
-  }
-`;
+const IconButton = styled(Button, {
+  width: '100%',
+  height: '100%',
+  display: 'flex',
+  jc: 'center',
+  ai: 'center',
 
-const centerBox = css`
-  display: flex;
+  '& .icon': {
+    size: '$4',
+    display: 'none',
 
-  button + button {
-    margin-left: 1rem;
-  }
-`;
+    '@sm': {
+      display: 'block',
+    },
+  },
+  '& .reverse': {
+    transform: 'rotateY(180deg)',
+  },
+  '& .text': {
+    ml: '$1',
+  },
+
+  '@sm': {
+    width: 'auto',
+    height: 'auto',
+    mr: '$2',
+  },
+});
 
 export default WriteButtons;

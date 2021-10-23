@@ -1,7 +1,6 @@
 import Link from 'next/link';
 import { styled } from '@stitches.js';
 import { PostShortInfo } from '@/lib/api/posts/types';
-import { useThemeValue } from '@/lib/recoil/appState';
 import ChevronRightIcon from '@/assets/icons/chevron-right.svg';
 
 export type PostFooterProps = {
@@ -78,7 +77,7 @@ const LinkBox = styled('a', {
 
   '@hover': {
     '&:hover': {
-      bs: '$muiShadow2',
+      bs: '$interactiveShadow1',
     },
   },
 
@@ -90,6 +89,7 @@ const LinkBox = styled('a', {
     direction: {
       right: {
         jc: 'flex-end',
+        textAlign: 'right',
       },
     },
   },
@@ -105,6 +105,7 @@ const TitleInfo = styled('div', {
   '& .title': {
     m: 0,
     fontSize: '$xl',
+    fontWeight: 'bold',
     ellipsisLine: 1,
   },
 });
