@@ -1,8 +1,7 @@
 import React from 'react';
-import { css } from '@emotion/react';
 import GoogleLoginButton from '@/components/GoogleLoginButton';
 import { useUserValue } from '@/lib/recoil/authState';
-import PageSEO from '@/components/AppSEO/PageSEO';
+import PageSEO from '@/components/SEO/PageSEO';
 import AppLayout from '@/components/AppLayout';
 import { styled } from '@stitches.js';
 

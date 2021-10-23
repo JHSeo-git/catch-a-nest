@@ -2,15 +2,14 @@ import React, { useMemo } from 'react';
 import { GetStaticProps } from 'next';
 import { dehydrate } from 'react-query/hydration';
 import TempPostList from '@/components/TempPostList';
-import FloatLinkButton from '@/components/FloatLinkButton';
 import AppLayout from '@/components/AppLayout';
-import PageSEO from '@/components/AppSEO/PageSEO';
+import PageSEO from '@/components/SEO/PageSEO';
 import useGetTempPostsQuery, {
   prefetchGetTempPostsQuery,
 } from '@/hooks/query/useGetTempPostsQuery';
 import Container from '@/components/common/Container';
+import FloatAction from '@/components/FloatAction';
 
-// SSG
 export const getStaticProps: GetStaticProps = async (context) => {
   const queryClient = await prefetchGetTempPostsQuery();
 
@@ -46,7 +45,7 @@ function TempsPage() {
             fetchNext={fetchNext}
           />
         </Container>
-        <FloatLinkButton iconName="write" to="/write" />
+        <FloatAction />
       </AppLayout>
     </>
   );

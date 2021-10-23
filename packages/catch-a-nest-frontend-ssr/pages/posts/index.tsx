@@ -1,14 +1,14 @@
 import React, { useMemo } from 'react';
-import FloatLinkButton from '@/components/FloatLinkButton';
-import AppLayout from '@/components/AppLayout';
-import PageSEO from '@/components/AppSEO/PageSEO';
-import PostList from '@/components/PostList';
 import { GetStaticProps } from 'next';
 import { dehydrate } from 'react-query/hydration';
+import AppLayout from '@/components/AppLayout';
+import PageSEO from '@/components/SEO/PageSEO';
+import PostList from '@/components/PostList';
 import useGetPostsQuery, {
   prefetchGetPostsQuery,
 } from '@/hooks/query/useGetPostsQuery';
 import Container from '@/components/common/Container';
+import FloatAction from '@/components/FloatAction';
 
 export const getStaticProps: GetStaticProps = async (context) => {
   const queryClient = await prefetchGetPostsQuery();
@@ -45,7 +45,8 @@ function PostsPage() {
             fetchNext={fetchNext}
           />
         </Container>
-        <FloatLinkButton iconName="write" to="/write" />
+        {/* <FloatLinkButton iconName="write" to="/write" /> */}
+        <FloatAction />
       </AppLayout>
     </>
   );

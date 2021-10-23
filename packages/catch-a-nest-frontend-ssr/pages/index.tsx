@@ -7,7 +7,7 @@ import useGetPostsByLatestQuery, {
   prefetchGetPostsByLatestQuery,
 } from '@/hooks/query/useGetPostsByLatestQuery';
 import AppLayout from '@/components/AppLayout';
-import PageSEO from '@/components/AppSEO/PageSEO';
+import PageSEO from '@/components/SEO/PageSEO';
 import Container from '@/components/common/Container';
 import Button from '@/components/common/Button';
 import ChevronRightIcon from '@/assets/icons/chevron-right.svg';

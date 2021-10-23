@@ -1,16 +1,17 @@
 import React, { useMemo } from 'react';
 import { GetStaticPaths, GetStaticProps, GetStaticPropsContext } from 'next';
 import { dehydrate } from 'react-query/hydration';
+import markdownToText from 'markdown-to-text';
 import Post from '@/components/Post';
-import FloatLinkButton from '@/components/FloatLinkButton';
-import palette from '@/lib/styles/palette';
 import AppLayout from '@/components/AppLayout';
 import getAllPostSlug from '@/lib/api/posts/getAllPostSlug';
 import useGetPostBySlugQuery, {
   prefetchGetPostBySlugQuery,
 } from '@/hooks/query/useGetPostBySlugQuery';
 import Container from '@/components/common/Container';
-import Head from 'next/head';
+import PostSEO from '@/components/SEO/PostSEO';
+import FloatAction from '@/components/FloatAction';
+import PostSkeleton from '@/components/Post/PostSkeleton';
 
 export const getStaticProps: GetStaticProps = async ({
   params,
@@ -64,36 +65,25 @@ function PostPage({ slug }: PostPageProps) {
     return data;
   }, [data]);
 
+  if (!post) return null;
+
   return (
     <>
-      <Head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link
-          rel="preconnect"
-          href="https://fonts.gstatic.com"
-          crossOrigin="true"
-        />
-        <link
-          href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@500;700&display=swap"
-          rel="stylesheet"
-        />
-      </Head>
+      <PostSEO
+        title={post.title}
+        description={
+          post.short_description ??
+          markdownToText(post.body).trim().slice(0, 150)
+        }
+        images={post.thumbnail ? [post.thumbnail] : []}
+        modifiedTime={post.updated_at}
+        publishedTime={post.created_at}
+      />
       <AppLayout>
         <Container>
           <Post post={post} />
         </Container>
-        <FloatLinkButton
-          //
-          iconName="write"
-          to={`/write`}
-          position="first"
-        />
-        <FloatLinkButton
-          iconName="fix"
-          to={`/write/${slug}`}
-          color={palette.indigo[500]}
-          position="second"
-        />
+        <FloatAction editSlug={post.url_slug} />
       </AppLayout>
     </>
   );
