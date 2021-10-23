@@ -1,25 +1,24 @@
 import React, { useState } from 'react';
-import { css } from '@emotion/react';
 import Image from 'next/image';
 import { Post } from '@/lib/api/posts/types';
 import { useUserValue } from '@/lib/recoil/authState';
 import { stringToDateMoreDetail } from '@/lib/utils/dateUtils';
 import { humanizeTime } from '@/lib/utils/viewerUtils';
-import palette from '@/lib/styles/palette';
-import media from '@/lib/styles/media';
-import AppButton from '../AppButton';
 import useDeletePost from '@/hooks/useDeletePost';
 import { useRouter } from 'next/router';
-import PopupConfirm from '../Popup/PopupConfirm';
-import { useThemeValue } from '@/lib/recoil/appState';
+import { styled } from '@stitches.js';
+import Button from '../common/Button';
+import CalendarIcon from '@/assets/icons/calendar.svg';
+import ClockIcon from '@/assets/icons/clock.svg';
+import EyeIcon from '@/assets/icons/eye.svg';
+import Popup from '../common/Popup';
 
 export type PostHeaderProps = {
   post: Post;
 };
 
-const PostHeader = ({ post }: PostHeaderProps) => {
+function PostHeader({ post }: PostHeaderProps) {
   const router = useRouter();
-  const theme = useThemeValue();
   const userState = useUserValue();
   const { deletePost } = useDeletePost();
 
@@ -34,50 +33,58 @@ const PostHeader = ({ post }: PostHeaderProps) => {
 
   return (
     <>
-      <section css={postStyle(theme === 'DARK')}>
-        <h1 className="title">{post.title}</h1>
-        <div className="sub-info">
-          <p className="date">{stringToDateMoreDetail(post.created_at)}</p>
-          {post.read_time !== undefined && (
+      <Box>
+        <Title>{post.title}</Title>
+        <SubInfo>
+          <WithIcon>
+            <CalendarIcon className="icon" />
+            <span className="text">
+              {stringToDateMoreDetail(post.created_at)}
+            </span>
+          </WithIcon>
+          {post.read_time && (
             <>
-              <div className="splitter" />
-              <p className="view readTimeStyle">
-                {humanizeTime(post.read_time)}
-              </p>
+              <Seperator />
+              <WithIcon color="pink">
+                <ClockIcon className="icon" />
+                <span className="text">{humanizeTime(post.read_time)}</span>
+              </WithIcon>
             </>
           )}
-          <div className="splitter" />
-          <p className="view">
-            {post.read_count ?? 0} view
-            {post.read_count && post.read_count > 1 && 's'}
-          </p>
-        </div>
-        {userState && (
-          <div className="sub-info">
-            <AppButton
-              text="DELETE"
-              type="thirdary"
+          <Seperator />
+          <WithIcon>
+            <EyeIcon className="icon" />
+            <span className="text">
+              {post.read_count ?? 0} view
+              {post.read_count && post.read_count > 1 && 's'}
+            </span>
+          </WithIcon>
+          {userState && (
+            <Button
+              kind="redScale"
               size="small"
-              preIconName="remove"
               onClick={() => setVisiblePopup(true)}
-            />
-          </div>
-        )}
+              style={{ marginLeft: 'auto' }}
+            >
+              DELETE
+            </Button>
+          )}
+        </SubInfo>
         {post.thumbnail && (
-          <div css={thumbnailWrapper}>
+          <ImageWrapper>
             <Image
-              css={imageStyle}
               src={post.thumbnail}
-              alt="post thumbnail"
+              alt="thumbnail"
               width={768}
               height={500}
+              placeholder={'blur'}
+              blurDataURL={post.thumbnail}
               objectFit="contain"
-              placeholder="empty"
             />
-          </div>
+          </ImageWrapper>
         )}
-      </section>
-      <PopupConfirm
+      </Box>
+      <Popup
         visible={visiblePopup}
         title="Delete Post?"
         onCancel={() => setVisiblePopup(false)}
@@ -86,93 +93,73 @@ const PostHeader = ({ post }: PostHeaderProps) => {
       />
     </>
   );
-};
+}
 
-const postStyle = (isDarkMode: boolean) => css`
-  display: flex;
-  flex-direction: column;
-  margin-bottom: 2rem;
+const Box = styled('section', {
+  display: 'flex',
+  flexDirection: 'column',
+  my: '$4',
+  px: '$1',
+});
 
-  .title {
-    margin: 0;
-    padding: 0;
-    line-height: 1.5;
-    font-weight: 900;
-    font-size: 3rem;
-    color: ${palette.blueGrey[900]};
+const Title = styled('h1', {
+  m: 0,
+  mb: '$3',
+  pb: '$3',
+  fontSize: '$4xl',
+  color: '$hiContrast',
+  borderBottom: '1px solid $mauve6',
+  wordBreak: 'keep-all',
+  overflowWrap: 'break-word',
 
-    ${isDarkMode &&
-    css`
-      color: ${palette.grey[100]};
-    `}
+  '@sm': {
+    fontSize: '$6xl',
+  },
+});
 
-    ${media.md} {
-      font-size: 2.25rem;
-    }
-  }
+const SubInfo = styled('div', {
+  display: 'flex',
+  ai: 'center',
+  mb: '$6',
+  flexWrap: 'wrap',
+  gap: '$1',
+});
 
-  .sub-info {
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    margin-top: 1rem;
-    margin-bottom: 1rem;
+const WithIcon = styled('div', {
+  display: 'flex',
+  ai: 'center',
+  color: '$mauve11',
 
-    .date,
-    .view {
-      font-size: 0.85rem;
-      margin: 0;
-      padding: 0;
-      color: ${palette.blueGrey[700]};
-      text-align: right;
-      line-height: 1;
+  '& .icon': {
+    size: '$3',
+    color: 'inherit',
+  },
+  '& .text': {
+    m: 0,
+    ml: '$1',
+    fontSize: '$xs',
+    color: 'inherit',
+  },
 
-      ${isDarkMode &&
-      css`
-        color: ${palette.grey[300]};
-      `}
-    }
-    .readTimeStyle {
-      color: ${palette.blue[500]};
-      font-style: italic;
+  variants: {
+    color: {
+      pink: {
+        color: '$pink9',
+      },
+    },
+  },
+});
 
-      ${isDarkMode &&
-      css`
-        color: ${palette.lightBlue[400]};
-      `}
-    }
-    .splitter {
-      margin-left: 0.5rem;
-      margin-right: 0.5rem;
-      width: 0.25rem;
-      height: 0.25rem;
-      border-radius: 50%;
-      background-color: ${palette.blue[500]};
-      /* flex: 1;
-      margin-right: 5rem;
-      height: 0.125rem;
-      background: ${palette.blueGrey[100]}; */
+const Seperator = styled('div', {
+  height: '$3',
+  width: '1px',
+  bc: '$mauve6',
+});
 
-      ${isDarkMode &&
-      css`
-        background-color: ${palette.lightBlue[400]};
-      `}
-    }
-  }
-`;
-
-const thumbnailWrapper = css`
-  position: relative;
-  margin-bottom: 5em;
-  margin: 0 auto;
-`;
-
-const imageStyle = css`
-  display: block;
-  width: auto;
-  margin: 0px auto;
-  object-fit: cover;
-  border-radius: 0.5rem;
-`;
+const ImageWrapper = styled('div', {
+  position: 'relative',
+  mx: 'auto',
+  mb: '$6',
+});
 
 export default PostHeader;

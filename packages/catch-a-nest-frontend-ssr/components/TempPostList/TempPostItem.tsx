@@ -1,25 +1,22 @@
 import { useState } from 'react';
-import { css } from '@emotion/react';
-import markdownToText from 'markdown-to-text';
-import { Post } from '@/lib/api/posts/types';
-import media from '@/lib/styles/media';
-import palette from '@/lib/styles/palette';
-import { resetButton } from '@/lib/styles/reset/resetButton';
-import { getDiffOfNow } from '@/lib/utils/dateUtils';
-import useDeletePost from '@/hooks/useDeletePost';
-import ActiveLink from '../ActiveLink';
-import PopupConfirm from '../Popup/PopupConfirm';
+import Link from 'next/link';
 import { useRouter } from 'next/router';
+import markdownToText from 'markdown-to-text';
+import { styled } from '@stitches.js';
+import { Post } from '@/lib/api/posts/types';
+import { getDiffOfNow } from '@/lib/utils/dateUtils';
 import { useUserValue } from '@/lib/recoil/authState';
-import { useThemeValue } from '@/lib/recoil/appState';
+import useDeletePost from '@/hooks/useDeletePost';
+import Button from '../common/Button';
+import CalendarIcon from '@/assets/icons/calendar.svg';
+import Popup from '../common/Popup';
 
 export type TempPostItemProps = {
   post: Post;
 };
 
-const TempPostItem = ({ post }: TempPostItemProps) => {
+function TempPostItem({ post }: TempPostItemProps) {
   const userState = useUserValue();
-  const theme = useThemeValue();
   const router = useRouter();
   const [visiblePopup, setVisiblePopup] = useState(false);
   const { deletePost } = useDeletePost();
@@ -28,162 +25,101 @@ const TempPostItem = ({ post }: TempPostItemProps) => {
     setVisiblePopup(false);
     router.reload();
   };
+
   return (
-    <li css={block}>
-      <div css={itemStyle(theme === 'DARK')}>
-        <div css={infoWrapper(theme === 'DARK')}>
-          <ActiveLink
-            css={linkStyle(theme === 'DARK')}
-            to={`/write/${post.url_slug}`}
-          >
-            <h4>{getDiffOfNow(post.updated_at)}</h4>
-            <h2>{post.title}</h2>
-            <p>
-              {post.body.length > 150
-                ? `${markdownToText(post.body).trim().slice(0, 150)}...`
-                : post.body}
-            </p>
-          </ActiveLink>
-          {userState && (
-            <button onClick={() => setVisiblePopup(true)}>DELETE</button>
-          )}
-        </div>
-      </div>
-      <PopupConfirm
+    <TempItemBox>
+      <Link href={`/write/${post.url_slug}`} passHref>
+        <LinkBox>
+          <ContentInfo>
+            <CalendarIcon className="icon" />
+            <span className="text">{getDiffOfNow(post.updated_at)}</span>
+          </ContentInfo>
+          <h3 className="title">{post.title}</h3>
+          <p className="description">
+            {post.body.length > 150
+              ? `${markdownToText(post.body).trim().slice(0, 150)}...`
+              : post.body}
+          </p>
+        </LinkBox>
+      </Link>
+      {userState && (
+        <Button
+          size="small"
+          kind="redScale"
+          ghost
+          // FIXME: style to css
+          style={{
+            position: 'absolute',
+            right: '1rem',
+            bottom: '1rem',
+          }}
+          onClick={() => setVisiblePopup(true)}
+        >
+          DELETE
+        </Button>
+      )}
+      <Popup
         visible={visiblePopup}
         title="Delete Temp Post?"
         onCancel={() => setVisiblePopup(false)}
         onOK={() => onOK(post.url_slug)}
         openDelay={false}
       />
-    </li>
+    </TempItemBox>
   );
-};
+}
 
-const block = css``;
+const TempItemBox = styled('li', {
+  position: 'relative',
+  '&:not(:last-child)': {
+    borderBottom: '1px solid $colors$mauve6',
+  },
+  py: '$6',
+});
 
-const itemStyle = (isDarkMode: boolean) => css`
-  min-height: 6.6rem;
-  overflow: hidden;
-  border-bottom: 0.0625rem solid ${palette.blueGrey[100]};
+const LinkBox = styled('a', {
+  overflow: 'hidden',
+  height: '4.5rem',
 
-  ${isDarkMode &&
-  css`
-    border-bottom: 0.0625rem solid ${palette.blueGrey[400]};
-  `}
+  display: 'flex',
+  flexDirection: 'column',
 
-  display: flex;
-`;
+  '@hover': {
+    '&:hover': {
+      textDecoration: 'underline',
+    },
+  },
 
-const linkStyle = (isDarkMode: boolean) => css`
-  text-decoration: none;
-  text-decoration-color: ${palette.blueGrey[900]};
+  '& .title': {
+    m: 0,
+    mb: '$1',
+    fontSize: '$xl',
+    ellipsisLine: 1,
+  },
 
-  ${isDarkMode &&
-  css`
-    text-decoration-color: ${palette.blueGrey[400]};
-  `}
+  '& .description': {
+    m: 0,
+    fontSize: '$sm',
+    ellipsisLine: 1,
+  },
+});
 
-  transition: all 0.2s ease-in-out;
-  &:hover {
-    text-decoration: underline;
-    text-decoration-color: ${palette.blueGrey[900]};
+const ContentInfo = styled('div', {
+  display: 'flex',
+  ai: 'center',
 
-    ${isDarkMode &&
-    css`
-      text-decoration-color: ${palette.blueGrey[400]};
-    `}
-  }
-  &:active {
-    text-decoration-color: ${palette.blueGrey[900]};
+  mb: '$1',
 
-    ${isDarkMode &&
-    css`
-      text-decoration-color: ${palette.blueGrey[400]};
-    `}
-  }
-`;
+  '& .icon': {
+    size: '$3',
+    color: '$mauve11',
+    mr: '$1',
+  },
 
-const infoWrapper = (isDarkMode: boolean) => css`
-  flex: 1;
-  padding: 1rem 1rem;
-  padding-right: 5rem;
-  position: relative;
-  h4 {
-    margin: 0;
-    padding: 0;
-    margin-bottom: 0.5rem;
-    font-size: 0.75rem;
-    color: ${palette.blueGrey[700]};
-
-    ${isDarkMode &&
-    css`
-      color: ${palette.grey[400]};
-    `}
-  }
-  h2 {
-    margin: 0;
-    padding: 0;
-    margin-bottom: 0.25rem;
-    color: ${palette.blueGrey[900]};
-    word-break: break-word;
-    display: -webkit-box;
-    -webkit-line-clamp: 1;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    ${media.sm} {
-      font-size: 1.5rem;
-    }
-
-    ${isDarkMode &&
-    css`
-      color: ${palette.grey[200]};
-    `}
-  }
-  p {
-    margin: 0;
-    padding: 0;
-    color: ${palette.blueGrey[800]};
-    word-break: break-word;
-    font-size: 0.85rem;
-    line-height: 1.5;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-    text-overflow: ellipsis;
-
-    ${isDarkMode &&
-    css`
-      color: ${palette.grey[300]};
-    `}
-  }
-  button {
-    ${resetButton}
-    cursor: pointer;
-    position: absolute;
-    right: 1rem;
-    bottom: 1rem;
-    color: ${palette.blueGrey[800]};
-    word-break: break-word;
-    font-size: 0.85rem;
-    line-height: 1.5;
-
-    ${isDarkMode &&
-    css`
-      color: ${palette.grey[300]};
-    `}
-    &:hover {
-      text-decoration: underline;
-      color: ${palette.red[700]};
-
-      ${isDarkMode &&
-      css`
-        color: ${palette.red[400]};
-      `}
-    }
-  }
-`;
+  '& .text': {
+    fontSize: '$xs',
+    color: '$mauve11',
+  },
+});
 
 export default TempPostItem;

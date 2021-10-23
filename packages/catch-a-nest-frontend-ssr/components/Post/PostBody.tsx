@@ -1,11 +1,11 @@
-import MarkdownItViewer from '../Markdown/MarkdownItViewer';
+import MarkdownRender from '../Markdown/MarkdownRender';
 
 export type PostBodyProps = {
   markdown: string;
 };
 
-const PostBody = ({ markdown }: PostBodyProps) => {
-  return <MarkdownItViewer markdown={markdown} />;
-};
+function PostBody({ markdown }: PostBodyProps) {
+  return <MarkdownRender markdown={markdown} />;
+}
 
 export default PostBody;

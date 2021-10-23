@@ -1,11 +1,11 @@
 import React from 'react';
 import AppLayout from '@/components/AppLayout';
-import PageSEO from '@/components/AppSEO/PageSEO';
+import PageSEO from '@/components/SEO/PageSEO';
 import Write from '@/components/Write';
 import { useUserValue } from '@/lib/recoil/authState';
 import AppError from '@/components/AppError';
 
-const WritePage = () => {
+function WritePage() {
   const user = useUserValue();
 
   if (!user) {
@@ -24,6 +24,6 @@ const WritePage = () => {
       </AppLayout>
     </>
   );
-};
+}
 
 export default WritePage;

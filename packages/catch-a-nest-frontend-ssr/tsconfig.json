@@ -1,6 +1,5 @@
 {
   "compilerOptions": {
-    "jsxImportSource": "@emotion/react",
     "baseUrl": ".",
     "target": "es5",
     "lib": ["dom", "dom.iterable", "esnext"],
@@ -21,9 +20,10 @@
       "@/lib/*": ["lib/*"],
       "@/assets/*": ["assets/*"],
       "@/hooks/*": ["hooks/*"],
-      "@/config/*": ["config/*"]
+      "@/config/*": ["config/*"],
+      "@stitches.js": ["stitches.config.ts"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
-  "exclude": ["node_modules", "**/node_modules/**"]
+  "exclude": ["./next", "node_modules", "**/node_modules/**"]
 }

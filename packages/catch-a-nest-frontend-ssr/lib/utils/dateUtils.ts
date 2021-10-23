@@ -19,7 +19,7 @@ export const getDiffOfNow = (date: Date | string) => {
     return formatDistanceToNow(d, { addSuffix: true });
   }
 
-  return d.toDateString();
+  return d.toLocaleDateString();
 };
 
 export const stringToDateLocalString = (date: string) => {
@@ -29,5 +29,5 @@ export const stringToDateLocalString = (date: string) => {
 
 export const stringToDateMoreDetail = (date: string) => {
   const d = new Date(date);
-  return format(d, 'MMM dd, yyyy');
+  return format(d, 'yyyy.MM.dd');
 };

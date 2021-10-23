@@ -1,12 +1,18 @@
 {
   "name": "catch-a-nest",
-  "version": "0.0.1",
   "description": "catch a nest for future",
+  "version": "0.0.1",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/JHSeo-git/catch-a-nest.git"
+  },
+  "author": {
+    "name": "JHSeo",
+    "email": "qnfqnfqnf@gmail.com"
+  },
   "main": "index.js",
-  "repository": "https://github.com/JHSeo-git/catch-a-nest.git",
-  "author": "JHSeo <qnfqnfqnf@gmail.com>",
-  "license": "MIT",
   "private": true,
+  "license": "MIT",
   "workspaces": {
     "packages": [
       "packages/*"

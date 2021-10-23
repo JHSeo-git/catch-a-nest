@@ -1,24 +1,15 @@
-import React from 'react';
-import FloatLinkButton from '@/components/FloatLinkButton';
-import AppLayout from '@/components/AppLayout';
-import PageSEO from '@/components/AppSEO/PageSEO';
-import PostList from '@/components/PostList';
+import React, { useMemo } from 'react';
 import { GetStaticProps } from 'next';
 import { dehydrate } from 'react-query/hydration';
-import { prefetchGetPostsQuery } from '@/hooks/query/useGetPostsQuery';
-// import { GetServerSideProps } from 'next';
+import AppLayout from '@/components/AppLayout';
+import PageSEO from '@/components/SEO/PageSEO';
+import PostList from '@/components/PostList';
+import useGetPostsQuery, {
+  prefetchGetPostsQuery,
+} from '@/hooks/query/useGetPostsQuery';
+import Container from '@/components/common/Container';
+import FloatAction from '@/components/FloatAction';
 
-// SSR
-// export const getServerSideProps: GetServerSideProps = async (context) => {
-//   const queryClient = await prefetchGetPostsQuery();
-//   return {
-//     props: {
-//       dehydratedState: JSON.parse(JSON.stringify(dehydrate(queryClient))),
-//     },
-//   };
-// };
-
-// SSG
 export const getStaticProps: GetStaticProps = async (context) => {
   const queryClient = await prefetchGetPostsQuery();
 
@@ -30,18 +21,35 @@ export const getStaticProps: GetStaticProps = async (context) => {
   };
 };
 
-export type PostsPageProps = {};
+function PostsPage() {
+  const { data, hasNextPage, fetchNextPage } = useGetPostsQuery();
+  const posts = useMemo(() => {
+    if (!data) {
+      return null;
+    }
+    return data.pages.flat();
+  }, [data]);
 
-const PostsPage = (props: PostsPageProps) => {
+  const fetchNext = () => {
+    fetchNextPage();
+  };
+
   return (
     <>
       <PageSEO title="Posts" description="Seo's honest posts" />
       <AppLayout>
-        <PostList />
-        <FloatLinkButton iconName="write" to="/write" />
+        <Container>
+          <PostList
+            posts={posts}
+            hasNextPage={hasNextPage}
+            fetchNext={fetchNext}
+          />
+        </Container>
+        {/* <FloatLinkButton iconName="write" to="/write" /> */}
+        <FloatAction />
       </AppLayout>
     </>
   );
-};
+}
 
 export default PostsPage;

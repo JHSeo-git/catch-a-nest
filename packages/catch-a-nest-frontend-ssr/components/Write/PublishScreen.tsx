@@ -1,4 +1,3 @@
-import { css } from '@emotion/react';
 import { UseFormRegister } from 'react-hook-form';
 import {
   useIsEditPostValue,
@@ -6,15 +5,13 @@ import {
   usePostTitleValue,
   useVisiblePublishScreenState,
 } from '@/lib/recoil/writeState';
-import { slideDown, slideUp } from '@/lib/styles/animation';
-import palette from '@/lib/styles/palette';
-import { responsiveModalWidth } from '@/lib/styles/responsive';
-import Modal from '../Modal';
+import { slideDownAnimation, slideUpAnimation } from '@/lib/styles/animation';
 import WriteThumbnail from './WriteThumbnail';
-import AppButton from '../AppButton';
 import { WriteInputs } from './Write';
 import useLazyClose from '@/hooks/useLazyClose';
-import { useThemeValue } from '@/lib/recoil/appState';
+import Modal from '../common/Modal';
+import { styled } from '@stitches.js';
+import Button from '../common/Button';
 
 export type PublishScreenProps = {
   register: UseFormRegister<WriteInputs>;
@@ -27,7 +24,6 @@ const PublishScreen = ({
   onPublish,
   handleThumbnailUrl,
 }: PublishScreenProps) => {
-  const theme = useThemeValue();
   const [visible, setVisible] = useVisiblePublishScreenState();
   const { lazyClosed } = useLazyClose(visible, 200);
   const isEditPost = useIsEditPostValue();
@@ -41,112 +37,92 @@ const PublishScreen = ({
   if (!visible && lazyClosed) return null;
 
   return (
-    <Modal css={modalStyle(visible, theme === 'DARK')}>
-      <section css={wrapper(theme === 'DARK')}>
-        <h1 css={titleStyle(theme === 'DARK')}>{title}</h1>
+    <ModalBox visible={visible}>
+      <Wrapper>
+        <h1>{title}</h1>
         <WriteThumbnail handleThumbnailUrl={handleThumbnailUrl} />
-        <textarea
+        <TextAreaBox
           {...register('shortDescription')}
           maxLength={160}
           tabIndex={0}
-          css={textareaStyle(theme === 'DARK')}
           defaultValue={shortDescription ?? ''}
           placeholder="Please write short description"
         />
-        <div css={btnGroup}>
-          <AppButton
-            //
-            type="secondary"
-            text="CANCEL"
-            onClick={onCancel}
-          />
-          <AppButton
-            type="primary"
-            text={isEditPost ? 'UPDATE' : 'SAVE'}
+        <ButtonBox>
+          <Button kind="redScale" onClick={onCancel}>
+            CANCEL
+          </Button>
+          <Button
+            kind="blueScale"
             onClick={onPublish}
             // loading={loading}
-          />
-        </div>
-      </section>
-    </Modal>
+          >
+            {isEditPost ? 'UPDATE' : 'SAVE'}
+          </Button>
+        </ButtonBox>
+      </Wrapper>
+    </ModalBox>
   );
 };
 
-const modalStyle = (visible: boolean, isDarkMode: boolean) => css`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background: ${palette.blueGrey[100]};
+const ModalBox = styled(Modal, {
+  display: 'flex',
+  jc: 'center',
+  ai: 'center',
+  bc: '$mauve3',
 
-  ${isDarkMode &&
-  css`
-    background: ${palette.blueGrey[900]};
-  `}
+  variants: {
+    visible: {
+      true: {
+        animation: `${slideUpAnimation} 0.2s ease-in-out forwards`,
+      },
+      false: {
+        animation: `${slideDownAnimation} 0.2s ease-in-out forwards`,
+      },
+    },
+  },
+});
 
-  ${visible
-    ? css`
-        animation: ${slideUp} 0.2s ease-in-out forwards;
-      `
-    : css`
-        animation: ${slideDown} 0.2s ease-in-out forwards;
-      `}
-`;
+const Wrapper = styled('section', {
+  width: '40rem',
+  bc: '$loContrast',
+  br: '$2',
+  p: '$4',
+  '& h1': {
+    color: '$blue9',
+    m: 0,
+    mb: '$3',
+    fontSize: '$',
+  },
+});
 
-const titleStyle = (isDarkMode: boolean) => css`
-  color: ${palette.lightBlue[700]};
-  margin: 0;
-  margin-bottom: 1rem;
-  font-size: 2.5rem;
+const ButtonBox = styled('div', {
+  display: 'flex',
+  jc: 'flex-end',
+  ai: 'center',
 
-  ${isDarkMode &&
-  css`
-    color: ${palette.lightBlue[200]};
-  `}
-`;
+  '& > button': {
+    ml: '$1',
+  },
+});
 
-const wrapper = (isDarkMode: boolean) => css`
-  ${responsiveModalWidth};
-  background: white;
-  border-radius: 0.5rem;
-  padding: 2rem;
+const TextAreaBox = styled('textarea', {
+  fontFamily: 'inherit',
+  resize: 'none',
+  outline: 'none',
+  border: '1px solid $colors$mauve6',
+  br: '$3',
+  width: '100%',
+  height: '5.25rem',
+  p: '$3',
+  color: '$mauve12',
+  fontSize: '$sm',
+  lineHeight: '1.5',
+  mb: '$3',
 
-  ${isDarkMode &&
-  css`
-    background: ${palette.blueGrey[700]};
-  `}
-`;
-
-const btnGroup = css`
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-
-  & > button {
-    &:not(:last-child) {
-      margin-right: 1rem;
-    }
-  }
-`;
-
-const textareaStyle = (isDarkMode: boolean) => css`
-  font-family: inherit;
-  resize: none;
-  border: 0.0625rem solid ${palette.blueGrey[300]};
-  border-radius: 0.5rem;
-  outline: none;
-  width: 100%;
-  height: 5.25rem;
-  padding: 0.75rem;
-  color: ${palette.blueGrey[900]};
-  font-size: 0.875rem;
-  line-height: 1.5;
-  margin-bottom: 1rem;
-
-  ${isDarkMode && css``}
-
-  &::placeholder {
-    color: ${palette.blueGrey[300]};
-  }
-`;
+  '&::placeholder': {
+    color: '$mauve8',
+  },
+});
 
 export default PublishScreen;

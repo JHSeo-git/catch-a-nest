@@ -1,40 +1,18 @@
-import {
-  GetStaticPaths,
-  GetStaticProps,
-  GetStaticPropsContext,
-  InferGetStaticPropsType,
-} from 'next';
+import React, { useMemo } from 'react';
+import { GetStaticPaths, GetStaticProps, GetStaticPropsContext } from 'next';
 import { dehydrate } from 'react-query/hydration';
+import markdownToText from 'markdown-to-text';
 import Post from '@/components/Post';
-import FloatLinkButton from '@/components/FloatLinkButton';
-import palette from '@/lib/styles/palette';
 import AppLayout from '@/components/AppLayout';
 import getAllPostSlug from '@/lib/api/posts/getAllPostSlug';
-import { prefetchGetPostBySlugQuery } from '@/hooks/query/useGetPostBySlugQuery';
+import useGetPostBySlugQuery, {
+  prefetchGetPostBySlugQuery,
+} from '@/hooks/query/useGetPostBySlugQuery';
+import Container from '@/components/common/Container';
+import PostSEO from '@/components/SEO/PostSEO';
+import FloatAction from '@/components/FloatAction';
+import PostSkeleton from '@/components/Post/PostSkeleton';
 
-// SSR
-// export const getServerSideProps: GetServerSideProps = async (context) => {
-//   const { slug } = context.query;
-
-//   if (typeof slug !== 'string') {
-//     return {
-//       redirect: {
-//         permanent: false,
-//         destination: '/404',
-//       },
-//       props: {},
-//     };
-//   }
-//   const queryClient = await prefetchGetPostBySlugQuery(slug);
-//   return {
-//     props: {
-//       dehydratedState: JSON.parse(JSON.stringify(dehydrate(queryClient))),
-//       slug,
-//     },
-//   };
-// };
-
-// SSG
 export const getStaticProps: GetStaticProps = async ({
   params,
 }: GetStaticPropsContext) => {
@@ -76,38 +54,39 @@ export const getStaticPaths: GetStaticPaths = async () => {
   };
 };
 
-// SSR
-// const PostPage = ({
-//   slug,
-// }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
+type PostPageProps = {
+  slug: string;
+};
 
-// CSR
-// const PostPage = () => {
+function PostPage({ slug }: PostPageProps) {
+  const { data } = useGetPostBySlugQuery(slug);
+  const post = useMemo(() => {
+    if (!data) return null;
+    return data;
+  }, [data]);
 
-// SSG
-const PostPage = ({ slug }: InferGetStaticPropsType<typeof getStaticProps>) => {
-  // const router = useRouter();
-  // const { slug } = router.query;
-
-  // if (typeof slug !== 'string') return null;
+  if (!post) return null;
 
   return (
-    <AppLayout>
-      <Post slug={slug} />
-      <FloatLinkButton
-        //
-        iconName="write"
-        to={`/write`}
-        position="first"
+    <>
+      <PostSEO
+        title={post.title}
+        description={
+          post.short_description ??
+          markdownToText(post.body).trim().slice(0, 150)
+        }
+        images={post.thumbnail ? [post.thumbnail] : []}
+        modifiedTime={post.updated_at}
+        publishedTime={post.created_at}
       />
-      <FloatLinkButton
-        iconName="fix"
-        to={`/write/${slug}`}
-        color={palette.indigo[500]}
-        position="second"
-      />
-    </AppLayout>
+      <AppLayout>
+        <Container>
+          <Post post={post} />
+        </Container>
+        <FloatAction editSlug={post.url_slug} />
+      </AppLayout>
+    </>
   );
-};
+}
 
 export default PostPage;

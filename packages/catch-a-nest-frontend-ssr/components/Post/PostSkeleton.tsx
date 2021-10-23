@@ -1,65 +1,63 @@
-import { css } from '@emotion/react';
-import { shiningInfiniteStyle } from '@/lib/styles/animation';
-import media from '@/lib/styles/media';
-import palette from '@/lib/styles/palette';
-import { useThemeValue } from '@/lib/recoil/appState';
+import { shinyAnimation } from '@/lib/styles/animation';
+import { styled } from '@stitches.js';
 
-export type PostSkeletonProps = {};
-
-const PostSkeleton = (props: PostSkeletonProps) => {
-  const theme = useThemeValue();
-
+function PostSkeleton() {
   return (
-    <section css={postStyle}>
-      <div css={[skeleton(theme === 'DARK'), title]}></div>
-      <div css={[skeleton(theme === 'DARK'), subInfo]}></div>
-      <div css={[skeleton(theme === 'DARK'), content('10rem')]}></div>
-      <div css={[skeleton(theme === 'DARK'), content('5rem')]}></div>
-      <div css={[skeleton(theme === 'DARK'), content('15rem')]}></div>
-      <div css={[skeleton(theme === 'DARK'), content('10rem')]}></div>
-      <div css={[skeleton(theme === 'DARK'), content('10rem')]}></div>
-      <div css={[skeleton(theme === 'DARK'), content('10rem')]}></div>
-      <div css={[skeleton(theme === 'DARK'), content('10rem')]}></div>
-    </section>
+    <Box>
+      <SkeletonBox />
+      <BaseBox />
+      <BaseBox />
+      <BaseBox />
+      <BaseBox />
+      <BaseBox />
+      <BaseBox />
+      <BaseBox />
+      <BaseBox />
+      <BaseBox />
+    </Box>
   );
-};
+}
 
-const skeleton = (isDarkMode: boolean) => css`
-  background: ${palette.blueGrey[50]};
-  border-radius: 0.25rem;
+const Box = styled('section', {
+  display: 'flex',
+  flexDirection: 'column',
+  animation: `${shinyAnimation} 1s ease-in-out infinite`,
+});
 
-  ${isDarkMode &&
-  css`
-    background: ${palette.blueGrey[700]};
-  `}
-`;
+const SkeletonBox = styled('div', {
+  bc: '$mauve8',
+  br: '$3',
+});
 
-const postStyle = css`
-  display: flex;
-  flex-direction: column;
-  ${shiningInfiniteStyle};
-`;
+const BaseBox = styled('div', {
+  ml: 'auto',
+  height: '$6',
+  width: '50%',
+  '@sm': {
+    height: '$8',
+  },
 
-const title = css`
-  height: 4.5rem;
-  width: 50%;
-  ${media.md} {
-    height: 3.375rem;
-  }
-`;
-
-const subInfo = css`
-  margin-left: auto;
-  margin-top: 1rem;
-  margin-bottom: 1rem;
-  height: 2rem;
-  width: 5rem;
-`;
-
-const content = (height: string) => css`
-  height: ${height};
-
-  margin-top: 2rem;
-`;
+  variants: {
+    width: {
+      max: {
+        width: '100%',
+      },
+    },
+    size: {
+      sm: {
+        height: '$4',
+        '@sm': {
+          height: '$6',
+        },
+      },
+      lg: {
+        height: '$7',
+        '@sm': {
+          height: '$9',
+        },
+      },
+    },
+  },
+});
 
 export default PostSkeleton;

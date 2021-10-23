@@ -1,44 +1,23 @@
 import React from 'react';
-import markdownToText from 'markdown-to-text';
-import useGetPostBySlug from '@/hooks/useGetPostBySlug';
-import PostSkeleton from './PostSkeleton';
+import dynamic from 'next/dynamic';
 import PostHeader from './PostHeader';
 import PostBody from './PostBody';
 import PostFooter from './PostFooter';
-import PostSEO from '../AppSEO/PostSEO';
-// import UtterancsComment from '../UtterancsComment';
+import { Post } from '@/lib/api/posts/types';
+import PostProgressbar from './PostProgressbar';
 
-import dynamic from 'next/dynamic';
 const UtterancsComment = dynamic(() => import('../UtterancsComment'), {
   ssr: false,
 });
-// const PostSkeleton = dynamic(() => import('./PostSkeleton'));
-// const PostHeader = dynamic(() => import('./PostHeader'));
-// const PostBody = dynamic(() => import('./PostBody'));
-// const PostFooter = dynamic(() => import('./PostFooter'));
 
 export type PostProps = {
-  slug: string;
+  post: Post;
 };
 
-const Post = ({ slug }: PostProps) => {
-  const { post } = useGetPostBySlug(slug);
-  const images = post?.thumbnail ? [post.thumbnail] : [];
-
-  if (!post) return <PostSkeleton />;
-
+function PostContainer({ post }: PostProps) {
   return (
     <>
-      <PostSEO
-        title={post.title}
-        description={
-          post.short_description ??
-          markdownToText(post.body).trim().slice(0, 150)
-        }
-        images={images}
-        modifiedTime={post.updated_at}
-        publishedTime={post.created_at}
-      />
+      {/* <PostProgressbar /> */}
       <PostHeader post={post} />
       <PostBody markdown={post.body} />
       <PostFooter
@@ -49,6 +28,6 @@ const Post = ({ slug }: PostProps) => {
       <UtterancsComment />
     </>
   );
-};
+}
 
-export default Post;
+export default PostContainer;

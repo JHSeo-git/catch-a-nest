@@ -1,15 +1,13 @@
 import React, { useMemo } from 'react';
 import { useRouter } from 'next/router';
 import AppLayout from '@/components/AppLayout';
-import PageSEO from '@/components/AppSEO/PageSEO';
+import PageSEO from '@/components/SEO/PageSEO';
 import Write from '@/components/Write';
 import useLoadPost from '@/hooks/useLoadPost';
 import { useUserValue } from '@/lib/recoil/authState';
 import AppError from '@/components/AppError';
 
-export type EditPageProps = {};
-
-const LoadedEditPage = ({ slug }: { slug: string }) => {
+function LoadedEditPage({ slug }: { slug: string }) {
   const { loaded } = useLoadPost(slug);
   const title = `${slug.length > 10 ? `${slug.slice(0, 10)}...` : slug}`;
 
@@ -23,9 +21,9 @@ const LoadedEditPage = ({ slug }: { slug: string }) => {
       </AppLayout>
     </>
   );
-};
+}
 
-const EditPage = (props: EditPageProps) => {
+function EditPage() {
   const user = useUserValue();
   const router = useRouter();
   const { slug } = router.query;
@@ -47,6 +45,6 @@ const EditPage = (props: EditPageProps) => {
   if (!guardSlug) return null;
 
   return <LoadedEditPage slug={guardSlug} />;
-};
+}
 
 export default EditPage;
