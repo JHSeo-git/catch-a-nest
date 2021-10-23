@@ -182,25 +182,25 @@ export const getPosts = async (ctx: Context) => {
       },
     });
 
-    // REMOVE: post page에서만 보여주도록 함
-    // const postsWithCount = await Promise.all(
-    //   posts.map(async (post) => {
-    //     const postCountArr = await getRepository(PostRead)
-    //       .createQueryBuilder('post_reads')
-    //       .select('post_reads.ip_hash')
-    //       .where(`post_reads.post.id = ${post.id}`)
-    //       .groupBy('post_reads.ip_hash')
-    //       .getRawMany();
-    //     return {
-    //       ...post,
-    //       read_count: postCountArr.length,
-    //     };
-    //   })
-    // );
+    // 다시 살림
+    const postsWithCount = await Promise.all(
+      posts.map(async (post) => {
+        const postCountArr = await getRepository(PostRead)
+          .createQueryBuilder('post_reads')
+          .select('post_reads.ip_hash')
+          .where(`post_reads.post.id = ${post.id}`)
+          .groupBy('post_reads.ip_hash')
+          .getRawMany();
+        return {
+          ...post,
+          read_count: postCountArr.length,
+        };
+      })
+    );
 
     // TODO: serialized ... omit body
 
-    ctx.body = posts;
+    ctx.body = postsWithCount;
   } catch (e) {
     ctx.throw(500, e);
   }
