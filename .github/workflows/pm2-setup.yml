@@ -1,4 +1,4 @@
-name: PM2 Deploy
+name: PM2 Deploy Setup
 on: [workflow_dispatch]
 
 jobs:

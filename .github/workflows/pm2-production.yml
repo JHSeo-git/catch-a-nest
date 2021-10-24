@@ -1,4 +1,4 @@
-name: PM2 Deploy
+name: PM2 Deploy Production
 on: [workflow_dispatch]
 
 jobs:
@@ -24,6 +24,6 @@ jobs:
           touch .env
           echo HOST_ADDRESS=${{ secrets.HOST_ADDRESS }} >> .env
       - name: Install PM2
-        run: yarn add pm2
+        run: npm i pm2
       - name: Deploy
-        run: env $(cat .env | grep -v \"#\" | xargs) yarn pm2:deploy
+        run: env $(cat .env | grep -v \"#\" | xargs) npm run pm2:deploy
