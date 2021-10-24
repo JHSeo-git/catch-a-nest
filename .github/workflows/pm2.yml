@@ -6,7 +6,7 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    setps:
+    steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v2
         with:
@@ -14,10 +14,18 @@ jobs:
       - name: Setup ssh
         run: |
           mkdir -p ~/.ssh/
-          echo "$API_KEY" > ./deploy.pem
-          sudo chmod 660 ./deploy.pem
+          echo "$SSH_PRIVATE_KEY" > ~/deploy.key
+          sudo chmod 600 ~/deploy.key
+          echo "$SSH_KNOWN_HOSTS" > ~/.ssh/known_hosts
         shell: bash
         env:
-          API_KEY: ${{ secrets.API_KEY }}
+          SSH_PRIVATE_KEY: ${{secrets.SSH_PRIVATE_KEY}}
+          SSH_KNOWN_HOSTS: ${{secrets.SSH_KNOWN_HOSTS}}
+      - name: Setup .env
+        run: |
+          touch .env
+          echo HOST_ADDRESS=${{ secrets.HOST_ADDRESS }} >> .env
+      - name: Install PM2
+        run: npm i pm2
       - name: Deploy
-        run: npm run deploy
+        run: env $(cat .env | grep -v \"#\" | xargs) npm run deploy

@@ -29,6 +29,6 @@
     ]
   },
   "scripts": {
-    "deploy": "env $(cat .env | grep -v \"#\" | xargs) yarn workspace catch-a-nest-backend deploy:pm2"
+    "deploy": "yarn workspace catch-a-nest-backend deploy:pm2"
   }
 }
