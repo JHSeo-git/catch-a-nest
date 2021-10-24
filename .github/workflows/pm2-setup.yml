@@ -1,7 +1,5 @@
-name: PM2 Deploy
-on:
-  workflow_dispatch:
-    branches: [master]
+name: PM2 Deploy Setup
+on: [workflow_dispatch]
 
 jobs:
   deploy:
@@ -14,18 +12,18 @@ jobs:
       - name: Setup ssh
         run: |
           mkdir -p ~/.ssh/
-          echo "$SSH_PRIVATE_KEY" > ~/deploy.key
-          sudo chmod 600 ~/deploy.key
+          echo "$SSH_PRIVATE_KEY" > ~/.ssh/deploy.key
+          sudo chmod 600 ~/.ssh/deploy.key
           echo "$SSH_KNOWN_HOSTS" > ~/.ssh/known_hosts
         shell: bash
         env:
-          SSH_PRIVATE_KEY: ${{secrets.SSH_PRIVATE_KEY}}
-          SSH_KNOWN_HOSTS: ${{secrets.SSH_KNOWN_HOSTS}}
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          SSH_KNOWN_HOSTS: ${{ secrets.SSH_KNOWN_HOSTS }}
       - name: Setup .env
         run: |
           touch .env
           echo HOST_ADDRESS=${{ secrets.HOST_ADDRESS }} >> .env
       - name: Install PM2
         run: npm i pm2
-      - name: Deploy
-        run: env $(cat .env | grep -v \"#\" | xargs) npm run deploy
+      - name: Setup only once
+        run: env $(cat .env | grep -v \"#\" | xargs) npm i pm2:steup
