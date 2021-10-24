@@ -1,0 +1,23 @@
+name: PM2 Deploy
+on:
+  workflow_dispatch:
+    branches: [master]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    setps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+      - name: Setup ssh
+        run: |
+          mkdir -p ~/.ssh/
+          echo "$API_KEY" > ./deploy.pem
+          sudo chmod 660 ./deploy.pem
+        shell: bash
+        env:
+          API_KEY: ${{ secrets.API_KEY }}
+      - name: Deploy
+        run: npm run deploy

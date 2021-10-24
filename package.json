@@ -27,5 +27,8 @@
       "**/webpack-dev-server",
       "**/webpack-cli"
     ]
+  },
+  "scripts": {
+    "deploy": "env $(cat .env | grep -v \"#\" | xargs) yarn workspace catch-a-nest-backend deploy:pm2"
   }
 }
