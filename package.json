@@ -29,6 +29,7 @@
     ]
   },
   "scripts": {
-    "deploy": "yarn workspace catch-a-nest-backend deploy:pm2"
+    "pm2:setup": "yarn workspace catch-a-nest-backend setup:pm2",
+    "pm2:deploy": "yarn workspace catch-a-nest-backend deploy:pm2"
   }
 }
